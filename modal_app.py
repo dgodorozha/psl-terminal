@@ -6,6 +6,9 @@ carries a monthly free credit that a demo terminal does not come close to using.
     modal secret create psl-secret PSL_SECRET=$(python3 -c "import secrets;print(secrets.token_hex(32))")
     modal deploy modal_app.py            # prints the address: https://<workspace>--psl.modal.run
 
+The gates are open (PSL_GATES=open): single clicks, no preparer or approver identities, which is what a public
+demonstration needs; an authority deployment runs with named gates (the default) and a register.
+
 Only this file is Modal specific; the Dockerfile is for Docker hosts and `python dash_app.py` for a laptop.
 """
 
@@ -24,8 +27,7 @@ image = (
     .env({
         "OPENBLAS_NUM_THREADS": "1", "OMP_NUM_THREADS": "1", "MKL_NUM_THREADS": "1",
         "PSL_HOST": "0.0.0.0", "PSL_RUNS_DIR": RUNS_DIR, "PSL_AUTH_MODE": "open", "PSL_LLM": "off",
-        "PSL_PROFILE": "demo", "PSL_DEV_MODE": "on", "PSL_REGISTER": "sample_data/register.csv",
-        "PSL_TICK_PACE": "0.02",
+        "PSL_PROFILE": "demo", "PSL_GATES": "open", "PSL_DEV_MODE": "off", "PSL_TICK_PACE": "0.02",
     })
     # the repository itself, mounted at start (so a redeploy is seconds, not a rebuild); what is not needed stays out
     .add_local_dir(".", remote_path=APP_DIR, ignore=[

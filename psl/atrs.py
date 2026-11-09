@@ -22,8 +22,13 @@ def atrs_record(arte, approvals, run_id, organisation="", team="", contact=""):
     g2 = approvals.get("gate2") or {}
     g1 = approvals.get("gate1") or {}
     reg = g2.get("register") or {}
-    owner = g2.get("actor") or g1.get("actor") or ""
-    owner_role = g2.get("role") or g1.get("role") or ""
+    if g2.get("open_gate") or g1.get("open_gate"):
+        owner = "none recorded: public demonstration, gates taken without sign off identities"
+        owner_role = ""
+        reg = {}
+    else:
+        owner = g2.get("actor") or g1.get("actor") or ""
+        owner_role = g2.get("role") or g1.get("role") or ""
     rec = {
         "tier1": {
             "name": "Policy Scenario Lab (PSL)",

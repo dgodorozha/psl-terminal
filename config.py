@@ -18,6 +18,9 @@ restricted to identities from a trusted proxy header in header mode.
   PSL_REGISTER_REQUIRED  on: an approver not on the register cannot approve (default: on when a register is set)
   PSL_DEV_MODE      on: Developer1 and Developer2 are accepted as preparer and approver (and as their
                     functions) without a register entry; every gate records dev mode; never for production
+  PSL_GATES         named | open (default named): named takes a preparer and an approver with their functions,
+                    checked against the register with four eyes; open makes the two gates single clicks with no
+                    identities, for a public demonstration; every gate record and the posture page say which
   PSL_PROFILE       full | light | demo: Monte Carlo paths and assurance budgets (default full; demo runs in
                     about twenty seconds with the heavy stages reduced and declared in the provenance)
   PSL_PATHS         Monte Carlo paths per policy (overrides the profile)
@@ -77,6 +80,9 @@ class Config:
         self.register_path = env.get("PSL_REGISTER", "").strip()
         self.register_required = _bool(env.get("PSL_REGISTER_REQUIRED"), bool(self.register_path))
         self.dev_mode = _bool(env.get("PSL_DEV_MODE"), False)
+        self.gates = (env.get("PSL_GATES", "named").strip().lower() or "named")
+        if self.gates not in ("named", "open"):
+            raise ValueError("PSL_GATES must be named or open")
         self.profile = env.get("PSL_PROFILE", "full").strip().lower()
         if self.profile not in PROFILES:
             raise ValueError("PSL_PROFILE must be full, light or demo")
@@ -126,7 +132,7 @@ class Config:
         return {"host": self.host, "port": self.port, "runs_dir": self.runs_dir,
                 "auth_mode": self.auth_mode, "user_header": self.user_header,
                 "approvers_restricted": bool(self.approvers), "four_eyes": self.four_eyes,
-                "register": bool(self.register_path), "dev_mode": self.dev_mode,
+                "register": bool(self.register_path), "dev_mode": self.dev_mode, "gates": self.gates,
                 "llm_enabled": self.llm_enabled, "llm_provider": self.llm_provider if self.llm_enabled else "off",
                 "profile": self.profile, "budget": self.budget, "frame_ancestors": self.frame_ancestors,
                 "ledger_secret": "configured" if not self.ephemeral_secret else "ephemeral"}

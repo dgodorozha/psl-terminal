@@ -79,10 +79,11 @@ with sync_playwright() as p:
 
     # RUN: plan with Developer1 / Developer2
     page.keyboard.press("8"); time.sleep(0.5)
-    set_value(page, "#who", "Developer1")
-    set_value(page, "#who-role", "Developer1")
-    set_value(page, "#approver", "Developer2")
-    set_value(page, "#approver-role", "Developer2")
+    if page.query_selector("input#who[type='text']"):      # named gates; with PSL_GATES=open the fields are not there
+        set_value(page, "#who", "Developer1")
+        set_value(page, "#who-role", "Developer1")
+        set_value(page, "#approver", "Developer2")
+        set_value(page, "#approver-role", "Developer2")
     page.click("#plan")
     wait_stage(page, {"planned"}, 60)
     time.sleep(1.5)

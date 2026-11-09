@@ -3,7 +3,8 @@
     python tools/build_static.py --out site --profile demo --live-url https://your-workspace--psl.modal.run
 
 For every question in the list (the default battery question and two more, or --questions file.json with a
-list of strings) the builder plans the battery, approves Gate 1 as Developer2, runs it with the stream
+list of strings) the builder plans the battery, approves Gate 1 (open gates by default, as the public site has; --gates named
+records Developer1 and Developer2 in dev mode), runs it with the stream
 recorded, lets the critic check it, releases the briefing at Gate 2 and builds the evidence pack, exactly as
 the terminal does, using the terminal's own code. It then renders every panel the terminal would show at
 every stage into HTML fragments, converts the terminal's layout to a static page, and writes a replay script
@@ -143,17 +144,22 @@ def main():
     ap.add_argument("--questions", help="JSON file with a list of policy questions")
     ap.add_argument("--live-url", default="", help="address of the live terminal, linked from the page")
     ap.add_argument("--seed", type=int, default=7)
+    ap.add_argument("--gates", default="open", choices=("open", "named"), help="open: single click gates without identities (default); named: Developer1 and Developer2 in dev mode")
     args = ap.parse_args()
 
     out = os.path.abspath(args.out)
     if os.path.isdir(out):
         shutil.rmtree(out)
     os.makedirs(os.path.join(out, "data"))
-    os.environ.update({"PSL_RUNS_DIR": os.path.join(out, "data"), "PSL_DEV_MODE": "on", "PSL_PROFILE": args.profile,
+    os.environ.update({"PSL_RUNS_DIR": os.path.join(out, "data"), "PSL_DEV_MODE": "on" if args.gates == "named" else "off",
+                       "PSL_GATES": args.gates, "PSL_PROFILE": args.profile,
                        "PSL_SECRET": os.environ.get("PSL_SECRET") or hashlib.sha256(b"psl static build").hexdigest(),
                        "PSL_TICK_PACE": "0", "PSL_HOST": "127.0.0.1", "PSL_LLM": "off",
                        "PSL_REGISTER": os.path.join(ROOT, "sample_data", "register.csv")})
     import dash_app as D  # noqa: E402
+    OPEN = args.gates == "open"
+    PREP, PREP_ROLE = (D.OPEN_ACTOR, "public demonstration") if OPEN else ("Developer1", "Developer1")
+    APPR, APPR_ROLE = (D.OPEN_ACTOR, D.OPEN_ROLE) if OPEN else ("Developer2", "Developer2")
     from psl import ask as ASK  # noqa: E402
     from psl.atrs import atrs_record, render_markdown  # noqa: E402
     from psl.briefing import draft_briefing, to_html as brief_html  # noqa: E402
@@ -184,8 +190,8 @@ def main():
         phases.clear()
         with D.LOCK:
             D.S.update(D._fresh_state())
-            D.S["preparer_role"] = "Developer1"
-        D._worker_plan(question, "Developer1")
+            D.S["preparer_role"] = PREP_ROLE
+        D._worker_plan(question, PREP)
         if D.S["stage"] != "planned":
             raise SystemExit(f"planning failed: {D.S['err']}")
         rid = D.S["run_id"]
@@ -200,12 +206,13 @@ def main():
         frags["await_wlf"] = to_html(D._wlf_body()); frags["await_gap"] = to_html(D._gap_body())
         frags["await_nws_fc"] = to_html(D._nws_forecast()); frags["await_rsk"] = to_html(D._rsk_body())
         snap("planned")
-        # gate 1 as Developer2
-        D._record_gate("gate1", "battery_signoff", "Developer2", "approved",
-                       extra={"battery_hash": D.S["battery_hash"], "n_policies": len(D.S["battery"]["policies"])}, role="Developer2")
-        D.STORE.update_meta(rid, stage="running", approver="Developer2")
+        # gate 1
+        D._record_gate("gate1", "battery_signoff", APPR, "approved",
+                       extra={"battery_hash": D.S["battery_hash"], "n_policies": len(D.S["battery"]["policies"])}, role=APPR_ROLE)
+        D.STORE.update_meta(rid, stage="running", approver=APPR)
         D._bump(stage="running", step="simulate", phase="Gate 1 approved, battery running")
-        D._alert("ok", f"Gate 1 approved by Developer2, battery {D.S['battery_hash'][:12]} running")
+        D._alert("ok", (f"Gate 1 approved, battery {D.S['battery_hash'][:12]} running" if OPEN else
+                        f"Gate 1 approved by {APPR}, battery {D.S['battery_hash'][:12]} running"))
         snap("running")
         D._worker_run()
         if D.S["stage"] != "evaluated":
@@ -229,32 +236,33 @@ def main():
                                              "rel_mean": r["market"].get("rel_mean"), "rel_lo": r["market"].get("rel_lo"),
                                              "rel_hi": r["market"].get("rel_hi"), "early": r["market"]["early_reaction"]["mean"],
                                              "end": r["market"]["end_reaction"]["mean"]} for r in ev["policies"] if r["policy"] != "baseline"}}
-        # gate 2 as Developer2 (the terminal's release path)
+        # gate 2 (the terminal's release path)
         critic = D.S["critic"]
         if not critic["ok"]:
             raise SystemExit("critic failed; the replay needs a clean run")
-        approvals = dict(D.S["approvals"], preparer="Developer1", preparer_role="Developer1",
-                         gate2={"actor": "Developer2", "role": "Developer2", "ts": utc_now(), "decision": "approved",
-                                "register": (D.REGISTER.check("Developer2", "Developer2") or {}).get("match")})
+        approvals = dict(D.S["approvals"], preparer=PREP, preparer_role=PREP_ROLE,
+                         gate2={"actor": APPR, "role": APPR_ROLE, "ts": utc_now(), "decision": "approved",
+                                "register": None if OPEN else (D.REGISTER.check(APPR, APPR_ROLE) or {}).get("match"),
+                                **({"open_gate": True} if OPEN else {})})
         text = draft_briefing(arte, approvals, rid)
         critic2 = critic_check(D.S["run_dir"], secret=D.CFG.secret, briefing_text=text)
         if not critic2["ok"]:
             raise SystemExit("critic rejected the briefing")
-        D._record_gate("gate2", "briefing_release", "Developer2", "approved", extra={"critic_checks": critic2["n_checks"], "llm_drafted": False},
-                       role="Developer2")
-        approvals = dict(D.S["approvals"], preparer="Developer1", preparer_role="Developer1")
+        D._record_gate("gate2", "briefing_release", APPR, "approved", extra={"critic_checks": critic2["n_checks"], "llm_drafted": False},
+                       role=APPR_ROLE)
+        approvals = dict(D.S["approvals"], preparer=PREP, preparer_role=PREP_ROLE)
         text = draft_briefing(arte, approvals, rid, critic=critic2)
         D.STORE.write_text(rid, "briefing.md", text); D.STORE.write_text(rid, "briefing.html", brief_html(text))
         D.STORE.write_json(rid, "critic.json", critic2)
         record = atrs_record(arte, approvals, rid)
         D.STORE.write_json(rid, "atrs_record.json", record); D.STORE.write_text(rid, "atrs_record.md", render_markdown(record))
-        D.S["log"]("briefing_released", actor="Developer2", approver="Developer2", sha256=hashlib.sha256(text.encode()).hexdigest(), llm_drafted=False)
-        D.STORE.update_meta(rid, stage="released", approver="Developer2")
+        D.S["log"]("briefing_released", actor=APPR, approver=APPR, sha256=hashlib.sha256(text.encode()).hexdigest(), llm_drafted=False)
+        D.STORE.update_meta(rid, stage="released", approver=APPR)
         pack, manifest = D.STORE.pack(rid)
         D.S["log"]("evidence_pack_built", files=list(manifest["files"]))
         rep = ledger_verify(D.S["log"].path, D.CFG.secret)
         D._bump(stage="released", step="released", briefing=text, critic=critic2, ledger_report=rep, phase="Briefing released, evidence pack built")
-        D._alert("ok", "Briefing released, approved by Developer2, evidence pack built")
+        D._alert("ok", "Briefing released, evidence pack built" if OPEN else f"Briefing released, approved by {APPR}, evidence pack built")
         snap("released")
 
         # the event timeline, merged by sequence number

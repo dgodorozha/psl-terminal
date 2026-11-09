@@ -135,6 +135,16 @@ def _may(action):
     return authorize(_role(), action)
 
 
+OPEN_GATES = CFG.gates == "open"
+OPEN_ACTOR = "visitor"
+OPEN_ROLE = "public demonstration, no sign off"
+
+
+def _actor(field_value):
+    """The acting identity, or the demonstration's stand in when the gates are open."""
+    return identity(field_value) or (OPEN_ACTOR if OPEN_GATES else None)
+
+
 def identity(field_value):
     if CFG.auth_mode == "header":
         try:
@@ -146,6 +156,8 @@ def identity(field_value):
 
 
 def authorised_approver(actor, role=None):
+    if OPEN_GATES:
+        return True, ""
     if not actor:
         return False, "a named approver is required"
     if CFG.auth_mode == "open" and not (role or "").strip():
@@ -204,7 +216,7 @@ def _worker_plan(question, preparer):
         STOP.clear()
         log("run_started", actor=preparer, question=question, preparer=preparer, preparer_role=prole,
             provenance=provenance(), auth_mode=CFG.auth_mode, four_eyes=CFG.four_eyes, llm_enabled=CFG.llm_enabled,
-            register_configured=REGISTER.configured, dev_mode=CFG.dev_mode, profile=CFG.profile)
+            register_configured=REGISTER.configured, dev_mode=CFG.dev_mode, gates=CFG.gates, profile=CFG.profile)
         STORE.update_meta(run_id, question=question, preparer=preparer, stage="planning", created=utc_now())
         plan = parse_question(question)
         if CFG.llm_enabled:
@@ -748,6 +760,7 @@ def _pol_static():
                 "Click Validate and store. The instrument joins every later plan while it is enabled, with its author and hash "
                 "in the battery hash and the ledger.",
                 "Assumption overrides (bottom) apply to the next plan: any value judgement in the assumptions table, within bounds."],
+               "Nothing simulates until the battery is approved at Gate 1." if OPEN_GATES else
                "Nothing simulates until a named approver signs the battery off at Gate 1."),
         html.Div("Built in instruments", className="feed-cap"),
         _table(rows, ["n", "s", "d", "note"], heads=["instrument", "scope", "what it does", "note"]),
@@ -905,7 +918,11 @@ def _run_status():
         kids.append(html.Div(f"Run {S['run_id']}, prepared by {S['preparer']}" + (f" ({S['preparer_role']})" if S["preparer_role"] else "")
                              + f", started {S['started']}", className="feed-cap"))
     if st == "idle":
-        kids.append(html.Div("A policy question is read into a battery of candidate instruments. A named approver on the register signs "
+        kids.append(html.Div("A policy question is read into a battery of candidate instruments. Gate 1 runs the battery and Gate 2 "
+                             "releases the briefing; either can be refused with a reason. This public demonstration takes no sign off "
+                             "identities; inside an authority a named preparer and a named approver on the register take the gates, with "
+                             "four eyes. Every step is chained into a signed ledger." if OPEN_GATES else
+                             "A policy question is read into a battery of candidate instruments. A named approver on the register signs "
                              "the battery off at Gate 1 before anything simulates, and the briefing at Gate 2 before it leaves. Either gate "
                              "can be refused with reasons. Every step is chained into a signed ledger.", className="await"))
     if st == "planning":
@@ -922,10 +939,13 @@ def _run_status():
         if a:
             cls = "seal approved" if a["decision"] == "approved" else "seal refused"
             reg = a.get("register") or {}
-            kids.append(html.Div(f"{gname} {a['decision']} by {a['actor']}{(' (' + a['role'] + ')') if a.get('role') else ''} at {a['ts']}"
-                                 + (f"; {reg.get('source')}" if reg.get("dev_mode") else
-                                    (f"; on the register as {reg.get('function')} at {reg.get('firm')}, reference {reg.get('irn')}" if reg.get("irn") else ""))
-                                 + (f". Reason: {a['reason']}" if a.get("reason") else ""), className=cls))
+            if a.get("open_gate"):
+                line = f"{gname} {a['decision']} at {a['ts']} (public demonstration, no sign off identity)"
+            else:
+                line = (f"{gname} {a['decision']} by {a['actor']}{(' (' + a['role'] + ')') if a.get('role') else ''} at {a['ts']}"
+                        + (f"; {reg.get('source')}" if reg.get("dev_mode") else
+                           (f"; on the register as {reg.get('function')} at {reg.get('firm')}, reference {reg.get('irn')}" if reg.get("irn") else "")))
+            kids.append(html.Div(line + (f". Reason: {a['reason']}" if a.get("reason") else ""), className=cls))
     if st == "halted":
         kids.append(html.Div(f"Emergency stop by {S['stop_actor']}, partial ledger sealed, evidence pack exportable", className="seal"))
     if S["critic"] is not None:
@@ -1013,7 +1033,13 @@ def _mkt_body():
 
 def _run_static():
     header_mode = CFG.auth_mode == "header"
-    ident = [html.Label("Acting identity"), html.Div(id="ident-chip", className="ident")] if header_mode else [
+    if OPEN_GATES and not header_mode:
+        ident = [html.Div("Gates: single clicks, no sign off identities (public demonstration). Inside an authority a named preparer and a "
+                          "named approver on the register take them, with four eyes.", className="gap-note")]
+    elif header_mode:
+        ident = [html.Label("Acting identity"), html.Div(id="ident-chip", className="ident")]
+    else:
+        ident = [
         html.Label("Prepared by", htmlFor="who"),
         dcc.Input(id="who", type="text", placeholder="analyst preparing the battery", autoComplete="off", maxLength=80),
         html.Label("Preparer's function (required)", htmlFor="who-role"),
@@ -1024,8 +1050,9 @@ def _run_static():
         html.Label("Approver's function (SMF or certified role; required)", htmlFor="approver-role"),
         dcc.Input(id="approver-role", type="text", placeholder=("for example SMF24, or Developer2 in dev mode" if CFG.dev_mode else "for example SMF24 or certified function"),
                   autoComplete="off", maxLength=80)]
-    hidden = [] if not header_mode else [dcc.Input(id="who", type="hidden", value=""), dcc.Input(id="approver", type="hidden", value=""),
-                                         dcc.Input(id="approver-role", type="hidden", value=""), dcc.Input(id="who-role", type="hidden", value="")]
+    hidden = [] if not (header_mode or OPEN_GATES) else [
+        dcc.Input(id="who", type="hidden", value=""), dcc.Input(id="approver", type="hidden", value=""),
+        dcc.Input(id="approver-role", type="hidden", value=""), dcc.Input(id="who-role", type="hidden", value="")]
     return [
         html.Label("Policy question", htmlFor="q"),
         dcc.Textarea(id="q", value=DEFAULT_QUESTION, rows=3, spellCheck=False, maxLength=600),
@@ -1144,8 +1171,9 @@ app.layout = html.Div([
     html.Footer([
         html.Div([html.Button([html.I(k), c], className="fkey", title=t, **{"data-code": c}) for k, c, t in FKEYS], className="fkeys"),
         html.Div(html.Div(id="ticker-text", children=(
-            "PSL terminal ready. Type a policy question, name a preparer and an approver, and plan the battery. "
-            "Nothing simulates before Gate 1 and nothing is released before Gate 2. Every step is chained into a signed ledger.")),
+            ("PSL terminal ready. Type a policy question and plan the battery. " if OPEN_GATES else
+             "PSL terminal ready. Type a policy question, name a preparer and an approver, and plan the battery. ")
+            + "Nothing simulates before Gate 1 and nothing is released before Gate 2. Every step is chained into a signed ledger.")),
                  className="tape-wrap")], className="ticker"),
 
     html.Div([
@@ -1172,7 +1200,7 @@ app.layout = html.Div([
         html.Div([html.Button("Enter ⏎", id="fenter"), html.Button("Start a run", id="frun")], className="row"),
         html.P(["Type a code and press ", html.Code("GO"), " to open a page, or a digit ", html.Code("0 to 9"), " or ", html.Code("K D A S R"), ". ",
                 html.Code("Esc"), " restores the grid and ", html.Code("FRONT"), " reopens this page."], className="duck"),
-        html.P(f"Build {BUILD}   profile {CFG.profile}   auth {CFG.auth_mode}   four eyes {'on' if CFG.four_eyes else 'off'}   "
+        html.P(f"Build {BUILD}   profile {CFG.profile}   auth {CFG.auth_mode}   gates {CFG.gates}   four eyes {'on' if CFG.four_eyes else 'off'}   "
                f"register {'on' if CFG.register_path else 'off'}   dev mode {'on' if CFG.dev_mode else 'off'}   model {'on' if CFG.llm_enabled else 'off'}   "
                f"ledger key {'configured' if not CFG.ephemeral_secret else 'ephemeral (set PSL_SECRET)'}", className="duck build")],
         className="inner"), id="front"),
@@ -1261,10 +1289,12 @@ def _plan(n, q, who, who_role):
         raise PreventUpdate
     if not _may("plan"):
         _alert("alert", f"Role {_role()} may not plan; refused"); _bump(); return no_update
-    preparer = identity(who)
+    preparer = _actor(who)
     if not preparer:
         _alert("alert", "A named preparer is required before planning" if CFG.auth_mode == "open" else "No identity header: sign in through the proxy")
         _bump(); return no_update
+    if OPEN_GATES:
+        who_role = "public demonstration"
     if CFG.auth_mode == "open" and not (who_role or "").strip():
         _alert("alert", "The preparer's function is required before planning (for example certified function" + (", or Developer1 in dev mode)" if CFG.dev_mode else ")"))
         _bump(); return no_update
@@ -1284,7 +1314,10 @@ def _record_gate(key, gate_name, actor, decision, reason=None, extra=None, role=
     rec = {"actor": actor, "ts": ts, "decision": decision, "role": (role or "").strip()[:80]}
     if reason:
         rec["reason"] = reason
-    verdict = REGISTER.check(actor, role)
+    if OPEN_GATES:
+        rec["open_gate"] = True
+        extra = dict(extra or {}, open_gate=True)
+    verdict = None if OPEN_GATES else REGISTER.check(actor, role)
     if verdict and verdict.get("match"):
         rec["register"] = verdict["match"]
         if not rec["role"]:
@@ -1318,7 +1351,8 @@ def _newrun(n):
             S.update(_fresh_state())
             S.update(keep)
         STOP.clear()
-        _alert("info", "New run: the terminal is clear. Type a question, name a preparer and an approver and plan the battery.")
+        _alert("info", "New run: the terminal is clear. Type a question and plan the battery." if OPEN_GATES else
+               "New run: the terminal is clear. Type a question, name a preparer and an approver and plan the battery.")
         _bump()
     threading.Thread(target=work, daemon=True).start()
     return no_update
@@ -1333,7 +1367,9 @@ def _gates(n1, n2, n3, n4, n5, approver_field, reason, approver_role, who_role):
         _alert("alert", f"Role {_role()} may not {needed}; refused"); return no_update
     with LOCK:
         S["preparer_role"] = (who_role or "").strip()[:80] or S["preparer_role"]
-    actor = identity(approver_field)
+    actor = _actor(approver_field)
+    if OPEN_GATES:
+        approver_role = OPEN_ROLE
     reason = (reason or "").strip()[:400]
     rid = S["run_id"]
     if trig == "stop":
@@ -1353,7 +1389,7 @@ def _gates(n1, n2, n3, n4, n5, approver_field, reason, approver_role, who_role):
             S["log"]("gate_refused", actor=actor or "unnamed", gate="battery_signoff" if trig == "g1a" else "briefing_release", reason=why)
         _bump(); return no_update
     if trig in ("g1r", "g2r") and (not actor or not reason):
-        _alert("alert", "Refusing a gate needs a named approver and a reason"); _bump(); return no_update
+        _alert("alert", "Refusing a gate needs a reason" if OPEN_GATES else "Refusing a gate needs a named approver and a reason"); _bump(); return no_update
 
     if trig == "g1a":
         with LOCK:
@@ -1363,7 +1399,8 @@ def _gates(n1, n2, n3, n4, n5, approver_field, reason, approver_role, who_role):
         _record_gate("gate1", "battery_signoff", actor, "approved", extra={"battery_hash": S["battery_hash"], "n_policies": len(S["battery"]["policies"])}, role=approver_role)
         STORE.update_meta(rid, stage="running", approver=actor)
         _bump(stage="running", step="simulate", phase="Gate 1 approved, battery running")
-        _alert("ok", f"Gate 1 approved by {actor}, battery {S['battery_hash'][:12]} running")
+        _alert("ok", f"Gate 1 approved, battery {S['battery_hash'][:12]} running" if OPEN_GATES else
+               f"Gate 1 approved by {actor}, battery {S['battery_hash'][:12]} running")
         threading.Thread(target=_worker_run, daemon=True).start()
     elif trig == "g1r":
         with LOCK:
@@ -1373,7 +1410,7 @@ def _gates(n1, n2, n3, n4, n5, approver_field, reason, approver_role, who_role):
         _bump(stage="rejected", step="gate1", phase="Gate 1 refused, battery not run, plan again")
         STORE.update_meta(rid, stage="rejected", approver=actor, reason=reason)
         STORE.pack(rid)
-        _alert("alert", f"Gate 1 refused by {actor}: {reason}")
+        _alert("alert", f"Gate 1 refused: {reason}" if OPEN_GATES else f"Gate 1 refused by {actor}: {reason}")
     elif trig == "g2a":
         with LOCK:
             good = S["stage"] == "evaluated" and S["critic"] and S["critic"]["ok"]
@@ -1382,7 +1419,8 @@ def _gates(n1, n2, n3, n4, n5, approver_field, reason, approver_role, who_role):
             raise PreventUpdate
         approvals = dict(S["approvals"], preparer=S["preparer"], preparer_role=S.get("preparer_role", ""),
                          gate2={"actor": actor, "role": (approver_role or "").strip(), "ts": utc_now(), "decision": "approved",
-                                "register": (REGISTER.check(actor, approver_role) or {}).get("match")})
+                                "register": None if OPEN_GATES else (REGISTER.check(actor, approver_role) or {}).get("match"),
+                                **({"open_gate": True} if OPEN_GATES else {})})
         text = draft_briefing(arte, approvals, rid)
         used_llm = False
         if CFG.llm_enabled:
@@ -1410,7 +1448,7 @@ def _gates(n1, n2, n3, n4, n5, approver_field, reason, approver_role, who_role):
         S["log"]("evidence_pack_built", files=list(manifest["files"]))
         rep = ledger_verify(S["log"].path, CFG.secret)
         _bump(stage="released", step="released", briefing=text, critic=critic, ledger_report=rep, llm_used=used_llm, phase="Briefing released, evidence pack built")
-        _alert("ok", f"Briefing released, approved by {actor}, evidence pack built")
+        _alert("ok", "Briefing released, evidence pack built" if OPEN_GATES else f"Briefing released, approved by {actor}, evidence pack built")
     elif trig == "g2r":
         with LOCK:
             if S["stage"] != "evaluated":
@@ -1420,7 +1458,7 @@ def _gates(n1, n2, n3, n4, n5, approver_field, reason, approver_role, who_role):
         STORE.pack(rid)
         rep = ledger_verify(S["log"].path, CFG.secret)
         _bump(stage="refused", step="gate2", ledger_report=rep, phase="Gate 2 refused, briefing withheld, reasons recorded")
-        _alert("alert", f"Gate 2 refused by {actor}: {reason}")
+        _alert("alert", f"Gate 2 refused: {reason}" if OPEN_GATES else f"Gate 2 refused by {actor}: {reason}")
     return no_update
 
 
@@ -1437,7 +1475,7 @@ def _dat_intake(contents, filename, cls, event, maps, who):
         raw = base64.b64decode(b64)
     except Exception:  # noqa: BLE001
         return html.Div("Upload could not be decoded", className="seal refused")
-    who = identity(who) or "unnamed"
+    who = _actor(who) or "unnamed"
     ds = quarantine(filename or "upload.csv", raw, uploader=who, classification=cls or "public", max_bytes=CFG.upload_max_mb * 1024 * 1024,
                     event_date=(event or "").strip() or None, maps_to=(maps or "").strip() or None)
     log = S["log"]
@@ -1475,7 +1513,7 @@ def _pol_reset(n):
 def _pol_actions(n_add, n_on, n_off, n_rm, rev, text, pick, who):
     trig = ctx.triggered_id
     msg = no_update
-    author = identity(who) or "unnamed"
+    author = _actor(who) or "unnamed"
     log = S["log"]
     if trig == "pol-add" and n_add:
         if not _may("plan"):
@@ -1532,7 +1570,7 @@ def _agt_reset(n):
 def _agt_actions(n_add, n_on, n_off, n_rm, rev, text, pick, who):
     trig = ctx.triggered_id
     msg = no_update
-    author = identity(who) or "unnamed"
+    author = _actor(who) or "unnamed"
     log = S["log"]
     if trig == "agt-add" and n_add:
         try:

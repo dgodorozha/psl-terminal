@@ -319,7 +319,11 @@ def draft_briefing(arte, approvals=None, run_id="", critic=None):
     w("")
     for key in ("gate1", "gate2"):
         g1 = approvals.get(key)
-        if g1:
+        if g1 and g1.get("open_gate"):
+            w(f"**{'Gate 1 (battery)' if key == 'gate1' else 'Gate 2 (release)'}**: {g1.get('decision')} at {str(g1.get('ts', ''))[:19]} in a "
+              f"public demonstration, without a sign off identity; inside an authority a named approver on the register takes this gate"
+              + (f"; reason: {g1.get('reason')}" if g1.get("reason") else "") + ".")
+        elif g1:
             reg = g1.get("register") or {}
             w(f"**{'Gate 1 (battery)' if key == 'gate1' else 'Gate 2 (release)'}**: {g1.get('decision')} by {g1.get('actor')}"
               + (f", {g1.get('role')}" if g1.get("role") else "") + (f" ({reg.get('source')})" if reg.get("dev_mode") else

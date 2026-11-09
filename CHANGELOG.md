@@ -2,6 +2,10 @@
 
 ## 1.0.1
 
+- Open gates (`PSL_GATES=open`) for the public demonstration: the two gates are single clicks with no
+  preparer or approver identities, register or four eyes; every gate record carries `open_gate`, and
+  the run status, briefing, transparency record and posture page say so. Named gates stay the default.
+  The replay site is recorded with open gates; the Dockerfile and `modal_app.py` set them.
 - Live terminal hosted on Modal (`modal_app.py`: one container, scaled to zero between visitors, run
   registry on a persistent volume) with `.github/workflows/deploy-modal.yml` redeploying on push. The
   Hugging Face Space route is kept as a Docker host option only: Docker Spaces now require a PRO

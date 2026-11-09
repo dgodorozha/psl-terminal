@@ -10,7 +10,7 @@ USER psl
 # container stalled runs on shared hosts.
 ENV OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 \
     PSL_HOST=0.0.0.0 PSL_PORT=7860 PSL_RUNS_DIR=/app/runs PSL_AUTH_MODE=open PSL_LLM=off \
-    PSL_PROFILE=demo PSL_DEV_MODE=on PSL_REGISTER=sample_data/register.csv PSL_TICK_PACE=0.02 \
+    PSL_PROFILE=demo PSL_GATES=open PSL_DEV_MODE=off PSL_TICK_PACE=0.02 \
     PSL_FRAME_ANCESTORS="https://huggingface.co https://*.hf.space"
 EXPOSE 7860
 HEALTHCHECK --interval=30s --timeout=5s CMD python -c "import urllib.request,os;urllib.request.urlopen('http://127.0.0.1:%s/healthz' % os.environ.get('PSL_PORT','7860'))" || exit 1

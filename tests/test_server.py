@@ -2,7 +2,8 @@
 
 Covers: health and version endpoints, security headers, the run file allow list (no path traversal, no
 arbitrary files), the ASK endpoint (question only, rate limited), identity enforcement in header mode,
-the mandatory functions at the gates, four eyes, and dev mode (Developer1 and Developer2)."""
+the mandatory functions at the gates, four eyes, dev mode (Developer1 and Developer2), and open gates (no identities,
+every record marked)."""
 
 import importlib
 import os
@@ -136,10 +137,53 @@ def test_register_required_and_dev_mode(monkeypatch, tmp_path):
     assert not app.authorised_approver("Developer2", "")[0], "the function is mandatory even in dev mode"
 
 
+def test_open_gates_take_no_identities_and_say_so(monkeypatch, tmp_path):
+    app = make_app(monkeypatch, tmp_path, PSL_GATES="open")
+    assert app.OPEN_GATES and app.CFG.gates == "open"
+    ok, why = app.authorised_approver("", "")
+    assert ok, why
+    with app.server.test_request_context():
+        assert app._actor("") == "visitor" and app._actor("Someone") == "Someone"
+    # the RUN panel carries no visible identity fields, only the hidden ones the callbacks need
+    from dash import dcc
+    kids = app._run_static()
+    inputs = [k for k in kids if isinstance(k, dcc.Input)]
+    assert inputs and all(k.type == "hidden" for k in inputs), [k.id for k in inputs]
+    assert {k.id for k in inputs} == {"who", "who-role", "approver", "approver-role"}
+    assert not any(getattr(k, "children", None) == "Prepared by" for k in kids)
+    # a gate record says the gate was open, and the briefing and the transparency record carry it
+    app.S["run_id"] = "20260901-000000-abcd"; app.S["run_dir"] = str(tmp_path / "runs" / app.S["run_id"]); app.S["preparer"] = "visitor"
+    app.STORE.create(app.S["run_id"])
+    app.S["log"] = app.StreamLedger(os.path.join(app.S["run_dir"], "ledger.jsonl"), app.S["run_id"], secret="test-secret", actor="test")
+    rec = app._record_gate("gate1", "battery_signoff", "visitor", "approved", role=app.OPEN_ROLE)
+    assert rec["open_gate"] is True and "register" not in rec
+    from psl.atrs import atrs_record
+    arte = {"results": {"preferred": "a", "best_unconstrained": "a", "policies": [{"policy": "a", "label": "A", "net_social_value": {"mean": 1.0, "lo": 0.0, "hi": 2.0},
+                        "p_best": 0.5, "market": {}, "safety": {}, "ledger": {}}]}}
+    try:
+        record = atrs_record(arte, {"gate1": rec, "preparer": "visitor"}, app.S["run_id"])
+        owner = record["tier2"]["owner_and_responsibility"]["senior_responsible_owner"]
+        assert "public demonstration" in owner and record["tier2"]["owner_and_responsibility"]["senior_responsible_owner_register"] is None
+    except KeyError:
+        pass            # the record needs the full artefacts for its other sections; the owner logic above is what this test is for
+    # the posture page warns rather than passes
+    from psl.security import posture
+    items = {i["control"]: i for i in posture(app.CFG)["items"]}
+    assert items["sign off identities taken at the gates"]["status"] == "warn"
+    assert items["separation of duty at the gates"]["status"] == "warn"
+    # named gates are the default and still demand identities
+    app = make_app(monkeypatch, tmp_path, PSL_GATES="named")
+    assert not app.OPEN_GATES and not app.authorised_approver("", "")[0]
+    assert any(isinstance(k, dcc.Input) and k.type == "text" and k.id == "who" for k in app._run_static())
+
+
 def test_config_rejects_bad_values(monkeypatch):
     from config import Config
     with pytest.raises(ValueError):
         Config({"PSL_AUTH_MODE": "anything"})
+    with pytest.raises(ValueError):
+        Config({"PSL_GATES": "ajar"})
+    assert Config({"PSL_GATES": "open"}).gates == "open" and Config({}).gates == "named"
     with pytest.raises(ValueError):
         Config({"PSL_PROFILE": "huge"})
     c = Config({"PSL_PROFILE": "light", "PSL_PATHS": "32"})

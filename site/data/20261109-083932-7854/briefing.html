@@ -1,0 +1,206 @@
+<!doctype html><html><head><meta charset='utf-8'><title>Policy Scenario Lab briefing</title><style>body{font:14px/1.5 Georgia,serif;color:#111;max-width:1040px;margin:32px auto;padding:0 20px}h1{font-size:22px;border-bottom:2px solid #111;padding-bottom:6px}h2{font-size:16px;margin-top:26px}table{border-collapse:collapse;font:12px ui-monospace,Menlo,monospace;margin:10px 0}th,td{border:1px solid #bbb;padding:4px 7px;text-align:left}th{background:#f2f2f2}code{font:12px ui-monospace,Menlo,monospace;background:#f2f2f2;padding:1px 3px}@media print{body{margin:0;max-width:none}}</style></head><body><h1>Policy Scenario Lab briefing</h1>
+<p><b>Run</b> 20261109-083932-7854. <b>Question.</b> Would a six month moratorium above the compute threshold or coordinated frontier licensing reduce expected harm more over three years, keeping the gross social cost under $100bn?</p>
+<p><b>How it was read.</b> 4 instruments against the status quo (instruments named in the question); horizon 3 years; 60 Monte Carlo paths per instrument on common random numbers, seed 7; constraints: gross social cost at most $100bn.</p>
+<h2>The answer</h2>
+<p><b>Preferred option: Coordinated frontier licensing.</b> Expected net social value $18.8bn [-$15.1bn, $10.7bn] over 3 years, the highest of the instruments that satisfy the constraints; it is the best option in 90% of bootstrap resamples of the paths (90% with the constraints lifted). It avoids $22.1bn of expected harm (25% of the baseline&#x27;s), and the industry&#x27;s net value change is -$129bn [-$275bn, $42bn].</p>
+<p>The interval on the preferred option&#x27;s value spans zero: the sign depends on the path. The probability that it is positive is 28%.</p>
+<h2>The options compared</h2>
+<table>
+<tr><th>Instrument</th><th>Net social value, $bn</th><th>Harm avoided, $bn</th><th>Gross social cost, $bn</th><th>Industry value change, $bn</th><th>P(catastrophe)</th><th>Headline score</th><th>P(best)</th><th>Within constraints</th></tr>
+<tr><td>Coordinated frontier licensing (preferred)</td><td>18.8 [-15.1, 10.7]</td><td>22.1</td><td>9.1</td><td>-129</td><td>12%</td><td>+0.013</td><td>90%</td><td>yes</td></tr>
+<tr><td>Compute threshold reporting</td><td>2.4 [-1.1, 9.6]</td><td>0.4</td><td>1.1</td><td>117</td><td>17%</td><td>+0.016</td><td>10%</td><td>yes</td></tr>
+<tr><td>Frontier licensing</td><td>-38.0 [-58.2, -42.2]</td><td>7.8</td><td>49.0</td><td>-297</td><td>15%</td><td>+0.013</td><td>0%</td><td>yes</td></tr>
+<tr><td>Six month moratorium above the threshold</td><td>-47.6 [-77.3, -50.0]</td><td>17.4</td><td>67.3</td><td>-25</td><td>13%</td><td>-0.011</td><td>0%</td><td>yes</td></tr>
+</table>
+<p>The status quo carries an expected harm of $89.8bn over the horizon, 6.2 reportable incidents a year, a 92% probability of at least one major incident and a 17% probability of a catastrophic one.</p>
+<h2>What Coordinated frontier licensing buys and costs</h2>
+<table>
+<tr><th>Component</th><th>$bn, present value</th><th>10th to 90th percentile</th></tr>
+<tr><td>Harm avoided</td><td>22.1</td><td>[0.0, 3.3]</td></tr>
+<tr><td>Consumer surplus</td><td>-2.3</td><td>[-3.5, -1.6]</td></tr>
+<tr><td>Output uplift (adoption)</td><td>2.4</td><td>[-7.9, 11.1]</td></tr>
+<tr><td>Resident producer surplus</td><td>-1.9</td><td>[-2.2, -1.5]</td></tr>
+<tr><td>Compliance (resource cost)</td><td>-1.2</td><td>[-1.2, -1.2]</td></tr>
+<tr><td>Enforcement budget (cost)</td><td>-0.3</td><td>[-0.3, -0.3]</td></tr>
+<tr><td>Activity lost offshore (cost)</td><td>0.0</td><td>[0.0, 0.0]</td></tr>
+<tr><td>Relocation cost</td><td>0.0</td><td>[0.0, 0.0]</td></tr>
+<tr><td>Labour adjustment (cost)</td><td>0.0</td><td>[0.0, 0.0]</td></tr>
+<tr><td><b>Net social value</b></td><td><b>18.8</b></td><td>[-15.1, 10.7]</td></tr>
+</table>
+<p>The mean harm avoided ($22.1bn) sits above its 90th percentile ($3.3bn): 96% of it comes from the tenth of paths with the largest values, the paths in which a catastrophic incident is averted; the median is $0.8bn. The expected value is carried by the tail, which is the nature of the problem and not an error.</p>
+<p>The same holds for the net social value: mean $18.8bn against a 90th percentile of $10.7bn and a median of -$7.8bn.</p>
+<p>Gross social cost $9.1bn [$4.7bn, $15.2bn], that is 0.41 of cost per dollar of harm avoided.</p>
+<p>Transfers, excluded from the net: fines $22.3bn, liability payouts $0.0bn, insurance premiums $0.0bn.</p>
+<h2>Who gains and who pays</h2>
+<table>
+<tr><th>Party</th><th>Change, $bn present value</th></tr>
+<tr><td>abroad (relocated activity)</td><td>0.0</td></tr>
+<tr><td>consumers</td><td>-2.3</td></tr>
+<tr><td>firms (shareholders)</td><td>-128.7</td></tr>
+<tr><td>public (harm not suffered)</td><td>22.1</td></tr>
+<tr><td>taxpayers</td><td>22.0</td></tr>
+<tr><td>wider economy (output)</td><td>2.4</td></tr>
+<tr><td>workers</td><td>0.0</td></tr>
+</table>
+<p>Shareholder value counts the earnings change over the horizon plus the discounted change in market value at its end; it is a valuation effect and only its resident operating profit share enters the social ledger.</p>
+<h2>Safety forecast</h2>
+<table>
+<tr><th>Instrument</th><th>Incidents a year</th><th>Major a year</th><th>P(major)</th><th>P(catastrophe)</th><th>Expected harm, $bn</th><th>Safety level at end</th><th>Frontier capability at end</th><th>Trust at end</th></tr>
+<tr><td>Status quo (voluntary commitments)</td><td>6.2</td><td>0.86</td><td>92%</td><td>17%</td><td>89.8</td><td>0.65</td><td>2.59</td><td>0.84</td></tr>
+<tr><td>Compute threshold reporting</td><td>6.0</td><td>0.81</td><td>92%</td><td>17%</td><td>89.4</td><td>0.65</td><td>2.59</td><td>0.85</td></tr>
+<tr><td>Frontier licensing</td><td>6.1</td><td>0.86</td><td>92%</td><td>15%</td><td>82.0</td><td>0.66</td><td>2.44</td><td>0.85</td></tr>
+<tr><td>Coordinated frontier licensing</td><td>5.5</td><td>0.74</td><td>92%</td><td>12%</td><td>67.7</td><td>0.67</td><td>2.38</td><td>0.87</td></tr>
+<tr><td>Six month moratorium above the threshold</td><td>5.7</td><td>0.77</td><td>92%</td><td>13%</td><td>72.3</td><td>0.65</td><td>2.43</td><td>0.86</td></tr>
+</table>
+<p>Under Coordinated frontier licensing the economy runs 5.5 reportable incidents a year (misuse 3.0, accidents 1.8, systemic 0.7), against 6.2 at the status quo; the expected catastrophic harm is $59.2bn against $80.3bn. Firms end with 13% of R&amp;D on safety, 0% of activity offshore and 25% compliance.</p>
+<h2>The news environment to expect</h2>
+<table>
+<tr><th>Instrument</th><th>Minor incident headlines a year</th><th>Major incident headlines a year</th><th>Enforcement headlines a year</th><th>Relocation headlines a year</th><th>Peak pressure</th><th>P(hearing)</th><th>Early tone</th></tr>
+<tr><td>Status quo (voluntary commitments)</td><td>5.2</td><td>0.81</td><td>2.17</td><td>0.00</td><td>0.23</td><td>0%</td><td>-0.10</td></tr>
+<tr><td>Compute threshold reporting</td><td>5.1</td><td>0.76</td><td>0.00</td><td>0.00</td><td>0.23</td><td>0%</td><td>+0.06</td></tr>
+<tr><td>Frontier licensing</td><td>5.2</td><td>0.81</td><td>1.55</td><td>4.00</td><td>0.31</td><td>0%</td><td>+0.06</td></tr>
+<tr><td>Coordinated frontier licensing</td><td>4.6</td><td>0.70</td><td>1.26</td><td>0.00</td><td>0.24</td><td>0%</td><td>+0.06</td></tr>
+<tr><td>Six month moratorium above the threshold</td><td>4.8</td><td>0.72</td><td>0.00</td><td>0.00</td><td>0.23</td><td>0%</td><td>-0.10</td></tr>
+</table>
+<p>On the representative path the wire under Coordinated frontier licensing ran 77 headlines over the horizon, 35% of them negative. The three worst: &quot;Users report credential harvesting attack on Consumer AI platform services; $13m at stake&quot; (CIVIC, 2028-10); &quot;Automated phishing wave traced to Frontier Lab (closed weights) system, regulator told; $65m in losses&quot; (CIVIC, 2029-12); &quot;Frontier Lab (open weights) slides 23% as investors weigh regulatory costs&quot; (WIRE, 2027-01).</p>
+<h2>The market</h2>
+<p>Industry net value change under Coordinated frontier licensing: -$129bn [-$275bn, $42bn] on a starting value of $6.51tn; the probability the industry gains is 13%. The value weighted index reacts -0.4% against the baseline over the first six months and -1.1% by the end of the horizon.</p>
+<table>
+<tr><th>Firm</th><th>Sector</th><th>Value change, $bn</th><th>10th to 90th</th><th>P(gain)</th><th>Earnings change, $bn</th><th>Offshore at end</th><th>Safety share at end</th></tr>
+<tr><td>Frontier Lab (closed weights)</td><td>Frontier lab</td><td>-64.5</td><td>[-86.4, -43.4]</td><td>0%</td><td>-1.6</td><td>0%</td><td>25%</td></tr>
+<tr><td>Frontier Lab (open weights)</td><td>Open weights</td><td>-20.6</td><td>[-28.7, -11.7]</td><td>0%</td><td>-0.6</td><td>0%</td><td>25%</td></tr>
+<tr><td>Hyperscaler cloud</td><td>hyperscaler</td><td>-70.0</td><td>[-115.6, -10.8]</td><td>5%</td><td>-23.0</td><td>0%</td><td>10%</td></tr>
+<tr><td>Chip designer</td><td>chips</td><td>-61.0</td><td>[-104.2, -20.0]</td><td>8%</td><td>-2.0</td><td>0%</td><td>10%</td></tr>
+<tr><td>Enterprise software</td><td>Enterprise software</td><td>38.2</td><td>[19.7, 67.0]</td><td>100%</td><td>0.1</td><td>0%</td><td>10%</td></tr>
+<tr><td>Consumer AI platform</td><td>Consumer AI</td><td>30.1</td><td>[9.4, 54.3]</td><td>98%</td><td>0.0</td><td>0%</td><td>10%</td></tr>
+<tr><td>Autonomy and robotics</td><td>autonomy</td><td>9.7</td><td>[4.0, 18.1]</td><td>100%</td><td>0.0</td><td>0%</td><td>10%</td></tr>
+<tr><td>AI start up cohort</td><td>startups</td><td>9.3</td><td>[3.3, 15.9]</td><td>100%</td><td>0.0</td><td>0%</td><td>5%</td></tr>
+</table>
+<table>
+<tr><th>Sector</th><th>Value change, $bn</th><th>Starting value, $bn</th></tr>
+<tr><td>Frontier lab</td><td>-64.5</td><td>277</td></tr>
+<tr><td>Open weights</td><td>-20.6</td><td>63</td></tr>
+<tr><td>hyperscaler</td><td>-70.0</td><td>1,938</td></tr>
+<tr><td>chips</td><td>-61.0</td><td>2,544</td></tr>
+<tr><td>Enterprise software</td><td>38.2</td><td>945</td></tr>
+<tr><td>Consumer AI</td><td>30.1</td><td>519</td></tr>
+<tr><td>autonomy</td><td>9.7</td><td>123</td></tr>
+<tr><td>startups</td><td>9.3</td><td>95</td></tr>
+</table>
+<p>The firms are synthetic archetypes of the AI value chain, not companies; the figures are the model&#x27;s and carry its assumptions.</p>
+<h2>The decision gap</h2>
+<p>Ranked by how they look in the first six months (the price reaction and the early tone of the wire), the order is Compute threshold reporting, Frontier licensing, Coordinated frontier licensing, Six month moratorium above the threshold. Ranked by net social value over 3 years it is Coordinated frontier licensing, Compute threshold reporting, Frontier licensing, Six month moratorium above the threshold. Kendall tau between the two is +0.33; the decision gap ((1 - tau) / 2) is 0.33, and the two orders invert in 0% of resamples. The best option is stable in 90% of resamples.</p>
+<h2>How sure we are</h2>
+<p><b>Tornado.</b> The preferred option&#x27;s expected value is $18.8bn. Moving each value judgement to its low and high value, one at a time (the best option is judged among the instruments that satisfy the question&#x27;s constraints):</p>
+<table>
+<tr><th>Assumption</th><th>Default</th><th>Low value</th><th>Value at low, $bn</th><th>High value</th><th>Value at high, $bn</th><th>Best option changes</th></tr>
+<tr><td>Catastrophe harm bn</td><td>400.00</td><td>150.00</td><td>9.1</td><td>1,200.00</td><td>49.6</td><td>no</td></tr>
+<tr><td>Harm valuation multiplier</td><td>1.00</td><td>0.50</td><td>7.7</td><td>2.00</td><td>40.8</td><td>no</td></tr>
+<tr><td>Catastrophe prior monthly</td><td>0.0020</td><td>0.0005</td><td>32.8</td><td>0.0050</td><td>17.3</td><td>no</td></tr>
+<tr><td>Trust elasticity</td><td>0.50</td><td>0.20</td><td>14.2</td><td>1.00</td><td>25.5</td><td>no</td></tr>
+<tr><td>Hazard safety elasticity</td><td>1.80</td><td>1.40</td><td>20.2</td><td>3.00</td><td>13.3</td><td>no</td></tr>
+<tr><td>Consumer surplus base bn</td><td>250.00</td><td>150.00</td><td>19.7</td><td>600.00</td><td>15.5</td><td>no</td></tr>
+<tr><td>Cs elasticity</td><td>0.60</td><td>0.30</td><td>20.1</td><td>1.00</td><td>16.3</td><td>no</td></tr>
+<tr><td>Productivity base bn</td><td>400.00</td><td>200.00</td><td>17.6</td><td>800.00</td><td>21.1</td><td>no</td></tr>
+<tr><td>Discount rate</td><td>0.0300</td><td>0.0100</td><td>19.6</td><td>0.0700</td><td>17.2</td><td>no</td></tr>
+<tr><td>Domestic ownership share</td><td>0.60</td><td>0.30</td><td>19.7</td><td>0.90</td><td>17.8</td><td>no</td></tr>
+<tr><td>Compliance deadweight share</td><td>0.70</td><td>0.40</td><td>19.3</td><td>1.00</td><td>18.2</td><td>no</td></tr>
+<tr><td>Safety substitution</td><td>0.60</td><td>0.30</td><td>18.3</td><td>1.00</td><td>18.7</td><td>no</td></tr>
+<tr><td>Labour adjustment bn</td><td>2.00</td><td>0.0000</td><td>18.7</td><td>5.00</td><td>18.8</td><td>no</td></tr>
+<tr><td>Leakage value share</td><td>0.35</td><td>0.10</td><td>18.8</td><td>0.70</td><td>18.8</td><td>no</td></tr>
+<tr><td>Offshore laxity</td><td>0.60</td><td>0.20</td><td>18.8</td><td>1.20</td><td>18.8</td><td>no</td></tr>
+</table>
+<p>No single assumption at the edge of its range changes the decision.</p>
+<p><b>Structural variants.</b> Under 7 alternative model structures the preferred option is best in 6 and in the top two in 7:</p>
+<table>
+<tr><th>Variant</th><th>What changes</th><th>Best option</th><th>Preferred option&#x27;s rank</th><th>Its value, $bn</th></tr>
+<tr><td>Myopic firms</td><td>firms plan six months ahead instead of twelve</td><td>Coordinated frontier licensing</td><td>1</td><td>4.6</td></tr>
+<tr><td>Forward looking firms</td><td>firms plan two years ahead</td><td>Compute threshold reporting</td><td>2</td><td>-27.6</td></tr>
+<tr><td>Weak regulator</td><td>the regulator has half the stated capacity</td><td>Coordinated frontier licensing</td><td>1</td><td>9.2</td></tr>
+<tr><td>Strong safety effect</td><td>safety practice cuts incidents faster</td><td>Coordinated frontier licensing</td><td>1</td><td>13.1</td></tr>
+<tr><td>Weak safety effect</td><td>safety practice cuts incidents more slowly</td><td>Coordinated frontier licensing</td><td>1</td><td>4.8</td></tr>
+<tr><td>Lax offshore</td><td>offshore activity is twice as hazardous as at home</td><td>Coordinated frontier licensing</td><td>1</td><td>18.8</td></tr>
+<tr><td>Heavy tail</td><td>the catastrophic tail is two and a half times more likely</td><td>Coordinated frontier licensing</td><td>1</td><td>17.3</td></tr>
+</table>
+<p><b>Red team.</b> Firms game each instrument four ways; the instrument&#x27;s value under its worst strategy:</p>
+<table>
+<tr><th>Instrument</th><th>Honest value, $bn</th><th>Worst strategy</th><th>Value when gamed, $bn</th><th>Harm avoided when gamed, $bn</th><th>Loss to gaming, $bn</th></tr>
+<tr><td>Coordinated frontier licensing</td><td>18.8</td><td>Compliance theatre</td><td>1.0</td><td>7.7</td><td>17.8</td></tr>
+<tr><td>Compute threshold reporting</td><td>2.4</td><td>Compliance theatre</td><td>0.0</td><td>0.1</td><td>2.4</td></tr>
+<tr><td>Six month moratorium above the threshold</td><td>-47.6</td><td>Compliance theatre</td><td>-48.9</td><td>17.3</td><td>1.3</td></tr>
+<tr><td>Frontier licensing</td><td>-38.0</td><td>Maximal relocation</td><td>-80.1</td><td>-0.4</td><td>42.1</td></tr>
+</table>
+<p>The most robust instrument to gaming is Coordinated frontier licensing. Strategies: Compliance theatre: mandated safety spend is reported but not spent; evaluations are gamed; Maximal relocation: firms are more mobile and moving is cheaper than assumed; Threshold splitting: models are split so the regulator sees capability 20% below the real level; Use case relabelling: deployments are relabelled into lower tiers, avoiding 60% of tier costs.</p>
+<p><b>Analogue.</b> No event study was uploaded; the market module&#x27;s early reaction has not been compared with a past regulatory event on this run.</p>
+<h2>Assumptions</h2>
+<p>Every value judgement and structural parameter, hash <code>b85a6faf3ec1a97fe657b8e7da96af2f3039a4d315258cb17a31e425cec538f1</code>:</p>
+<table>
+<tr><th>Assumption</th><th>Value</th><th>Unit</th><th>Meaning</th></tr>
+<tr><td>Discount rate</td><td>0.0300</td><td>a year</td><td>social discount rate applied to every monthly flow</td></tr>
+<tr><td>Harm valuation multiplier</td><td>1.00</td><td>multiple</td><td>scales the monetised harm of incidents; 1.0 takes the engine&#x27;s damages at face value</td></tr>
+<tr><td>Consumer surplus base bn</td><td>250.00</td><td>$bn a year</td><td>annual consumer surplus from AI services at the starting level of capability and reach</td></tr>
+<tr><td>Cs elasticity</td><td>0.60</td><td>elasticity</td><td>proportional change in consumer surplus per proportional change in the AI service index</td></tr>
+<tr><td>Productivity base bn</td><td>400.00</td><td>$bn a year</td><td>annual output uplift attributable to AI adoption at the starting service index</td></tr>
+<tr><td>Productivity elasticity</td><td>0.80</td><td>elasticity</td><td>proportional change in the output uplift per proportional change in the service index</td></tr>
+<tr><td>Trust elasticity</td><td>0.50</td><td>elasticity</td><td>proportional change in realised adoption benefits per proportional change in public trust</td></tr>
+<tr><td>Compliance deadweight share</td><td>0.70</td><td>share</td><td>share of compliance spend that is a real resource cost rather than a transfer</td></tr>
+<tr><td>Enforcement cost bn</td><td>0.40</td><td>$bn a year per unit of capacity</td><td>public budget consumed by one unit of enforcement capacity</td></tr>
+<tr><td>Leakage value share</td><td>0.35</td><td>share</td><td>domestic value added lost per dollar of revenue whose activity moves offshore</td></tr>
+<tr><td>Labour adjustment bn</td><td>2.00</td><td>$bn per index point</td><td>short run adjustment cost per point of growth in the AI service index (displacement, retraining)</td></tr>
+<tr><td>Domestic ownership share</td><td>0.60</td><td>share</td><td>share of the firms&#x27; operating profit that accrues to residents and counts in national welfare</td></tr>
+<tr><td>Hazard base misuse</td><td>0.0800</td><td>a month per firm</td><td>monthly rate of a reportable misuse incident for a firm at capability 1, full reach and no safety practice</td></tr>
+<tr><td>Hazard base accident</td><td>0.0500</td><td>a month per firm</td><td>the same for accidents and failures</td></tr>
+<tr><td>Hazard base systemic</td><td>0.0200</td><td>a month per firm</td><td>the same for systemic incidents (markets, infrastructure, information)</td></tr>
+<tr><td>Hazard capability elasticity</td><td>1.30</td><td>elasticity</td><td>incident rate scales with capability to this power</td></tr>
+<tr><td>Hazard safety elasticity</td><td>1.80</td><td>per unit of safety level</td><td>incident rate falls as exp(-elasticity x safety level)</td></tr>
+<tr><td>Hazard reach elasticity</td><td>1.00</td><td>elasticity</td><td>incident rate scales with deployment reach to this power</td></tr>
+<tr><td>Offshore laxity</td><td>0.60</td><td>multiple</td><td>extra incident rate on activity moved offshore, relative to home</td></tr>
+<tr><td>Severity misuse median bn</td><td>0.15</td><td>$bn</td><td>median monetised harm of a misuse incident</td></tr>
+<tr><td>Severity accident median bn</td><td>0.30</td><td>$bn</td><td>median monetised harm of an accident</td></tr>
+<tr><td>Severity systemic median bn</td><td>1.00</td><td>$bn</td><td>median monetised harm of a systemic incident</td></tr>
+<tr><td>Severity sigma</td><td>1.10</td><td>log scale</td><td>lognormal dispersion of incident harm (heavy tail)</td></tr>
+<tr><td>Major incident bn</td><td>1.00</td><td>$bn</td><td>harm above which an incident counts as major</td></tr>
+<tr><td>Catastrophe prior monthly</td><td>0.0020</td><td>a month per firm</td><td>monthly probability of a catastrophic incident for a firm above critical capability with no safety practice</td></tr>
+<tr><td>Catastrophe capability</td><td>1.60</td><td>capability index</td><td>capability above which the catastrophic tail is live</td></tr>
+<tr><td>Catastrophe harm bn</td><td>400.00</td><td>$bn</td><td>median monetised harm of a catastrophic incident</td></tr>
+<tr><td>Unsafe release share</td><td>0.35</td><td>share</td><td>share of the incident rate attributable to releases an evaluation could catch</td></tr>
+<tr><td>Capability growth</td><td>0.0230</td><td>a month</td><td>monthly log growth of the capability index when all R&amp;D goes to capability (a doubling in about 30 months)</td></tr>
+<tr><td>Safety learning</td><td>0.0800</td><td>a month</td><td>monthly gain in safety practice at saturation; the gain is a x share/(share + 0.1), diminishing in the share</td></tr>
+<tr><td>Growth fade months</td><td>30.00</td><td>months</td><td>time constant over which a firm&#x27;s growth fades towards the long run rate</td></tr>
+<tr><td>Safety substitution</td><td>0.60</td><td>share</td><td>share of safety spend that displaces capability R&amp;D (the rest is additional budget or spills over)</td></tr>
+<tr><td>Export control chip loss</td><td>0.10</td><td>a year</td><td>annual revenue growth lost by the chip sector under full export controls</td></tr>
+<tr><td>Long run growth</td><td>0.0600</td><td>a year</td><td>the growth rate firms fade towards</td></tr>
+<tr><td>Safety decay</td><td>0.0200</td><td>a month</td><td>monthly erosion of safety practice without investment</td></tr>
+<tr><td>Revenue capability beta</td><td>0.50</td><td>elasticity</td><td>revenue growth per unit of log capability growth</td></tr>
+<tr><td>Revenue reach beta</td><td>0.80</td><td>elasticity</td><td>revenue relative to the frictionless, full trust reach path, to this power</td></tr>
+<tr><td>Reach speed</td><td>0.0800</td><td>a month</td><td>speed at which reach closes on its capability and trust determined ceiling</td></tr>
+<tr><td>Growth value weight</td><td>3.00</td><td>years of revenue</td><td>how a firm values a year of extra growth against a year of cost</td></tr>
+<tr><td>Relocation cost</td><td>0.0800</td><td>share of moved revenue</td><td>one off cost of moving a unit of activity offshore</td></tr>
+<tr><td>Offshore revenue haircut</td><td>0.12</td><td>share</td><td>revenue lost per unit of activity offshore (talent, customers, latency)</td></tr>
+<tr><td>Firm risk aversion</td><td>0.60</td><td>multiple</td><td>weight on the variance of expected liability in the firm&#x27;s choice</td></tr>
+<tr><td>Firm optimism</td><td>0.70</td><td>multiple</td><td>the share of its true incident rate a firm believes when it plans</td></tr>
+<tr><td>Audit rate</td><td>0.50</td><td>a month at full capacity</td><td>probability a firm in scope is audited in a month at capacity 1</td></tr>
+<tr><td>Insurance loading</td><td>0.25</td><td>share</td><td>premium above expected liability charged by insurers under a mandate</td></tr>
+<tr><td>Safe harbour shield</td><td>0.70</td><td>share</td><td>share of liability a compliant firm avoids under a safe harbour</td></tr>
+<tr><td>Moratorium research slowdown</td><td>0.50</td><td>share</td><td>share of capability growth lost by a firm in scope while a moratorium holds</td></tr>
+<tr><td>Enforcement response</td><td>0.25</td><td>a month</td><td>speed at which enforcement intensity follows public pressure</td></tr>
+<tr><td>Trust recovery</td><td>0.0500</td><td>a month</td><td>monthly recovery of public trust towards 1</td></tr>
+<tr><td>Trust harm sensitivity</td><td>0.0400</td><td>per log $bn</td><td>fall in trust per unit of log monetised harm in a month</td></tr>
+<tr><td>News memory</td><td>0.75</td><td>a month</td><td>persistence of the news pressure index</td></tr>
+<tr><td>News reporting boost</td><td>0.35</td><td>share</td><td>extra salience of incidents when reporting is mandatory</td></tr>
+<tr><td>Market vol</td><td>0.0450</td><td>a month</td><td>volatility of the common market factor</td></tr>
+<tr><td>Sentiment persistence</td><td>0.85</td><td>a month</td><td>persistence of the price&#x27;s non fundamental component</td></tr>
+<tr><td>News price impact</td><td>0.0600</td><td>per unit of pressure</td><td>price impact of a unit of news pressure on an exposed firm</td></tr>
+<tr><td>Incident jump</td><td>0.50</td><td>multiple</td><td>own incident price jump per log unit of harm relative to revenue</td></tr>
+<tr><td>contagion</td><td>0.30</td><td>share</td><td>share of an own incident jump felt by the rest of the sector</td></tr>
+<tr><td>Announcement impact</td><td>0.90</td><td>multiple</td><td>price reaction at announcement per unit of expected compliance cost over earnings</td></tr>
+<tr><td>Chip demand coupling</td><td>0.60</td><td>elasticity</td><td>chip and cloud revenue growth per unit of model developers&#x27; capability growth</td></tr>
+<tr><td>Open weights diffusion</td><td>0.10</td><td>share</td><td>capability spillover from published weights to the rest of the economy</td></tr>
+</table>
+<h2>Monitoring and revisiting</h2>
+<p>Indicators to watch, with the model&#x27;s expectation under Coordinated frontier licensing: reportable incidents a year (4.0 to 7.0); the share of activity offshore (0% at the horizon); the news pressure index (peak 0.24, a hearing in 0% of paths); the industry&#x27;s value against the baseline (-1.1% at the horizon). Revisit the decision if incidents run above the interval for two quarters, if relocation exceeds the forecast, or if any of the tail assumptions can be estimated from data.</p>
+<h2>Gates, provenance and reproduction</h2>
+<p><b>Gate 1 (battery)</b>: approved at 2026-11-09T08:39:32 in a public demonstration, without a sign off identity; inside an authority a named approver on the register takes this gate.</p>
+<p><b>Gate 2 (release)</b>: approved at 2026-11-09T08:39:40 in a public demonstration, without a sign off identity; inside an authority a named approver on the register takes this gate.</p>
+<p><b>Critic</b>: 28 of 28 checks passed before release.</p>
+<p>Battery hash <code>92ffca47a8662573eaa0fd18612a7559e695b6ede69a8132649d760d6058833c</code>; code fingerprint <code>48be8b6dddb389b8196b0cc5b8204291bf0552cf55efb6314e2713a9e5bd1e02</code>; PSL 1.0.1, numpy 2.5.3; profile demo; 6.3 seconds. Reproduce with <code>python -m psl.orchestrator --battery battery.json</code>.</p></body></html>

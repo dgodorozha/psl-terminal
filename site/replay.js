@@ -142,7 +142,8 @@
     var host = $("run-status");
     if (host) {
       var d = document.createElement("div"); d.className = "seal refused";
-      d.textContent = (which === 1 ? "Gate 1" : "Gate 2") + " refused in the replay by " + (($("approver") || {}).value || "the approver") + ": " + reason +
+      var ap = ($("approver") || {}).value;
+      d.textContent = (which === 1 ? "Gate 1" : "Gate 2") + " refused in the replay" + (ap ? " by " + ap : "") + ": " + reason +
         ". The recorded run is left as it was; the live terminal records a refusal in the ledger and seals the run.";
       host.appendChild(d);
     }

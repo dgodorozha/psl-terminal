@@ -203,11 +203,18 @@ def posture(cfg, root=".", datasets=None):
     item("development mode off", "pass" if not dev else "warn",
          "dev mode off" if not dev else "PSL_DEV_MODE=on: Developer1 and Developer2 are accepted at the gates; never for production",
          "6 access control")
+    gates = getattr(cfg, "gates", "named")
+    item("sign off identities taken at the gates", "pass" if gates == "named" else "warn",
+         "named preparer and approver with their functions" if gates == "named" else
+         "PSL_GATES=open: the gates are single clicks with no preparer or approver identity, for a public demonstration; "
+         "never for an authority deployment", "6 access control")
     reg = os.environ.get("PSL_REGISTER", "")
-    item("approvers tied to a register of regulated persons", "pass" if reg and os.path.isfile(reg) else "warn",
+    item("approvers tied to a register of regulated persons", "pass" if reg and os.path.isfile(reg) and gates == "named" else "warn",
+         "open gates: there is no approver to check against a register" if gates != "named" else
          f"register {reg}: approvers must be active and hold an approving function" if reg and os.path.isfile(reg)
          else "no register configured; approvers are self declared (set PSL_REGISTER)", "6 access control")
-    item("separation of duty at the gates", "pass" if getattr(cfg, "four_eyes", True) else "fail",
+    item("separation of duty at the gates", "pass" if getattr(cfg, "four_eyes", True) and gates == "named" else ("warn" if gates != "named" else "fail"),
+         "open gates: four eyes cannot apply without identities" if gates != "named" else
          "preparer and approver must differ" if getattr(cfg, "four_eyes", True) else "four eyes disabled",
          "12 banking and bookkeeping (dual control)")
     host = getattr(cfg, "host", "127.0.0.1")

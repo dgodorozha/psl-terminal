@@ -3,6 +3,7 @@ services:
     build: ..
     environment:
       PSL_AUTH_MODE: header
+      PSL_GATES: named
       PSL_USER_HEADER: X-Remote-User
       PSL_APPROVERS: ${PSL_APPROVERS:-}
       PSL_FOUR_EYES: "1"

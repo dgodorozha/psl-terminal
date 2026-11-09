@@ -25,7 +25,7 @@ needs a server).
     modal deploy modal_app.py                     # prints the address, https://<workspace>--psl.modal.run
 
 `modal_app.py` holds the whole deployment: the image (Python 3.12 and `requirements.txt`), the environment
-(`demo` profile, dev mode on, BLAS on one thread), a persistent volume `psl-runs` for the run registry, one
+(`demo` profile, open gates, BLAS on one thread), a persistent volume `psl-runs` for the run registry, one
 container at a time (`max_containers=1`, so the terminal's state and gates live in one process), up to a
 hundred concurrent requests from the browsers using it, and a fifteen minute window after the last request
 before the container stops. The first visitor after a quiet spell waits a few seconds while it starts.
@@ -44,8 +44,8 @@ To redeploy on every push, give GitHub the Modal token: the values are in `~/.mo
 application (pushes that only change `site/` or the documents are skipped). Without the secrets the job runs
 and skips, so the repository stays green.
 
-Dev mode is on and the profile is `demo` (about half a minute a run). Change either in the `.env({...})` block of
-`modal_app.py` and redeploy. Leave `PSL_FRAME_ANCESTORS` unset: nothing embeds the terminal on Modal.
+The gates are open (`PSL_GATES=open`: single clicks, no preparer or approver) and the profile is `demo` (about half a
+minute a run). Change either in the `.env({...})` block of `modal_app.py` and redeploy. Leave `PSL_FRAME_ANCESTORS` unset: nothing embeds the terminal on Modal.
 
 ## 3. GitHub Pages (the replay site, always on)
 
@@ -64,7 +64,8 @@ root or `/docs`, which is why the workflow is used.) Rebuild and recommit `site/
 The `Dockerfile` runs the terminal on any Docker host: a Hugging Face Docker Space (PRO; put the front matter
 `sdk: docker` and `app_port: 7860` at the top of `README.md`, set `PSL_SECRET` as a Space secret and keep
 `PSL_FRAME_ANCESTORS` as the Dockerfile sets it so the Space page can embed the terminal), Render
-(`render.yaml` is a one click blueprint), Railway, Fly or Google Cloud Run. Vercel and other serverless
+(`render.yaml` is a one click blueprint), Railway, Fly or Google Cloud Run. The Dockerfile sets open gates and the
+`demo` profile for a public demonstration; an authority deployment overrides them (section 5). Vercel and other serverless
 platforms are not suitable: a run is a background computation that must survive between requests, which
 serverless does not promise, and keeping functions alive for it is what made it expensive.
 
@@ -83,7 +84,8 @@ store, turn dev mode off, and leave `PSL_FRAME_ANCESTORS` unset.
 |---|---|
 | `PSL_SECRET` | ledger signing key; required for a persistent, verifiable ledger |
 | `PSL_PROFILE` | `demo` (half a minute), `light`, or `full` |
-| `PSL_DEV_MODE` | `on` accepts Developer1 and Developer2 at the gates; never in production |
+| `PSL_GATES` | `named` (default: preparer and approver with functions, register, four eyes) or `open` (single click gates without identities, for the public demonstration; never in production) |
+| `PSL_DEV_MODE` | `on` accepts Developer1 and Developer2 at named gates; never in production |
 | `PSL_REGISTER` | register of regulated persons the approver is checked against |
 | `PSL_AUTH_MODE` | `open` (names typed) or `header` (identities from an authenticating proxy) |
 | `PSL_FRAME_ANCESTORS` | origins allowed to embed the terminal (only a Hugging Face Space needs it) |

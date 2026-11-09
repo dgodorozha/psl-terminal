@@ -40,7 +40,16 @@ runs the live terminal (`modal deploy modal_app.py`, scaled to zero between visi
 Open <http://127.0.0.1:8070>. The approver at the gates must be on the register in an approving
 function (the sample register has `Rajib Ahmed`, SMF24) and must differ from the preparer.
 
-### Dev mode (no register entry needed)
+### Open gates (public demonstration)
+
+    PSL_GATES=open PSL_PROFILE=demo PSL_PORT=8070 python dash_app.py
+
+The two gates become single clicks with no preparer or approver identities; this is how the public
+site runs. Every gate record, the briefing, the transparency record and the posture page say the gates
+were open. Inside an authority the default (`PSL_GATES=named`) applies: named preparer and approver with
+their functions, the register and four eyes.
+
+### Dev mode (named gates without a register entry)
 
     PSL_DEV_MODE=on PSL_PROFILE=demo PSL_REGISTER=sample_data/register.csv PSL_PORT=8070 python dash_app.py
 
@@ -52,7 +61,8 @@ the approver's function. Every gate record says dev mode was used. Never for pro
 1. Press Enter on the front page; the grid opens. Press `8` for RUN.
 2. Type a question, for example *Which AI regulatory instrument best reduces expected harm from frontier
    AI over the next five years, keeping the technology sector's net loss below $400bn and the gross
-   social cost under $150bn?* Name the preparer and the approver with their functions. **Plan.**
+   social cost under $150bn?* With named gates, name the preparer and the approver with their functions.
+   **Plan.**
 3. **Gate 1: approve battery.** Watch NWS and MKT stream each instrument; the rail walks SIMULATE,
    MARKETS, WELFARE, ASSURANCE, CRITIC.
 4. Read SAF, PNL, WLF, GAP and RSK (`3 4 5 6 K`); ask the oracle (`9`).
@@ -67,7 +77,7 @@ the approver's function. Every gate record says dev mode was used. Never for pro
 ### Tests
 
     pip install -r requirements-dev.txt
-    python -m pytest tests -q                 # 25 tests: library, economy, welfare, pipeline, critic, server, security
+    python -m pytest tests -q                 # 26 tests: library, economy, welfare, pipeline, critic, server, security
     python test_terminal.py http://127.0.0.1:8070   # browser walkthrough against a running terminal (Playwright)
 
 ## Configuration
@@ -79,7 +89,8 @@ Every setting is an environment variable with a safe default; see `config.py`. T
 | `PSL_SECRET` | HMAC key for the ledger; set it or every ledger is signed with an ephemeral key | ephemeral, with a warning |
 | `PSL_PROFILE` | `full` (240 paths), `light` (120), `demo` (60, about half a minute a run) | `full` |
 | `PSL_REGISTER` | register of regulated persons approvers are checked against | none |
-| `PSL_DEV_MODE` | `on` accepts Developer1 and Developer2 at the gates | off |
+| `PSL_GATES` | `named` (preparer and approver with functions, register, four eyes) or `open` (single click gates, no identities; the public demonstration) | `named` |
+| `PSL_DEV_MODE` | `on` accepts Developer1 and Developer2 at named gates | off |
 | `PSL_AUTH_MODE` | `open` (names typed) or `header` (identity and role from an authenticating proxy) | `open` |
 | `PSL_FOUR_EYES` | approver must differ from preparer | on |
 | `PSL_PORT`, `PSL_HOST` | bind | 8070, 127.0.0.1 |

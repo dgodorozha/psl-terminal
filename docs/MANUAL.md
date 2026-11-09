@@ -30,10 +30,12 @@ profile's horizon.
 
 ## A run, step by step
 
-1. **RUN (8).** Type the policy question. Name the preparer and the preparer's function (mandatory),
-   the approver and the approver's function (an SMF or certified function; mandatory). In dev mode
-   `Developer1` and `Developer2` are accepted as names and as functions. The approver must differ from
-   the preparer (four eyes).
+1. **RUN (8).** Type the policy question. With named gates (the default), name the preparer and the
+   preparer's function (mandatory), the approver and the approver's function (an SMF or certified
+   function; mandatory); in dev mode `Developer1` and `Developer2` are accepted as names and as
+   functions, and the approver must differ from the preparer (four eyes). With open gates
+   (`PSL_GATES=open`, the public demonstration) there are no identity fields: the gates are single
+   clicks, and every record says so.
 2. **Plan.** The question is read into a battery: the instruments it names (or the default battery), the
    constraints it states (industry loss at most, gross social cost at most, harm reduction at least,
    catastrophe probability at most), and the horizon. The battery, its hash and the reading appear in RUN;

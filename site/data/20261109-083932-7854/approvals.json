@@ -1,0 +1,18 @@
+{
+ "gate1": {
+  "actor": "visitor",
+  "ts": "2026-11-09T08:39:32+00:00",
+  "decision": "approved",
+  "role": "public demonstration, no sign off",
+  "open_gate": true
+ },
+ "gate2": {
+  "actor": "visitor",
+  "ts": "2026-11-09T08:39:40+00:00",
+  "decision": "approved",
+  "role": "public demonstration, no sign off",
+  "open_gate": true
+ },
+ "preparer": "visitor",
+ "preparer_role": "public demonstration"
+}

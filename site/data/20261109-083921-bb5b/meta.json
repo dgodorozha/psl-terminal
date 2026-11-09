@@ -1,0 +1,15 @@
+{
+ "question": "Compare strict liability with liability under a safe harbour and mandatory third party evaluations over the next five years; the technology sector's net loss must stay below $300bn and the probability of a catastrophic incident must fall by at least a quarter.",
+ "preparer": "visitor",
+ "stage": "released",
+ "created": "2026-11-09T08:39:21+00:00",
+ "run_id": "20261109-083921-bb5b",
+ "updated": "2026-11-09T08:39:31+00:00",
+ "battery_hash": "a4217449df380aaf02a9bd0f1843ba3d9a6cfaecc779f487e3a218af021ce530",
+ "n_policies": 4,
+ "approver": "visitor",
+ "critic_ok": true,
+ "preferred": "mandatory_third_party_evals",
+ "decision_gap": 0.6666666666666666,
+ "winner_stability": 0.59
+}
