@@ -1,0 +1,24 @@
+services:
+  psl:
+    build: ..
+    environment:
+      PSL_AUTH_MODE: header
+      PSL_USER_HEADER: X-Remote-User
+      PSL_APPROVERS: ${PSL_APPROVERS:-}
+      PSL_FOUR_EYES: "1"
+      PSL_SECRET: ${PSL_SECRET:?set PSL_SECRET from the secret store}
+      PSL_REGISTER: ${PSL_REGISTER:-}
+      PSL_PROFILE: full
+      PSL_LLM: "off"
+    volumes:
+      - psl-runs:/app/runs
+    expose: ["8070"]           # not published: only the proxy reaches it
+    restart: unless-stopped
+  proxy:
+    image: nginx:1.27-alpine
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    ports: ["8443:8443"]
+    depends_on: [psl]
+volumes:
+  psl-runs:

@@ -1,0 +1,547 @@
+{
+ "assumptions": {
+  "discount_rate": 0.03,
+  "harm_valuation_multiplier": 1.0,
+  "consumer_surplus_base_bn": 250.0,
+  "cs_elasticity": 0.6,
+  "productivity_base_bn": 400.0,
+  "productivity_elasticity": 0.8,
+  "trust_elasticity": 0.5,
+  "compliance_deadweight_share": 0.7,
+  "enforcement_cost_bn": 0.4,
+  "leakage_value_share": 0.35,
+  "labour_adjustment_bn": 2.0,
+  "domestic_ownership_share": 0.6,
+  "hazard_base_misuse": 0.08,
+  "hazard_base_accident": 0.05,
+  "hazard_base_systemic": 0.02,
+  "hazard_capability_elasticity": 1.3,
+  "hazard_safety_elasticity": 1.8,
+  "hazard_reach_elasticity": 1.0,
+  "offshore_laxity": 0.6,
+  "severity_misuse_median_bn": 0.15,
+  "severity_accident_median_bn": 0.3,
+  "severity_systemic_median_bn": 1.0,
+  "severity_sigma": 1.1,
+  "major_incident_bn": 1.0,
+  "catastrophe_prior_monthly": 0.002,
+  "catastrophe_capability": 1.6,
+  "catastrophe_harm_bn": 400.0,
+  "unsafe_release_share": 0.35,
+  "capability_growth": 0.023,
+  "safety_learning": 0.08,
+  "growth_fade_months": 30.0,
+  "safety_substitution": 0.6,
+  "export_control_chip_loss": 0.1,
+  "long_run_growth": 0.06,
+  "safety_decay": 0.02,
+  "revenue_capability_beta": 0.5,
+  "revenue_reach_beta": 0.8,
+  "reach_speed": 0.08,
+  "growth_value_weight": 3.0,
+  "relocation_cost": 0.08,
+  "offshore_revenue_haircut": 0.12,
+  "firm_risk_aversion": 0.6,
+  "firm_optimism": 0.7,
+  "audit_rate": 0.5,
+  "insurance_loading": 0.25,
+  "safe_harbour_shield": 0.7,
+  "moratorium_research_slowdown": 0.5,
+  "enforcement_response": 0.25,
+  "trust_recovery": 0.05,
+  "trust_harm_sensitivity": 0.04,
+  "news_memory": 0.75,
+  "news_reporting_boost": 0.35,
+  "market_vol": 0.045,
+  "sentiment_persistence": 0.85,
+  "news_price_impact": 0.06,
+  "incident_jump": 0.5,
+  "contagion": 0.3,
+  "announcement_impact": 0.9,
+  "chip_demand_coupling": 0.6,
+  "open_weights_diffusion": 0.1
+ },
+ "table": [
+  {
+   "assumption": "discount_rate",
+   "value": 0.03,
+   "unit": "a year",
+   "meaning": "social discount rate applied to every monthly flow",
+   "low": 0.0,
+   "high": 0.1
+  },
+  {
+   "assumption": "harm_valuation_multiplier",
+   "value": 1.0,
+   "unit": "multiple",
+   "meaning": "scales the monetised harm of incidents; 1.0 takes the engine's damages at face value",
+   "low": 0.25,
+   "high": 4.0
+  },
+  {
+   "assumption": "consumer_surplus_base_bn",
+   "value": 250.0,
+   "unit": "$bn a year",
+   "meaning": "annual consumer surplus from AI services at the starting level of capability and reach",
+   "low": 50.0,
+   "high": 1500.0
+  },
+  {
+   "assumption": "cs_elasticity",
+   "value": 0.6,
+   "unit": "elasticity",
+   "meaning": "proportional change in consumer surplus per proportional change in the AI service index",
+   "low": 0.1,
+   "high": 1.5
+  },
+  {
+   "assumption": "productivity_base_bn",
+   "value": 400.0,
+   "unit": "$bn a year",
+   "meaning": "annual output uplift attributable to AI adoption at the starting service index",
+   "low": 50.0,
+   "high": 2000.0
+  },
+  {
+   "assumption": "productivity_elasticity",
+   "value": 0.8,
+   "unit": "elasticity",
+   "meaning": "proportional change in the output uplift per proportional change in the service index",
+   "low": 0.1,
+   "high": 1.5
+  },
+  {
+   "assumption": "trust_elasticity",
+   "value": 0.5,
+   "unit": "elasticity",
+   "meaning": "proportional change in realised adoption benefits per proportional change in public trust",
+   "low": 0.0,
+   "high": 1.5
+  },
+  {
+   "assumption": "compliance_deadweight_share",
+   "value": 0.7,
+   "unit": "share",
+   "meaning": "share of compliance spend that is a real resource cost rather than a transfer",
+   "low": 0.3,
+   "high": 1.0
+  },
+  {
+   "assumption": "enforcement_cost_bn",
+   "value": 0.4,
+   "unit": "$bn a year per unit of capacity",
+   "meaning": "public budget consumed by one unit of enforcement capacity",
+   "low": 0.05,
+   "high": 2.0
+  },
+  {
+   "assumption": "leakage_value_share",
+   "value": 0.35,
+   "unit": "share",
+   "meaning": "domestic value added lost per dollar of revenue whose activity moves offshore",
+   "low": 0.0,
+   "high": 1.0
+  },
+  {
+   "assumption": "labour_adjustment_bn",
+   "value": 2.0,
+   "unit": "$bn per index point",
+   "meaning": "short run adjustment cost per point of growth in the AI service index (displacement, retraining)",
+   "low": 0.0,
+   "high": 10.0
+  },
+  {
+   "assumption": "domestic_ownership_share",
+   "value": 0.6,
+   "unit": "share",
+   "meaning": "share of the firms' operating profit that accrues to residents and counts in national welfare",
+   "low": 0.0,
+   "high": 1.0
+  },
+  {
+   "assumption": "hazard_base_misuse",
+   "value": 0.08,
+   "unit": "a month per firm",
+   "meaning": "monthly rate of a reportable misuse incident for a firm at capability 1, full reach and no safety practice",
+   "low": 0.01,
+   "high": 0.3
+  },
+  {
+   "assumption": "hazard_base_accident",
+   "value": 0.05,
+   "unit": "a month per firm",
+   "meaning": "the same for accidents and failures",
+   "low": 0.01,
+   "high": 0.3
+  },
+  {
+   "assumption": "hazard_base_systemic",
+   "value": 0.02,
+   "unit": "a month per firm",
+   "meaning": "the same for systemic incidents (markets, infrastructure, information)",
+   "low": 0.002,
+   "high": 0.15
+  },
+  {
+   "assumption": "hazard_capability_elasticity",
+   "value": 1.3,
+   "unit": "elasticity",
+   "meaning": "incident rate scales with capability to this power",
+   "low": 0.5,
+   "high": 2.5
+  },
+  {
+   "assumption": "hazard_safety_elasticity",
+   "value": 1.8,
+   "unit": "per unit of safety level",
+   "meaning": "incident rate falls as exp(-elasticity x safety level)",
+   "low": 0.5,
+   "high": 4.0
+  },
+  {
+   "assumption": "hazard_reach_elasticity",
+   "value": 1.0,
+   "unit": "elasticity",
+   "meaning": "incident rate scales with deployment reach to this power",
+   "low": 0.3,
+   "high": 2.0
+  },
+  {
+   "assumption": "offshore_laxity",
+   "value": 0.6,
+   "unit": "multiple",
+   "meaning": "extra incident rate on activity moved offshore, relative to home",
+   "low": 0.0,
+   "high": 2.0
+  },
+  {
+   "assumption": "severity_misuse_median_bn",
+   "value": 0.15,
+   "unit": "$bn",
+   "meaning": "median monetised harm of a misuse incident",
+   "low": 0.01,
+   "high": 2.0
+  },
+  {
+   "assumption": "severity_accident_median_bn",
+   "value": 0.3,
+   "unit": "$bn",
+   "meaning": "median monetised harm of an accident",
+   "low": 0.02,
+   "high": 3.0
+  },
+  {
+   "assumption": "severity_systemic_median_bn",
+   "value": 1.0,
+   "unit": "$bn",
+   "meaning": "median monetised harm of a systemic incident",
+   "low": 0.1,
+   "high": 10.0
+  },
+  {
+   "assumption": "severity_sigma",
+   "value": 1.1,
+   "unit": "log scale",
+   "meaning": "lognormal dispersion of incident harm (heavy tail)",
+   "low": 0.5,
+   "high": 2.0
+  },
+  {
+   "assumption": "major_incident_bn",
+   "value": 1.0,
+   "unit": "$bn",
+   "meaning": "harm above which an incident counts as major",
+   "low": 0.2,
+   "high": 10.0
+  },
+  {
+   "assumption": "catastrophe_prior_monthly",
+   "value": 0.002,
+   "unit": "a month per firm",
+   "meaning": "monthly probability of a catastrophic incident for a firm above critical capability with no safety practice",
+   "low": 0.0,
+   "high": 0.02
+  },
+  {
+   "assumption": "catastrophe_capability",
+   "value": 1.6,
+   "unit": "capability index",
+   "meaning": "capability above which the catastrophic tail is live",
+   "low": 1.0,
+   "high": 3.0
+  },
+  {
+   "assumption": "catastrophe_harm_bn",
+   "value": 400.0,
+   "unit": "$bn",
+   "meaning": "median monetised harm of a catastrophic incident",
+   "low": 20.0,
+   "high": 3000.0
+  },
+  {
+   "assumption": "unsafe_release_share",
+   "value": 0.35,
+   "unit": "share",
+   "meaning": "share of the incident rate attributable to releases an evaluation could catch",
+   "low": 0.05,
+   "high": 0.8
+  },
+  {
+   "assumption": "capability_growth",
+   "value": 0.023,
+   "unit": "a month",
+   "meaning": "monthly log growth of the capability index when all R&D goes to capability (a doubling in about 30 months)",
+   "low": 0.005,
+   "high": 0.06
+  },
+  {
+   "assumption": "safety_learning",
+   "value": 0.08,
+   "unit": "a month",
+   "meaning": "monthly gain in safety practice at saturation; the gain is a x share/(share + 0.1), diminishing in the share",
+   "low": 0.02,
+   "high": 0.3
+  },
+  {
+   "assumption": "growth_fade_months",
+   "value": 30.0,
+   "unit": "months",
+   "meaning": "time constant over which a firm's growth fades towards the long run rate",
+   "low": 6.0,
+   "high": 120.0
+  },
+  {
+   "assumption": "safety_substitution",
+   "value": 0.6,
+   "unit": "share",
+   "meaning": "share of safety spend that displaces capability R&D (the rest is additional budget or spills over)",
+   "low": 0.0,
+   "high": 1.0
+  },
+  {
+   "assumption": "export_control_chip_loss",
+   "value": 0.1,
+   "unit": "a year",
+   "meaning": "annual revenue growth lost by the chip sector under full export controls",
+   "low": 0.0,
+   "high": 0.4
+  },
+  {
+   "assumption": "long_run_growth",
+   "value": 0.06,
+   "unit": "a year",
+   "meaning": "the growth rate firms fade towards",
+   "low": 0.0,
+   "high": 0.2
+  },
+  {
+   "assumption": "safety_decay",
+   "value": 0.02,
+   "unit": "a month",
+   "meaning": "monthly erosion of safety practice without investment",
+   "low": 0.0,
+   "high": 0.08
+  },
+  {
+   "assumption": "revenue_capability_beta",
+   "value": 0.5,
+   "unit": "elasticity",
+   "meaning": "revenue growth per unit of log capability growth",
+   "low": 0.1,
+   "high": 1.2
+  },
+  {
+   "assumption": "revenue_reach_beta",
+   "value": 0.8,
+   "unit": "elasticity",
+   "meaning": "revenue relative to the frictionless, full trust reach path, to this power",
+   "low": 0.1,
+   "high": 2.0
+  },
+  {
+   "assumption": "reach_speed",
+   "value": 0.08,
+   "unit": "a month",
+   "meaning": "speed at which reach closes on its capability and trust determined ceiling",
+   "low": 0.02,
+   "high": 0.3
+  },
+  {
+   "assumption": "growth_value_weight",
+   "value": 3.0,
+   "unit": "years of revenue",
+   "meaning": "how a firm values a year of extra growth against a year of cost",
+   "low": 0.5,
+   "high": 8.0
+  },
+  {
+   "assumption": "relocation_cost",
+   "value": 0.08,
+   "unit": "share of moved revenue",
+   "meaning": "one off cost of moving a unit of activity offshore",
+   "low": 0.0,
+   "high": 0.5
+  },
+  {
+   "assumption": "offshore_revenue_haircut",
+   "value": 0.12,
+   "unit": "share",
+   "meaning": "revenue lost per unit of activity offshore (talent, customers, latency)",
+   "low": 0.0,
+   "high": 0.5
+  },
+  {
+   "assumption": "firm_risk_aversion",
+   "value": 0.6,
+   "unit": "multiple",
+   "meaning": "weight on the variance of expected liability in the firm's choice",
+   "low": 0.0,
+   "high": 2.0
+  },
+  {
+   "assumption": "firm_optimism",
+   "value": 0.7,
+   "unit": "multiple",
+   "meaning": "the share of its true incident rate a firm believes when it plans",
+   "low": 0.3,
+   "high": 1.0
+  },
+  {
+   "assumption": "audit_rate",
+   "value": 0.5,
+   "unit": "a month at full capacity",
+   "meaning": "probability a firm in scope is audited in a month at capacity 1",
+   "low": 0.05,
+   "high": 1.0
+  },
+  {
+   "assumption": "insurance_loading",
+   "value": 0.25,
+   "unit": "share",
+   "meaning": "premium above expected liability charged by insurers under a mandate",
+   "low": 0.0,
+   "high": 1.0
+  },
+  {
+   "assumption": "safe_harbour_shield",
+   "value": 0.7,
+   "unit": "share",
+   "meaning": "share of liability a compliant firm avoids under a safe harbour",
+   "low": 0.0,
+   "high": 1.0
+  },
+  {
+   "assumption": "moratorium_research_slowdown",
+   "value": 0.5,
+   "unit": "share",
+   "meaning": "share of capability growth lost by a firm in scope while a moratorium holds",
+   "low": 0.0,
+   "high": 1.0
+  },
+  {
+   "assumption": "enforcement_response",
+   "value": 0.25,
+   "unit": "a month",
+   "meaning": "speed at which enforcement intensity follows public pressure",
+   "low": 0.05,
+   "high": 1.0
+  },
+  {
+   "assumption": "trust_recovery",
+   "value": 0.05,
+   "unit": "a month",
+   "meaning": "monthly recovery of public trust towards 1",
+   "low": 0.01,
+   "high": 0.2
+  },
+  {
+   "assumption": "trust_harm_sensitivity",
+   "value": 0.04,
+   "unit": "per log $bn",
+   "meaning": "fall in trust per unit of log monetised harm in a month",
+   "low": 0.0,
+   "high": 0.3
+  },
+  {
+   "assumption": "news_memory",
+   "value": 0.75,
+   "unit": "a month",
+   "meaning": "persistence of the news pressure index",
+   "low": 0.3,
+   "high": 0.95
+  },
+  {
+   "assumption": "news_reporting_boost",
+   "value": 0.35,
+   "unit": "share",
+   "meaning": "extra salience of incidents when reporting is mandatory",
+   "low": 0.0,
+   "high": 1.0
+  },
+  {
+   "assumption": "market_vol",
+   "value": 0.045,
+   "unit": "a month",
+   "meaning": "volatility of the common market factor",
+   "low": 0.01,
+   "high": 0.12
+  },
+  {
+   "assumption": "sentiment_persistence",
+   "value": 0.85,
+   "unit": "a month",
+   "meaning": "persistence of the price's non fundamental component",
+   "low": 0.5,
+   "high": 0.98
+  },
+  {
+   "assumption": "news_price_impact",
+   "value": 0.06,
+   "unit": "per unit of pressure",
+   "meaning": "price impact of a unit of news pressure on an exposed firm",
+   "low": 0.0,
+   "high": 0.3
+  },
+  {
+   "assumption": "incident_jump",
+   "value": 0.5,
+   "unit": "multiple",
+   "meaning": "own incident price jump per log unit of harm relative to revenue",
+   "low": 0.0,
+   "high": 2.0
+  },
+  {
+   "assumption": "contagion",
+   "value": 0.3,
+   "unit": "share",
+   "meaning": "share of an own incident jump felt by the rest of the sector",
+   "low": 0.0,
+   "high": 1.0
+  },
+  {
+   "assumption": "announcement_impact",
+   "value": 0.9,
+   "unit": "multiple",
+   "meaning": "price reaction at announcement per unit of expected compliance cost over earnings",
+   "low": 0.0,
+   "high": 3.0
+  },
+  {
+   "assumption": "chip_demand_coupling",
+   "value": 0.6,
+   "unit": "elasticity",
+   "meaning": "chip and cloud revenue growth per unit of model developers' capability growth",
+   "low": 0.0,
+   "high": 1.5
+  },
+  {
+   "assumption": "open_weights_diffusion",
+   "value": 0.1,
+   "unit": "share",
+   "meaning": "capability spillover from published weights to the rest of the economy",
+   "low": 0.0,
+   "high": 0.8
+  }
+ ],
+ "hash": "b85a6faf3ec1a97fe657b8e7da96af2f3039a4d315258cb17a31e425cec538f1"
+}

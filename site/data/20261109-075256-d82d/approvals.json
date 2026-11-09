@@ -1,0 +1,36 @@
+{
+ "gate1": {
+  "actor": "Developer2",
+  "ts": "2026-11-09T07:52:56+00:00",
+  "decision": "approved",
+  "role": "Developer2",
+  "register": {
+   "name": "Developer2",
+   "irn": "DEV",
+   "firm": "development",
+   "function": "Developer2",
+   "source": "dev mode (PSL_DEV_MODE=on); not a regulated person",
+   "checked_at": "2026-11-09T07:52:56+00:00",
+   "note": "dev mode",
+   "dev_mode": true
+  }
+ },
+ "gate2": {
+  "actor": "Developer2",
+  "ts": "2026-11-09T07:53:20+00:00",
+  "decision": "approved",
+  "role": "Developer2",
+  "register": {
+   "name": "Developer2",
+   "irn": "DEV",
+   "firm": "development",
+   "function": "Developer2",
+   "source": "dev mode (PSL_DEV_MODE=on); not a regulated person",
+   "checked_at": "2026-11-09T07:53:20+00:00",
+   "note": "dev mode",
+   "dev_mode": true
+  }
+ },
+ "preparer": "Developer1",
+ "preparer_role": "Developer1"
+}

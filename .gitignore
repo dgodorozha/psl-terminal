@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+runs/
+.pytest_cache/
+.venv/
+*.zip
+!site/**/*.zip
+*.mp4
+.DS_Store
+shots/
+shots_static/

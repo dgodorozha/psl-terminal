@@ -1,0 +1,6 @@
+name,irn,firm,function,status,valid_from,valid_to,source
+Rajib Ahmed,RXA01234,Demonstration Authority,SMF24 Chief Operations,active,2025-01-01,,"Authority HR register; FCA Financial Services Register checked 2026-09-01"
+Daria Godorozha,DXG05678,Demonstration Authority,Certified function (material risk taker),active,2025-06-01,,"Authority HR register"
+Sara Gabrielli Salis,SXG09012,Demonstration Authority,Certified function (client dealing),active,2025-06-01,,"Authority HR register"
+Prithika Narayanan,PXN03456,Demonstration Authority,Certified function (algorithmic trading),active,2025-06-01,,"Authority HR register"
+Former Approver,FXA00001,Demonstration Authority,SMF3 Executive Director,inactive,2022-01-01,2025-12-31,"Authority HR register"

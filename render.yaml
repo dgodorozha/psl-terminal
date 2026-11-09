@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: psl-terminal
+    runtime: docker
+    plan: starter
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: PSL_SECRET
+        generateValue: true
+      - key: PSL_PROFILE
+        value: light
+      - key: PSL_DEV_MODE
+        value: "on"
+      - key: PSL_REGISTER
+        value: sample_data/register.csv
+      - key: PSL_HOST
+        value: 0.0.0.0
+      - key: PSL_PORT
+        value: "10000"

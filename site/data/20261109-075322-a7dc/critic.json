@@ -1,0 +1,147 @@
+{
+ "ok": true,
+ "n_checks": 28,
+ "n_failed": 0,
+ "checks": [
+  {
+   "check": "battery hash reproduces",
+   "ok": true,
+   "detail": "a4217449df38 vs a4217449df38"
+  },
+  {
+   "check": "assumptions hash reproduces",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "artefacts cite the approved battery",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "every assumption within its declared bounds",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "baseline paths stored",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "every policy of the battery is scored",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "path count matches the battery",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "net social value recomputed from the stored paths",
+   "ok": true,
+   "detail": "largest deviation 0 $bn"
+  },
+  {
+   "check": "baseline scores zero against itself",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "social order reproduces",
+   "ok": true,
+   "detail": "['liability_with_safe_harbour', 'mandatory_third_party_evals', 'strict_liability'] vs ['liability_with_safe_harbour', 'mandatory_third_party_evals', 'strict_liability']"
+  },
+  {
+   "check": "decision gap (Kendall tau) reproduces",
+   "ok": true,
+   "detail": "-0.333"
+  },
+  {
+   "check": "preferred option reproduces under the constraints",
+   "ok": true,
+   "detail": "mandatory_third_party_evals vs mandatory_third_party_evals"
+  },
+  {
+   "check": "best unconstrained option reproduces",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "winner probabilities sum to one",
+   "ok": true,
+   "detail": "1.0000"
+  },
+  {
+   "check": "probabilities within [0, 1]",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "expected harm non negative",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "harm avoided recomputed",
+   "ok": true,
+   "detail": "largest deviation 0"
+  },
+  {
+   "check": "industry loss constraint applied",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "every price index starts at 100",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "firm count matches the battery",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "wire summaries match the wires",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "every incident headline carries its damages",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "tornado covers every declared value judgement",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "tornado reference matches the preferred option's value",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "structural variants complete",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "red team ran every strategy on every instrument",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "ledger chain verifies and every record is signed",
+   "ok": true,
+   "detail": "13 entries"
+  },
+  {
+   "check": "every figure in the briefing appears in the artefacts",
+   "ok": true,
+   "detail": "unmatched: []"
+  }
+ ]
+}

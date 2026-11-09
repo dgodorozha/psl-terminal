@@ -1,0 +1,1222 @@
+{
+ "tornado": {
+  "reference_nsv": 24.540844512150215,
+  "preferred": "mandatory_third_party_evals",
+  "rows": [
+   {
+    "assumption": "catastrophe_prior_monthly",
+    "default": 0.002,
+    "unit": "a month per firm",
+    "meaning": "monthly probability of a catastrophic incident for a firm above critical capability with no safety practice",
+    "low": {
+     "value": 0.0005,
+     "nsv": 7.4357270800354875,
+     "best": "transparency_disclosure",
+     "best_unconstrained": "transparency_disclosure"
+    },
+    "high": {
+     "value": 0.005,
+     "nsv": 62.40198749070332,
+     "best": "mandatory_third_party_evals",
+     "best_unconstrained": "mandatory_third_party_evals"
+    },
+    "swing": 54.96626041066783,
+    "resimulated": true,
+    "best_changes": true
+   },
+   {
+    "assumption": "trust_elasticity",
+    "default": 0.5,
+    "unit": "elasticity",
+    "meaning": "proportional change in realised adoption benefits per proportional change in public trust",
+    "low": {
+     "value": 0.2,
+     "nsv": 7.8829384107627325,
+     "best": "transparency_disclosure",
+     "best_unconstrained": "transparency_disclosure"
+    },
+    "high": {
+     "value": 1.0,
+     "nsv": 47.75760502294455,
+     "best": "mandatory_third_party_evals",
+     "best_unconstrained": "liability_with_safe_harbour"
+    },
+    "swing": 39.87466661218182,
+    "resimulated": false,
+    "best_changes": true
+   },
+   {
+    "assumption": "productivity_base_bn",
+    "default": 400.0,
+    "unit": "$bn a year",
+    "meaning": "annual output uplift attributable to AI adoption at the starting service index",
+    "low": {
+     "value": 200.0,
+     "nsv": 14.774921253606356,
+     "best": "mandatory_third_party_evals",
+     "best_unconstrained": "liability_with_safe_harbour"
+    },
+    "high": {
+     "value": 800.0,
+     "nsv": 44.07269102923794,
+     "best": "transparency_disclosure",
+     "best_unconstrained": "liability_with_safe_harbour"
+    },
+    "swing": 29.29776977563158,
+    "resimulated": false,
+    "best_changes": true
+   },
+   {
+    "assumption": "catastrophe_harm_bn",
+    "default": 400.0,
+    "unit": "$bn",
+    "meaning": "median monetised harm of a catastrophic incident",
+    "low": {
+     "value": 150.0,
+     "nsv": 17.282960039369446,
+     "best": "transparency_disclosure",
+     "best_unconstrained": "transparency_disclosure"
+    },
+    "high": {
+     "value": 1200.0,
+     "nsv": 45.856008213389785,
+     "best": "mandatory_third_party_evals",
+     "best_unconstrained": "liability_with_safe_harbour"
+    },
+    "swing": 28.57304817402034,
+    "resimulated": true,
+    "best_changes": true
+   },
+   {
+    "assumption": "harm_valuation_multiplier",
+    "default": 1.0,
+    "unit": "multiple",
+    "meaning": "scales the monetised harm of incidents; 1.0 takes the engine's damages at face value",
+    "low": {
+     "value": 0.5,
+     "nsv": 15.68107641449687,
+     "best": "transparency_disclosure",
+     "best_unconstrained": "transparency_disclosure"
+    },
+    "high": {
+     "value": 2.0,
+     "nsv": 42.260380707456896,
+     "best": "mandatory_third_party_evals",
+     "best_unconstrained": "liability_with_safe_harbour"
+    },
+    "swing": 26.579304292960025,
+    "resimulated": false,
+    "best_changes": true
+   },
+   {
+    "assumption": "safety_substitution",
+    "default": 0.6,
+    "unit": "share",
+    "meaning": "share of safety spend that displaces capability R&D (the rest is additional budget or spills over)",
+    "low": {
+     "value": 0.3,
+     "nsv": 24.124671928684595,
+     "best": "transparency_disclosure",
+     "best_unconstrained": "liability_with_safe_harbour"
+    },
+    "high": {
+     "value": 1.0,
+     "nsv": 10.788556434162803,
+     "best": "transparency_disclosure",
+     "best_unconstrained": "transparency_disclosure"
+    },
+    "swing": 13.336115494521792,
+    "resimulated": true,
+    "best_changes": true
+   },
+   {
+    "assumption": "hazard_safety_elasticity",
+    "default": 1.8,
+    "unit": "per unit of safety level",
+    "meaning": "incident rate falls as exp(-elasticity x safety level)",
+    "low": {
+     "value": 1.4,
+     "nsv": 26.82702973940709,
+     "best": "mandatory_third_party_evals",
+     "best_unconstrained": "liability_with_safe_harbour"
+    },
+    "high": {
+     "value": 3.0,
+     "nsv": 16.365946027469363,
+     "best": "transparency_disclosure",
+     "best_unconstrained": "transparency_disclosure"
+    },
+    "swing": 10.461083711937729,
+    "resimulated": true,
+    "best_changes": true
+   },
+   {
+    "assumption": "consumer_surplus_base_bn",
+    "default": 250.0,
+    "unit": "$bn a year",
+    "meaning": "annual consumer surplus from AI services at the starting level of capability and reach",
+    "low": {
+     "value": 150.0,
+     "nsv": 26.170855813230187,
+     "best": "mandatory_third_party_evals",
+     "best_unconstrained": "liability_with_safe_harbour"
+    },
+    "high": {
+     "value": 600.0,
+     "nsv": 18.83580495837032,
+     "best": "transparency_disclosure",
+     "best_unconstrained": "transparency_disclosure"
+    },
+    "swing": 7.335050854859865,
+    "resimulated": false,
+    "best_changes": true
+   },
+   {
+    "assumption": "cs_elasticity",
+    "default": 0.6,
+    "unit": "elasticity",
+    "meaning": "proportional change in consumer surplus per proportional change in the AI service index",
+    "low": {
+     "value": 0.3,
+     "nsv": 26.83629057930373,
+     "best": "mandatory_third_party_evals",
+     "best_unconstrained": "liability_with_safe_harbour"
+    },
+    "high": {
+     "value": 1.0,
+     "nsv": 20.425377338781423,
+     "best": "transparency_disclosure",
+     "best_unconstrained": "transparency_disclosure"
+    },
+    "swing": 6.410913240522305,
+    "resimulated": false,
+    "best_changes": true
+   },
+   {
+    "assumption": "discount_rate",
+    "default": 0.03,
+    "unit": "a year",
+    "meaning": "social discount rate applied to every monthly flow",
+    "low": {
+     "value": 0.01,
+     "nsv": 26.366466238311432,
+     "best": "mandatory_third_party_evals",
+     "best_unconstrained": "liability_with_safe_harbour"
+    },
+    "high": {
+     "value": 0.07,
+     "nsv": 21.359182597522402,
+     "best": "mandatory_third_party_evals",
+     "best_unconstrained": "liability_with_safe_harbour"
+    },
+    "swing": 5.00728364078903,
+    "resimulated": false,
+    "best_changes": false
+   },
+   {
+    "assumption": "domestic_ownership_share",
+    "default": 0.6,
+    "unit": "share",
+    "meaning": "share of the firms' operating profit that accrues to residents and counts in national welfare",
+    "low": {
+     "value": 0.3,
+     "nsv": 27.002960093169772,
+     "best": "mandatory_third_party_evals",
+     "best_unconstrained": "liability_with_safe_harbour"
+    },
+    "high": {
+     "value": 0.9,
+     "nsv": 22.078728931130648,
+     "best": "transparency_disclosure",
+     "best_unconstrained": "liability_with_safe_harbour"
+    },
+    "swing": 4.924231162039124,
+    "resimulated": false,
+    "best_changes": true
+   },
+   {
+    "assumption": "compliance_deadweight_share",
+    "default": 0.7,
+    "unit": "share",
+    "meaning": "share of compliance spend that is a real resource cost rather than a transfer",
+    "low": {
+     "value": 0.4,
+     "nsv": 25.975960859798302,
+     "best": "mandatory_third_party_evals",
+     "best_unconstrained": "liability_with_safe_harbour"
+    },
+    "high": {
+     "value": 1.0,
+     "nsv": 23.105728164502143,
+     "best": "transparency_disclosure",
+     "best_unconstrained": "transparency_disclosure"
+    },
+    "swing": 2.87023269529616,
+    "resimulated": false,
+    "best_changes": true
+   },
+   {
+    "assumption": "labour_adjustment_bn",
+    "default": 2.0,
+    "unit": "$bn per index point",
+    "meaning": "short run adjustment cost per point of growth in the AI service index (displacement, retraining)",
+    "low": {
+     "value": 0.0,
+     "nsv": 24.55211526975953,
+     "best": "mandatory_third_party_evals",
+     "best_unconstrained": "liability_with_safe_harbour"
+    },
+    "high": {
+     "value": 5.0,
+     "nsv": 24.523938375736247,
+     "best": "mandatory_third_party_evals",
+     "best_unconstrained": "liability_with_safe_harbour"
+    },
+    "swing": 0.028176894023282273,
+    "resimulated": false,
+    "best_changes": false
+   },
+   {
+    "assumption": "leakage_value_share",
+    "default": 0.35,
+    "unit": "share",
+    "meaning": "domestic value added lost per dollar of revenue whose activity moves offshore",
+    "low": {
+     "value": 0.1,
+     "nsv": 24.540844512150215,
+     "best": "mandatory_third_party_evals",
+     "best_unconstrained": "liability_with_safe_harbour"
+    },
+    "high": {
+     "value": 0.7,
+     "nsv": 24.540844512150215,
+     "best": "mandatory_third_party_evals",
+     "best_unconstrained": "liability_with_safe_harbour"
+    },
+    "swing": 0.0,
+    "resimulated": false,
+    "best_changes": false
+   },
+   {
+    "assumption": "offshore_laxity",
+    "default": 0.6,
+    "unit": "multiple",
+    "meaning": "extra incident rate on activity moved offshore, relative to home",
+    "low": {
+     "value": 0.2,
+     "nsv": 24.540844512150215,
+     "best": "mandatory_third_party_evals",
+     "best_unconstrained": "liability_with_safe_harbour"
+    },
+    "high": {
+     "value": 1.2,
+     "nsv": 24.540844512150215,
+     "best": "mandatory_third_party_evals",
+     "best_unconstrained": "liability_with_safe_harbour"
+    },
+    "swing": 0.0,
+    "resimulated": true,
+    "best_changes": false
+   }
+  ],
+  "flips": [
+   "catastrophe_prior_monthly",
+   "trust_elasticity",
+   "productivity_base_bn",
+   "catastrophe_harm_bn",
+   "harm_valuation_multiplier",
+   "safety_substitution",
+   "hazard_safety_elasticity",
+   "consumer_surplus_base_bn",
+   "cs_elasticity",
+   "domestic_ownership_share",
+   "compliance_deadweight_share"
+  ],
+  "sign_robust": true
+ },
+ "structural": {
+  "variants": [
+   {
+    "variant": "myopic_firms",
+    "note": "firms plan six months ahead instead of twelve",
+    "best": "transparency_disclosure",
+    "best_unconstrained": "liability_with_safe_harbour",
+    "order": [
+     "liability_with_safe_harbour",
+     "transparency_disclosure",
+     "compute_threshold_reporting",
+     "mandatory_third_party_evals",
+     "strict_liability",
+     "risk_tiering",
+     "frontier_licensing",
+     "moratorium"
+    ],
+    "preferred_rank": 4,
+    "preferred_nsv": 3.6975989374856155,
+    "table": {
+     "transparency_disclosure": {
+      "nsv": 24.019854226042934,
+      "harm_avoided": 1.1797419412221515,
+      "gross_cost": 1.8654612618922932,
+      "resimulated_paths": 30,
+      "unpaired_nsv": 23.587696026911836
+     },
+     "compute_threshold_reporting": {
+      "nsv": 3.9038254901456724,
+      "harm_avoided": 0.20569576074592016,
+      "gross_cost": 2.165237298467654,
+      "resimulated_paths": 30,
+      "unpaired_nsv": 4.515035231694124
+     },
+     "mandatory_third_party_evals": {
+      "nsv": 3.6975989374856155,
+      "harm_avoided": 5.866293344058974,
+      "gross_cost": 5.746270890633509,
+      "resimulated_paths": 30,
+      "unpaired_nsv": 0.011653837799852192
+     },
+     "risk_tiering": {
+      "nsv": -29.862616768589362,
+      "harm_avoided": 30.614144331991945,
+      "gross_cost": 64.74191832534473,
+      "resimulated_paths": 30,
+      "unpaired_nsv": -27.130077403305965
+     },
+     "frontier_licensing": {
+      "nsv": -36.71632687439174,
+      "harm_avoided": 10.499260442775476,
+      "gross_cost": 52.61482275981423,
+      "resimulated_paths": 30,
+      "unpaired_nsv": -52.06298986001545
+     },
+     "strict_liability": {
+      "nsv": -1.1477220700772737,
+      "harm_avoided": 0.6005892673721966,
+      "gross_cost": 6.208234840089126,
+      "resimulated_paths": 30,
+      "unpaired_nsv": -2.3161324925837805
+     },
+     "liability_with_safe_harbour": {
+      "nsv": 27.70916094005995,
+      "harm_avoided": 17.358389378078968,
+      "gross_cost": 16.136482610585702,
+      "resimulated_paths": 30,
+      "unpaired_nsv": 46.26743430859123
+     },
+     "moratorium": {
+      "nsv": -98.81779063441242,
+      "harm_avoided": 20.893690027730933,
+      "gross_cost": 124.63993749869813,
+      "resimulated_paths": 30,
+      "unpaired_nsv": -128.76069302255607
+     }
+    }
+   },
+   {
+    "variant": "forward_looking_firms",
+    "note": "firms plan two years ahead",
+    "best": "transparency_disclosure",
+    "best_unconstrained": "liability_with_safe_harbour",
+    "order": [
+     "liability_with_safe_harbour",
+     "transparency_disclosure",
+     "strict_liability",
+     "compute_threshold_reporting",
+     "mandatory_third_party_evals",
+     "risk_tiering",
+     "moratorium",
+     "frontier_licensing"
+    ],
+    "preferred_rank": 5,
+    "preferred_nsv": -71.60775954194082,
+    "table": {
+     "transparency_disclosure": {
+      "nsv": 24.019854226042934,
+      "harm_avoided": 1.1797419412221515,
+      "gross_cost": 1.8654612618922932,
+      "resimulated_paths": 30,
+      "unpaired_nsv": 23.587696026911836
+     },
+     "compute_threshold_reporting": {
+      "nsv": 3.9038254901456724,
+      "harm_avoided": 0.20569576074592016,
+      "gross_cost": 2.165237298467654,
+      "resimulated_paths": 30,
+      "unpaired_nsv": 4.515035231694124
+     },
+     "mandatory_third_party_evals": {
+      "nsv": -71.60775954194082,
+      "harm_avoided": 17.533510387927144,
+      "gross_cost": 98.07797072483002,
+      "resimulated_paths": 30,
+      "unpaired_nsv": -75.29370464162659
+     },
+     "risk_tiering": {
+      "nsv": -87.18341389398914,
+      "harm_avoided": 1.3465010256368435,
+      "gross_cost": 89.43331975757158,
+      "resimulated_paths": 30,
+      "unpaired_nsv": -84.45087452870574
+     },
+     "frontier_licensing": {
+      "nsv": -232.0403687892154,
+      "harm_avoided": 11.592301628720646,
+      "gross_cost": 248.2142298468652,
+      "resimulated_paths": 30,
+      "unpaired_nsv": -247.38703177483907
+     },
+     "strict_liability": {
+      "nsv": 16.75299242928895,
+      "harm_avoided": 30.963103132969188,
+      "gross_cost": 23.910460261453217,
+      "resimulated_paths": 30,
+      "unpaired_nsv": 15.584582006782442
+     },
+     "liability_with_safe_harbour": {
+      "nsv": 25.59743707711802,
+      "harm_avoided": 17.450341530083378,
+      "gross_cost": 17.2530389259322,
+      "resimulated_paths": 30,
+      "unpaired_nsv": 44.1557104456493
+     },
+     "moratorium": {
+      "nsv": -98.81779063441242,
+      "harm_avoided": 20.893690027730933,
+      "gross_cost": 124.63993749869813,
+      "resimulated_paths": 30,
+      "unpaired_nsv": -128.76069302255607
+     }
+    }
+   },
+   {
+    "variant": "weak_regulator",
+    "note": "the regulator has half the stated capacity",
+    "best": "transparency_disclosure",
+    "best_unconstrained": "liability_with_safe_harbour",
+    "order": [
+     "liability_with_safe_harbour",
+     "transparency_disclosure",
+     "compute_threshold_reporting",
+     "mandatory_third_party_evals",
+     "strict_liability",
+     "risk_tiering",
+     "frontier_licensing",
+     "moratorium"
+    ],
+    "preferred_rank": 4,
+    "preferred_nsv": 3.482207661698748,
+    "table": {
+     "transparency_disclosure": {
+      "nsv": 24.105427668269254,
+      "harm_avoided": 1.1797419412221515,
+      "gross_cost": 1.7798878196659762,
+      "resimulated_paths": 30,
+      "unpaired_nsv": 23.673269469138155
+     },
+     "compute_threshold_reporting": {
+      "nsv": 4.0340295171489835,
+      "harm_avoided": 0.20569576074592016,
+      "gross_cost": 2.035033271464342,
+      "resimulated_paths": 30,
+      "unpaired_nsv": 4.645239258697434
+     },
+     "mandatory_third_party_evals": {
+      "nsv": 3.482207661698748,
+      "harm_avoided": 5.809809244889751,
+      "gross_cost": 2.4932941872192025,
+      "resimulated_paths": 30,
+      "unpaired_nsv": -0.2037374379870168
+     },
+     "risk_tiering": {
+      "nsv": -20.912025930649804,
+      "harm_avoided": 1.3182489101719739,
+      "gross_cost": 28.912580789096836,
+      "resimulated_paths": 30,
+      "unpaired_nsv": -18.1794865653664
+     },
+     "frontier_licensing": {
+      "nsv": -57.006041270857196,
+      "harm_avoided": -1.1445704946855138,
+      "gross_cost": 61.05390884164865,
+      "resimulated_paths": 30,
+      "unpaired_nsv": -72.3527042564809
+     },
+     "strict_liability": {
+      "nsv": -4.489179021732737,
+      "harm_avoided": 0.9711295457603409,
+      "gross_cost": 11.152344806905056,
+      "resimulated_paths": 30,
+      "unpaired_nsv": -5.657589444239244
+     },
+     "liability_with_safe_harbour": {
+      "nsv": 27.252290619823317,
+      "harm_avoided": 17.373531187170894,
+      "gross_cost": 16.37715783461061,
+      "resimulated_paths": 30,
+      "unpaired_nsv": 45.810563988354595
+     },
+     "moratorium": {
+      "nsv": -98.64477005331831,
+      "harm_avoided": 20.893690027730933,
+      "gross_cost": 124.466916917604,
+      "resimulated_paths": 30,
+      "unpaired_nsv": -128.58767244146196
+     }
+    }
+   },
+   {
+    "variant": "strong_safety_effect",
+    "note": "safety practice cuts incidents faster",
+    "best": "transparency_disclosure",
+    "best_unconstrained": "transparency_disclosure",
+    "order": [
+     "transparency_disclosure",
+     "compute_threshold_reporting",
+     "strict_liability",
+     "mandatory_third_party_evals",
+     "liability_with_safe_harbour",
+     "frontier_licensing",
+     "risk_tiering",
+     "moratorium"
+    ],
+    "preferred_rank": 4,
+    "preferred_nsv": -10.054435684133736,
+    "table": {
+     "transparency_disclosure": {
+      "nsv": 15.078330984162728,
+      "harm_avoided": 0.7518806983969301,
+      "gross_cost": 1.8690166464224287,
+      "resimulated_paths": 30,
+      "unpaired_nsv": 14.646172785031629
+     },
+     "compute_threshold_reporting": {
+      "nsv": 2.000118851527755,
+      "harm_avoided": 0.16148320024546242,
+      "gross_cost": 2.143094084709975,
+      "resimulated_paths": 30,
+      "unpaired_nsv": 2.6113285930762062
+     },
+     "mandatory_third_party_evals": {
+      "nsv": -10.054435684133736,
+      "harm_avoided": 7.783931406870035,
+      "gross_cost": 26.97320677154326,
+      "resimulated_paths": 30,
+      "unpaired_nsv": -13.7403807838195
+     },
+     "risk_tiering": {
+      "nsv": -97.28635613660384,
+      "harm_avoided": 1.0891929786904044,
+      "gross_cost": 98.01617672548387,
+      "resimulated_paths": 30,
+      "unpaired_nsv": -94.55381677132044
+     },
+     "frontier_licensing": {
+      "nsv": -75.58911672931848,
+      "harm_avoided": 11.595634912859015,
+      "gross_cost": 96.11838082650237,
+      "resimulated_paths": 30,
+      "unpaired_nsv": -90.93577971494219
+     },
+     "strict_liability": {
+      "nsv": -6.817334211397487,
+      "harm_avoided": 0.8194869234906618,
+      "gross_cost": 11.184055736203513,
+      "resimulated_paths": 30,
+      "unpaired_nsv": -7.985744633903994
+     },
+     "liability_with_safe_harbour": {
+      "nsv": -20.120124468140883,
+      "harm_avoided": -12.159022388782148,
+      "gross_cost": 18.172811419001665,
+      "resimulated_paths": 30,
+      "unpaired_nsv": -1.5618510996096047
+     },
+     "moratorium": {
+      "nsv": -113.46501663263972,
+      "harm_avoided": 20.63482223682114,
+      "gross_cost": 139.0511057985309,
+      "resimulated_paths": 30,
+      "unpaired_nsv": -143.40791902078337
+     }
+    }
+   },
+   {
+    "variant": "weak_safety_effect",
+    "note": "safety practice cuts incidents more slowly",
+    "best": "mandatory_third_party_evals",
+    "best_unconstrained": "liability_with_safe_harbour",
+    "order": [
+     "liability_with_safe_harbour",
+     "mandatory_third_party_evals",
+     "transparency_disclosure",
+     "compute_threshold_reporting",
+     "strict_liability",
+     "risk_tiering",
+     "moratorium",
+     "frontier_licensing"
+    ],
+    "preferred_rank": 2,
+    "preferred_nsv": 50.05311495836132,
+    "table": {
+     "transparency_disclosure": {
+      "nsv": 48.35062562313776,
+      "harm_avoided": 2.490457991841627,
+      "gross_cost": 1.899570541763519,
+      "resimulated_paths": 30,
+      "unpaired_nsv": 47.918467424006664
+     },
+     "compute_threshold_reporting": {
+      "nsv": 10.127762059707502,
+      "harm_avoided": 0.514828831641752,
+      "gross_cost": 2.129833759420008,
+      "resimulated_paths": 30,
+      "unpaired_nsv": 10.738971801255953
+     },
+     "mandatory_third_party_evals": {
+      "nsv": 50.05311495836132,
+      "harm_avoided": 20.92081508815457,
+      "gross_cost": 15.140133697647117,
+      "resimulated_paths": 30,
+      "unpaired_nsv": 46.36716985867556
+     },
+     "risk_tiering": {
+      "nsv": -47.53995795632889,
+      "harm_avoided": 2.74738568982111,
+      "gross_cost": 59.53574255986083,
+      "resimulated_paths": 30,
+      "unpaired_nsv": -44.80741859104549
+     },
+     "frontier_licensing": {
+      "nsv": -134.87779314417787,
+      "harm_avoided": 0.9996602068297058,
+      "gross_cost": 140.8984515993934,
+      "resimulated_paths": 30,
+      "unpaired_nsv": -150.22445612980158
+     },
+     "strict_liability": {
+      "nsv": 1.6746904057229592,
+      "harm_avoided": 1.6338380709757963,
+      "gross_cost": 10.112521638628428,
+      "resimulated_paths": 30,
+      "unpaired_nsv": 0.5062799832164527
+     },
+     "liability_with_safe_harbour": {
+      "nsv": 75.63434290362395,
+      "harm_avoided": 19.27636556037864,
+      "gross_cost": 11.894485492894315,
+      "resimulated_paths": 30,
+      "unpaired_nsv": 94.19261627215522
+     },
+     "moratorium": {
+      "nsv": -74.16382339469374,
+      "harm_avoided": 22.224120171371457,
+      "gross_cost": 101.26798840280102,
+      "resimulated_paths": 30,
+      "unpaired_nsv": -104.10672578283739
+     }
+    }
+   },
+   {
+    "variant": "lax_offshore",
+    "note": "offshore activity is twice as hazardous as at home",
+    "best": "mandatory_third_party_evals",
+    "best_unconstrained": "liability_with_safe_harbour",
+    "order": [
+     "liability_with_safe_harbour",
+     "mandatory_third_party_evals",
+     "transparency_disclosure",
+     "compute_threshold_reporting",
+     "strict_liability",
+     "risk_tiering",
+     "moratorium",
+     "frontier_licensing"
+    ],
+    "preferred_rank": 2,
+    "preferred_nsv": 24.540844512150215,
+    "table": {
+     "transparency_disclosure": {
+      "nsv": 24.019854226042934,
+      "harm_avoided": 1.1797419412221515,
+      "gross_cost": 1.8654612618922932,
+      "resimulated_paths": 30,
+      "unpaired_nsv": 23.587696026911836
+     },
+     "compute_threshold_reporting": {
+      "nsv": 3.9038254901456724,
+      "harm_avoided": 0.20569576074592016,
+      "gross_cost": 2.165237298467654,
+      "resimulated_paths": 30,
+      "unpaired_nsv": 4.515035231694124
+     },
+     "mandatory_third_party_evals": {
+      "nsv": 24.540844512150215,
+      "harm_avoided": 17.719536195306684,
+      "gross_cost": 19.652799727754246,
+      "resimulated_paths": 30,
+      "unpaired_nsv": 20.85489941246445
+     },
+     "risk_tiering": {
+      "nsv": -77.38511747543541,
+      "harm_avoided": 1.4635292658385106,
+      "gross_cost": 79.8518115243219,
+      "resimulated_paths": 30,
+      "unpaired_nsv": -74.652578110152
+     },
+     "frontier_licensing": {
+      "nsv": -130.58833017994678,
+      "harm_avoided": 9.25715411224819,
+      "gross_cost": 144.18176761732752,
+      "resimulated_paths": 30,
+      "unpaired_nsv": -145.9349931655705
+     },
+     "strict_liability": {
+      "nsv": -4.593433008984543,
+      "harm_avoided": 0.9711295457603409,
+      "gross_cost": 11.256598794156865,
+      "resimulated_paths": 30,
+      "unpaired_nsv": -5.76184343149105
+     },
+     "liability_with_safe_harbour": {
+      "nsv": 27.124937296748993,
+      "harm_avoided": 17.373531187170894,
+      "gross_cost": 16.504511157684934,
+      "resimulated_paths": 30,
+      "unpaired_nsv": 45.68321066528027
+     },
+     "moratorium": {
+      "nsv": -98.81779063441242,
+      "harm_avoided": 20.893690027730933,
+      "gross_cost": 124.63993749869813,
+      "resimulated_paths": 30,
+      "unpaired_nsv": -128.76069302255607
+     }
+    }
+   },
+   {
+    "variant": "heavy_tail",
+    "note": "the catastrophic tail is two and a half times more likely",
+    "best": "mandatory_third_party_evals",
+    "best_unconstrained": "mandatory_third_party_evals",
+    "order": [
+     "mandatory_third_party_evals",
+     "liability_with_safe_harbour",
+     "compute_threshold_reporting",
+     "transparency_disclosure",
+     "strict_liability",
+     "risk_tiering",
+     "moratorium",
+     "frontier_licensing"
+    ],
+    "preferred_rank": 1,
+    "preferred_nsv": 62.40198749070332,
+    "table": {
+     "transparency_disclosure": {
+      "nsv": 24.519983131104347,
+      "harm_avoided": 1.1956345654632385,
+      "gross_cost": 1.86336726452606,
+      "resimulated_paths": 30,
+      "unpaired_nsv": 24.08782493197325
+     },
+     "compute_threshold_reporting": {
+      "nsv": 25.745599998440383,
+      "harm_avoided": 21.20072674158455,
+      "gross_cost": 2.1638560735567838,
+      "resimulated_paths": 30,
+      "unpaired_nsv": 26.356809739988837
+     },
+     "mandatory_third_party_evals": {
+      "nsv": 62.40198749070332,
+      "harm_avoided": 49.0065361889916,
+      "gross_cost": 19.321683566502653,
+      "resimulated_paths": 30,
+      "unpaired_nsv": 58.71604239101756
+     },
+     "risk_tiering": {
+      "nsv": -27.90341183668545,
+      "harm_avoided": 39.614696170401075,
+      "gross_cost": 76.10077566993492,
+      "resimulated_paths": 30,
+      "unpaired_nsv": -25.170872471402046
+     },
+     "frontier_licensing": {
+      "nsv": -99.76833345217223,
+      "harm_avoided": 10.659892431696015,
+      "gross_cost": 114.70101252695146,
+      "resimulated_paths": 30,
+      "unpaired_nsv": -115.11499643779594
+     },
+     "strict_liability": {
+      "nsv": 15.39720851364751,
+      "harm_avoided": 32.55332349662069,
+      "gross_cost": 23.867974444700565,
+      "resimulated_paths": 30,
+      "unpaired_nsv": 14.228798091141003
+     },
+     "liability_with_safe_harbour": {
+      "nsv": 61.01133826209245,
+      "harm_avoided": 41.06023267388731,
+      "gross_cost": 16.74971810396639,
+      "resimulated_paths": 30,
+      "unpaired_nsv": 79.56961163062373
+     },
+     "moratorium": {
+      "nsv": -50.08391680256064,
+      "harm_avoided": 59.04614138938069,
+      "gross_cost": 118.73086637719366,
+      "resimulated_paths": 30,
+      "unpaired_nsv": -80.02681919070429
+     }
+    }
+   }
+  ],
+  "preferred": "mandatory_third_party_evals",
+  "wins": 3,
+  "top_two": 3,
+  "n": 7,
+  "survival": 0.42857142857142855
+ },
+ "red_team": {
+  "rows": [
+   {
+    "policy": "transparency_disclosure",
+    "label": "Transparency and disclosure",
+    "honest": {
+     "nsv": 24.019854226042934,
+     "harm_avoided": 1.1797419412221515
+    },
+    "strategies": {
+     "threshold_splitting": {
+      "nsv": 24.019854226042934,
+      "harm_avoided": 1.1797419412221515,
+      "offshore_end": 0.0,
+      "nsv_loss": 0.0,
+      "harm_lost": 0.0
+     },
+     "compliance_theatre": {
+      "nsv": 24.019854226042934,
+      "harm_avoided": 1.1797419412221515,
+      "offshore_end": 0.0,
+      "nsv_loss": 0.0,
+      "harm_lost": 0.0
+     },
+     "maximal_relocation": {
+      "nsv": 24.019854226042934,
+      "harm_avoided": 1.1797419412221515,
+      "offshore_end": 0.0,
+      "nsv_loss": 0.0,
+      "harm_lost": 0.0
+     },
+     "use_case_relabelling": {
+      "nsv": 24.854200316341913,
+      "harm_avoided": 1.1797419412221515,
+      "offshore_end": 0.0,
+      "nsv_loss": -0.834346090298979,
+      "harm_lost": 0.0
+     }
+    },
+    "worst_strategy": "threshold_splitting",
+    "worst_nsv": 24.019854226042934,
+    "gaming_loss": 0.0
+   },
+   {
+    "policy": "liability_with_safe_harbour",
+    "label": "Liability with a safe harbour",
+    "honest": {
+     "nsv": 27.124937296748993,
+     "harm_avoided": 17.373531187170894
+    },
+    "strategies": {
+     "threshold_splitting": {
+      "nsv": 27.124937296748993,
+      "harm_avoided": 17.373531187170894,
+      "offshore_end": 0.0,
+      "nsv_loss": 0.0,
+      "harm_lost": 0.0
+     },
+     "compliance_theatre": {
+      "nsv": 2.3740306730255347,
+      "harm_avoided": -2.4494119558975425,
+      "offshore_end": 0.0,
+      "nsv_loss": 24.75090662372346,
+      "harm_lost": 19.822943143068436
+     },
+     "maximal_relocation": {
+      "nsv": 27.124937296748993,
+      "harm_avoided": 17.373531187170894,
+      "offshore_end": 0.0,
+      "nsv_loss": 0.0,
+      "harm_lost": 0.0
+     },
+     "use_case_relabelling": {
+      "nsv": 31.74982892133733,
+      "harm_avoided": 17.373531187170894,
+      "offshore_end": 0.0,
+      "nsv_loss": -4.6248916245883365,
+      "harm_lost": 0.0
+     }
+    },
+    "worst_strategy": "compliance_theatre",
+    "worst_nsv": 2.3740306730255347,
+    "gaming_loss": 24.75090662372346
+   },
+   {
+    "policy": "compute_threshold_reporting",
+    "label": "Compute threshold reporting",
+    "honest": {
+     "nsv": 3.9038254901456724,
+     "harm_avoided": 0.20569576074592016
+    },
+    "strategies": {
+     "threshold_splitting": {
+      "nsv": 3.2512208361551838,
+      "harm_avoided": 0.1772720708664681,
+      "offshore_end": 0.0,
+      "nsv_loss": 0.6526046539904886,
+      "harm_lost": 0.02842368987945207
+     },
+     "compliance_theatre": {
+      "nsv": 0.37631110011484287,
+      "harm_avoided": 0.10447978962192851,
+      "offshore_end": 0.0,
+      "nsv_loss": 3.5275143900308294,
+      "harm_lost": 0.10121597112399165
+     },
+     "maximal_relocation": {
+      "nsv": 3.9038254901456724,
+      "harm_avoided": 0.20569576074592016,
+      "offshore_end": 0.0,
+      "nsv_loss": 0.0,
+      "harm_lost": 0.0
+     },
+     "use_case_relabelling": {
+      "nsv": 4.837366214231193,
+      "harm_avoided": 0.20569576074592016,
+      "offshore_end": 0.0,
+      "nsv_loss": -0.9335407240855207,
+      "harm_lost": 0.0
+     }
+    },
+    "worst_strategy": "compliance_theatre",
+    "worst_nsv": 0.37631110011484287,
+    "gaming_loss": 3.5275143900308294
+   },
+   {
+    "policy": "strict_liability",
+    "label": "Strict liability",
+    "honest": {
+     "nsv": -4.593433008984543,
+     "harm_avoided": 0.9711295457603409
+    },
+    "strategies": {
+     "threshold_splitting": {
+      "nsv": -4.593433008984543,
+      "harm_avoided": 0.9711295457603409,
+      "offshore_end": 0.0,
+      "nsv_loss": 0.0,
+      "harm_lost": 0.0
+     },
+     "compliance_theatre": {
+      "nsv": -4.593433008984543,
+      "harm_avoided": 0.9711295457603409,
+      "offshore_end": 0.0,
+      "nsv_loss": 0.0,
+      "harm_lost": 0.0
+     },
+     "maximal_relocation": {
+      "nsv": -4.593433008984543,
+      "harm_avoided": 0.9711295457603409,
+      "offshore_end": 0.0,
+      "nsv_loss": 0.0,
+      "harm_lost": 0.0
+     },
+     "use_case_relabelling": {
+      "nsv": -4.593433008984543,
+      "harm_avoided": 0.9711295457603409,
+      "offshore_end": 0.0,
+      "nsv_loss": 0.0,
+      "harm_lost": 0.0
+     }
+    },
+    "worst_strategy": "threshold_splitting",
+    "worst_nsv": -4.593433008984543,
+    "gaming_loss": 0.0
+   },
+   {
+    "policy": "moratorium",
+    "label": "Six month moratorium above the threshold",
+    "honest": {
+     "nsv": -98.81779063441242,
+     "harm_avoided": 20.893690027730933
+    },
+    "strategies": {
+     "threshold_splitting": {
+      "nsv": 4.3967791068800794,
+      "harm_avoided": 0.1700310071707765,
+      "offshore_end": 0.0,
+      "nsv_loss": -103.2145697412925,
+      "harm_lost": 20.723659020560156
+     },
+     "compliance_theatre": {
+      "nsv": -101.46807030121154,
+      "harm_avoided": 20.743131541043432,
+      "offshore_end": 0.0,
+      "nsv_loss": 2.650279666799122,
+      "harm_lost": 0.15055848668750116
+     },
+     "maximal_relocation": {
+      "nsv": -98.81779063441242,
+      "harm_avoided": 20.893690027730933,
+      "offshore_end": 0.0,
+      "nsv_loss": 0.0,
+      "harm_lost": 0.0
+     },
+     "use_case_relabelling": {
+      "nsv": -98.81779063441242,
+      "harm_avoided": 20.893690027730933,
+      "offshore_end": 0.0,
+      "nsv_loss": 0.0,
+      "harm_lost": 0.0
+     }
+    },
+    "worst_strategy": "compliance_theatre",
+    "worst_nsv": -101.46807030121154,
+    "gaming_loss": 2.650279666799122
+   },
+   {
+    "policy": "mandatory_third_party_evals",
+    "label": "Mandatory third party evaluation",
+    "honest": {
+     "nsv": 24.540844512150215,
+     "harm_avoided": 17.719536195306684
+    },
+    "strategies": {
+     "threshold_splitting": {
+      "nsv": 24.744240182210376,
+      "harm_avoided": 17.717248112585825,
+      "offshore_end": 0.0,
+      "nsv_loss": -0.20339567006016068,
+      "harm_lost": 0.0022880827208595633
+     },
+     "compliance_theatre": {
+      "nsv": -0.6734529963242533,
+      "harm_avoided": 12.187309252783608,
+      "offshore_end": 0.0,
+      "nsv_loss": 25.21429750847447,
+      "harm_lost": 5.532226942523076
+     },
+     "maximal_relocation": {
+      "nsv": -124.09356897228422,
+      "harm_avoided": -1.2777219030663005,
+      "offshore_end": 0.3125000000000001,
+      "nsv_loss": 148.63441348443445,
+      "harm_lost": 18.997258098372985
+     },
+     "use_case_relabelling": {
+      "nsv": 25.94280435411226,
+      "harm_avoided": 17.720293687648287,
+      "offshore_end": 0.0,
+      "nsv_loss": -1.401959841962043,
+      "harm_lost": -0.0007574923416022727
+     }
+    },
+    "worst_strategy": "maximal_relocation",
+    "worst_nsv": -124.09356897228422,
+    "gaming_loss": 148.63441348443445
+   },
+   {
+    "policy": "risk_tiering",
+    "label": "Risk tiering (EU style)",
+    "honest": {
+     "nsv": -77.38511747543541,
+     "harm_avoided": 1.4635292658385106
+    },
+    "strategies": {
+     "threshold_splitting": {
+      "nsv": -77.38511747543541,
+      "harm_avoided": 1.4635292658385106,
+      "offshore_end": 0.0,
+      "nsv_loss": 0.0,
+      "harm_lost": 0.0
+     },
+     "compliance_theatre": {
+      "nsv": -77.38511747543541,
+      "harm_avoided": 1.4635292658385106,
+      "offshore_end": 0.0,
+      "nsv_loss": 0.0,
+      "harm_lost": 0.0
+     },
+     "maximal_relocation": {
+      "nsv": -172.25081075436557,
+      "harm_avoided": -6.878668843491813,
+      "offshore_end": 0.2525000000000001,
+      "nsv_loss": 94.86569327893017,
+      "harm_lost": 8.342198109330322
+     },
+     "use_case_relabelling": {
+      "nsv": -64.62701969997536,
+      "harm_avoided": 1.3705897600861927,
+      "offshore_end": 0.0,
+      "nsv_loss": -12.758097775460044,
+      "harm_lost": 0.09293950575231791
+     }
+    },
+    "worst_strategy": "maximal_relocation",
+    "worst_nsv": -172.25081075436557,
+    "gaming_loss": 94.86569327893017
+   },
+   {
+    "policy": "frontier_licensing",
+    "label": "Frontier licensing",
+    "honest": {
+     "nsv": -99.60948399704368,
+     "harm_avoided": 10.674327256906848
+    },
+    "strategies": {
+     "threshold_splitting": {
+      "nsv": -97.84437351303328,
+      "harm_avoided": 10.720290550041408,
+      "offshore_end": 0.15,
+      "nsv_loss": -1.7651104840104068,
+      "harm_lost": -0.0459632931345606
+     },
+     "compliance_theatre": {
+      "nsv": -135.0050918287584,
+      "harm_avoided": 3.207143237878389,
+      "offshore_end": 0.15,
+      "nsv_loss": 35.39560783171471,
+      "harm_lost": 7.467184019028458
+     },
+     "maximal_relocation": {
+      "nsv": -180.70601154126055,
+      "harm_avoided": -1.090628467438959,
+      "offshore_end": 0.2325000000000001,
+      "nsv_loss": 81.09652754421687,
+      "harm_lost": 11.764955724345807
+     },
+     "use_case_relabelling": {
+      "nsv": -117.94749897384867,
+      "harm_avoided": 10.80195586748694,
+      "offshore_end": 0.15,
+      "nsv_loss": 18.338014976804985,
+      "harm_lost": -0.12762861058009278
+     }
+    },
+    "worst_strategy": "maximal_relocation",
+    "worst_nsv": -180.70601154126055,
+    "gaming_loss": 81.09652754421687
+   }
+  ],
+  "strategies": {
+   "threshold_splitting": "models are split so the regulator sees capability 20% below the real level",
+   "compliance_theatre": "mandated safety spend is reported but not spent; evaluations are gamed",
+   "maximal_relocation": "firms are more mobile and moving is cheaper than assumed",
+   "use_case_relabelling": "deployments are relabelled into lower tiers, avoiding 60% of tier costs"
+  },
+  "most_robust": "transparency_disclosure"
+ },
+ "analogue": [],
+ "budget": {
+  "variant_paths": 30,
+  "redteam_paths": 60
+ }
+}

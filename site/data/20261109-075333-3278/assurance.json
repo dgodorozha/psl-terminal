@@ -1,0 +1,822 @@
+{
+ "tornado": {
+  "reference_nsv": 18.752451347712107,
+  "preferred": "coordinated_licensing",
+  "rows": [
+   {
+    "assumption": "catastrophe_harm_bn",
+    "default": 400.0,
+    "unit": "$bn",
+    "meaning": "median monetised harm of a catastrophic incident",
+    "low": {
+     "value": 150.0,
+     "nsv": 9.063126783309105,
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing"
+    },
+    "high": {
+     "value": 1200.0,
+     "nsv": 49.64098688828787,
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing"
+    },
+    "swing": 40.57786010497877,
+    "resimulated": true,
+    "best_changes": false
+   },
+   {
+    "assumption": "harm_valuation_multiplier",
+    "default": 1.0,
+    "unit": "multiple",
+    "meaning": "scales the monetised harm of incidents; 1.0 takes the engine's damages at face value",
+    "low": {
+     "value": 0.5,
+     "nsv": 7.71752367454549,
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing"
+    },
+    "high": {
+     "value": 2.0,
+     "nsv": 40.822306694045345,
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing"
+    },
+    "swing": 33.104783019499855,
+    "resimulated": false,
+    "best_changes": false
+   },
+   {
+    "assumption": "catastrophe_prior_monthly",
+    "default": 0.002,
+    "unit": "a month per firm",
+    "meaning": "monthly probability of a catastrophic incident for a firm above critical capability with no safety practice",
+    "low": {
+     "value": 0.0005,
+     "nsv": 32.844081815218125,
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing"
+    },
+    "high": {
+     "value": 0.005,
+     "nsv": 17.298393849896303,
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing"
+    },
+    "swing": 15.545687965321822,
+    "resimulated": true,
+    "best_changes": false
+   },
+   {
+    "assumption": "trust_elasticity",
+    "default": 0.5,
+    "unit": "elasticity",
+    "meaning": "proportional change in realised adoption benefits per proportional change in public trust",
+    "low": {
+     "value": 0.2,
+     "nsv": 14.17721695428226,
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing"
+    },
+    "high": {
+     "value": 1.0,
+     "nsv": 25.520445183491532,
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing"
+    },
+    "swing": 11.343228229209272,
+    "resimulated": false,
+    "best_changes": false
+   },
+   {
+    "assumption": "hazard_safety_elasticity",
+    "default": 1.8,
+    "unit": "per unit of safety level",
+    "meaning": "incident rate falls as exp(-elasticity x safety level)",
+    "low": {
+     "value": 1.4,
+     "nsv": 20.18646241991049,
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing"
+    },
+    "high": {
+     "value": 3.0,
+     "nsv": 13.272468731383592,
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing"
+    },
+    "swing": 6.913993688526899,
+    "resimulated": true,
+    "best_changes": false
+   },
+   {
+    "assumption": "consumer_surplus_base_bn",
+    "default": 250.0,
+    "unit": "$bn a year",
+    "meaning": "annual consumer surplus from AI services at the starting level of capability and reach",
+    "low": {
+     "value": 150.0,
+     "nsv": 19.683022873001292,
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing"
+    },
+    "high": {
+     "value": 600.0,
+     "nsv": 15.495451009199972,
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing"
+    },
+    "swing": 4.18757186380132,
+    "resimulated": false,
+    "best_changes": false
+   },
+   {
+    "assumption": "cs_elasticity",
+    "default": 0.6,
+    "unit": "elasticity",
+    "meaning": "proportional change in consumer surplus per proportional change in the AI service index",
+    "low": {
+     "value": 0.3,
+     "nsv": 20.080048592289405,
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing"
+    },
+    "high": {
+     "value": 1.0,
+     "nsv": 16.30851896465592,
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing"
+    },
+    "swing": 3.771529627633484,
+    "resimulated": false,
+    "best_changes": false
+   },
+   {
+    "assumption": "productivity_base_bn",
+    "default": 400.0,
+    "unit": "$bn a year",
+    "meaning": "annual output uplift attributable to AI adoption at the starting service index",
+    "low": {
+     "value": 200.0,
+     "nsv": 17.57128727047355,
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing"
+    },
+    "high": {
+     "value": 800.0,
+     "nsv": 21.114779502189215,
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing"
+    },
+    "swing": 3.543492231715664,
+    "resimulated": false,
+    "best_changes": false
+   },
+   {
+    "assumption": "discount_rate",
+    "default": 0.03,
+    "unit": "a year",
+    "meaning": "social discount rate applied to every monthly flow",
+    "low": {
+     "value": 0.01,
+     "nsv": 19.637464664121094,
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing"
+    },
+    "high": {
+     "value": 0.07,
+     "nsv": 17.15428465988662,
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing"
+    },
+    "swing": 2.483180004234473,
+    "resimulated": false,
+    "best_changes": false
+   },
+   {
+    "assumption": "domestic_ownership_share",
+    "default": 0.6,
+    "unit": "share",
+    "meaning": "share of the firms' operating profit that accrues to residents and counts in national welfare",
+    "low": {
+     "value": 0.3,
+     "nsv": 19.67984902501424,
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing"
+    },
+    "high": {
+     "value": 0.9,
+     "nsv": 17.82505367040998,
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing"
+    },
+    "swing": 1.85479535460426,
+    "resimulated": false,
+    "best_changes": false
+   },
+   {
+    "assumption": "compliance_deadweight_share",
+    "default": 0.7,
+    "unit": "share",
+    "meaning": "share of compliance spend that is a real resource cost rather than a transfer",
+    "low": {
+     "value": 0.4,
+     "nsv": 19.272050528474885,
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing"
+    },
+    "high": {
+     "value": 1.0,
+     "nsv": 18.232852166949332,
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing"
+    },
+    "swing": 1.0391983615255533,
+    "resimulated": false,
+    "best_changes": false
+   },
+   {
+    "assumption": "safety_substitution",
+    "default": 0.6,
+    "unit": "share",
+    "meaning": "share of safety spend that displaces capability R&D (the rest is additional budget or spills over)",
+    "low": {
+     "value": 0.3,
+     "nsv": 18.331312873474612,
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing"
+    },
+    "high": {
+     "value": 1.0,
+     "nsv": 18.746114646990033,
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing"
+    },
+    "swing": 0.41480177351542125,
+    "resimulated": true,
+    "best_changes": false
+   },
+   {
+    "assumption": "labour_adjustment_bn",
+    "default": 2.0,
+    "unit": "$bn per index point",
+    "meaning": "short run adjustment cost per point of growth in the AI service index (displacement, retraining)",
+    "low": {
+     "value": 0.0,
+     "nsv": 18.73203947147309,
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing"
+    },
+    "high": {
+     "value": 5.0,
+     "nsv": 18.78306916207065,
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing"
+    },
+    "swing": 0.05102969059755935,
+    "resimulated": false,
+    "best_changes": false
+   },
+   {
+    "assumption": "leakage_value_share",
+    "default": 0.35,
+    "unit": "share",
+    "meaning": "domestic value added lost per dollar of revenue whose activity moves offshore",
+    "low": {
+     "value": 0.1,
+     "nsv": 18.752451347712107,
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing"
+    },
+    "high": {
+     "value": 0.7,
+     "nsv": 18.752451347712107,
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing"
+    },
+    "swing": 0.0,
+    "resimulated": false,
+    "best_changes": false
+   },
+   {
+    "assumption": "offshore_laxity",
+    "default": 0.6,
+    "unit": "multiple",
+    "meaning": "extra incident rate on activity moved offshore, relative to home",
+    "low": {
+     "value": 0.2,
+     "nsv": 18.752451347712107,
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing"
+    },
+    "high": {
+     "value": 1.2,
+     "nsv": 18.752451347712107,
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing"
+    },
+    "swing": 0.0,
+    "resimulated": true,
+    "best_changes": false
+   }
+  ],
+  "flips": [],
+  "sign_robust": true
+ },
+ "structural": {
+  "variants": [
+   {
+    "variant": "myopic_firms",
+    "note": "firms plan six months ahead instead of twelve",
+    "best": "coordinated_licensing",
+    "best_unconstrained": "coordinated_licensing",
+    "order": [
+     "coordinated_licensing",
+     "compute_threshold_reporting",
+     "frontier_licensing",
+     "moratorium"
+    ],
+    "preferred_rank": 1,
+    "preferred_nsv": 4.600601041170384,
+    "table": {
+     "compute_threshold_reporting": {
+      "nsv": 2.4329613723486196,
+      "harm_avoided": 0.4009727468601088,
+      "gross_cost": 1.1419468561139499,
+      "resimulated_paths": 30,
+      "unpaired_nsv": 1.9109804231984229
+     },
+     "frontier_licensing": {
+      "nsv": -14.420162906903048,
+      "harm_avoided": 7.248202895490742,
+      "gross_cost": 24.609420618130713,
+      "resimulated_paths": 30,
+      "unpaired_nsv": -23.72062846371985
+     },
+     "coordinated_licensing": {
+      "nsv": 4.600601041170384,
+      "harm_avoided": 6.128004999407983,
+      "gross_cost": 6.051841386289802,
+      "resimulated_paths": 30,
+      "unpaired_nsv": -4.860367410662928
+     },
+     "moratorium": {
+      "nsv": -47.5562973230439,
+      "harm_avoided": 17.442414330183666,
+      "gross_cost": 67.3410313233346,
+      "resimulated_paths": 30,
+      "unpaired_nsv": -47.657957843162144
+     }
+    }
+   },
+   {
+    "variant": "forward_looking_firms",
+    "note": "firms plan two years ahead",
+    "best": "compute_threshold_reporting",
+    "best_unconstrained": "compute_threshold_reporting",
+    "order": [
+     "compute_threshold_reporting",
+     "coordinated_licensing",
+     "moratorium",
+     "frontier_licensing"
+    ],
+    "preferred_rank": 2,
+    "preferred_nsv": -27.632182552071786,
+    "table": {
+     "compute_threshold_reporting": {
+      "nsv": 2.4329613723486196,
+      "harm_avoided": 0.4009727468601088,
+      "gross_cost": 1.1419468561139499,
+      "resimulated_paths": 30,
+      "unpaired_nsv": 1.9109804231984229
+     },
+     "frontier_licensing": {
+      "nsv": -80.56643690730368,
+      "harm_avoided": 26.042406539981528,
+      "gross_cost": 110.79238636453667,
+      "resimulated_paths": 30,
+      "unpaired_nsv": -89.86690246412049
+     },
+     "coordinated_licensing": {
+      "nsv": -27.632182552071786,
+      "harm_avoided": 40.1887115963402,
+      "gross_cost": 73.72075414974482,
+      "resimulated_paths": 30,
+      "unpaired_nsv": -37.0931510039051
+     },
+     "moratorium": {
+      "nsv": -47.5562973230439,
+      "harm_avoided": 17.442414330183666,
+      "gross_cost": 67.3410313233346,
+      "resimulated_paths": 30,
+      "unpaired_nsv": -47.657957843162144
+     }
+    }
+   },
+   {
+    "variant": "weak_regulator",
+    "note": "the regulator has half the stated capacity",
+    "best": "coordinated_licensing",
+    "best_unconstrained": "coordinated_licensing",
+    "order": [
+     "coordinated_licensing",
+     "compute_threshold_reporting",
+     "frontier_licensing",
+     "moratorium"
+    ],
+    "preferred_rank": 1,
+    "preferred_nsv": 9.20798556235639,
+    "table": {
+     "compute_threshold_reporting": {
+      "nsv": 2.508210308039746,
+      "harm_avoided": 0.4009727468601088,
+      "gross_cost": 1.0666979204228222,
+      "resimulated_paths": 30,
+      "unpaired_nsv": 1.9862293588895494
+     },
+     "frontier_licensing": {
+      "nsv": -15.28835007520869,
+      "harm_avoided": 6.575510538352573,
+      "gross_cost": 23.95796677041544,
+      "resimulated_paths": 30,
+      "unpaired_nsv": -24.588815632025494
+     },
+     "coordinated_licensing": {
+      "nsv": 9.20798556235639,
+      "harm_avoided": 5.765824865235441,
+      "gross_cost": -0.0018780878858830619,
+      "resimulated_paths": 30,
+      "unpaired_nsv": -0.2529828894769223
+     },
+     "moratorium": {
+      "nsv": -47.45607166724023,
+      "harm_avoided": 17.442414330183666,
+      "gross_cost": 67.24080566753094,
+      "resimulated_paths": 30,
+      "unpaired_nsv": -47.557732187358475
+     }
+    }
+   },
+   {
+    "variant": "strong_safety_effect",
+    "note": "safety practice cuts incidents faster",
+    "best": "coordinated_licensing",
+    "best_unconstrained": "coordinated_licensing",
+    "order": [
+     "coordinated_licensing",
+     "compute_threshold_reporting",
+     "frontier_licensing",
+     "moratorium"
+    ],
+    "preferred_rank": 1,
+    "preferred_nsv": 13.10020059259981,
+    "table": {
+     "compute_threshold_reporting": {
+      "nsv": -0.16482517955882559,
+      "harm_avoided": 0.11010734677600342,
+      "gross_cost": 1.1366902236460386,
+      "resimulated_paths": 30,
+      "unpaired_nsv": -0.6868061287090224
+     },
+     "frontier_licensing": {
+      "nsv": -38.325021071947525,
+      "harm_avoided": 7.608783312400652,
+      "gross_cost": 48.02413541011135,
+      "resimulated_paths": 30,
+      "unpaired_nsv": -47.62548662876433
+     },
+     "coordinated_licensing": {
+      "nsv": 13.10020059259981,
+      "harm_avoided": 19.988565332751804,
+      "gross_cost": 12.869092072728616,
+      "resimulated_paths": 30,
+      "unpaired_nsv": 3.639232140766499
+     },
+     "moratorium": {
+      "nsv": -75.73446747032801,
+      "harm_avoided": -0.9907849630415093,
+      "gross_cost": 75.40491422013277,
+      "resimulated_paths": 30,
+      "unpaired_nsv": -75.83612799044626
+     }
+    }
+   },
+   {
+    "variant": "weak_safety_effect",
+    "note": "safety practice cuts incidents more slowly",
+    "best": "coordinated_licensing",
+    "best_unconstrained": "coordinated_licensing",
+    "order": [
+     "coordinated_licensing",
+     "compute_threshold_reporting",
+     "frontier_licensing",
+     "moratorium"
+    ],
+    "preferred_rank": 1,
+    "preferred_nsv": 4.8346996262043795,
+    "table": {
+     "compute_threshold_reporting": {
+      "nsv": 1.7964355895549349,
+      "harm_avoided": 0.2876905641995755,
+      "gross_cost": 1.1421813062999884,
+      "resimulated_paths": 30,
+      "unpaired_nsv": 1.274454640404738
+     },
+     "frontier_licensing": {
+      "nsv": -42.689943805527584,
+      "harm_avoided": 7.825402100420232,
+      "gross_cost": 53.20195535509673,
+      "resimulated_paths": 30,
+      "unpaired_nsv": -51.99040936234439
+     },
+     "coordinated_licensing": {
+      "nsv": 4.8346996262043795,
+      "harm_avoided": 7.053601951411778,
+      "gross_cost": 8.874687829082529,
+      "resimulated_paths": 30,
+      "unpaired_nsv": -4.626268825628933
+     },
+     "moratorium": {
+      "nsv": -43.303280583171095,
+      "harm_avoided": 17.735831770937278,
+      "gross_cost": 63.7788135659454,
+      "resimulated_paths": 30,
+      "unpaired_nsv": -43.40494110328934
+     }
+    }
+   },
+   {
+    "variant": "lax_offshore",
+    "note": "offshore activity is twice as hazardous as at home",
+    "best": "coordinated_licensing",
+    "best_unconstrained": "coordinated_licensing",
+    "order": [
+     "coordinated_licensing",
+     "compute_threshold_reporting",
+     "moratorium",
+     "frontier_licensing"
+    ],
+    "preferred_rank": 1,
+    "preferred_nsv": 18.752451347712107,
+    "table": {
+     "compute_threshold_reporting": {
+      "nsv": 2.4329613723486196,
+      "harm_avoided": 0.4009727468601088,
+      "gross_cost": 1.1419468561139499,
+      "resimulated_paths": 30,
+      "unpaired_nsv": 1.9109804231984229
+     },
+     "frontier_licensing": {
+      "nsv": -51.7663407446236,
+      "harm_avoided": 6.6975896278002605,
+      "gross_cost": 60.56801500706889,
+      "resimulated_paths": 30,
+      "unpaired_nsv": -61.0668063014404
+     },
+     "coordinated_licensing": {
+      "nsv": 18.752451347712107,
+      "harm_avoided": 22.06985534633323,
+      "gross_cost": 9.143279884965105,
+      "resimulated_paths": 30,
+      "unpaired_nsv": 9.291482895878795
+     },
+     "moratorium": {
+      "nsv": -47.5562973230439,
+      "harm_avoided": 17.442414330183666,
+      "gross_cost": 67.3410313233346,
+      "resimulated_paths": 30,
+      "unpaired_nsv": -47.657957843162144
+     }
+    }
+   },
+   {
+    "variant": "heavy_tail",
+    "note": "the catastrophic tail is two and a half times more likely",
+    "best": "coordinated_licensing",
+    "best_unconstrained": "coordinated_licensing",
+    "order": [
+     "coordinated_licensing",
+     "compute_threshold_reporting",
+     "moratorium",
+     "frontier_licensing"
+    ],
+    "preferred_rank": 1,
+    "preferred_nsv": 17.298393849896303,
+    "table": {
+     "compute_threshold_reporting": {
+      "nsv": 2.5022749449059556,
+      "harm_avoided": 0.4116014623896296,
+      "gross_cost": 1.141553380061498,
+      "resimulated_paths": 30,
+      "unpaired_nsv": 1.9802939957557588
+     },
+     "frontier_licensing": {
+      "nsv": -49.314064720104355,
+      "harm_avoided": -5.810824948279333,
+      "gross_cost": 50.5675462722162,
+      "resimulated_paths": 30,
+      "unpaired_nsv": -58.61453027692116
+     },
+     "coordinated_licensing": {
+      "nsv": 17.298393849896303,
+      "harm_avoided": 16.150782607999403,
+      "gross_cost": 8.990328139104601,
+      "resimulated_paths": 30,
+      "unpaired_nsv": 7.837425398062991
+     },
+     "moratorium": {
+      "nsv": -33.33921323299735,
+      "harm_avoided": 26.931956404841454,
+      "gross_cost": 65.05919431810987,
+      "resimulated_paths": 30,
+      "unpaired_nsv": -33.440873753115596
+     }
+    }
+   }
+  ],
+  "preferred": "coordinated_licensing",
+  "wins": 6,
+  "top_two": 7,
+  "n": 7,
+  "survival": 0.8571428571428571
+ },
+ "red_team": {
+  "rows": [
+   {
+    "policy": "coordinated_licensing",
+    "label": "Coordinated frontier licensing",
+    "honest": {
+     "nsv": 18.752451347712107,
+     "harm_avoided": 22.06985534633323
+    },
+    "strategies": {
+     "threshold_splitting": {
+      "nsv": 18.752451347712107,
+      "harm_avoided": 22.06985534633323,
+      "offshore_end": 0.0,
+      "nsv_loss": 0.0,
+      "harm_lost": 0.0
+     },
+     "compliance_theatre": {
+      "nsv": 0.9867014331406249,
+      "harm_avoided": 7.721968136799707,
+      "offshore_end": 0.0,
+      "nsv_loss": 17.765749914571483,
+      "harm_lost": 14.347887209533525
+     },
+     "maximal_relocation": {
+      "nsv": 18.752451347712107,
+      "harm_avoided": 22.06985534633323,
+      "offshore_end": 0.0,
+      "nsv_loss": 0.0,
+      "harm_lost": 0.0
+     },
+     "use_case_relabelling": {
+      "nsv": 18.931716461724243,
+      "harm_avoided": 22.07136256640228,
+      "offshore_end": 0.0,
+      "nsv_loss": -0.17926511401213574,
+      "harm_lost": -0.0015072200690475768
+     }
+    },
+    "worst_strategy": "compliance_theatre",
+    "worst_nsv": 0.9867014331406249,
+    "gaming_loss": 17.765749914571483
+   },
+   {
+    "policy": "compute_threshold_reporting",
+    "label": "Compute threshold reporting",
+    "honest": {
+     "nsv": 2.4329613723486196,
+     "harm_avoided": 0.4009727468601088
+    },
+    "strategies": {
+     "threshold_splitting": {
+      "nsv": 2.516871881984677,
+      "harm_avoided": 0.4009727468601088,
+      "offshore_end": 0.0,
+      "nsv_loss": -0.08391050963605728,
+      "harm_lost": 0.0
+     },
+     "compliance_theatre": {
+      "nsv": 0.043235619185887135,
+      "harm_avoided": 0.11525900271203086,
+      "offshore_end": 0.0,
+      "nsv_loss": 2.3897257531627325,
+      "harm_lost": 0.28571374414807793
+     },
+     "maximal_relocation": {
+      "nsv": 2.4329613723486196,
+      "harm_avoided": 0.4009727468601088,
+      "offshore_end": 0.0,
+      "nsv_loss": 0.0,
+      "harm_lost": 0.0
+     },
+     "use_case_relabelling": {
+      "nsv": 2.923401672879199,
+      "harm_avoided": 0.4009727468601088,
+      "offshore_end": 0.0,
+      "nsv_loss": -0.4904403005305795,
+      "harm_lost": 0.0
+     }
+    },
+    "worst_strategy": "compliance_theatre",
+    "worst_nsv": 0.043235619185887135,
+    "gaming_loss": 2.3897257531627325
+   },
+   {
+    "policy": "moratorium",
+    "label": "Six month moratorium above the threshold",
+    "honest": {
+     "nsv": -47.5562973230439,
+     "harm_avoided": 17.442414330183666
+    },
+    "strategies": {
+     "threshold_splitting": {
+      "nsv": 3.237089378684535,
+      "harm_avoided": 0.4009727468601088,
+      "offshore_end": 0.0,
+      "nsv_loss": -50.79338670172844,
+      "harm_lost": 17.041441583323557
+     },
+     "compliance_theatre": {
+      "nsv": -48.89572036082173,
+      "harm_avoided": 17.311161550954782,
+      "offshore_end": 0.0,
+      "nsv_loss": 1.3394230377778271,
+      "harm_lost": 0.131252779228884
+     },
+     "maximal_relocation": {
+      "nsv": -47.5562973230439,
+      "harm_avoided": 17.442414330183666,
+      "offshore_end": 0.0,
+      "nsv_loss": 0.0,
+      "harm_lost": 0.0
+     },
+     "use_case_relabelling": {
+      "nsv": -47.5562973230439,
+      "harm_avoided": 17.442414330183666,
+      "offshore_end": 0.0,
+      "nsv_loss": 0.0,
+      "harm_lost": 0.0
+     }
+    },
+    "worst_strategy": "compliance_theatre",
+    "worst_nsv": -48.89572036082173,
+    "gaming_loss": 1.3394230377778271
+   },
+   {
+    "policy": "frontier_licensing",
+    "label": "Frontier licensing",
+    "honest": {
+     "nsv": -38.02859210703925,
+     "harm_avoided": 7.82214604718885
+    },
+    "strategies": {
+     "threshold_splitting": {
+      "nsv": -37.41835928346368,
+      "harm_avoided": 7.894348587092674,
+      "offshore_end": 0.15,
+      "nsv_loss": -0.6102328235755721,
+      "harm_lost": -0.07220253990382375
+     },
+     "compliance_theatre": {
+      "nsv": -54.995795502494715,
+      "harm_avoided": -0.8068259131304565,
+      "offshore_end": 0.15,
+      "nsv_loss": 16.967203395455464,
+      "harm_lost": 8.628971960319307
+     },
+     "maximal_relocation": {
+      "nsv": -80.12908898212154,
+      "harm_avoided": -0.43613586184783254,
+      "offshore_end": 0.2325000000000001,
+      "nsv_loss": 42.10049687508229,
+      "harm_lost": 8.258281909036683
+     },
+     "use_case_relabelling": {
+      "nsv": -43.782097188603466,
+      "harm_avoided": 7.899184549388519,
+      "offshore_end": 0.15,
+      "nsv_loss": 5.753505081564214,
+      "harm_lost": -0.07703850219966846
+     }
+    },
+    "worst_strategy": "maximal_relocation",
+    "worst_nsv": -80.12908898212154,
+    "gaming_loss": 42.10049687508229
+   }
+  ],
+  "strategies": {
+   "threshold_splitting": "models are split so the regulator sees capability 20% below the real level",
+   "compliance_theatre": "mandated safety spend is reported but not spent; evaluations are gamed",
+   "maximal_relocation": "firms are more mobile and moving is cheaper than assumed",
+   "use_case_relabelling": "deployments are relabelled into lower tiers, avoiding 60% of tier costs"
+  },
+  "most_robust": "coordinated_licensing"
+ },
+ "analogue": [],
+ "budget": {
+  "variant_paths": 30,
+  "redteam_paths": 60
+ }
+}
