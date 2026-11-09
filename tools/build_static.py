@@ -1,6 +1,6 @@
 """Build the static replay site: recorded runs of the terminal rendered in the browser, no server.
 
-    python tools/build_static.py --out site --profile demo --live-url https://your-name-psl-terminal.hf.space
+    python tools/build_static.py --out site --profile demo --live-url https://your-workspace--psl.modal.run
 
 For every question in the list (the default battery question and two more, or --questions file.json with a
 list of strings) the builder plans the battery, approves Gate 1 as Developer2, runs it with the stream

@@ -1,0 +1,31 @@
+# Redeploys the live terminal on Modal on every push to main that touches the application, so GitHub stays the source
+# of truth. Needs two repository secrets, MODAL_TOKEN_ID and MODAL_TOKEN_SECRET (the values in ~/.modal.toml after
+# `modal setup`); until they are set the job runs and skips, so the repository stays green.
+name: Deploy the live terminal to Modal
+on:
+  push:
+    branches: [main]
+    paths-ignore: ["site/**", "docs/**", "*.md", ".github/workflows/pages.yml"]
+  workflow_dispatch:
+concurrency:
+  group: modal
+  cancel-in-progress: true
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      MODAL_TOKEN_ID: ${{ secrets.MODAL_TOKEN_ID }}
+      MODAL_TOKEN_SECRET: ${{ secrets.MODAL_TOKEN_SECRET }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Deploy
+        if: ${{ env.MODAL_TOKEN_ID != '' }}
+        run: |
+          pip install --quiet modal
+          modal deploy modal_app.py
+      - name: No Modal token
+        if: ${{ env.MODAL_TOKEN_ID == '' }}
+        run: echo "MODAL_TOKEN_ID and MODAL_TOKEN_SECRET are not set; deploy from a laptop with 'modal deploy modal_app.py'."

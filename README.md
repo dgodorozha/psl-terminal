@@ -1,15 +1,3 @@
----
-title: PSL Terminal
-emoji: "🏛"
-colorFrom: yellow
-colorTo: gray
-sdk: docker
-app_port: 7860
-pinned: false
-license: other
-short_description: Policy Scenario Lab, an agent based laboratory for AI regulation
----
-
 # PSL TERMINAL: the Policy Scenario Lab
 
 An agent based laboratory for AI regulation, at terminal density, built to be run by a public
@@ -38,10 +26,10 @@ infrastructure.
 | **POL / AGT / DAT / SEC** | Define instruments and firm archetypes as bounded documents, bring price series through quarantine, check the deployment's security posture |
 
 The method is written out equation by equation in [docs/METHOD.md](docs/METHOD.md); the operator's
-manual is [docs/MANUAL.md](docs/MANUAL.md); deployment in [DEPLOY.md](DEPLOY.md). Two public addresses, both
-free: a Hugging Face Space runs the live terminal from the Dockerfile, and GitHub Pages serves `site/`, a
-replay of recorded runs rendered entirely in the browser (`python tools/build_static.py --out site --live-url <your Space>`
-rebuilds it).
+manual is [docs/MANUAL.md](docs/MANUAL.md); deployment in [DEPLOY.md](DEPLOY.md). Two public addresses: Modal
+runs the live terminal (`modal deploy modal_app.py`, scaled to zero between visitors), and GitHub Pages serves
+`site/`, a replay of recorded runs rendered entirely in the browser
+(`python tools/build_static.py --out site --live-url <the Modal address>` rebuilds it).
 
 ## Run it
 
@@ -131,7 +119,8 @@ Every setting is an environment variable with a safe default; see `config.py`. T
     docs/                METHOD.md, MANUAL.md
     tools/build_static.py, tools/replay.js, tools/test_static.py   the static replay site builder and its browser check
     site/                the built replay site (recorded runs, no server): serve it with GitHub Pages
-    Dockerfile, render.yaml, .github/workflows/sync-to-hf.yml, deploy/   deployment (Hugging Face Space, Render, in house)
+    modal_app.py         the live terminal on Modal; modal deploy modal_app.py
+    Dockerfile, render.yaml, .github/workflows/ (pages.yml, deploy-modal.yml), deploy/   deployment (Modal, GitHub Pages, Docker hosts, in house)
 
 ## Honesty
 

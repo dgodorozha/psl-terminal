@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.1
+
+- Live terminal hosted on Modal (`modal_app.py`: one container, scaled to zero between visitors, run
+  registry on a persistent volume) with `.github/workflows/deploy-modal.yml` redeploying on push. The
+  Hugging Face Space route is kept as a Docker host option only: Docker Spaces now require a PRO
+  subscription. `sync-to-hf.yml` removed; README front matter removed.
+
 ## 1.0.0
 
 First release of the Policy Scenario Lab terminal.

@@ -44,7 +44,7 @@ def test_health_version_and_headers(app):
     assert "frame-ancestors 'self'" in r.headers["Content-Security-Policy"]
     assert r.headers["Cache-Control"] == "no-store"
     v = c.get("/version").get_json()
-    assert v["version"] == "1.0.0"
+    assert v["version"] == __import__("psl").__version__
     assert v["config"]["ledger_secret"] == "configured" and v["config"]["profile"] == "demo"
     assert "code_fingerprint" in v["provenance"]
     assert app.CFG.host == "127.0.0.1", "must bind to localhost by default"
