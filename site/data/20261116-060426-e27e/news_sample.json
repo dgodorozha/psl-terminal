@@ -1,0 +1,2544 @@
+{
+ "baseline": {
+  "wire": [
+   {
+    "t": 0,
+    "date": "2027-01",
+    "outlet": "WIRE",
+    "headline": "Day one of Status quo (voluntary commitments): firms report compliance programmes under way",
+    "tone": -0.05,
+    "salience": 0.27999999999999997,
+    "type": "policy_start",
+    "firm": null
+   },
+   {
+    "t": 1,
+    "date": "2027-02",
+    "outlet": "WIRE",
+    "headline": "Users report synthetic identity ring on Frontier Lab (closed weights) services; $775m at stake",
+    "tone": -0.45,
+    "salience": 0.22611055026392446,
+    "type": "incident",
+    "firm": "Frontier Lab (closed weights)"
+   },
+   {
+    "t": 1,
+    "date": "2027-02",
+    "outlet": "WIRE",
+    "headline": "Frontier Lab (open weights) model linked to payment system disruption; losses put at $743m",
+    "tone": -0.45,
+    "salience": 0.22401340841700867,
+    "type": "incident",
+    "firm": "Frontier Lab (open weights)"
+   },
+   {
+    "t": 1,
+    "date": "2027-02",
+    "outlet": "TECH",
+    "headline": "New Frontier Lab (closed weights) system reaches capability 1.25; rivals under pressure",
+    "tone": 0.545,
+    "salience": 0.19999999999999998,
+    "type": "release",
+    "firm": "Frontier Lab (closed weights)"
+   },
+   {
+    "t": 1,
+    "date": "2027-02",
+    "outlet": "TECH",
+    "headline": "Consumer AI platform confirms mis specified trading agent, estimates $74m in damages",
+    "tone": -0.405,
+    "salience": 0.10601311868671769,
+    "type": "incident",
+    "firm": "Consumer AI platform"
+   },
+   {
+    "t": 2,
+    "date": "2027-03",
+    "outlet": "WIRE",
+    "headline": "New AI start up cohort system reaches capability 0.75; rivals under pressure",
+    "tone": 0.5,
+    "salience": 0.09999999999999999,
+    "type": "release",
+    "firm": "AI start up cohort"
+   },
+   {
+    "t": 2,
+    "date": "2027-03",
+    "outlet": "WIRE",
+    "headline": "Consumer AI platform crosses capability 1.02 with new release",
+    "tone": 0.5,
+    "salience": 0.09999999999999999,
+    "type": "release",
+    "firm": "Consumer AI platform"
+   },
+   {
+    "t": 4,
+    "date": "2027-05",
+    "outlet": "WIRE",
+    "headline": "AI start up cohort shares jump 34% on the month",
+    "tone": 0.5,
+    "salience": 0.30423983575129765,
+    "type": "market_move",
+    "firm": "AI start up cohort"
+   },
+   {
+    "t": 5,
+    "date": "2027-06",
+    "outlet": "WIRE",
+    "headline": "Autonomy and robotics shares jump 26% on the month",
+    "tone": 0.5,
+    "salience": 0.255455483844709,
+    "type": "market_move",
+    "firm": "Autonomy and robotics"
+   },
+   {
+    "t": 5,
+    "date": "2027-06",
+    "outlet": "WIRE",
+    "headline": "Regulator sanctions AI start up cohort: $0m penalty under Status quo (voluntary commitments)",
+    "tone": -0.35,
+    "salience": 0.21,
+    "type": "enforcement",
+    "firm": "AI start up cohort"
+   },
+   {
+    "t": 6,
+    "date": "2027-07",
+    "outlet": "WIRE",
+    "headline": "Frontier Lab (closed weights) rallies 31% as investors re rate growth",
+    "tone": 0.5,
+    "salience": 0.2879712683881862,
+    "type": "market_move",
+    "firm": "Frontier Lab (closed weights)"
+   },
+   {
+    "t": 6,
+    "date": "2027-07",
+    "outlet": "WIRE",
+    "headline": "Autonomy and robotics shares jump 22% on the month",
+    "tone": 0.5,
+    "salience": 0.15279769071614716,
+    "type": "market_move",
+    "firm": "Autonomy and robotics"
+   },
+   {
+    "t": 6,
+    "date": "2027-07",
+    "outlet": "TECH",
+    "headline": "New Hyperscaler cloud system reaches capability 1.27; rivals under pressure",
+    "tone": 0.545,
+    "salience": 0.19999999999999998,
+    "type": "release",
+    "firm": "Hyperscaler cloud"
+   },
+   {
+    "t": 7,
+    "date": "2027-08",
+    "outlet": "WIRE",
+    "headline": "Consumer AI platform model linked to automated phishing wave; losses put at $328m",
+    "tone": -0.45,
+    "salience": 0.12363893431308164,
+    "type": "incident",
+    "firm": "Consumer AI platform"
+   },
+   {
+    "t": 7,
+    "date": "2027-08",
+    "outlet": "WIRE",
+    "headline": "Autonomy and robotics crosses capability 1.02 with new release",
+    "tone": 0.5,
+    "salience": 0.09999999999999999,
+    "type": "release",
+    "firm": "Autonomy and robotics"
+   },
+   {
+    "t": 8,
+    "date": "2027-09",
+    "outlet": "WIRE",
+    "headline": "New Frontier Lab (open weights) system reaches capability 1.27; rivals under pressure",
+    "tone": 0.5,
+    "salience": 0.09999999999999999,
+    "type": "release",
+    "firm": "Frontier Lab (open weights)"
+   },
+   {
+    "t": 9,
+    "date": "2027-10",
+    "outlet": "WIRE",
+    "headline": "Autonomy and robotics shares fall 27% on the month",
+    "tone": -0.5,
+    "salience": 0.13039195691181282,
+    "type": "market_move",
+    "firm": "Autonomy and robotics"
+   },
+   {
+    "t": 10,
+    "date": "2027-11",
+    "outlet": "WIRE",
+    "headline": "Hyperscaler cloud found non compliant; $0m fine imposed",
+    "tone": -0.35,
+    "salience": 0.21,
+    "type": "enforcement",
+    "firm": "Hyperscaler cloud"
+   },
+   {
+    "t": 10,
+    "date": "2027-11",
+    "outlet": "WIRE",
+    "headline": "Enterprise software releases model at capability 1.01",
+    "tone": 0.5,
+    "salience": 0.09999999999999999,
+    "type": "release",
+    "firm": "Enterprise software"
+   },
+   {
+    "t": 10,
+    "date": "2027-11",
+    "outlet": "TECH",
+    "headline": "Chip designer crosses capability 0.76 with new release",
+    "tone": 0.545,
+    "salience": 0.19999999999999998,
+    "type": "release",
+    "firm": "Chip designer"
+   },
+   {
+    "t": 10,
+    "date": "2027-11",
+    "outlet": "TECH",
+    "headline": "New Frontier Lab (closed weights) system reaches capability 1.51; rivals under pressure",
+    "tone": 0.545,
+    "salience": 0.13333333333333333,
+    "type": "release",
+    "firm": "Frontier Lab (closed weights)"
+   },
+   {
+    "t": 11,
+    "date": "2027-12",
+    "outlet": "WIRE",
+    "headline": "Frontier Lab (open weights) slides 29% as investors weigh regulatory costs",
+    "tone": -0.5,
+    "salience": 0.27380486145186883,
+    "type": "market_move",
+    "firm": "Frontier Lab (open weights)"
+   },
+   {
+    "t": 11,
+    "date": "2027-12",
+    "outlet": "WIRE",
+    "headline": "Consumer AI platform found non compliant; $0m fine imposed",
+    "tone": -0.35,
+    "salience": 0.21,
+    "type": "enforcement",
+    "firm": "Consumer AI platform"
+   },
+   {
+    "t": 12,
+    "date": "2028-01",
+    "outlet": "WIRE",
+    "headline": "Autonomy and robotics slides 25% as investors weigh regulatory costs",
+    "tone": -0.5,
+    "salience": 0.10107691236514915,
+    "type": "market_move",
+    "firm": "Autonomy and robotics"
+   },
+   {
+    "t": 12,
+    "date": "2028-01",
+    "outlet": "WIRE",
+    "headline": "Users report logistics routing collapse on Frontier Lab (open weights) services; $144m at stake",
+    "tone": -0.45,
+    "salience": 0.10046238336822234,
+    "type": "incident",
+    "firm": "Frontier Lab (open weights)"
+   },
+   {
+    "t": 12,
+    "date": "2028-01",
+    "outlet": "TECH",
+    "headline": "Consumer AI platform releases model at capability 1.27",
+    "tone": 0.545,
+    "salience": 0.13333333333333333,
+    "type": "release",
+    "firm": "Consumer AI platform"
+   },
+   {
+    "t": 12,
+    "date": "2028-01",
+    "outlet": "TECH",
+    "headline": "Automation milestone: AI services index at 1.3x; retraining demand rises",
+    "tone": -0.15500000000000003,
+    "salience": 0.11666666666666665,
+    "type": "labour",
+    "firm": null
+   },
+   {
+    "t": 13,
+    "date": "2028-02",
+    "outlet": "WIRE",
+    "headline": "Enterprise software rallies 22% as investors re rate growth",
+    "tone": 0.5,
+    "salience": 0.23476954256305357,
+    "type": "market_move",
+    "firm": "Enterprise software"
+   },
+   {
+    "t": 13,
+    "date": "2028-02",
+    "outlet": "WIRE",
+    "headline": "Consumer AI platform model linked to market manipulation scheme; losses put at $72m",
+    "tone": -0.45,
+    "salience": 0.06320507444068665,
+    "type": "incident",
+    "firm": "Consumer AI platform"
+   },
+   {
+    "t": 14,
+    "date": "2028-03",
+    "outlet": "WIRE",
+    "headline": "Frontier Lab (closed weights) confirms medical triage error, estimates $40m in damages",
+    "tone": -0.45,
+    "salience": 0.07357202728996545,
+    "type": "incident",
+    "firm": "Frontier Lab (closed weights)"
+   },
+   {
+    "t": 14,
+    "date": "2028-03",
+    "outlet": "WIRE",
+    "headline": "AI start up cohort releases model at capability 1.02",
+    "tone": 0.5,
+    "salience": 0.06666666666666667,
+    "type": "release",
+    "firm": "AI start up cohort"
+   },
+   {
+    "t": 14,
+    "date": "2028-03",
+    "outlet": "TECH",
+    "headline": "Hyperscaler cloud crosses capability 1.51 with new release",
+    "tone": 0.545,
+    "salience": 0.13333333333333333,
+    "type": "release",
+    "firm": "Hyperscaler cloud"
+   },
+   {
+    "t": 16,
+    "date": "2028-05",
+    "outlet": "WIRE",
+    "headline": "Frontier Lab (open weights) rallies 43% as investors re rate growth",
+    "tone": 0.5,
+    "salience": 0.24039858587454632,
+    "type": "market_move",
+    "firm": "Frontier Lab (open weights)"
+   },
+   {
+    "t": 16,
+    "date": "2028-05",
+    "outlet": "WIRE",
+    "headline": "Hyperscaler cloud found non compliant; $0m fine imposed",
+    "tone": -0.35,
+    "salience": 0.13999999999999999,
+    "type": "enforcement",
+    "firm": "Hyperscaler cloud"
+   },
+   {
+    "t": 16,
+    "date": "2028-05",
+    "outlet": "TECH",
+    "headline": "Autonomy and robotics releases model at capability 1.27",
+    "tone": 0.545,
+    "salience": 0.13333333333333333,
+    "type": "release",
+    "firm": "Autonomy and robotics"
+   },
+   {
+    "t": 16,
+    "date": "2028-05",
+    "outlet": "TECH",
+    "headline": "Frontier Lab (open weights) crosses capability 1.51 with new release",
+    "tone": 0.545,
+    "salience": 0.13333333333333333,
+    "type": "release",
+    "firm": "Frontier Lab (open weights)"
+   },
+   {
+    "t": 17,
+    "date": "2028-06",
+    "outlet": "WIRE",
+    "headline": "New Frontier Lab (closed weights) system reaches capability 1.76; rivals under pressure",
+    "tone": 0.5,
+    "salience": 0.049999999999999996,
+    "type": "release",
+    "firm": "Frontier Lab (closed weights)"
+   },
+   {
+    "t": 20,
+    "date": "2028-09",
+    "outlet": "WIRE",
+    "headline": "Hyperscaler cloud faces $1.3bn fallout after medical triage error",
+    "tone": -0.7,
+    "salience": 0.370849500686883,
+    "type": "incident",
+    "firm": "Hyperscaler cloud"
+   },
+   {
+    "t": 20,
+    "date": "2028-09",
+    "outlet": "WIRE",
+    "headline": "Enterprise software releases model at capability 1.25",
+    "tone": 0.5,
+    "salience": 0.06666666666666667,
+    "type": "release",
+    "firm": "Enterprise software"
+   },
+   {
+    "t": 20,
+    "date": "2028-09",
+    "outlet": "TECH",
+    "headline": "New Consumer AI platform system reaches capability 1.53; rivals under pressure",
+    "tone": 0.545,
+    "salience": 0.09999999999999999,
+    "type": "release",
+    "firm": "Consumer AI platform"
+   },
+   {
+    "t": 21,
+    "date": "2028-10",
+    "outlet": "WIRE",
+    "headline": "Hyperscaler cloud releases model at capability 1.76",
+    "tone": 0.5,
+    "salience": 0.049999999999999996,
+    "type": "release",
+    "firm": "Hyperscaler cloud"
+   },
+   {
+    "t": 22,
+    "date": "2028-11",
+    "outlet": "WIRE",
+    "headline": "Frontier Lab (closed weights) confirms runaway recommendation loop, estimates $685m in damages",
+    "tone": -0.45,
+    "salience": 0.11003255014347095,
+    "type": "incident",
+    "firm": "Frontier Lab (closed weights)"
+   },
+   {
+    "t": 22,
+    "date": "2028-11",
+    "outlet": "WIRE",
+    "headline": "Disinformation operation traced to Frontier Lab (open weights) system, regulator told; $37m in losses",
+    "tone": -0.45,
+    "salience": 0.05444882973230836,
+    "type": "incident",
+    "firm": "Frontier Lab (open weights)"
+   },
+   {
+    "t": 22,
+    "date": "2028-11",
+    "outlet": "TECH",
+    "headline": "AI start up cohort releases model at capability 1.26",
+    "tone": 0.545,
+    "salience": 0.09999999999999999,
+    "type": "release",
+    "firm": "AI start up cohort"
+   },
+   {
+    "t": 22,
+    "date": "2028-11",
+    "outlet": "TECH",
+    "headline": "Automation milestone: AI services index at 1.6x; retraining demand rises",
+    "tone": -0.15500000000000003,
+    "salience": 0.07777777777777777,
+    "type": "labour",
+    "firm": null
+   },
+   {
+    "t": 23,
+    "date": "2028-12",
+    "outlet": "WIRE",
+    "headline": "AI start up cohort rallies 23% as investors re rate growth",
+    "tone": 0.5,
+    "salience": 0.1570640693122598,
+    "type": "market_move",
+    "firm": "AI start up cohort"
+   },
+   {
+    "t": 23,
+    "date": "2028-12",
+    "outlet": "WIRE",
+    "headline": "Frontier Lab (closed weights) model linked to medical triage error; losses put at $622m",
+    "tone": -0.45,
+    "salience": 0.08617794565415532,
+    "type": "incident",
+    "firm": "Frontier Lab (closed weights)"
+   },
+   {
+    "t": 23,
+    "date": "2028-12",
+    "outlet": "TECH",
+    "headline": "New Chip designer system reaches capability 1.01; rivals under pressure",
+    "tone": 0.545,
+    "salience": 0.13333333333333333,
+    "type": "release",
+    "firm": "Chip designer"
+   },
+   {
+    "t": 23,
+    "date": "2028-12",
+    "outlet": "TECH",
+    "headline": "New Autonomy and robotics system reaches capability 1.50; rivals under pressure",
+    "tone": 0.545,
+    "salience": 0.09999999999999999,
+    "type": "release",
+    "firm": "Autonomy and robotics"
+   },
+   {
+    "t": 25,
+    "date": "2029-02",
+    "outlet": "WIRE",
+    "headline": "Chip designer shares fall 20% on the month",
+    "tone": -0.5,
+    "salience": 0.22063476864073614,
+    "type": "market_move",
+    "firm": "Chip designer"
+   },
+   {
+    "t": 25,
+    "date": "2029-02",
+    "outlet": "WIRE",
+    "headline": "Enterprise software fined $0m for breaching Status quo (voluntary commitments) obligations",
+    "tone": -0.35,
+    "salience": 0.21,
+    "type": "enforcement",
+    "firm": "Enterprise software"
+   },
+   {
+    "t": 25,
+    "date": "2029-02",
+    "outlet": "TECH",
+    "headline": "Hyperscaler cloud model linked to synthetic identity ring; losses put at $201m",
+    "tone": -0.405,
+    "salience": 0.09115713371358602,
+    "type": "incident",
+    "firm": "Hyperscaler cloud"
+   },
+   {
+    "t": 26,
+    "date": "2029-03",
+    "outlet": "WIRE",
+    "headline": "Frontier Lab (open weights) found non compliant; $0m fine imposed",
+    "tone": -0.35,
+    "salience": 0.21,
+    "type": "enforcement",
+    "firm": "Frontier Lab (open weights)"
+   },
+   {
+    "t": 26,
+    "date": "2029-03",
+    "outlet": "WIRE",
+    "headline": "New Consumer AI platform system reaches capability 1.75; rivals under pressure",
+    "tone": 0.5,
+    "salience": 0.04,
+    "type": "release",
+    "firm": "Consumer AI platform"
+   },
+   {
+    "t": 27,
+    "date": "2029-04",
+    "outlet": "WIRE",
+    "headline": "AI start up cohort shares jump 46% on the month",
+    "tone": 0.5,
+    "salience": 0.18937280699067072,
+    "type": "market_move",
+    "firm": "AI start up cohort"
+   },
+   {
+    "t": 27,
+    "date": "2029-04",
+    "outlet": "WIRE",
+    "headline": "Chip designer rallies 25% as investors re rate growth",
+    "tone": 0.5,
+    "salience": 0.16765506549328965,
+    "type": "market_move",
+    "firm": "Chip designer"
+   },
+   {
+    "t": 27,
+    "date": "2029-04",
+    "outlet": "TECH",
+    "headline": "Hyperscaler cloud crosses capability 2.01 with new release",
+    "tone": 0.545,
+    "salience": 0.08,
+    "type": "release",
+    "firm": "Hyperscaler cloud"
+   },
+   {
+    "t": 27,
+    "date": "2029-04",
+    "outlet": "TECH",
+    "headline": "Disinformation operation traced to Frontier Lab (closed weights) system, regulator told; $80m in losses",
+    "tone": -0.405,
+    "salience": 0.03607039669819965,
+    "type": "incident",
+    "firm": "Frontier Lab (closed weights)"
+   },
+   {
+    "t": 28,
+    "date": "2029-05",
+    "outlet": "WIRE",
+    "headline": "AI start up cohort shares jump 29% on the month",
+    "tone": 0.5,
+    "salience": 0.10932067748125118,
+    "type": "market_move",
+    "firm": "AI start up cohort"
+   },
+   {
+    "t": 28,
+    "date": "2029-05",
+    "outlet": "WIRE",
+    "headline": "Autonomy and robotics shares jump 24% on the month",
+    "tone": 0.5,
+    "salience": 0.08072623398287815,
+    "type": "market_move",
+    "firm": "Autonomy and robotics"
+   },
+   {
+    "t": 28,
+    "date": "2029-05",
+    "outlet": "TECH",
+    "headline": "Frontier Lab (closed weights) model linked to mis specified trading agent; losses put at $308m",
+    "tone": -0.405,
+    "salience": 0.04347736843386951,
+    "type": "incident",
+    "firm": "Frontier Lab (closed weights)"
+   },
+   {
+    "t": 29,
+    "date": "2029-06",
+    "outlet": "WIRE",
+    "headline": "AI start up cohort shares jump 28% on the month",
+    "tone": 0.5,
+    "salience": 0.08967203143764635,
+    "type": "market_move",
+    "firm": "AI start up cohort"
+   },
+   {
+    "t": 29,
+    "date": "2029-06",
+    "outlet": "WIRE",
+    "headline": "Consumer AI platform model linked to medical triage error; losses put at $665m",
+    "tone": -0.45,
+    "salience": 0.08745171689306669,
+    "type": "incident",
+    "firm": "Consumer AI platform"
+   },
+   {
+    "t": 29,
+    "date": "2029-06",
+    "outlet": "TECH",
+    "headline": "New Enterprise software system reaches capability 1.52; rivals under pressure",
+    "tone": 0.545,
+    "salience": 0.09999999999999999,
+    "type": "release",
+    "firm": "Enterprise software"
+   },
+   {
+    "t": 29,
+    "date": "2029-06",
+    "outlet": "TECH",
+    "headline": "AI start up cohort crosses capability 1.52 with new release",
+    "tone": 0.545,
+    "salience": 0.08,
+    "type": "release",
+    "firm": "AI start up cohort"
+   },
+   {
+    "t": 29,
+    "date": "2029-06",
+    "outlet": "CIVIC",
+    "headline": "Users report credential harvesting attack on Frontier Lab (closed weights) services; $197m at stake",
+    "tone": -0.51,
+    "salience": 0.06805283744077674,
+    "type": "incident",
+    "firm": "Frontier Lab (closed weights)"
+   },
+   {
+    "t": 30,
+    "date": "2029-07",
+    "outlet": "WIRE",
+    "headline": "Frontier Lab (open weights) model linked to credential harvesting attack; losses put at $292m",
+    "tone": -0.45,
+    "salience": 0.07205220301276448,
+    "type": "incident",
+    "firm": "Frontier Lab (open weights)"
+   },
+   {
+    "t": 30,
+    "date": "2029-07",
+    "outlet": "WIRE",
+    "headline": "Frontier Lab (open weights) releases model at capability 2.04",
+    "tone": 0.5,
+    "salience": 0.049999999999999996,
+    "type": "release",
+    "firm": "Frontier Lab (open weights)"
+   },
+   {
+    "t": 30,
+    "date": "2029-07",
+    "outlet": "TECH",
+    "headline": "Autonomy and robotics crosses capability 1.78 with new release",
+    "tone": 0.545,
+    "salience": 0.08,
+    "type": "release",
+    "firm": "Autonomy and robotics"
+   },
+   {
+    "t": 31,
+    "date": "2029-08",
+    "outlet": "WIRE",
+    "headline": "Autonomy and robotics model linked to mis specified trading agent; losses put at $670m",
+    "tone": -0.45,
+    "salience": 0.21898151567516286,
+    "type": "incident",
+    "firm": "Autonomy and robotics"
+   },
+   {
+    "t": 31,
+    "date": "2029-08",
+    "outlet": "WIRE",
+    "headline": "AI start up cohort shares fall 27% on the month",
+    "tone": -0.5,
+    "salience": 0.07559526086681405,
+    "type": "market_move",
+    "firm": "AI start up cohort"
+   },
+   {
+    "t": 32,
+    "date": "2029-09",
+    "outlet": "WIRE",
+    "headline": "Automated phishing wave traced to Chip designer system, regulator told; $67m in losses",
+    "tone": -0.45,
+    "salience": 0.12422127414367506,
+    "type": "incident",
+    "firm": "Chip designer"
+   },
+   {
+    "t": 32,
+    "date": "2029-09",
+    "outlet": "WIRE",
+    "headline": "Consumer AI platform crosses capability 2.01 with new release",
+    "tone": 0.5,
+    "salience": 0.03333333333333333,
+    "type": "release",
+    "firm": "Consumer AI platform"
+   },
+   {
+    "t": 32,
+    "date": "2029-09",
+    "outlet": "TECH",
+    "headline": "AI service index up 104% since start; unions seek adjustment support",
+    "tone": -0.15500000000000003,
+    "salience": 0.05833333333333333,
+    "type": "labour",
+    "firm": null
+   },
+   {
+    "t": 33,
+    "date": "2029-10",
+    "outlet": "WIRE",
+    "headline": "Autonomy and robotics confirms runaway recommendation loop, estimates $126m in damages",
+    "tone": -0.45,
+    "salience": 0.097013757115937,
+    "type": "incident",
+    "firm": "Autonomy and robotics"
+   },
+   {
+    "t": 33,
+    "date": "2029-10",
+    "outlet": "WIRE",
+    "headline": "Credential harvesting attack traced to Hyperscaler cloud system, regulator told; $66m in losses",
+    "tone": -0.45,
+    "salience": 0.06201908179054519,
+    "type": "incident",
+    "firm": "Hyperscaler cloud"
+   },
+   {
+    "t": 33,
+    "date": "2029-10",
+    "outlet": "TECH",
+    "headline": "Chip designer crosses capability 1.25 with new release",
+    "tone": 0.545,
+    "salience": 0.09999999999999999,
+    "type": "release",
+    "firm": "Chip designer"
+   },
+   {
+    "t": 33,
+    "date": "2029-10",
+    "outlet": "TECH",
+    "headline": "Hyperscaler cloud crosses capability 2.28 with new release",
+    "tone": 0.545,
+    "salience": 0.06666666666666667,
+    "type": "release",
+    "firm": "Hyperscaler cloud"
+   },
+   {
+    "t": 33,
+    "date": "2029-10",
+    "outlet": "CIVIC",
+    "headline": "Frontier Lab (open weights) model linked to credential harvesting attack; losses put at $86m",
+    "tone": -0.51,
+    "salience": 0.0733990577821923,
+    "type": "incident",
+    "firm": "Frontier Lab (open weights)"
+   },
+   {
+    "t": 34,
+    "date": "2029-11",
+    "outlet": "WIRE",
+    "headline": "Chip designer shares jump 23% on the month",
+    "tone": 0.5,
+    "salience": 0.11794497369556238,
+    "type": "market_move",
+    "firm": "Chip designer"
+   },
+   {
+    "t": 34,
+    "date": "2029-11",
+    "outlet": "WIRE",
+    "headline": "AI start up cohort shares jump 21% on the month",
+    "tone": 0.5,
+    "salience": 0.05681517686236365,
+    "type": "market_move",
+    "firm": "AI start up cohort"
+   },
+   {
+    "t": 34,
+    "date": "2029-11",
+    "outlet": "TECH",
+    "headline": "New Frontier Lab (closed weights) system reaches capability 2.54; rivals under pressure",
+    "tone": 0.545,
+    "salience": 0.08,
+    "type": "release",
+    "firm": "Frontier Lab (closed weights)"
+   },
+   {
+    "t": 35,
+    "date": "2029-12",
+    "outlet": "WIRE",
+    "headline": "Autonomy and robotics found non compliant; $0m fine imposed",
+    "tone": -0.35,
+    "salience": 0.21,
+    "type": "enforcement",
+    "firm": "Autonomy and robotics"
+   },
+   {
+    "t": 35,
+    "date": "2029-12",
+    "outlet": "WIRE",
+    "headline": "Chip designer rallies 27% as investors re rate growth",
+    "tone": 0.5,
+    "salience": 0.10539891577053506,
+    "type": "market_move",
+    "firm": "Chip designer"
+   },
+   {
+    "t": 35,
+    "date": "2029-12",
+    "outlet": "TECH",
+    "headline": "New Frontier Lab (open weights) system reaches capability 2.27; rivals under pressure",
+    "tone": 0.545,
+    "salience": 0.08,
+    "type": "release",
+    "firm": "Frontier Lab (open weights)"
+   },
+   {
+    "t": 35,
+    "date": "2029-12",
+    "outlet": "TECH",
+    "headline": "New AI start up cohort system reaches capability 1.78; rivals under pressure",
+    "tone": 0.545,
+    "salience": 0.06666666666666667,
+    "type": "release",
+    "firm": "AI start up cohort"
+   }
+  ],
+  "summary": {
+   "headlines": 86,
+   "share_negative": 0.3953488372093023,
+   "mean_tone": 0.10918604651162792,
+   "by_type": {
+    "policy_start": 1,
+    "incident": 22,
+    "release": 33,
+    "market_move": 20,
+    "enforcement": 7,
+    "labour": 3
+   },
+   "by_outlet": {
+    "WIRE": 56,
+    "TECH": 28,
+    "CIVIC": 2
+   },
+   "worst": [
+    {
+     "t": 20,
+     "date": "2028-09",
+     "outlet": "WIRE",
+     "headline": "Hyperscaler cloud faces $1.3bn fallout after medical triage error",
+     "tone": -0.7,
+     "salience": 0.370849500686883,
+     "type": "incident",
+     "firm": "Hyperscaler cloud"
+    },
+    {
+     "t": 29,
+     "date": "2029-06",
+     "outlet": "CIVIC",
+     "headline": "Users report credential harvesting attack on Frontier Lab (closed weights) services; $197m at stake",
+     "tone": -0.51,
+     "salience": 0.06805283744077674,
+     "type": "incident",
+     "firm": "Frontier Lab (closed weights)"
+    },
+    {
+     "t": 33,
+     "date": "2029-10",
+     "outlet": "CIVIC",
+     "headline": "Frontier Lab (open weights) model linked to credential harvesting attack; losses put at $86m",
+     "tone": -0.51,
+     "salience": 0.0733990577821923,
+     "type": "incident",
+     "firm": "Frontier Lab (open weights)"
+    }
+   ]
+  }
+ },
+ "coordinated_licensing": {
+  "wire": [
+   {
+    "t": 1,
+    "date": "2027-02",
+    "outlet": "WIRE",
+    "headline": "Frontier Lab (closed weights) model linked to fraud campaign; losses put at $775m",
+    "tone": -0.45,
+    "salience": 0.22611055026392446,
+    "type": "incident",
+    "firm": "Frontier Lab (closed weights)"
+   },
+   {
+    "t": 1,
+    "date": "2027-02",
+    "outlet": "WIRE",
+    "headline": "Users report information ecosystem shock on Frontier Lab (open weights) services; $743m at stake",
+    "tone": -0.45,
+    "salience": 0.22401340841700867,
+    "type": "incident",
+    "firm": "Frontier Lab (open weights)"
+   },
+   {
+    "t": 1,
+    "date": "2027-02",
+    "outlet": "TECH",
+    "headline": "Frontier Lab (closed weights) crosses capability 1.25 with new release",
+    "tone": 0.545,
+    "salience": 0.19999999999999998,
+    "type": "release",
+    "firm": "Frontier Lab (closed weights)"
+   },
+   {
+    "t": 1,
+    "date": "2027-02",
+    "outlet": "TECH",
+    "headline": "Consumer AI platform confirms runaway recommendation loop, estimates $74m in damages",
+    "tone": -0.405,
+    "salience": 0.10601311868671769,
+    "type": "incident",
+    "firm": "Consumer AI platform"
+   },
+   {
+    "t": 2,
+    "date": "2027-03",
+    "outlet": "WIRE",
+    "headline": "AI start up cohort releases model at capability 0.75",
+    "tone": 0.5,
+    "salience": 0.09999999999999999,
+    "type": "release",
+    "firm": "AI start up cohort"
+   },
+   {
+    "t": 2,
+    "date": "2027-03",
+    "outlet": "WIRE",
+    "headline": "Consumer AI platform crosses capability 1.02 with new release",
+    "tone": 0.5,
+    "salience": 0.09999999999999999,
+    "type": "release",
+    "firm": "Consumer AI platform"
+   },
+   {
+    "t": 4,
+    "date": "2027-05",
+    "outlet": "WIRE",
+    "headline": "AI start up cohort shares jump 35% on the month",
+    "tone": 0.5,
+    "salience": 0.3089309639791831,
+    "type": "market_move",
+    "firm": "AI start up cohort"
+   },
+   {
+    "t": 5,
+    "date": "2027-06",
+    "outlet": "WIRE",
+    "headline": "Autonomy and robotics shares jump 27% on the month",
+    "tone": 0.5,
+    "salience": 0.262745383418371,
+    "type": "market_move",
+    "firm": "Autonomy and robotics"
+   },
+   {
+    "t": 6,
+    "date": "2027-07",
+    "outlet": "WIRE",
+    "headline": "Frontier Lab (closed weights) rallies 32% as investors re rate growth",
+    "tone": 0.5,
+    "salience": 0.29384725682401325,
+    "type": "market_move",
+    "firm": "Frontier Lab (closed weights)"
+   },
+   {
+    "t": 6,
+    "date": "2027-07",
+    "outlet": "WIRE",
+    "headline": "Autonomy and robotics rallies 21% as investors re rate growth",
+    "tone": 0.5,
+    "salience": 0.1504308427008514,
+    "type": "market_move",
+    "firm": "Autonomy and robotics"
+   },
+   {
+    "t": 6,
+    "date": "2027-07",
+    "outlet": "TECH",
+    "headline": "Hyperscaler cloud releases model at capability 1.27",
+    "tone": 0.545,
+    "salience": 0.19999999999999998,
+    "type": "release",
+    "firm": "Hyperscaler cloud"
+   },
+   {
+    "t": 7,
+    "date": "2027-08",
+    "outlet": "WIRE",
+    "headline": "Consumer AI platform confirms fraud campaign, estimates $328m in damages",
+    "tone": -0.45,
+    "salience": 0.12363893431308164,
+    "type": "incident",
+    "firm": "Consumer AI platform"
+   },
+   {
+    "t": 7,
+    "date": "2027-08",
+    "outlet": "WIRE",
+    "headline": "New Autonomy and robotics system reaches capability 1.02; rivals under pressure",
+    "tone": 0.5,
+    "salience": 0.09999999999999999,
+    "type": "release",
+    "firm": "Autonomy and robotics"
+   },
+   {
+    "t": 8,
+    "date": "2027-09",
+    "outlet": "WIRE",
+    "headline": "New Frontier Lab (open weights) system reaches capability 1.27; rivals under pressure",
+    "tone": 0.5,
+    "salience": 0.09999999999999999,
+    "type": "release",
+    "firm": "Frontier Lab (open weights)"
+   },
+   {
+    "t": 9,
+    "date": "2027-10",
+    "outlet": "WIRE",
+    "headline": "Autonomy and robotics slides 27% as investors weigh regulatory costs",
+    "tone": -0.5,
+    "salience": 0.13241168296026712,
+    "type": "market_move",
+    "firm": "Autonomy and robotics"
+   },
+   {
+    "t": 10,
+    "date": "2027-11",
+    "outlet": "WIRE",
+    "headline": "Enterprise software crosses capability 1.01 with new release",
+    "tone": 0.5,
+    "salience": 0.09999999999999999,
+    "type": "release",
+    "firm": "Enterprise software"
+   },
+   {
+    "t": 10,
+    "date": "2027-11",
+    "outlet": "WIRE",
+    "headline": "New Chip designer system reaches capability 0.76; rivals under pressure",
+    "tone": 0.5,
+    "salience": 0.09999999999999999,
+    "type": "release",
+    "firm": "Chip designer"
+   },
+   {
+    "t": 10,
+    "date": "2027-11",
+    "outlet": "TECH",
+    "headline": "Frontier Lab (closed weights) crosses capability 1.51 with new release",
+    "tone": 0.545,
+    "salience": 0.13333333333333333,
+    "type": "release",
+    "firm": "Frontier Lab (closed weights)"
+   },
+   {
+    "t": 11,
+    "date": "2027-12",
+    "outlet": "WIRE",
+    "headline": "Frontier Lab (open weights) shares fall 28% on the month",
+    "tone": -0.5,
+    "salience": 0.2686036536325061,
+    "type": "market_move",
+    "firm": "Frontier Lab (open weights)"
+   },
+   {
+    "t": 11,
+    "date": "2027-12",
+    "outlet": "WIRE",
+    "headline": "AI start up cohort rallies 23% as investors re rate growth",
+    "tone": 0.5,
+    "salience": 0.15969068883560156,
+    "type": "market_move",
+    "firm": "AI start up cohort"
+   },
+   {
+    "t": 12,
+    "date": "2028-01",
+    "outlet": "WIRE",
+    "headline": "Coordinated frontier licensing comes into force across the sector",
+    "tone": -0.05,
+    "salience": 0.27999999999999997,
+    "type": "policy_start",
+    "firm": null
+   },
+   {
+    "t": 12,
+    "date": "2028-01",
+    "outlet": "WIRE",
+    "headline": "Coordinated frontier licensing: Frontier Lab (open weights) waits 4 months for clearance",
+    "tone": -0.2,
+    "salience": 0.18666666666666665,
+    "type": "licence_delay",
+    "firm": "Frontier Lab (open weights)"
+   },
+   {
+    "t": 12,
+    "date": "2028-01",
+    "outlet": "TECH",
+    "headline": "Frontier Lab (closed weights) delays launch by 4 months to satisfy Coordinated frontier licensing",
+    "tone": -0.15500000000000003,
+    "salience": 0.18666666666666665,
+    "type": "licence_delay",
+    "firm": "Frontier Lab (closed weights)"
+   },
+   {
+    "t": 12,
+    "date": "2028-01",
+    "outlet": "TECH",
+    "headline": "Consumer AI platform releases model at capability 1.27",
+    "tone": 0.545,
+    "salience": 0.13333333333333333,
+    "type": "release",
+    "firm": "Consumer AI platform"
+   },
+   {
+    "t": 12,
+    "date": "2028-01",
+    "outlet": "CIVIC",
+    "headline": "Users report autonomous system failure on Frontier Lab (open weights) services; $144m at stake",
+    "tone": -0.51,
+    "salience": 0.16743730561370393,
+    "type": "incident",
+    "firm": "Frontier Lab (open weights)"
+   },
+   {
+    "t": 13,
+    "date": "2028-02",
+    "outlet": "WIRE",
+    "headline": "Enterprise software shares jump 23% on the month",
+    "tone": 0.5,
+    "salience": 0.2363985223447311,
+    "type": "market_move",
+    "firm": "Enterprise software"
+   },
+   {
+    "t": 13,
+    "date": "2028-02",
+    "outlet": "WIRE",
+    "headline": "Users report synthetic identity ring on Consumer AI platform services; $72m at stake",
+    "tone": -0.45,
+    "salience": 0.06320507444068665,
+    "type": "incident",
+    "firm": "Consumer AI platform"
+   },
+   {
+    "t": 13,
+    "date": "2028-02",
+    "outlet": "TECH",
+    "headline": "Automation milestone: AI services index at 1.3x; retraining demand rises",
+    "tone": -0.15500000000000003,
+    "salience": 0.11666666666666665,
+    "type": "labour",
+    "firm": null
+   },
+   {
+    "t": 14,
+    "date": "2028-03",
+    "outlet": "WIRE",
+    "headline": "Grid control fault traced to Frontier Lab (closed weights) system, regulator told; $40m in losses",
+    "tone": -0.45,
+    "salience": 0.07357202728996545,
+    "type": "incident",
+    "firm": "Frontier Lab (closed weights)"
+   },
+   {
+    "t": 14,
+    "date": "2028-03",
+    "outlet": "WIRE",
+    "headline": "New AI start up cohort system reaches capability 1.02; rivals under pressure",
+    "tone": 0.5,
+    "salience": 0.06666666666666667,
+    "type": "release",
+    "firm": "AI start up cohort"
+   },
+   {
+    "t": 14,
+    "date": "2028-03",
+    "outlet": "TECH",
+    "headline": "New Hyperscaler cloud system reaches capability 1.51; rivals under pressure",
+    "tone": 0.545,
+    "salience": 0.13333333333333333,
+    "type": "release",
+    "firm": "Hyperscaler cloud"
+   },
+   {
+    "t": 16,
+    "date": "2028-05",
+    "outlet": "WIRE",
+    "headline": "Hyperscaler cloud found non compliant; $5.9bn fine imposed",
+    "tone": -0.35,
+    "salience": 0.39654117588581106,
+    "type": "enforcement",
+    "firm": "Hyperscaler cloud"
+   },
+   {
+    "t": 16,
+    "date": "2028-05",
+    "outlet": "WIRE",
+    "headline": "Frontier Lab (open weights) rallies 44% as investors re rate growth",
+    "tone": 0.5,
+    "salience": 0.2431094673667378,
+    "type": "market_move",
+    "firm": "Frontier Lab (open weights)"
+   },
+   {
+    "t": 16,
+    "date": "2028-05",
+    "outlet": "TECH",
+    "headline": "New Autonomy and robotics system reaches capability 1.27; rivals under pressure",
+    "tone": 0.545,
+    "salience": 0.13333333333333333,
+    "type": "release",
+    "firm": "Autonomy and robotics"
+   },
+   {
+    "t": 20,
+    "date": "2028-09",
+    "outlet": "WIRE",
+    "headline": "Regulators open inquiry into Hyperscaler cloud after $1.3bn autonomous system failure",
+    "tone": -0.7,
+    "salience": 0.370849500686883,
+    "type": "incident",
+    "firm": "Hyperscaler cloud"
+   },
+   {
+    "t": 20,
+    "date": "2028-09",
+    "outlet": "WIRE",
+    "headline": "Frontier Lab (closed weights) shares fall 20% on the month",
+    "tone": -0.5,
+    "salience": 0.14713100423660555,
+    "type": "market_move",
+    "firm": "Frontier Lab (closed weights)"
+   },
+   {
+    "t": 20,
+    "date": "2028-09",
+    "outlet": "TECH",
+    "headline": "Enterprise software releases model at capability 1.25",
+    "tone": 0.545,
+    "salience": 0.13333333333333333,
+    "type": "release",
+    "firm": "Enterprise software"
+   },
+   {
+    "t": 20,
+    "date": "2028-09",
+    "outlet": "TECH",
+    "headline": "Consumer AI platform crosses capability 1.53 with new release",
+    "tone": 0.545,
+    "salience": 0.09999999999999999,
+    "type": "release",
+    "firm": "Consumer AI platform"
+   },
+   {
+    "t": 21,
+    "date": "2028-10",
+    "outlet": "WIRE",
+    "headline": "New Frontier Lab (open weights) system reaches capability 1.52; rivals under pressure",
+    "tone": 0.5,
+    "salience": 0.06666666666666667,
+    "type": "release",
+    "firm": "Frontier Lab (open weights)"
+   },
+   {
+    "t": 21,
+    "date": "2028-10",
+    "outlet": "WIRE",
+    "headline": "Hyperscaler cloud crosses capability 1.76 with new release",
+    "tone": 0.5,
+    "salience": 0.049999999999999996,
+    "type": "release",
+    "firm": "Hyperscaler cloud"
+   },
+   {
+    "t": 22,
+    "date": "2028-11",
+    "outlet": "WIRE",
+    "headline": "New AI start up cohort system reaches capability 1.26; rivals under pressure",
+    "tone": 0.5,
+    "salience": 0.049999999999999996,
+    "type": "release",
+    "firm": "AI start up cohort"
+   },
+   {
+    "t": 22,
+    "date": "2028-11",
+    "outlet": "WIRE",
+    "headline": "Frontier Lab (closed weights) crosses capability 1.77 with new release",
+    "tone": 0.5,
+    "salience": 0.049999999999999996,
+    "type": "release",
+    "firm": "Frontier Lab (closed weights)"
+   },
+   {
+    "t": 23,
+    "date": "2028-12",
+    "outlet": "WIRE",
+    "headline": "AI start up cohort rallies 23% as investors re rate growth",
+    "tone": 0.5,
+    "salience": 0.1193173479908688,
+    "type": "market_move",
+    "firm": "AI start up cohort"
+   },
+   {
+    "t": 23,
+    "date": "2028-12",
+    "outlet": "WIRE",
+    "headline": "Chip designer crosses capability 1.01 with new release",
+    "tone": 0.5,
+    "salience": 0.06666666666666667,
+    "type": "release",
+    "firm": "Chip designer"
+   },
+   {
+    "t": 23,
+    "date": "2028-12",
+    "outlet": "TECH",
+    "headline": "Automation milestone: AI services index at 1.6x; retraining demand rises",
+    "tone": -0.15500000000000003,
+    "salience": 0.07777777777777777,
+    "type": "labour",
+    "firm": null
+   },
+   {
+    "t": 24,
+    "date": "2029-01",
+    "outlet": "WIRE",
+    "headline": "Autonomy and robotics releases model at capability 1.53",
+    "tone": 0.5,
+    "salience": 0.049999999999999996,
+    "type": "release",
+    "firm": "Autonomy and robotics"
+   },
+   {
+    "t": 25,
+    "date": "2029-02",
+    "outlet": "WIRE",
+    "headline": "Hyperscaler cloud confirms credential harvesting attack, estimates $201m in damages",
+    "tone": -0.45,
+    "salience": 0.10938856045630323,
+    "type": "incident",
+    "firm": "Hyperscaler cloud"
+   },
+   {
+    "t": 27,
+    "date": "2029-04",
+    "outlet": "WIRE",
+    "headline": "Chip designer rallies 25% as investors re rate growth",
+    "tone": 0.5,
+    "salience": 0.25101941575123426,
+    "type": "market_move",
+    "firm": "Chip designer"
+   },
+   {
+    "t": 27,
+    "date": "2029-04",
+    "outlet": "WIRE",
+    "headline": "AI start up cohort rallies 46% as investors re rate growth",
+    "tone": 0.5,
+    "salience": 0.14973484426279568,
+    "type": "market_move",
+    "firm": "AI start up cohort"
+   },
+   {
+    "t": 27,
+    "date": "2029-04",
+    "outlet": "TECH",
+    "headline": "New Consumer AI platform system reaches capability 1.79; rivals under pressure",
+    "tone": 0.545,
+    "salience": 0.08,
+    "type": "release",
+    "firm": "Consumer AI platform"
+   },
+   {
+    "t": 27,
+    "date": "2029-04",
+    "outlet": "TECH",
+    "headline": "Hyperscaler cloud releases model at capability 2.01",
+    "tone": 0.545,
+    "salience": 0.08,
+    "type": "release",
+    "firm": "Hyperscaler cloud"
+   },
+   {
+    "t": 27,
+    "date": "2029-04",
+    "outlet": "CIVIC",
+    "headline": "Users report disinformation operation on Frontier Lab (closed weights) services; $80m at stake",
+    "tone": -0.51,
+    "salience": 0.10821119009459895,
+    "type": "incident",
+    "firm": "Frontier Lab (closed weights)"
+   },
+   {
+    "t": 28,
+    "date": "2029-05",
+    "outlet": "WIRE",
+    "headline": "Autonomy and robotics rallies 25% as investors re rate growth",
+    "tone": 0.5,
+    "salience": 0.10007121943319745,
+    "type": "market_move",
+    "firm": "Autonomy and robotics"
+   },
+   {
+    "t": 28,
+    "date": "2029-05",
+    "outlet": "WIRE",
+    "headline": "AI start up cohort shares jump 30% on the month",
+    "tone": 0.5,
+    "salience": 0.09317176001123222,
+    "type": "market_move",
+    "firm": "AI start up cohort"
+   },
+   {
+    "t": 28,
+    "date": "2029-05",
+    "outlet": "TECH",
+    "headline": "Frontier Lab (closed weights) model linked to autonomous system failure; losses put at $308m",
+    "tone": -0.405,
+    "salience": 0.06086831580741733,
+    "type": "incident",
+    "firm": "Frontier Lab (closed weights)"
+   },
+   {
+    "t": 29,
+    "date": "2029-06",
+    "outlet": "WIRE",
+    "headline": "Users report flawed credit decisions on Consumer AI platform services; $665m at stake",
+    "tone": -0.45,
+    "salience": 0.08745171689306669,
+    "type": "incident",
+    "firm": "Consumer AI platform"
+   },
+   {
+    "t": 29,
+    "date": "2029-06",
+    "outlet": "WIRE",
+    "headline": "AI start up cohort shares jump 30% on the month",
+    "tone": 0.5,
+    "salience": 0.07922812337565084,
+    "type": "market_move",
+    "firm": "AI start up cohort"
+   },
+   {
+    "t": 29,
+    "date": "2029-06",
+    "outlet": "TECH",
+    "headline": "Enterprise software crosses capability 1.52 with new release",
+    "tone": 0.545,
+    "salience": 0.09999999999999999,
+    "type": "release",
+    "firm": "Enterprise software"
+   },
+   {
+    "t": 29,
+    "date": "2029-06",
+    "outlet": "TECH",
+    "headline": "Frontier Lab (open weights) releases model at capability 1.78",
+    "tone": 0.545,
+    "salience": 0.09999999999999999,
+    "type": "release",
+    "firm": "Frontier Lab (open weights)"
+   },
+   {
+    "t": 29,
+    "date": "2029-06",
+    "outlet": "CIVIC",
+    "headline": "Frontier Lab (closed weights) model linked to market manipulation scheme; losses put at $197m",
+    "tone": -0.51,
+    "salience": 0.09073711658770232,
+    "type": "incident",
+    "firm": "Frontier Lab (closed weights)"
+   },
+   {
+    "t": 30,
+    "date": "2029-07",
+    "outlet": "WIRE",
+    "headline": "Frontier Lab (open weights) confirms fraud campaign, estimates $292m in damages",
+    "tone": -0.45,
+    "salience": 0.09006525376595559,
+    "type": "incident",
+    "firm": "Frontier Lab (open weights)"
+   },
+   {
+    "t": 30,
+    "date": "2029-07",
+    "outlet": "WIRE",
+    "headline": "Autonomy and robotics releases model at capability 1.77",
+    "tone": 0.5,
+    "salience": 0.04,
+    "type": "release",
+    "firm": "Autonomy and robotics"
+   },
+   {
+    "t": 31,
+    "date": "2029-08",
+    "outlet": "WIRE",
+    "headline": "Autonomy and robotics confirms flawed credit decisions, estimates $670m in damages",
+    "tone": -0.45,
+    "salience": 0.21898151567516286,
+    "type": "incident",
+    "firm": "Autonomy and robotics"
+   },
+   {
+    "t": 31,
+    "date": "2029-08",
+    "outlet": "WIRE",
+    "headline": "Autonomy and robotics slides 22% as investors weigh regulatory costs",
+    "tone": -0.5,
+    "salience": 0.07688477232389211,
+    "type": "market_move",
+    "firm": "Autonomy and robotics"
+   },
+   {
+    "t": 32,
+    "date": "2029-09",
+    "outlet": "WIRE",
+    "headline": "Chip designer model linked to voice cloning scam; losses put at $67m",
+    "tone": -0.45,
+    "salience": 0.12422127414367506,
+    "type": "incident",
+    "firm": "Chip designer"
+   },
+   {
+    "t": 32,
+    "date": "2029-09",
+    "outlet": "TECH",
+    "headline": "AI service index up 104% since start; unions seek adjustment support",
+    "tone": -0.15500000000000003,
+    "salience": 0.05833333333333333,
+    "type": "labour",
+    "firm": null
+   },
+   {
+    "t": 33,
+    "date": "2029-10",
+    "outlet": "WIRE",
+    "headline": "Autonomy and robotics model linked to mis specified trading agent; losses put at $126m",
+    "tone": -0.45,
+    "salience": 0.097013757115937,
+    "type": "incident",
+    "firm": "Autonomy and robotics"
+   },
+   {
+    "t": 33,
+    "date": "2029-10",
+    "outlet": "WIRE",
+    "headline": "Automated phishing wave traced to Hyperscaler cloud system, regulator told; $66m in losses",
+    "tone": -0.45,
+    "salience": 0.06201908179054519,
+    "type": "incident",
+    "firm": "Hyperscaler cloud"
+   },
+   {
+    "t": 33,
+    "date": "2029-10",
+    "outlet": "TECH",
+    "headline": "New Chip designer system reaches capability 1.25; rivals under pressure",
+    "tone": 0.545,
+    "salience": 0.09999999999999999,
+    "type": "release",
+    "firm": "Chip designer"
+   },
+   {
+    "t": 33,
+    "date": "2029-10",
+    "outlet": "TECH",
+    "headline": "Consumer AI platform crosses capability 2.04 with new release",
+    "tone": 0.545,
+    "salience": 0.06666666666666667,
+    "type": "release",
+    "firm": "Consumer AI platform"
+   },
+   {
+    "t": 33,
+    "date": "2029-10",
+    "outlet": "CIVIC",
+    "headline": "Market manipulation scheme traced to Frontier Lab (open weights) system, regulator told; $86m in losses",
+    "tone": -0.51,
+    "salience": 0.08807886933863078,
+    "type": "incident",
+    "firm": "Frontier Lab (open weights)"
+   },
+   {
+    "t": 34,
+    "date": "2029-11",
+    "outlet": "WIRE",
+    "headline": "Chip designer rallies 22% as investors re rate growth",
+    "tone": 0.5,
+    "salience": 0.1557599964011627,
+    "type": "market_move",
+    "firm": "Chip designer"
+   },
+   {
+    "t": 34,
+    "date": "2029-11",
+    "outlet": "WIRE",
+    "headline": "AI start up cohort rallies 20% as investors re rate growth",
+    "tone": 0.5,
+    "salience": 0.055239199656797154,
+    "type": "market_move",
+    "firm": "AI start up cohort"
+   },
+   {
+    "t": 35,
+    "date": "2029-12",
+    "outlet": "WIRE",
+    "headline": "Chip designer rallies 27% as investors re rate growth",
+    "tone": 0.5,
+    "salience": 0.13165962816504775,
+    "type": "market_move",
+    "firm": "Chip designer"
+   },
+   {
+    "t": 35,
+    "date": "2029-12",
+    "outlet": "WIRE",
+    "headline": "AI start up cohort crosses capability 1.76 with new release",
+    "tone": 0.5,
+    "salience": 0.04,
+    "type": "release",
+    "firm": "AI start up cohort"
+   },
+   {
+    "t": 35,
+    "date": "2029-12",
+    "outlet": "TECH",
+    "headline": "New Frontier Lab (open weights) system reaches capability 2.00; rivals under pressure",
+    "tone": 0.545,
+    "salience": 0.08,
+    "type": "release",
+    "firm": "Frontier Lab (open weights)"
+   },
+   {
+    "t": 35,
+    "date": "2029-12",
+    "outlet": "TECH",
+    "headline": "Frontier Lab (closed weights) releases model at capability 2.28",
+    "tone": 0.545,
+    "salience": 0.08,
+    "type": "release",
+    "firm": "Frontier Lab (closed weights)"
+   }
+  ],
+  "summary": {
+   "headlines": 77,
+   "share_negative": 0.3116883116883117,
+   "mean_tone": 0.1564935064935065,
+   "by_type": {
+    "incident": 19,
+    "release": 31,
+    "market_move": 20,
+    "policy_start": 1,
+    "licence_delay": 2,
+    "labour": 3,
+    "enforcement": 1
+   },
+   "by_outlet": {
+    "WIRE": 51,
+    "TECH": 22,
+    "CIVIC": 4
+   },
+   "worst": [
+    {
+     "t": 20,
+     "date": "2028-09",
+     "outlet": "WIRE",
+     "headline": "Regulators open inquiry into Hyperscaler cloud after $1.3bn autonomous system failure",
+     "tone": -0.7,
+     "salience": 0.370849500686883,
+     "type": "incident",
+     "firm": "Hyperscaler cloud"
+    },
+    {
+     "t": 12,
+     "date": "2028-01",
+     "outlet": "CIVIC",
+     "headline": "Users report autonomous system failure on Frontier Lab (open weights) services; $144m at stake",
+     "tone": -0.51,
+     "salience": 0.16743730561370393,
+     "type": "incident",
+     "firm": "Frontier Lab (open weights)"
+    },
+    {
+     "t": 27,
+     "date": "2029-04",
+     "outlet": "CIVIC",
+     "headline": "Users report disinformation operation on Frontier Lab (closed weights) services; $80m at stake",
+     "tone": -0.51,
+     "salience": 0.10821119009459895,
+     "type": "incident",
+     "firm": "Frontier Lab (closed weights)"
+    }
+   ]
+  }
+ },
+ "moratorium": {
+  "wire": [
+   {
+    "t": 1,
+    "date": "2027-02",
+    "outlet": "WIRE",
+    "headline": "Moratorium begins under Six month moratorium above the threshold; frontier releases paused",
+    "tone": -0.05,
+    "salience": 0.27999999999999997,
+    "type": "policy_start",
+    "firm": null
+   },
+   {
+    "t": 1,
+    "date": "2027-02",
+    "outlet": "WIRE",
+    "headline": "Market manipulation scheme traced to Frontier Lab (closed weights) system, regulator told; $775m in losses",
+    "tone": -0.45,
+    "salience": 0.22611055026392446,
+    "type": "incident",
+    "firm": "Frontier Lab (closed weights)"
+   },
+   {
+    "t": 1,
+    "date": "2027-02",
+    "outlet": "TECH",
+    "headline": "Users report correlated model outage on Frontier Lab (open weights) services; $743m at stake",
+    "tone": -0.405,
+    "salience": 0.18667784034750723,
+    "type": "incident",
+    "firm": "Frontier Lab (open weights)"
+   },
+   {
+    "t": 1,
+    "date": "2027-02",
+    "outlet": "TECH",
+    "headline": "Consumer AI platform model linked to mis specified trading agent; losses put at $74m",
+    "tone": -0.405,
+    "salience": 0.10601311868671769,
+    "type": "incident",
+    "firm": "Consumer AI platform"
+   },
+   {
+    "t": 2,
+    "date": "2027-03",
+    "outlet": "WIRE",
+    "headline": "AI start up cohort releases model at capability 0.75",
+    "tone": 0.5,
+    "salience": 0.09999999999999999,
+    "type": "release",
+    "firm": "AI start up cohort"
+   },
+   {
+    "t": 2,
+    "date": "2027-03",
+    "outlet": "WIRE",
+    "headline": "Consumer AI platform crosses capability 1.02 with new release",
+    "tone": 0.5,
+    "salience": 0.09999999999999999,
+    "type": "release",
+    "firm": "Consumer AI platform"
+   },
+   {
+    "t": 4,
+    "date": "2027-05",
+    "outlet": "WIRE",
+    "headline": "AI start up cohort shares jump 35% on the month",
+    "tone": 0.5,
+    "salience": 0.308845284346734,
+    "type": "market_move",
+    "firm": "AI start up cohort"
+   },
+   {
+    "t": 5,
+    "date": "2027-06",
+    "outlet": "WIRE",
+    "headline": "Autonomy and robotics shares jump 27% on the month",
+    "tone": 0.5,
+    "salience": 0.2626513984783711,
+    "type": "market_move",
+    "firm": "Autonomy and robotics"
+   },
+   {
+    "t": 6,
+    "date": "2027-07",
+    "outlet": "WIRE",
+    "headline": "Frontier Lab (closed weights) shares jump 30% on the month",
+    "tone": 0.5,
+    "salience": 0.2819610928310978,
+    "type": "market_move",
+    "firm": "Frontier Lab (closed weights)"
+   },
+   {
+    "t": 6,
+    "date": "2027-07",
+    "outlet": "WIRE",
+    "headline": "Pause over: regulator clears releases to resume",
+    "tone": 0.3,
+    "salience": 0.2333333333333333,
+    "type": "moratorium_end",
+    "firm": null
+   },
+   {
+    "t": 7,
+    "date": "2027-08",
+    "outlet": "WIRE",
+    "headline": "Consumer AI platform confirms voice cloning scam, estimates $328m in damages",
+    "tone": -0.45,
+    "salience": 0.12363893431308164,
+    "type": "incident",
+    "firm": "Consumer AI platform"
+   },
+   {
+    "t": 7,
+    "date": "2027-08",
+    "outlet": "WIRE",
+    "headline": "Autonomy and robotics releases model at capability 1.02",
+    "tone": 0.5,
+    "salience": 0.09999999999999999,
+    "type": "release",
+    "firm": "Autonomy and robotics"
+   },
+   {
+    "t": 7,
+    "date": "2027-08",
+    "outlet": "TECH",
+    "headline": "Frontier Lab (closed weights) releases model at capability 1.33",
+    "tone": 0.545,
+    "salience": 0.19999999999999998,
+    "type": "release",
+    "firm": "Frontier Lab (closed weights)"
+   },
+   {
+    "t": 9,
+    "date": "2027-10",
+    "outlet": "WIRE",
+    "headline": "Autonomy and robotics slides 27% as investors weigh regulatory costs",
+    "tone": -0.5,
+    "salience": 0.176619858004501,
+    "type": "market_move",
+    "firm": "Autonomy and robotics"
+   },
+   {
+    "t": 9,
+    "date": "2027-10",
+    "outlet": "WIRE",
+    "headline": "Hyperscaler cloud releases model at capability 1.27",
+    "tone": 0.5,
+    "salience": 0.09999999999999999,
+    "type": "release",
+    "firm": "Hyperscaler cloud"
+   },
+   {
+    "t": 10,
+    "date": "2027-11",
+    "outlet": "WIRE",
+    "headline": "New Enterprise software system reaches capability 1.01; rivals under pressure",
+    "tone": 0.5,
+    "salience": 0.09999999999999999,
+    "type": "release",
+    "firm": "Enterprise software"
+   },
+   {
+    "t": 10,
+    "date": "2027-11",
+    "outlet": "WIRE",
+    "headline": "New Chip designer system reaches capability 0.76; rivals under pressure",
+    "tone": 0.5,
+    "salience": 0.09999999999999999,
+    "type": "release",
+    "firm": "Chip designer"
+   },
+   {
+    "t": 10,
+    "date": "2027-11",
+    "outlet": "TECH",
+    "headline": "Frontier Lab (open weights) releases model at capability 1.27",
+    "tone": 0.545,
+    "salience": 0.19999999999999998,
+    "type": "release",
+    "firm": "Frontier Lab (open weights)"
+   },
+   {
+    "t": 11,
+    "date": "2027-12",
+    "outlet": "WIRE",
+    "headline": "Frontier Lab (open weights) shares fall 29% on the month",
+    "tone": -0.5,
+    "salience": 0.2725253847538711,
+    "type": "market_move",
+    "firm": "Frontier Lab (open weights)"
+   },
+   {
+    "t": 11,
+    "date": "2027-12",
+    "outlet": "WIRE",
+    "headline": "AI start up cohort rallies 23% as investors re rate growth",
+    "tone": 0.5,
+    "salience": 0.15961011883166612,
+    "type": "market_move",
+    "firm": "AI start up cohort"
+   },
+   {
+    "t": 12,
+    "date": "2028-01",
+    "outlet": "WIRE",
+    "headline": "Autonomy and robotics shares fall 26% on the month",
+    "tone": -0.5,
+    "salience": 0.12696095776932065,
+    "type": "market_move",
+    "firm": "Autonomy and robotics"
+   },
+   {
+    "t": 12,
+    "date": "2028-01",
+    "outlet": "WIRE",
+    "headline": "Frontier Lab (open weights) model linked to logistics routing collapse; losses put at $144m",
+    "tone": -0.45,
+    "salience": 0.10046238336822234,
+    "type": "incident",
+    "firm": "Frontier Lab (open weights)"
+   },
+   {
+    "t": 12,
+    "date": "2028-01",
+    "outlet": "TECH",
+    "headline": "Consumer AI platform releases model at capability 1.27",
+    "tone": 0.545,
+    "salience": 0.13333333333333333,
+    "type": "release",
+    "firm": "Consumer AI platform"
+   },
+   {
+    "t": 13,
+    "date": "2028-02",
+    "outlet": "WIRE",
+    "headline": "Enterprise software shares jump 23% on the month",
+    "tone": 0.5,
+    "salience": 0.23644812214287456,
+    "type": "market_move",
+    "firm": "Enterprise software"
+   },
+   {
+    "t": 13,
+    "date": "2028-02",
+    "outlet": "WIRE",
+    "headline": "Frontier Lab (closed weights) crosses capability 1.51 with new release",
+    "tone": 0.5,
+    "salience": 0.06666666666666667,
+    "type": "release",
+    "firm": "Frontier Lab (closed weights)"
+   },
+   {
+    "t": 13,
+    "date": "2028-02",
+    "outlet": "TECH",
+    "headline": "Disinformation operation traced to Consumer AI platform system, regulator told; $72m in losses",
+    "tone": -0.405,
+    "salience": 0.05267089536723888,
+    "type": "incident",
+    "firm": "Consumer AI platform"
+   },
+   {
+    "t": 14,
+    "date": "2028-03",
+    "outlet": "WIRE",
+    "headline": "Users report grid control fault on Frontier Lab (closed weights) services; $40m at stake",
+    "tone": -0.45,
+    "salience": 0.07357202728996545,
+    "type": "incident",
+    "firm": "Frontier Lab (closed weights)"
+   },
+   {
+    "t": 14,
+    "date": "2028-03",
+    "outlet": "WIRE",
+    "headline": "New AI start up cohort system reaches capability 1.02; rivals under pressure",
+    "tone": 0.5,
+    "salience": 0.06666666666666667,
+    "type": "release",
+    "firm": "AI start up cohort"
+   },
+   {
+    "t": 14,
+    "date": "2028-03",
+    "outlet": "TECH",
+    "headline": "Automation milestone: AI services index at 1.3x; retraining demand rises",
+    "tone": -0.15500000000000003,
+    "salience": 0.11666666666666665,
+    "type": "labour",
+    "firm": null
+   },
+   {
+    "t": 16,
+    "date": "2028-05",
+    "outlet": "WIRE",
+    "headline": "Frontier Lab (open weights) shares jump 44% on the month",
+    "tone": 0.5,
+    "salience": 0.24372118663130596,
+    "type": "market_move",
+    "firm": "Frontier Lab (open weights)"
+   },
+   {
+    "t": 16,
+    "date": "2028-05",
+    "outlet": "WIRE",
+    "headline": "Autonomy and robotics releases model at capability 1.26",
+    "tone": 0.5,
+    "salience": 0.06666666666666667,
+    "type": "release",
+    "firm": "Autonomy and robotics"
+   },
+   {
+    "t": 17,
+    "date": "2028-06",
+    "outlet": "WIRE",
+    "headline": "Hyperscaler cloud crosses capability 1.51 with new release",
+    "tone": 0.5,
+    "salience": 0.06666666666666667,
+    "type": "release",
+    "firm": "Hyperscaler cloud"
+   },
+   {
+    "t": 18,
+    "date": "2028-07",
+    "outlet": "WIRE",
+    "headline": "Frontier Lab (open weights) releases model at capability 1.51",
+    "tone": 0.5,
+    "salience": 0.06666666666666667,
+    "type": "release",
+    "firm": "Frontier Lab (open weights)"
+   },
+   {
+    "t": 20,
+    "date": "2028-09",
+    "outlet": "WIRE",
+    "headline": "Hyperscaler cloud faces $1.3bn fallout after runaway recommendation loop",
+    "tone": -0.7,
+    "salience": 0.370849500686883,
+    "type": "incident",
+    "firm": "Hyperscaler cloud"
+   },
+   {
+    "t": 20,
+    "date": "2028-09",
+    "outlet": "WIRE",
+    "headline": "Frontier Lab (closed weights) slides 20% as investors weigh regulatory costs",
+    "tone": -0.5,
+    "salience": 0.1470053872735718,
+    "type": "market_move",
+    "firm": "Frontier Lab (closed weights)"
+   },
+   {
+    "t": 20,
+    "date": "2028-09",
+    "outlet": "TECH",
+    "headline": "New Enterprise software system reaches capability 1.25; rivals under pressure",
+    "tone": 0.545,
+    "salience": 0.13333333333333333,
+    "type": "release",
+    "firm": "Enterprise software"
+   },
+   {
+    "t": 20,
+    "date": "2028-09",
+    "outlet": "TECH",
+    "headline": "Consumer AI platform crosses capability 1.52 with new release",
+    "tone": 0.545,
+    "salience": 0.09999999999999999,
+    "type": "release",
+    "firm": "Consumer AI platform"
+   },
+   {
+    "t": 22,
+    "date": "2028-11",
+    "outlet": "WIRE",
+    "headline": "Users report flawed credit decisions on Frontier Lab (closed weights) services; $685m at stake",
+    "tone": -0.45,
+    "salience": 0.11003255014347095,
+    "type": "incident",
+    "firm": "Frontier Lab (closed weights)"
+   },
+   {
+    "t": 23,
+    "date": "2028-12",
+    "outlet": "WIRE",
+    "headline": "AI start up cohort rallies 23% as investors re rate growth",
+    "tone": 0.5,
+    "salience": 0.11879787102397647,
+    "type": "market_move",
+    "firm": "AI start up cohort"
+   },
+   {
+    "t": 23,
+    "date": "2028-12",
+    "outlet": "WIRE",
+    "headline": "Chip designer releases model at capability 1.01",
+    "tone": 0.5,
+    "salience": 0.06666666666666667,
+    "type": "release",
+    "firm": "Chip designer"
+   },
+   {
+    "t": 23,
+    "date": "2028-12",
+    "outlet": "TECH",
+    "headline": "AI start up cohort releases model at capability 1.28",
+    "tone": 0.545,
+    "salience": 0.09999999999999999,
+    "type": "release",
+    "firm": "AI start up cohort"
+   },
+   {
+    "t": 23,
+    "date": "2028-12",
+    "outlet": "TECH",
+    "headline": "Automation milestone: AI services index at 1.6x; retraining demand rises",
+    "tone": -0.15500000000000003,
+    "salience": 0.07777777777777777,
+    "type": "labour",
+    "firm": null
+   },
+   {
+    "t": 24,
+    "date": "2029-01",
+    "outlet": "WIRE",
+    "headline": "New Autonomy and robotics system reaches capability 1.52; rivals under pressure",
+    "tone": 0.5,
+    "salience": 0.049999999999999996,
+    "type": "release",
+    "firm": "Autonomy and robotics"
+   },
+   {
+    "t": 24,
+    "date": "2029-01",
+    "outlet": "WIRE",
+    "headline": "Hyperscaler cloud releases model at capability 1.76",
+    "tone": 0.5,
+    "salience": 0.049999999999999996,
+    "type": "release",
+    "firm": "Hyperscaler cloud"
+   },
+   {
+    "t": 25,
+    "date": "2029-02",
+    "outlet": "WIRE",
+    "headline": "Hyperscaler cloud confirms synthetic identity ring, estimates $201m in damages",
+    "tone": -0.45,
+    "salience": 0.10938856045630323,
+    "type": "incident",
+    "firm": "Hyperscaler cloud"
+   },
+   {
+    "t": 25,
+    "date": "2029-02",
+    "outlet": "WIRE",
+    "headline": "New Frontier Lab (open weights) system reaches capability 1.76; rivals under pressure",
+    "tone": 0.5,
+    "salience": 0.049999999999999996,
+    "type": "release",
+    "firm": "Frontier Lab (open weights)"
+   },
+   {
+    "t": 26,
+    "date": "2029-03",
+    "outlet": "WIRE",
+    "headline": "New Frontier Lab (closed weights) system reaches capability 2.00; rivals under pressure",
+    "tone": 0.5,
+    "salience": 0.049999999999999996,
+    "type": "release",
+    "firm": "Frontier Lab (closed weights)"
+   },
+   {
+    "t": 27,
+    "date": "2029-04",
+    "outlet": "WIRE",
+    "headline": "Chip designer shares jump 25% on the month",
+    "tone": 0.5,
+    "salience": 0.25100853974437404,
+    "type": "market_move",
+    "firm": "Chip designer"
+   },
+   {
+    "t": 27,
+    "date": "2029-04",
+    "outlet": "WIRE",
+    "headline": "AI start up cohort rallies 46% as investors re rate growth",
+    "tone": 0.5,
+    "salience": 0.14955816705169026,
+    "type": "market_move",
+    "firm": "AI start up cohort"
+   },
+   {
+    "t": 27,
+    "date": "2029-04",
+    "outlet": "TECH",
+    "headline": "Consumer AI platform releases model at capability 1.77",
+    "tone": 0.545,
+    "salience": 0.08,
+    "type": "release",
+    "firm": "Consumer AI platform"
+   },
+   {
+    "t": 27,
+    "date": "2029-04",
+    "outlet": "TECH",
+    "headline": "Users report credential harvesting attack on Frontier Lab (closed weights) services; $80m at stake",
+    "tone": -0.405,
+    "salience": 0.04328447603783958,
+    "type": "incident",
+    "firm": "Frontier Lab (closed weights)"
+   },
+   {
+    "t": 28,
+    "date": "2029-05",
+    "outlet": "WIRE",
+    "headline": "Autonomy and robotics rallies 25% as investors re rate growth",
+    "tone": 0.5,
+    "salience": 0.09994706442450983,
+    "type": "market_move",
+    "firm": "Autonomy and robotics"
+   },
+   {
+    "t": 28,
+    "date": "2029-05",
+    "outlet": "WIRE",
+    "headline": "AI start up cohort rallies 30% as investors re rate growth",
+    "tone": 0.5,
+    "salience": 0.09307373919594177,
+    "type": "market_move",
+    "firm": "AI start up cohort"
+   },
+   {
+    "t": 28,
+    "date": "2029-05",
+    "outlet": "TECH",
+    "headline": "Frontier Lab (closed weights) model linked to logistics routing collapse; losses put at $308m",
+    "tone": -0.405,
+    "salience": 0.0507235965061811,
+    "type": "incident",
+    "firm": "Frontier Lab (closed weights)"
+   },
+   {
+    "t": 29,
+    "date": "2029-06",
+    "outlet": "WIRE",
+    "headline": "Consumer AI platform confirms mis specified trading agent, estimates $665m in damages",
+    "tone": -0.45,
+    "salience": 0.08745171689306669,
+    "type": "incident",
+    "firm": "Consumer AI platform"
+   },
+   {
+    "t": 29,
+    "date": "2029-06",
+    "outlet": "WIRE",
+    "headline": "AI start up cohort rallies 30% as investors re rate growth",
+    "tone": 0.5,
+    "salience": 0.07916712338307816,
+    "type": "market_move",
+    "firm": "AI start up cohort"
+   },
+   {
+    "t": 29,
+    "date": "2029-06",
+    "outlet": "TECH",
+    "headline": "Enterprise software releases model at capability 1.52",
+    "tone": 0.545,
+    "salience": 0.09999999999999999,
+    "type": "release",
+    "firm": "Enterprise software"
+   },
+   {
+    "t": 29,
+    "date": "2029-06",
+    "outlet": "TECH",
+    "headline": "Credential harvesting attack traced to Frontier Lab (closed weights) system, regulator told; $197m in losses",
+    "tone": -0.405,
+    "salience": 0.038887335680443856,
+    "type": "incident",
+    "firm": "Frontier Lab (closed weights)"
+   },
+   {
+    "t": 30,
+    "date": "2029-07",
+    "outlet": "WIRE",
+    "headline": "Users report fraud campaign on Frontier Lab (open weights) services; $292m at stake",
+    "tone": -0.45,
+    "salience": 0.09006525376595559,
+    "type": "incident",
+    "firm": "Frontier Lab (open weights)"
+   },
+   {
+    "t": 30,
+    "date": "2029-07",
+    "outlet": "WIRE",
+    "headline": "AI start up cohort releases model at capability 1.53",
+    "tone": 0.5,
+    "salience": 0.04,
+    "type": "release",
+    "firm": "AI start up cohort"
+   },
+   {
+    "t": 30,
+    "date": "2029-07",
+    "outlet": "TECH",
+    "headline": "New Autonomy and robotics system reaches capability 1.75; rivals under pressure",
+    "tone": 0.545,
+    "salience": 0.08,
+    "type": "release",
+    "firm": "Autonomy and robotics"
+   },
+   {
+    "t": 30,
+    "date": "2029-07",
+    "outlet": "TECH",
+    "headline": "Hyperscaler cloud crosses capability 2.01 with new release",
+    "tone": 0.545,
+    "salience": 0.08,
+    "type": "release",
+    "firm": "Hyperscaler cloud"
+   },
+   {
+    "t": 31,
+    "date": "2029-08",
+    "outlet": "WIRE",
+    "headline": "Autonomy and robotics model linked to medical triage error; losses put at $670m",
+    "tone": -0.45,
+    "salience": 0.21898151567516286,
+    "type": "incident",
+    "firm": "Autonomy and robotics"
+   },
+   {
+    "t": 31,
+    "date": "2029-08",
+    "outlet": "WIRE",
+    "headline": "Autonomy and robotics slides 22% as investors weigh regulatory costs",
+    "tone": -0.5,
+    "salience": 0.07691127761178625,
+    "type": "market_move",
+    "firm": "Autonomy and robotics"
+   },
+   {
+    "t": 32,
+    "date": "2029-09",
+    "outlet": "WIRE",
+    "headline": "Chip designer model linked to automated phishing wave; losses put at $67m",
+    "tone": -0.45,
+    "salience": 0.12422127414367506,
+    "type": "incident",
+    "firm": "Chip designer"
+   },
+   {
+    "t": 32,
+    "date": "2029-09",
+    "outlet": "WIRE",
+    "headline": "Frontier Lab (open weights) releases model at capability 2.04",
+    "tone": 0.5,
+    "salience": 0.04,
+    "type": "release",
+    "firm": "Frontier Lab (open weights)"
+   },
+   {
+    "t": 32,
+    "date": "2029-09",
+    "outlet": "TECH",
+    "headline": "Frontier Lab (closed weights) releases model at capability 2.28",
+    "tone": 0.545,
+    "salience": 0.08,
+    "type": "release",
+    "firm": "Frontier Lab (closed weights)"
+   },
+   {
+    "t": 32,
+    "date": "2029-09",
+    "outlet": "TECH",
+    "headline": "Automation milestone: AI services index at 2.0x; retraining demand rises",
+    "tone": -0.15500000000000003,
+    "salience": 0.05833333333333333,
+    "type": "labour",
+    "firm": null
+   },
+   {
+    "t": 33,
+    "date": "2029-10",
+    "outlet": "WIRE",
+    "headline": "Autonomy and robotics model linked to flawed credit decisions; losses put at $126m",
+    "tone": -0.45,
+    "salience": 0.097013757115937,
+    "type": "incident",
+    "firm": "Autonomy and robotics"
+   },
+   {
+    "t": 33,
+    "date": "2029-10",
+    "outlet": "WIRE",
+    "headline": "Users report voice cloning scam on Frontier Lab (open weights) services; $86m at stake",
+    "tone": -0.45,
+    "salience": 0.05284732160317846,
+    "type": "incident",
+    "firm": "Frontier Lab (open weights)"
+   },
+   {
+    "t": 33,
+    "date": "2029-10",
+    "outlet": "TECH",
+    "headline": "New Chip designer system reaches capability 1.25; rivals under pressure",
+    "tone": 0.545,
+    "salience": 0.09999999999999999,
+    "type": "release",
+    "firm": "Chip designer"
+   },
+   {
+    "t": 33,
+    "date": "2029-10",
+    "outlet": "TECH",
+    "headline": "Consumer AI platform releases model at capability 2.02",
+    "tone": 0.545,
+    "salience": 0.06666666666666667,
+    "type": "release",
+    "firm": "Consumer AI platform"
+   },
+   {
+    "t": 34,
+    "date": "2029-11",
+    "outlet": "WIRE",
+    "headline": "Chip designer rallies 22% as investors re rate growth",
+    "tone": 0.5,
+    "salience": 0.15619701422934054,
+    "type": "market_move",
+    "firm": "Chip designer"
+   },
+   {
+    "t": 34,
+    "date": "2029-11",
+    "outlet": "WIRE",
+    "headline": "AI start up cohort rallies 20% as investors re rate growth",
+    "tone": 0.5,
+    "salience": 0.055314423576524004,
+    "type": "market_move",
+    "firm": "AI start up cohort"
+   },
+   {
+    "t": 35,
+    "date": "2029-12",
+    "outlet": "WIRE",
+    "headline": "Chip designer rallies 27% as investors re rate growth",
+    "tone": 0.5,
+    "salience": 0.13216329237000923,
+    "type": "market_move",
+    "firm": "Chip designer"
+   }
+  ],
+  "summary": {
+   "headlines": 75,
+   "share_negative": 0.32,
+   "mean_tone": 0.16453333333333334,
+   "by_type": {
+    "policy_start": 1,
+    "incident": 19,
+    "release": 31,
+    "market_move": 20,
+    "moratorium_end": 1,
+    "labour": 3
+   },
+   "by_outlet": {
+    "WIRE": 53,
+    "TECH": 22
+   },
+   "worst": [
+    {
+     "t": 20,
+     "date": "2028-09",
+     "outlet": "WIRE",
+     "headline": "Hyperscaler cloud faces $1.3bn fallout after runaway recommendation loop",
+     "tone": -0.7,
+     "salience": 0.370849500686883,
+     "type": "incident",
+     "firm": "Hyperscaler cloud"
+    },
+    {
+     "t": 9,
+     "date": "2027-10",
+     "outlet": "WIRE",
+     "headline": "Autonomy and robotics slides 27% as investors weigh regulatory costs",
+     "tone": -0.5,
+     "salience": 0.176619858004501,
+     "type": "market_move",
+     "firm": "Autonomy and robotics"
+    },
+    {
+     "t": 11,
+     "date": "2027-12",
+     "outlet": "WIRE",
+     "headline": "Frontier Lab (open weights) shares fall 29% on the month",
+     "tone": -0.5,
+     "salience": 0.2725253847538711,
+     "type": "market_move",
+     "firm": "Frontier Lab (open weights)"
+    }
+   ]
+  }
+ }
+}

@@ -2,11 +2,12 @@
 
     python tools/build_static.py --out site --profile demo --live-url https://your-workspace--psl.modal.run
 
-For every question in the list (the default battery question and two more, or --questions file.json with a
-list of strings) the builder plans the battery, approves Gate 1 (open gates by default, as the public site has; --gates named
-records Developer1 and Developer2 in dev mode), runs it with the stream
-recorded, lets the critic check it, releases the briefing at Gate 2 and builds the evidence pack, exactly as
-the terminal does, using the terminal's own code. It then renders every panel the terminal would show at
+For every question in the list (the default battery question, the same question again on another seed as an
+independent replication, and two more; or --questions file.json with a list of strings) the builder plans the
+battery, approves Gate 1 (open gates by default, as the public site has; --gates named records Developer1 and
+Developer2 in dev mode), runs it with the stream recorded, lets the critic check it, releases the briefing at
+Gate 2 and builds the evidence pack, exactly as the terminal does, using the terminal's own code. Every recorded
+run uses its own seed (--seed for the first, then the next integers), so no two share their random numbers. It then renders every panel the terminal would show at
 every stage into HTML fragments, converts the terminal's layout to a static page, and writes a replay script
 that plays the recorded stream back and swaps the fragments in as the stages pass. The result is a folder
 GitHub Pages serves as it is. The page says it is a replay; the live terminal is one link away.
@@ -25,11 +26,12 @@ import html as htmllib
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
+REPLICATION = "replication"       # marker: the default question again, on the next seed
 DEFAULT_QUESTIONS = [
-    None,   # the terminal's default question
+    None,           # the terminal's default question
+    REPLICATION,    # the same question on another seed: an independent replication of the first run
     "Compare strict liability with liability under a safe harbour and mandatory third party evaluations over the next "
-    "five years; the technology sector's net loss must stay below $300bn and the probability of a catastrophic incident "
-    "must fall by at least a quarter.",
+    "five years; the technology sector's net loss must stay below $300bn and the probability of a catastrophe below 14%.",
     "Would a six month moratorium above the compute threshold or coordinated frontier licensing reduce expected harm more "
     "over three years, keeping the gross social cost under $100bn?",
 ]
@@ -172,7 +174,14 @@ def main():
     if args.questions:
         with open(args.questions) as f:
             questions = json.load(f)
-    questions = [q or DEFAULT_QUESTION for q in questions]
+    # every recorded run on its own seed; a replication names its seed in the question, as a user of the terminal would
+    plan_list = []
+    for qi, q in enumerate(questions):
+        seed = args.seed + qi
+        if q == REPLICATION:
+            q = f"Replication on seed {seed}: " + DEFAULT_QUESTION[0].lower() + DEFAULT_QUESTION[1:]
+        plan_list.append((q or DEFAULT_QUESTION, seed))
+    questions = [q for q, _ in plan_list]
 
     # record phases with their position in the event sequence
     phases = []
@@ -185,9 +194,10 @@ def main():
     D._progress = rec_progress
 
     runs = []
-    for qi, question in enumerate(questions):
-        print(f"[{qi + 1}/{len(questions)}] {question[:80]}", flush=True)
+    for qi, (question, seed) in enumerate(plan_list):
+        print(f"[{qi + 1}/{len(questions)}] seed {seed}: {question[:80]}", flush=True)
         phases.clear()
+        D.CFG.seed = seed                 # the terminal's default seed for this recording (a question may still name its own)
         with D.LOCK:
             D.S.update(D._fresh_state())
             D.S["preparer_role"] = PREP_ROLE
@@ -227,10 +237,11 @@ def main():
                 D.S["pick"] = {"pnl": pol, "wlf": pol, "nws": pol}
             frags[f"pnl_{pol}"] = to_html(D._pnl_body()); frags[f"wlf_{pol}"] = to_html(D._wlf_body())
             frags[f"nws_fc_{pol}"] = to_html(D._nws_forecast())
-        pref = ev["preferred"] or ev["best_unconstrained"]
+        pref = D._focus(arte)                              # the instrument the single instrument panels open on
+        decision = D._alt(arte, ev["preferred"])           # the decision in words: an instrument's label, the status quo, or none
         with D.LOCK:
             D.S["pick"] = {"pnl": pref, "wlf": pref, "nws": pref}
-        evaluated = {"preferred": pref,
+        evaluated = {"preferred": pref, "decision": decision,
                      "index": {r["policy"]: {"mean": r["market"]["index_mean"], "lo": r["market"]["index_lo"], "hi": r["market"]["index_hi"],
                                              "base": r["market"]["index_base_mean"], "label": r["label"],
                                              "rel_mean": r["market"].get("rel_mean"), "rel_lo": r["market"].get("rel_lo"),
@@ -285,34 +296,19 @@ def main():
 
         # the oracle's material, so ASK answers in the browser
         chunks = ASK.chunks(snapshot)
-        firms = []
-        for f in arte["firms"]:
-            rows = []
-            for r in ev["policies"]:
-                if r["policy"] == "baseline":
-                    continue
-                fr = next(x for x in r["market"]["firms"] if x["firm"] == f["label"])
-                rows.append(f"{r['label']}: {ASK._bn(fr['value_change']['mean'])} (P(gain) {ASK._pct(fr['value_change']['p_positive'])}, "
-                            f"earnings {ASK._bn(fr['earnings_change_npv'])}, offshore at end {ASK._pct(fr['offshore_end'])})")
-            firms.append({"name": f["name"], "label": f["label"],
-                          "text": f"{f['label']} ({D._nice(f['sector'])}) under each instrument, value change against the baseline: " + "; ".join(rows) + "."})
+        firms = [{"name": f["name"], "label": f["label"], "text": ASK.firm_text(arte, f)} for f in arte["firms"]]
         assumptions = []
-        torn = (arte.get("assurance") or {}).get("tornado")
         for r in arte["assumption_table"]:
             words = [w for w in r["assumption"].split("_") if len(w) > 2 and w not in ("bn", "share", "base", "rate", "monthly")]
-            t = f"{D._nice(r['assumption'])}: {r['value']} {r['unit']}; {r['meaning']}; bounds {r['low']} to {r['high']}."
-            if torn:
-                for row in torn["rows"]:
-                    if row["assumption"] == r["assumption"]:
-                        t += (f" In the tornado the preferred option's value is {ASK._bn(row['low']['nsv'])} at {row['low']['value']} and "
-                              f"{ASK._bn(row['high']['nsv'])} at {row['high']['value']}" + ("; the best option changes." if row["best_changes"] else "."))
-            assumptions.append({"key": r["assumption"], "nice": D._nice(r["assumption"]).lower(), "words": words, "text": t})
+            assumptions.append({"key": r["assumption"], "nice": D._nice(r["assumption"]).lower(), "words": words,
+                                "text": ASK.assumption_text(arte, r)})
         ask = {"chunks": chunks, "intents": [[n, list(k)] for n, k in ASK.INTENTS], "weak": ASK.WEAK, "preferred": pref,
                "policies": [{"name": r["policy"], "label": r["label"]} for r in ev["policies"] if r["policy"] != "baseline"],
                "firms": firms, "assumptions": assumptions}
 
         replay = {"run_id": rid, "question": question, "labels": labels, "pol_labels": pol_labels, "events": events, "marks": marks,
                   "evaluated": evaluated, "fragments": frags, "verify": verify, "candidates": cands, "preferred": pref,
+                  "decision": decision, "seed": arte["seed"],
                   "n_checks": critic2["n_checks"], "profile": args.profile, "paths": arte["paths"], "horizon": arte["horizon"]}
         with open(os.path.join(out, "data", rid, "replay.json"), "w") as f:
             json.dump(replay, f)
@@ -322,8 +318,8 @@ def main():
             p = os.path.join(out, "data", rid, big)
             if os.path.isfile(p):
                 os.remove(p)
-        runs.append({"run_id": rid, "question": question, "preferred": pref, "preferred_label": pol_labels[pref],
-                     "n_policies": len(cands) + 1, "paths": arte["paths"], "horizon": arte["horizon"]})
+        runs.append({"run_id": rid, "question": question, "preferred": pref, "preferred_label": pol_labels[pref], "decision": decision,
+                     "seed": arte["seed"], "n_policies": len(cands) + 1, "paths": arte["paths"], "horizon": arte["horizon"]})
         import time
         time.sleep(1.1)   # run ids carry the second
 
@@ -346,8 +342,8 @@ def main():
     live = (f' Live terminal: <a href="{htmllib.escape(args.live_url, quote=True)}" target="_blank" rel="noopener">{htmllib.escape(args.live_url)}</a>.'
             if args.live_url else "")
     note = (f'<p class="duck build">Replay built {datetime.date.today().isoformat()} from {len(runs)} recorded run{"s" if len(runs) != 1 else ""} '
-            f'on the {args.profile} profile. Everything on this page was computed by the terminal and recorded; nothing runs on a server, '
-            f'so the question cannot be changed here.{live}</p>')
+            f'on the {args.profile} profile, each on its own seed ({", ".join(str(r["seed"]) for r in runs)}). Everything on this page was '
+            f'computed by the terminal and recorded; nothing runs on a server, so the question cannot be changed here.{live}</p>')
     page = page.replace('<p class="duck build">', note + '<p class="duck build">', 1)
     css_vendor = ""
     html_doc = f"""<!DOCTYPE html>

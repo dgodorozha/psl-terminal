@@ -3,12 +3,15 @@
 Two uses, both aggregate:
   calibration    a monthly (or finer) price series for a firm the authority maps onto an archetype: its
                  volatility and its beta against an optional market column replace the archetype's
-                 idio_vol and beta in the next plan
-  event study    the same series with an event date (a past regulatory announcement): the cumulative
-                 abnormal return over the months after it, compared in assurance with the model's
-                 implied early reaction
+                 idio_vol and beta in the next plan. With an event month, they are estimated on the
+                 returns before it, so the event window is held out from the calibration.
+  event study    the same series with an event month (a past regulatory announcement) and, optionally,
+                 the instrument it is an analogue of: the abnormal return over the six months from the
+                 event month, compared in assurance with the model's predictive distribution of the
+                 early reaction (validation.py states the event time convention)
 
-The quarantine: size and type limits, UTF 8 text only, a schema check, a
+The quarantine: size and type limits, UTF 8 text only, a schema check, ISO
+dates, positive and finite prices, a monthly series without gaps, a
 spreadsheet formula injection check, a personal identifier scan that
 refuses rather than redacts, a classification with a no write down rule,
 and a hash for the ledger. Raw rows never enter the briefing; the evidence pack
@@ -20,7 +23,9 @@ import datetime
 import hashlib
 import io
 import json
+import math
 import os
+import re
 
 import numpy as np
 
@@ -31,8 +36,27 @@ MAX_ROWS = 200000
 MAX_DATASETS = 8
 
 
+_ISO = re.compile(r"^(\d{4})-(\d{2})(?:-(\d{2}))?(?:[T ].*)?$")
+
+
+def _month(v):
+    """'YYYY-MM' from an ISO date or month, or None."""
+    m = _ISO.match(str(v).strip())
+    if not m:
+        return None
+    y, mo, d = int(m.group(1)), int(m.group(2)), m.group(3)
+    if not (1 <= mo <= 12) or (d is not None and not (1 <= int(d) <= 31)):
+        return None
+    return f"{y:04d}-{mo:02d}"
+
+
+def _next_month(ym):
+    y, m = int(ym[:4]), int(ym[5:7])
+    return f"{y + (m == 12):04d}-{(m % 12) + 1:02d}"
+
+
 def quarantine(filename, content, uploader="", classification="public", max_bytes=25 * 1024 * 1024,
-               event_date=None, maps_to=None, note=""):
+               event_date=None, maps_to=None, note="", analogue_of=None):
     """Validate bytes into a dataset record or a refusal."""
     name = (filename or "").strip()
     ext = ("." + name.rsplit(".", 1)[-1].lower()) if "." in name else ""
@@ -79,11 +103,22 @@ def quarantine(filename, content, uploader="", classification="public", max_byte
     mcol = next((c for c in ("market", "benchmark", "index_level", "spx", "nasdaq") if c in cols and c != pcol), None)
     if tcol is None or pcol is None:
         return dict(rec, reason="schema: need a date column and a price column (optional: a market column)")
+    kept = [r for r in rows if r.get(pcol) not in (None, "")]
     try:
-        series = [(str(r[tcol])[:7], float(str(r[pcol]).replace(",", ""))) for r in rows if r.get(pcol) not in (None, "")]
-        market = [float(str(r[mcol]).replace(",", "")) for r in rows if r.get(pcol) not in (None, "")] if mcol else None
-    except ValueError:
+        series = [(_month(r[tcol]), float(str(r[pcol]).replace(",", ""))) for r in kept]
+        market = [float(str(r[mcol]).replace(",", "")) for r in kept] if mcol else None
+    except (ValueError, TypeError):
         return dict(rec, reason="price or market column is not numeric")
+    bad_dates = sum(1 for m, _ in series if m is None)
+    if bad_dates:
+        return dict(rec, reason=f"{bad_dates} dates are not ISO dates (YYYY-MM or YYYY-MM-DD); the date column must be unambiguous")
+    bad = sum(1 for _, v in series if not (math.isfinite(v) and v > 0))
+    if bad:
+        return dict(rec, reason=f"{bad} prices are zero, negative or not finite; a price series must be positive")
+    if market is not None:
+        bad = sum(1 for v in market if not (math.isfinite(v) and v > 0))
+        if bad:
+            return dict(rec, reason=f"{bad} market values are zero, negative or not finite")
     # monthly: take the last observation of each month, in order
     months, prices, mkt = [], [], []
     seen = {}
@@ -96,18 +131,38 @@ def quarantine(filename, content, uploader="", classification="public", max_byte
             mkt.append(market[i])
     if len(prices) < 13:
         return dict(rec, reason="at least thirteen months of prices are needed")
+    gaps = [(months[i], months[i + 1]) for i in range(len(months) - 1) if _next_month(months[i]) != months[i + 1]]
+    if gaps:
+        return dict(rec, reason=f"the monthly series has {len(gaps)} gap{'s' if len(gaps) != 1 else ''} (first between {gaps[0][0]} and "
+                                f"{gaps[0][1]}); returns across a gap are not monthly returns, so a series without gaps is needed")
     sha = hashlib.sha256(content).hexdigest()
+    ed = _month(event_date) if event_date else None
+    if event_date and ed is None:
+        return dict(rec, reason="the event month must be an ISO month (YYYY-MM)")
+    # calibration is held out from the event: with an event month, only the returns before it are used
+    cut = months.index(ed) if (ed in months) else None
+    cal_p = prices[:cut] if cut else prices
+    cal_m = (mkt[:cut] if cut else mkt) if market is not None else None
+    if len(cal_p) < 13:
+        cal_p, cal_m = prices, (mkt if market is not None else None)
+        held_out = False
+    else:
+        held_out = cut is not None
+    st = stats(cal_p, cal_m)
+    st["n_months"] = int(len(prices)); st["calibration_months"] = int(len(cal_p)); st["held_out_from_event"] = bool(held_out)
     out = dict(rec, ok=True, n_rows=len(rows), months=months, sha256=sha, size=len(content), columns=cols,
                schema={"date": tcol, "price": pcol, "market": mcol}, packable=cls["packable"], maps_to=maps_to or "",
-               note=note[:200], stats=stats(prices, mkt if market is not None else None),
+               analogue_of=(analogue_of or "").strip() or None,
+               note=note[:200], stats=st,
                monthly={"price": [float(x) for x in prices], "market": ([float(x) for x in mkt] if market is not None else None)},
                provenance={"uploaded_by": uploader, "sha256": sha, "bytes": len(content), "classification": classification})
-    if event_date:
-        ed = str(event_date)[:7]
+    if ed:
         if ed in months:
-            from .assurance import analogue
-            es = analogue(prices, months.index(ed), market=mkt if market is not None else None)
-            if es:
+            from .validation import event_study
+            es = event_study(prices, months.index(ed), market=mkt if market is not None else None)
+            if es.get("refused"):
+                out["event_note"] = f"event study not run: {es['refused']}"
+            else:
                 es["event_month"] = ed
                 out["event_study"] = es
         else:
@@ -141,7 +196,10 @@ def dataset_summary(ds):
     if ds.get("maps_to"):
         bits.append(f"maps to {ds['maps_to']}")
     if ds.get("event_study"):
-        bits.append(f"event {ds['event_study']['event_month']}: CAR {ds['event_study']['car'] * 100:+.1f}%")
+        es = ds["event_study"]
+        bits.append(f"event {es['event_month']}: CAR {es['car'] * 100:+.1f}% (standard error {es['se_car'] * 100:.1f}%) over months 0 to 5")
+    if ds.get("analogue_of"):
+        bits.append(f"analogue of {ds['analogue_of']}")
     return "; ".join(bits)
 
 
@@ -186,6 +244,7 @@ def persist_datasets(datasets, run_dir):
                     w.writerow(row)
         index.append({"name": ds["name"], "classification": ds["classification"], "sha256": ds["sha256"], "n_rows": ds.get("n_rows"),
                       "stats": ds.get("stats"), "event_study": ds.get("event_study"), "maps_to": ds.get("maps_to"),
+                      "analogue_of": ds.get("analogue_of"),
                       "packable": ds.get("packable", False), "file": fname, "uploaded": ds.get("uploaded")})
     with open(os.path.join(d, "index.json"), "w") as f:
         json.dump(index, f, indent=1)

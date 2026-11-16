@@ -348,7 +348,7 @@
       { kind: "index", mean: x.rel_mean, lo: x.rel_lo, hi: x.rel_hi, base: x.rel_mean.map(function () { return 0; }), label: x.label + " against the status quo, %",
         unit: "value weighted index of the eight firms against the status quo on the same path, percent; band 10th to 90th across paths; dashed: no difference", pct: true } :
       { kind: "index", mean: x.mean, lo: x.lo, hi: x.hi, base: x.base, label: x.label,
-        unit: "value weighted index, 100 at the announcement; band 10th to 90th across paths; grey: status quo" });
+        unit: "value weighted index, 100 before any instrument is announced; band 10th to 90th across paths; grey: status quo" });
     el.className = "jchart";
     el.style.height = "";
     renderChart(el, true);
@@ -471,6 +471,7 @@
   window.dash_clientside = window.dash_clientside || {};
   window.dash_clientside.psl = {
     onStream: function (d) {
+      if (d && d.stage) { window.PSL_STAGE = d.stage; }
       if (!d) return 0;
       var ready = ensureChart();
 
@@ -553,7 +554,7 @@
       if (d.evaluated && !st.evaluated) {
         st.evaluated = d.evaluated;
         var bV2 = $("mkt-vs-btn"); if (bV2) bV2.disabled = false;
-        if (!st.follow || true) { /* keep the live view; the official switches to vs baseline by hand */ }
+        if (!st.follow || true) { /* keep the live view; the official switches to vs status quo by hand */ }
       }
       return 0;
     }
@@ -576,7 +577,8 @@
     if (v == null || isNaN(v)) return "n/a";
     var a = Math.abs(v);
     if (nd == null) nd = a >= 100 ? 0 : a >= 10 ? 1 : a >= 1 ? 1 : 2;
-    return (v < 0 ? "-" : "") + a.toFixed(nd).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    var body = a.toFixed(nd);
+    return (v < 0 && Number(body) !== 0 ? "-" : "") + body.replace(/\B(?=(\d{3})+(?!\d))/g, ",");   // never "-0.0"
   }
   function clip(s, n) { s = String(s); return s.length > n ? s.slice(0, n - 1) + "…" : s; }
   function niceStep(span, target) {
@@ -644,7 +646,7 @@
       svgEl("rect", { x: x0, y: cy - barH / 2, width: Math.max(1.5, x1 - x0), height: barH, fill: col, opacity: s.kind === "total" ? 0.95 : 0.8 }, svg);
       if (i < segs.length - 2) svgEl("line", { x1: x(s.b), x2: x(s.b), y1: cy + barH / 2, y2: cy + rowH - barH / 2, stroke: HAIR, "stroke-dasharray": "2 2" }, svg);
       var tx = x1 + 4; if (tx > W - 50) tx = x0 - 4;
-      text(svg, tx, cy + 3.5, (s.v >= 0 ? "+" : "") + fmt(s.v, 1), { fill: WHITE, "font-size": 9, "text-anchor": tx < x0 ? "end" : "start" });
+      text(svg, tx, cy + 3.5, (s.v >= 0 || Math.abs(s.v) < 0.05 ? "+" : "") + fmt(s.v, 1), { fill: WHITE, "font-size": 9, "text-anchor": tx < x0 ? "end" : "start" });
     });
   }
 
@@ -728,7 +730,8 @@
       var c = Math.min(x(r.hi), x(ref)), d = Math.max(x(r.hi), x(ref));
       svgEl("rect", { x: c, y: cy - barH / 2, width: Math.max(1, d - c), height: barH, fill: AMBER, opacity: 0.85 }, svg);
       var tl = x(r.lo) < x(r.hi) ? ["lo", "hi"] : ["hi", "lo"];
-      var lx = Math.min(x(r.lo), x(r.hi)) - 3, rx = Math.max(x(r.lo), x(r.hi)) + 3;
+      // labels sit outside the bars: when both ends fall on one side of the run's value, the inner one goes past the reference line
+      var lx = Math.min(x(r.lo), x(r.hi), x(ref)) - 3, rx = Math.max(x(r.lo), x(r.hi), x(ref)) + 3;
       var lv = tl[0] === "lo" ? r.lo : r.hi, rv = tl[1] === "lo" ? r.lo : r.hi;
       if (lx > left + 24) text(svg, lx, cy + 3.5, fmt(lv, 0), { "text-anchor": "end", fill: WHITE, "font-size": 9 });
       if (rx < right - 24) text(svg, rx, cy + 3.5, fmt(rv, 0), { fill: WHITE, "font-size": 9 });
@@ -810,7 +813,7 @@
     }
     function tryChips() {
       if (chipsOn) return true;
-      var live = { SAF: "harm against the status quo", PNL: "paired with the baseline", WLF: "present values", GAP: "early against horizon",
+      var live = { SAF: "harm against the status quo", PNL: "paired with the status quo", WLF: "present values", GAP: "early against horizon",
                    REG: "all runs", RSK: "assurance", POL: "library", DAT: "quarantine", AGT: "archetypes", SEC: "controls" };
       var keys = Object.keys(live);
       if (!$("ph-live-" + keys[0])) return false;
@@ -826,6 +829,39 @@
       if ((up && extras) || ++tries > 240) clearInterval(t);
     }, 250);
     setInterval(function () { observeBodies(); redrawCharts(false); }, 1500);
+    idleControl();
+  }
+
+  /* ---------------------------------------------------- idle control -- */
+  /* The page polls the server twice a second for the stream and once a second for the panels. Nothing changes on
+     the server unless a run is in progress or somebody acts, so an untouched page stops polling after IDLE_MS and
+     starts again on the first key, click, touch, scroll or pointer movement, or when the tab is shown again. A host
+     that bills by the second (and scales to zero when no request arrives) then stops charging for an open tab.
+     The recorded replay has no server and no intervals to stop. */
+  var IDLE_MS = 90000, lastInput = Date.now(), polling = true;
+  function setPolling(on) {
+    if (on === polling) return;
+    var dc = window.dash_clientside;
+    if (!dc || !dc.set_props || !$("root")) return;
+    try {
+      dc.set_props("iv-fast", { disabled: !on });
+      dc.set_props("iv-slow", { disabled: !on });
+      polling = on;
+      var chip = $("run-chip"); if (chip) chip.title = on ? "" : "paused while the page is idle; resumes on any input";
+    } catch (e) { /* a page without the intervals (the replay): nothing to pause */ }
+  }
+  function idleControl() {
+    if (window.PSL_REPLAY) return;
+    var wake = function () { lastInput = Date.now(); if (!polling && !document.hidden) setPolling(true); };
+    ["keydown", "mousedown", "touchstart", "wheel", "mousemove", "focus"].forEach(function (ev) {
+      window.addEventListener(ev, wake, { passive: true, capture: true });
+    });
+    document.addEventListener("visibilitychange", function () { if (!document.hidden) wake(); });
+    setInterval(function () {
+      var running = window.PSL_STAGE === "planning" || window.PSL_STAGE === "running";
+      var idle = Date.now() - lastInput > (window.PSL_IDLE_MS || IDLE_MS);
+      setPolling(running || !idle);
+    }, 5000);
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot); else boot();
 })();

@@ -71,7 +71,7 @@ b { font-weight: 600; }
 #cmd:focus, #cmd:focus-visible { border-color: var(--amber); outline: none; box-shadow: none; }
 .go-key { height: 24px; display: inline-flex; align-items: center; padding: 0 8px; border: 1px solid var(--amber-2);
   color: var(--amber); font: 700 10px var(--mono); letter-spacing: .12em; }
-#cmd-msg { font: 11px var(--mono); }
+#cmd-msg { font: 11px var(--mono); white-space: nowrap; }
 #cmd-msg.ok { color: var(--ok); }
 #cmd-msg.err { color: var(--bad); }
 #phase-line { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;

@@ -44,6 +44,8 @@ from runstore import RunStore, SERVABLE, utc_now  # noqa: E402
 from psl import __version__, provenance  # noqa: E402
 from psl import assumptions as AS  # noqa: E402
 from psl import welfare as W  # noqa: E402
+from psl import benchmarks as BM  # noqa: E402
+from psl import validation as VAL  # noqa: E402
 from psl.ask import answer as ask_answer  # noqa: E402
 from psl.atrs import atrs_record, render_markdown  # noqa: E402
 from psl.briefing import draft_briefing, to_html, COMP_LABELS  # noqa: E402
@@ -231,12 +233,13 @@ def _worker_plan(question, preparer):
                     plan["horizon_months"] = extra["horizon_months"]
         firms, origin = FIRMS.economy()
         firms, cal_notes = apply_calibration(firms, dsets)
+        seed = plan["seed"] if plan.get("seed") is not None else CFG.seed
         bat = make_battery(plan, firms=firms, assumptions=overrides, budget=dict(CFG.budget), custom_policies=POLICIES.enabled(),
-                           profile=CFG.profile)
+                           profile=CFG.profile, seed=seed, benchmarks=BM.load(CFG.benchmarks_path) if CFG.benchmarks_path else None)
         bat["firms_origin"] = origin
         bat["calibration_notes"] = cal_notes
         bat["datasets"] = [{"name": x["name"], "sha256": x["sha256"], "classification": x["classification"],
-                            "maps_to": x.get("maps_to"), "event_study": x.get("event_study")} for x in dsets]
+                            "maps_to": x.get("maps_to"), "analogue_of": x.get("analogue_of"), "event_study": x.get("event_study")} for x in dsets]
         STORE.write_json(run_id, "battery.json", bat)
         if dsets:
             persist_datasets(dsets, d)
@@ -250,6 +253,9 @@ def _worker_plan(question, preparer):
               phase=f"Battery planned, {len(bat['policies'])} instruments, hash {bat['hash'][:12]}, awaiting Gate 1")
         STORE.update_meta(run_id, stage="planned", battery_hash=bat["hash"], n_policies=len(bat["policies"]))
         _alert("ok", f"Battery planned: {text}")
+        if plan.get("unread"):
+            _alert("alert", "A condition in the question was not read as a constraint and will not be applied: "
+                   + "; ".join(f'"{x}"' for x in plan["unread"]) + ". Reword it or refuse the battery at Gate 1.")
     except Exception as e:  # noqa: BLE001
         _bump(stage="error", err=repr(e)[:300], phase="Planning failed")
         _alert("alert", f"Planning failed {e!r}"[:200])
@@ -267,7 +273,7 @@ def _worker_run():
             dsets = list(S["datasets"])
         t0 = time.time()
         arte, _ = run_battery(bat, d, log=log, progress=_progress, stream=_stream, stop=STOP.is_set,
-                              start_year=START_YEAR, start_month=START_MONTH, datasets=dsets or None)
+                              start_year=START_YEAR, start_month=START_MONTH, datasets=dsets or None, reuse=CFG.reuse)
         post = posture(CFG, datasets=[{"name": x["name"], "classification": x["classification"]} for x in dsets])
         log("security_posture", status=post["status"], n_fail=post["n_fail"], n_warn=post["n_warn"])
         arte["security"] = post
@@ -280,13 +286,16 @@ def _worker_run():
             failed=[c["check"] for c in critic["checks"] if not c["ok"]])
         rep = ledger_verify(log.path, CFG.secret)
         ev = arte["results"]
-        pref = ev["preferred"] or ev["best_unconstrained"]
+        pref = _focus(arte)
         _bump(stage="evaluated", artefacts=arte, critic=critic, ledger_report=rep, posture=post,
               step="gate2" if critic["ok"] else "critic", pick={"pnl": pref, "wlf": pref, "nws": pref},
               phase=f"Critic {'passed' if critic['ok'] else 'failed'}, {'Gate 2 armed' if critic['ok'] else 'Gate 2 sealed'}, "
-                    f"preferred {_label(arte, pref)}, run {time.time() - t0:.0f} s")
-        STORE.update_meta(run_id, stage="evaluated", critic_ok=critic["ok"], preferred=pref,
-                          decision_gap=ev["decision_gap"]["decision_gap"], winner_stability=ev["winner_stability"])
+                    f"preferred {_alt(arte, ev['preferred'])}, {arte['paths']} paths, run {time.time() - t0:.0f} s")
+        STORE.update_meta(run_id, stage="evaluated", critic_ok=critic["ok"], preferred=ev["preferred"] or "none",
+                          decision_gap=ev["decision_gap"]["decision_gap"], winner_stability=ev["winner_stability"], paths=arte["paths"])
+        if not (ev.get("precision") or {}).get("met", True):
+            _alert("alert", "Short of the precision target at the ceiling on paths: "
+                   + "; ".join(x["text"] for x in ev["precision"]["unresolved"])[:260])
         _alert("ok" if critic["ok"] else "alert",
                f"Critic verification {'passed' if critic['ok'] else 'FAILED'} ({critic['n_checks']} checks, {critic['n_failed']} failed)")
     except SimulationStopped as e:
@@ -425,12 +434,13 @@ def _cap(s):
 
 
 def _tail(summary, what):
-    """A line explaining a mean that sits above the 90th percentile: the expected value is carried by the tail."""
+    """A line explaining an expected value that sits above the 90th percentile of the outcomes: it is carried by the tail."""
     if not summary or summary["mean"] <= summary["hi"] or summary.get("tail_share", 0) < 0.3:
         return None
-    return html.Div(f"Tail driven: the mean {what} ({_fmt(summary['mean'], 1)}) sits above the 90th percentile ({_fmt(summary['hi'], 1)}) "
-                    f"because {_pct(summary['tail_share'])} of it comes from the tenth of paths with the largest values, typically "
-                    f"paths where a catastrophic incident is averted; the median is {_fmt(summary.get('median'), 1)}.", className="gap-note strong")
+    return html.Div(f"Tail driven: the expected {what} ({_fmt(summary['mean'], 1)}) sits above the 90th percentile of the simulated outcomes "
+                    f"({_fmt(summary['hi'], 1)}) because {_pct(summary['tail_share'])} of the outcomes' average comes from the tenth of paths with "
+                    f"the largest values, typically paths where a catastrophic incident is averted; the median outcome is "
+                    f"{_fmt(summary.get('median'), 1)}.", className="gap-note strong")
 
 
 def _pct(x, nd=0):
@@ -448,7 +458,27 @@ def _bn(x, nd=1):
 
 
 def _ci(s, nd=1):
+    """The 95% confidence interval of an expected value (Monte Carlo error)."""
+    return f"[{_fmt(s['ci_lo'], nd)}, {_fmt(s['ci_hi'], nd)}]"
+
+
+def _spread(s, nd=1):
+    """The 10th to 90th percentile range of the simulated outcomes."""
     return f"[{_fmt(s['lo'], nd)}, {_fmt(s['hi'], nd)}]"
+
+
+def _alt(arte, name):
+    """An alternative's name for a sentence: the instrument's label, or 'the status quo'."""
+    if name == "baseline":
+        return "the status quo"
+    return _label(arte, name) if name else "none"
+
+
+def _focus(arte):
+    """The instrument the single instrument panels open on: the preferred one, or the best instrument when the
+    status quo is preferred or nothing satisfies the constraints."""
+    ev = arte["results"]
+    return ev["preferred"] if ev["preferred"] not in (None, "baseline") else ev["focus"]
 
 
 _NUMERIC = re.compile(r"^[-+$]?(\d|n/a|\[)")
@@ -518,9 +548,9 @@ def _pick(key, arte):
     with LOCK:
         p = (S["pick"] or {}).get(key)
     pols = _pols(arte)
-    if p in pols:
+    if p in pols and p != "baseline":
         return p
-    return arte["results"]["preferred"] or arte["results"]["best_unconstrained"]
+    return _focus(arte)
 
 
 def _picker(pid, arte, current):
@@ -534,61 +564,82 @@ def _await(text):
     return html.Div(text, className="await")
 
 
+def _decision_note(arte):
+    """The decision in one block, the same words on every panel that shows it."""
+    ev = arte["results"]; d = ev["decision"]; pr = ev.get("precision") or {}
+    kids = [html.Div(d["text"], className="gap-note strong")]
+    if pr and not pr.get("met", True):
+        kids.append(html.Div(f"Short of the precision target at the ceiling of {pr['max_paths']} paths: "
+                             + "; ".join(x["text"] for x in pr["unresolved"]) + ".", className="gap-note strong"))
+    return kids
+
+
 def _saf_body():
     arte = S["artefacts"]
     if not arte:
         return [_await("Awaiting the battery: incident rates, the probability of a major and of a catastrophic incident, "
-                       "expected harm, safety practice, capability and trust under every instrument render here.")]
-    ev = arte["results"]; pref = ev["preferred"] or ev["best_unconstrained"]
+                       "expected harm, safety practice, capability and trust under every alternative render here.")]
+    ev = arte["results"]; pref = _focus(arte)
     rows, bars = [], []
     for r in ev["policies"]:
-        s = r["safety"]
-        rows.append({"i": r["label"] + (" *" if r["policy"] == pref else ""), "inc": _fmt(s["incidents_per_year"]["mean"], 1),
-                     "maj": _fmt(s["major_per_year"]["mean"], 2), "pm": _pct(s["p_major"]), "pc": _pct(s["p_catastrophe"]),
+        s = r["safety"]; pc = s["p_catastrophe_detail"]
+        rows.append({"i": r["label"] + (" *" if r["policy"] == ev["preferred"] else ""), "inc": _fmt(s["incidents_per_year"]["mean"], 1),
+                     "maj": _fmt(s["major_per_year"]["mean"], 2), "pm": _pct(s["p_major"]), "pc": _pct(s["p_catastrophe"], 1),
+                     "pci": f"{_pct(pc['ci_lo'], 1)} to {_pct(pc['ci_hi'], 1)}", "kn": f"{pc['k']} of {pc['n']}",
                      "harm": _fmt(s["expected_harm_npv"]["mean"], 1), "S": _fmt(s["safety_level_end"], 2),
                      "sig": _pct(s["safety_share_end"]), "C": _fmt(s["frontier_capability_end"], 2), "T": _fmt(s["trust_end"], 2),
                      "off": _pct(s["offshore_share_end"])})
         if r["policy"] != "baseline":
             c = r["components"]["harm_avoided"]
-            bars.append({"label": r["label"], "value": c["mean"], "lo": c["lo"], "hi": c["hi"],
-                         "color": "#f6b52a" if r["policy"] == pref else "#6cb5ff"})
+            bars.append({"label": r["label"], "value": c["mean"], "lo": c["ci_lo"], "hi": c["ci_hi"],
+                         "color": "#f6b52a" if r["policy"] == ev["preferred"] else "#6cb5ff"})
     base = ev["policies"][0]["safety"]
     return [html.Div(f"Expected harm at the status quo {_bn(base['expected_harm_npv']['mean'])} over {arte['horizon'] // 12} years, "
                      f"of which catastrophic {_bn(base['expected_catastrophe_harm_npv'])}; * preferred", className="feed-cap"),
-            _chart("hbars", {"rows": bars, "unit": "$bn harm avoided, 10th to 90th", "zero": True}, height=max(120, 22 * len(bars) + 30)),
-            *[x for x in [_tail(_pols(arte)[pref]["components"]["harm_avoided"], "harm avoided by the preferred option")] if x is not None],
-            _table(rows, ["i", "inc", "maj", "pm", "pc", "harm", "S", "sig", "C", "T", "off"],
-                   heads=["instrument", "incidents/yr", "major/yr", "P(major)", "P(catastrophe)", "harm $bn", "safety", "safety share",
-                          "frontier cap.", "trust", "offshore"])]
+            _chart("hbars", {"rows": bars, "unit": "$bn expected harm avoided, with the 95% confidence interval of the estimate", "zero": True},
+                   height=max(120, 22 * len(bars) + 30)),
+            *[x for x in [_tail(_pols(arte)[pref]["components"]["harm_avoided"], f"harm avoided by {_label(arte, pref)}")] if x is not None],
+            _table(rows, ["i", "inc", "maj", "pm", "pc", "pci", "kn", "harm", "S", "sig", "C", "T", "off"],
+                   heads=["alternative", "incidents/yr", "major/yr", "P(major)", "P(catastrophe)", "95% interval", "paths drawn", "harm $bn", "safety",
+                          "safety share", "frontier cap.", "trust", "offshore"]),
+            html.Div("Expected harm and the probability of a catastrophe are estimated from what each path's state makes likely, month by month "
+                     "(the hazard it accumulates and the mean severity), not from the incidents that happened to be drawn: the same expectation, "
+                     "far less noise. 'Paths drawn' is the raw count of paths on which a catastrophe was drawn. A major incident is a single "
+                     "incident at or above the threshold; catastrophes are counted apart.", className="gap-note")]
 
 
 def _pnl_body():
     arte = S["artefacts"]
     if not arte:
-        return [_await("Awaiting the battery: each firm's value change against the baseline, the probability it gains, "
+        return [_await("Awaiting the battery: each firm's value change against the status quo, the probability it gains, "
                        "earnings, and the sector totals under the chosen instrument render here.")]
     cur = _pick("pnl", arte)
-    r = _pols(arte)[cur]; m = r["market"]
-    bars = [{"label": f["firm"], "value": f["value_change"]["mean"], "lo": f["value_change"]["lo"], "hi": f["value_change"]["hi"],
+    r = _pols(arte)[cur]; m = r["market"]; iv = r["industry_value_change"]
+    bars = [{"label": f["firm"], "value": f["value_change"]["mean"], "lo": f["value_change"]["ci_lo"], "hi": f["value_change"]["ci_hi"],
              "color": "#47d6a3" if f["value_change"]["mean"] >= 0 else "#ff5f5f"} for f in m["firms"]]
-    rows = [{"f": f["firm"], "s": _cap(f["sector"]), "v": _fmt(f["value_change"]["mean"], 1), "ci": _ci(f["value_change"]),
+    rows = [{"f": f["firm"], "s": _cap(f["sector"]), "v": _fmt(f["value_change"]["mean"], 1), "ci": _ci(f["value_change"]), "sp": _spread(f["value_change"]),
              "pg": _pct(f["value_change"]["p_positive"]), "e": _fmt(f["earnings_change_npv"], 1), "px": f"{f['price_end']:.0f} vs {f['price_end_base']:.0f}",
              "off": _pct(f["offshore_end"]), "sig": _pct(f["safety_share_end"])} for f in m["firms"]]
-    sec = [{"s": _cap(x["sector"]), "v": _fmt(x["value_change"]["mean"], 1), "ci": _ci(x["value_change"]), "c0": _fmt(x["cap0"], 0)} for x in m["sectors"]]
+    sec = [{"s": _cap(x["sector"]), "v": _fmt(x["value_change"]["mean"], 1), "ci": _ci(x["value_change"]), "sp": _spread(x["value_change"]),
+            "c0": _fmt(x["cap0"], 0)} for x in m["sectors"]]
     return [_picker("pnl-pick", arte, cur),
-            html.Div([_kv("Industry value change", f"{_bn(r['industry_value_change']['mean'], 0)} {_ci(r['industry_value_change'], 0)}",
-                          "v bad" if r["industry_value_change"]["mean"] < 0 else "v ok"),
-                      _kv("P(industry gains)", _pct(r["industry_value_change"]["p_positive"])),
+            html.Div([_kv("Industry value change", f"{_bn(iv['mean'], 0)} {_ci(iv, 0)}", "v bad" if iv["mean"] < 0 else "v ok"),
+                      _kv("Outcomes, 10th to 90th", _spread(iv, 0)),
+                      _kv("P(industry gains)", _pct(iv["p_positive"])),
                       _kv("Index, first six months", f"{m['early_reaction']['mean'] * 100:+.1f}%"),
                       _kv("Index, horizon", f"{m['end_reaction']['mean'] * 100:+.1f}%"),
                       _kv("Starting value", _bn(m["industry_cap0"], 0))], className="kv-row"),
-            _chart("hbars", {"rows": bars, "unit": "$bn value change against the baseline, 10th to 90th", "zero": True}, height=22 * len(bars) + 30),
-            _table(rows, ["f", "s", "v", "ci", "pg", "e", "px", "off", "sig"],
-                   heads=["firm", "sector", "value $bn", "10th to 90th", "P(gain)", "earnings $bn", "price end", "offshore", "safety share"]),
+            _chart("hbars", {"rows": bars, "unit": "$bn expected value change against the status quo, with its 95% confidence interval", "zero": True},
+                   height=22 * len(bars) + 30),
+            _table(rows, ["f", "s", "v", "ci", "sp", "pg", "e", "px", "off", "sig"],
+                   heads=["firm", "sector", "value $bn", "95% interval", "outcomes 10th to 90th", "P(gain)", "earnings $bn", "price end", "offshore", "safety share"]),
             html.Div("By sector", className="feed-cap"),
-            _table(sec, ["s", "v", "ci", "c0"], heads=["sector", "value $bn", "10th to 90th", "starting value $bn"]),
+            _table(sec, ["s", "v", "ci", "sp", "c0"], heads=["sector", "value $bn", "95% interval", "outcomes 10th to 90th", "starting value $bn"]),
             html.Div("Value change: the earnings change over the horizon plus the discounted change in market value at its end, "
-                     "paired path by path with the baseline. Synthetic archetypes, not companies.", className="gap-note")]
+                     "paired path by path with the status quo. Every index is measured from one valuation, the firms as they stand before any "
+                     "instrument is announced, so an instrument in force from the first month shows its effect on fundamentals at once. "
+                     "Shareholder value is a market metric and a constraint, not part of the net social value. Synthetic archetypes, not companies.",
+                     className="gap-note")]
 
 
 def _wlf_body():
@@ -602,49 +653,73 @@ def _wlf_body():
     items = [{"label": COMP_LABELS[k], "value": c[k]["mean"]} for k in W.BENEFITS] + \
             [{"label": COMP_LABELS[k], "value": -c[k]["mean"]} for k in W.COSTS]
     rows = [{"c": COMP_LABELS[k], "v": _fmt(c[k]["mean"] if k in W.BENEFITS else -c[k]["mean"], 1),
-             "ci": _ci(c[k]) if k in W.BENEFITS else f"[{_fmt(-c[k]['hi'], 1)}, {_fmt(-c[k]['lo'], 1)}]"} for k in W.COMPONENTS]
-    dist = [{"p": k, "v": _fmt(v, 1)} for k, v in r["distribution"].items()]
+             "ci": _ci(c[k]) if k in W.BENEFITS else f"[{_fmt(-c[k]['ci_hi'], 1)}, {_fmt(-c[k]['ci_lo'], 1)}]",
+             "sp": _spread(c[k]) if k in W.BENEFITS else f"[{_fmt(-c[k]['hi'], 1)}, {_fmt(-c[k]['lo'], 1)}]"} for k in W.COMPONENTS]
+    dist = [{"p": _cap(k), "v": _fmt(v, 1)} for k, v in r["distribution"].items()] + [{"p": "Total", "v": _fmt(r["incidence_total"], 1)}]
     nsv = r["net_social_value"]
     cpe = r.get("cost_per_harm_avoided")
     return [_picker("wlf-pick", arte, cur),
-            html.Div([_kv("Net social value", f"{_bn(nsv['mean'])} {_ci(nsv)}", "v ok" if nsv["mean"] >= 0 else "v bad"),
-                      _kv("P(positive)", _pct(nsv["p_positive"])), _kv("Median", _bn(nsv.get("median"))),
-                      _kv("Gross social cost", _bn(r["gross_cost"]["mean"])),
-                      _kv("Cost per $ of harm avoided", _fmt(cpe, 2) if cpe else "n/a"),
-                      _kv("P(best)", _pct(r["p_best"]))], className="kv-row"),
-            _chart("waterfall", {"items": items, "total_label": "Net social value", "unit": "$bn present value"}, height=200),
+            html.Div([_kv("Expected net social value", f"{_bn(nsv['mean'])} {_ci(nsv)}", "v ok" if nsv["mean"] >= 0 else "v bad"),
+                      _kv("Outcomes, 10th to 90th", _spread(nsv)), _kv("Paths above zero", _pct(nsv["p_positive"])),
+                      _kv("Gross social cost", _bn(r["gross_cost"]["mean"])), _kv("Gross benefit", _bn(r["gross_benefit"]["mean"])),
+                      _kv("Gross cost per $ of harm avoided", _fmt(cpe, 2) if cpe else "n/a"),
+                      _kv("Within constraints", f"{'yes' if r['feasible'] else 'no'} ({_pct(r['p_feasible'])} of resamples)")], className="kv-row"),
+            _chart("waterfall", {"items": items, "total_label": "Net social value", "unit": "$bn present value, expected"}, height=200),
             *[x for x in (_tail(nsv, "net social value"), _tail(c["harm_avoided"], "harm avoided")) if x is not None],
-            _table(rows, ["c", "v", "ci"], heads=["component", "$bn", "10th to 90th"]),
+            _table(rows, ["c", "v", "ci", "sp"], heads=["component", "expected $bn", "95% interval", "outcomes 10th to 90th"]),
+            html.Div("The 95% interval is the confidence interval of the expected value (how well the paths estimate it). The outcomes column "
+                     "is the spread of simulated outcomes (how different one path can be from another). Gross cost is the sum of the expected "
+                     "component changes that are costs, never netted against savings; gross benefit less gross cost is the net social value.",
+                     className="gap-note"),
             html.Div("Who gains and who pays", className="feed-cap"),
             _table(dist, ["p", "v"], heads=["party", "$bn"]),
-            html.Div(f"Transfers, excluded from the net: fines {_bn(r['transfers']['fines'])}, liability payouts "
-                     f"{_bn(r['transfers']['liability'])}, premiums {_bn(r['transfers']['premiums'])}.", className="gap-note")]
+            html.Div(f"The incidence table follows the money as well as the real effects, so it sums to the net social value plus "
+                     f"{_bn(r['nonresident_payments'])} that non resident owners finance of the firms' payments, a memorandum item the net "
+                     f"does not count. Standing is residents; transfers are excluded whoever pays: fines {_bn(r['transfers']['fines'])}, liability paid by "
+                     f"firms {_bn(r['transfers']['liability'])}, premiums {_bn(r['transfers']['premiums'])}, claims paid to victims "
+                     f"{_bn(r['transfers']['claims'])}.", className="gap-note")]
 
 
 def _gap_body():
     arte = S["artefacts"]
     if not arte:
-        return [_await("Awaiting the battery: the instruments ranked by how they look in the first six months against how "
-                       "they score over the horizon, with the bootstrap on the inversion and on the winner.")]
+        return [_await("Awaiting the battery: the decision among the alternatives, the status quo included, and the instruments ranked "
+                       "by how they look in the first six months against how they score over the horizon.")]
     ev = arte["results"]; g = ev["decision_gap"]; pols = _pols(arte)
-    pref = ev["preferred"] or ev["best_unconstrained"]
+    pref = ev["preferred"]; hl = _focus(arte)
     cand = [r for r in ev["policies"] if r["policy"] != "baseline"]
-    rows = [{"i": r["label"] + (" *" if r["policy"] == pref else ""), "h": r["rank_headline"], "s": r["rank_social"], "harm": r["rank_harm"], "ind": r["rank_industry"],
-             "hs": f"{r['headline_score']:+.3f}", "nsv": _fmt(r["net_social_value"]["mean"], 1), "pb": _pct(r["p_best"]),
-             "feas": "yes" if r["feasible"] else "no"} for r in sorted(cand, key=lambda r: r["rank_social"])]
+    rows = [{"i": r["label"] + (" *" if r["policy"] == pref else ""),
+             "nsv": _fmt(r["net_social_value"]["mean"], 1), "ci": _ci(r["net_social_value"]), "sp": _spread(r["net_social_value"]),
+             "feas": "yes" if r["feasible"] else "no", "pf": _pct(r["p_feasible"]), "pb": _pct(r["p_best"]),
+             "h": r.get("rank_headline", ""), "s": r.get("rank_social", ""), "hs": f"{r['headline_score']:+.3f}"}
+            for r in sorted(ev["policies"], key=lambda r: -r["net_social_value"]["mean"])]
     ladder = {"left": [pols[n]["label"] for n in g["headline_order"]], "right": [pols[n]["label"] for n in g["social_order"]],
-              "left_title": "looks best early", "right_title": "best over the horizon", "highlight": pols[pref]["label"],
-              "unit": "amber: the preferred option under the question's constraints"}
-    pb = [{"label": r["label"], "value": r["p_best"], "color": "#f6b52a"} for r in sorted(cand, key=lambda r: -r["p_best"])]
-    return [html.Div([_kv("Decision gap", _fmt(g["decision_gap"], 2), "v big"), _kv("Kendall tau", f"{g['kendall_tau']:+.2f}"),
-                      _kv("P(inversion)", _pct(g["p_inversion"])), _kv("Winner stability", _pct(ev["winner_stability"])),
-                      _kv("Paths", str(ev["n_paths"]))], className="kv-row"),
+              "left_title": "looks best early", "right_title": "best over the horizon", "highlight": pols[hl]["label"],
+              "unit": "amber: " + ("the preferred option under the question's constraints" if pref not in (None, "baseline") else
+                                   "the best instrument; the status quo is preferred to it")}
+    pb = [{"label": r["label"], "value": r["p_best"], "color": "#f6b52a"} for r in sorted(ev["policies"], key=lambda r: -r["p_best"])]
+    diffs = [r for r in ev["policies"] if r.get("vs_preferred") and r["feasible"]]
+    kids = [html.Div([_kv("Preferred", _cap(_alt(arte, pref)), "v big"), _kv("Decision gap", _fmt(g["decision_gap"], 2)),
+                      _kv("Kendall tau b", f"{g['kendall_tau']:+.2f}"), _kv("P(inversion)", _pct(g["p_inversion"])),
+                      _kv("Ranking stability", _pct(ev["winner_stability"])), _kv("Paths", str(ev["n_paths"]))], className="kv-row"),
+            *_decision_note(arte),
             _chart("ladder", ladder, height=max(120, 20 * len(cand) + 40)),
-            _table(rows, ["i", "h", "s", "harm", "ind", "hs", "nsv", "pb", "feas"],
-                   heads=["instrument", "headline rank", "social rank", "harm rank", "industry rank", "headline score", "net value $bn", "P(best)", "feasible"]),
-            html.Div("P(best): bootstrap over paths", className="feed-cap"),
-            _chart("hbars", {"rows": pb, "unit": "probability of being the best instrument", "zero": False, "max": 1.0}, height=22 * len(pb) + 30),
-            html.Div(g["note"], className="gap-note")]
+            _table(rows, ["i", "nsv", "ci", "sp", "feas", "pf", "pb", "h", "s", "hs"],
+                   heads=["alternative", "expected value $bn", "95% interval", "outcomes 10th to 90th", "within constraints", "resamples within",
+                          "ranking stability", "headline rank", "social rank", "headline score"])]
+    if diffs:
+        kids += [html.Div(f"{_cap(_alt(arte, pref))} against each other feasible alternative, paired on the same paths", className="feed-cap"),
+                 _table([{"i": r["label"], "d": _fmt(r["vs_preferred"]["difference"], 1),
+                          "ci": f"[{_fmt(r['vs_preferred']['ci_lo'], 1)}, {_fmt(r['vs_preferred']['ci_hi'], 1)}]",
+                          "sim": f"[{_fmt(r['vs_preferred']['simultaneous_lo'], 1)}, {_fmt(r['vs_preferred']['simultaneous_hi'], 1)}]",
+                          "t": "yes" if r["vs_preferred"]["distinguishable"] else "no"} for r in diffs],
+                        ["i", "d", "ci", "sim", "t"], heads=["against", "difference $bn", "95% interval", "simultaneous 95%", "told apart"])]
+    kids += [html.Div("Ranking stability: the share of bootstrap resamples of the paths in which the alternative is the best feasible one", className="feed-cap"),
+             _chart("hbars", {"rows": pb, "unit": "share of resamples; conditional on the model and its assumptions, not the probability of being best in the world",
+                              "zero": False, "max": 1.0}, height=22 * len(pb) + 30),
+             html.Div(g["note"] + ". The status quo scores zero by construction and is a decision alternative: an instrument is preferred only "
+                      "if its expected net social value is above it. Feasibility is re assessed in every resample.", className="gap-note")]
+    return kids
 
 
 def _nws_forecast():
@@ -681,69 +756,230 @@ def _nws_forecast():
 def _rsk_body():
     arte = S["artefacts"]
     if not arte:
-        return [_await("Awaiting the battery: the tornado over every value judgement, the structural variants, the red team and "
-                       "the analogue event study render here as the assurance stages complete.")]
+        return [_await("Awaiting the battery: the screen of every assumption, the joint draw, the variance decomposition, the structural "
+                       "variants, the red team, the replication check and the validation render here as the assurance stages complete.")]
     asr = arte.get("assurance") or {}; ev = arte["results"]; pols = _pols(arte)
-    kids = []
-    t = asr.get("tornado")
+    pr = ev.get("precision") or {}
+
+    def lab(n):
+        return _cap(_alt(arte, n))
+    kids = [html.Div("Monte Carlo: how well the paths estimate", className="gap-name")]
+    kids += _decision_note(arte)
+    if pr:
+        kids.append(html.Div([_kv("Paths", str(pr["paths"])), _kv("Sampling plan", " then ".join(str(x) for x in pr["schedule"])),
+                              _kv("Ceiling", str(pr["max_paths"])), _kv("Targets", f"{_bn(pr['targets']['nsv_gap_bn'])}, {_pct(pr['targets']['p_catastrophe_halfwidth'])}"),
+                              _kv("Met", "yes" if pr["met"] else "no", "v ok" if pr["met"] else "v bad"),
+                              _kv("Bootstrap", str(ev["bootstrap"]))], className="kv-row"))
+    cv = asr.get("convergence")
+    if cv and len(cv["rows"]) > 1:
+        kids.append(_table([{"n": f"{r['paths']:,}", "d": lab(r["preferred"]), "v": _fmt(r.get("focus_nsv"), 1), "se": _fmt(r.get("focus_se"), 2),
+                             "ci": f"[{_fmt(r.get('focus_lo'), 1)}, {_fmt(r.get('focus_hi'), 1)}]", "pc": _pct(r["p_catastrophe_status_quo"], 1)}
+                            for r in cv["rows"]], ["n", "d", "v", "se", "ci", "pc"],
+                           heads=["first paths", "decision", f"value of {lab(cv['focus'])} $bn", "standard error", "95% interval", "P(catastrophe), status quo"]))
+        kids.append(html.Div("Convergence: the running estimate on the first paths of the run, which are exactly what a smaller run on this seed "
+                             "reports. " + ("The decision is the same over the last doubling of the paths."
+                                            if cv["decision_stable_over_last_doubling"] else
+                                            "The decision changes over the last doubling of the paths: a reason to run more."), className="gap-note"))
+    bt = asr.get("batches")
+    if bt:
+        kids.append(_table([{"b": r["batch"], "n": r["paths"], "d": lab(r["preferred"]), "bi": lab(r["best_intervention"])} for r in bt["rows"]],
+                           ["b", "n", "d", "bi"], heads=["batch", "paths", "decision", "best instrument"]))
+        kids.append(html.Div(f"The decision is the same in {bt['agree']} of {bt['k']} independent batches of the run's paths.", className="gap-note"))
+    kids.append(_table([{"i": r["label"], "nsv": _fmt(r["net_social_value"]["mean"], 1), "ci": _ci(r["net_social_value"]), "sp": _spread(r["net_social_value"]),
+                         "pp": _pct(r["net_social_value"]["p_positive"]),
+                         "ha": _fmt(r["components"]["harm_avoided"]["mean"], 1), "hci": _ci(r["components"]["harm_avoided"]),
+                         "iv": _fmt(r["industry_value_change"]["mean"], 0), "ici": _ci(r["industry_value_change"], 0), "pf": _pct(r["p_feasible"]), "pb": _pct(r["p_best"])}
+                        for r in ev["policies"] if r["policy"] != "baseline"],
+                       ["i", "nsv", "ci", "sp", "pp", "ha", "hci", "iv", "ici", "pf", "pb"],
+                       heads=["instrument", "expected value $bn", "95% interval", "outcomes 10th to 90th", "paths above zero", "harm avoided", "95% interval",
+                              "industry $bn", "95% interval", "resamples within", "ranking stability"]))
+    t = asr.get("tornado"); scr = asr.get("screen")
     if t:
-        kids.append(html.Div(f"Tornado: {pols[t['preferred']]['label']} at {_bn(t['reference_nsv'])}", className="gap-name"))
+        kids.append(html.Div(f"Screen: {scr['n_assumptions']} assumptions, one at a time", className="gap-name"))
         rows = [{"label": _nice(r["assumption"]), "lo": r["low"]["nsv"], "hi": r["high"]["nsv"], "lo_v": r["low"]["value"], "hi_v": r["high"]["value"]}
                 for r in t["rows"]]
-        kids.append(_chart("tornado", {"rows": rows, "ref": t["reference_nsv"], "unit": "net social value of the preferred option, $bn; blue: the assumption at its low value, amber: at its high; dashed: default"}, height=22 * len(rows) + 30))
+        kids.append(html.Div(f"{lab(t['preferred'])} is worth {_bn(t['reference_nsv'])} at the run's values. Every assumption is moved to the low and "
+                             f"the high end of its plausible range and the decision re made under each: feasibility re assessed, the status quo an "
+                             f"alternative. The {t['shown']} largest swings:", className="feed-cap"))
+        kids.append(_chart("tornado", {"rows": rows, "ref": t["reference_nsv"], "unit": "expected net social value of the focus option, $bn; blue: the assumption at the low end of its range, amber: at the high end; dashed: the run's value"}, height=22 * len(rows) + 30))
         kids.append(_table([{"a": _nice(r["assumption"]), "d": _fmt(r["default"], 4 if r["default"] < 0.1 else 2), "lv": _fmt(r["low"]["value"], 4 if r["low"]["value"] < 0.1 else 2),
-                             "ln": _fmt(r["low"]["nsv"], 1), "lb": pols[r["low"]["best"]]["label"] if r["low"]["best"] in pols else r["low"]["best"],
+                             "ln": _fmt(r["low"]["nsv"], 1), "lb": lab(r["low"]["best"]),
                              "hv": _fmt(r["high"]["value"], 4 if r["high"]["value"] < 0.1 else 2), "hn": _fmt(r["high"]["nsv"], 1),
-                             "hb": pols[r["high"]["best"]]["label"] if r["high"]["best"] in pols else r["high"]["best"],
-                             "re": "re simulated" if r["resimulated"] else "recomputed"} for r in t["rows"]],
-                           ["a", "d", "lv", "ln", "lb", "hv", "hn", "hb", "re"],
-                           heads=["assumption", "default", "low", "value at low", "best at low", "high", "value at high", "best at high", "how"]))
-        kids.append(html.Div(("The decision changes when " + ", ".join(_nice(k) for k in t["flips"]) + (" reach" if len(t["flips"]) > 1 else " reaches")
-                              + " the edge of its range: another instrument that satisfies the question's constraints then scores higher.")
-                             if t["flips"] else "No single assumption at the edge of its range changes the decision among the instruments that satisfy the constraints.",
+                             "hb": lab(r["high"]["best"]),
+                             "se": _fmt(r.get("swing_se"), 1) if r["resimulated"] else "exact",
+                             "why": ", ".join(sorted({x for x in (r["low"].get("flip"), r["high"].get("flip")) if x})) or "",
+                             "re": "re simulated" if r["resimulated"] else "recomputed"} for r in scr["rows"]],
+                           ["a", "d", "lv", "ln", "lb", "hv", "hn", "hb", "se", "why", "re"],
+                           heads=["assumption", "run's value", "low", "value at low", "decision at low", "high", "value at high", "decision at high",
+                                  "standard error of the swing", "decision changes by", "how"]))
+        kids.append(html.Div((f"The decision changes at an end of the range of {len(t['flips'])} of the {scr['n_assumptions']} assumptions: "
+                              + ", ".join(_nice(k) for k in t["flips"][:14]) + (f" and {len(t['flips']) - 14} more" if len(t["flips"]) > 14 else "") + ". "
+                              + (f"For {len(scr['flips_by_feasibility'])} the cause is feasibility ({lab(scr['reference_best'])} stops satisfying a "
+                                 f"constraint under the alternative); for {len(scr['flips_by_value'])} another alternative within the constraints "
+                                 f"overtakes it. " if scr.get("flips_by_feasibility") is not None else "")
+                              + f"Re simulated on the first {scr['resimulated_paths']} paths, paired with the main run: "
+                                f"{scr.get('n_swing_resolved', 0)} of {scr['n_assumptions']} swings exceed twice their Monte Carlo standard error.")
+                             if t["flips"] else "No single assumption at an end of its range changes the decision.",
                              className="gap-note strong"))
+    jd = asr.get("joint")
+    if jd:
+        kids.append(html.Div(f"Joint draw: {jd['draws']} draws of all the assumptions", className="gap-name"))
+        kids.append(_table([{"i": lab(x["policy"]), "m": _fmt(x["nsv_mean"], 1), "r": f"[{_fmt(x['nsv_lo'], 1)}, {_fmt(x['nsv_hi'], 1)}]", "pb": _pct(x["p_best"]),
+                             "pa": _pct(x["p_acceptable"]), "pf": _pct(x["p_feasible"]), "er": _fmt(x["expected_regret"], 1)}
+                            for x in sorted(jd["alternatives"], key=lambda x: -x["p_best"])],
+                           ["i", "m", "r", "pb", "pa", "pf", "er"],
+                           heads=["alternative", "mean value $bn", "5th to 95th over draws", "share of draws it is the decision",
+                                  "within constraints and above the status quo", "within constraints", "expected regret where within $bn"]))
+        sens = [x for x in jd["sensitivity"]][:12]
+        kids.append(html.Div("Rank correlation of each assumption with the focus option's margin over the best alternative", className="feed-cap"))
+        kids.append(_chart("hbars", {"rows": [{"label": _nice(x["assumption"]), "value": x["rho_margin"],
+                                               "color": "#f6b52a" if x.get("margin_driver") else "#5b6677"} for x in sens],
+                                     "unit": f"Spearman rank correlation over {jd['draws']} draws; amber: passes a {_pct(jd.get('fdr', 0.1))} false discovery rate "
+                                             f"over all {len(jd['sensitivity'])} assumptions; grey: does not",
+                                     "zero": True}, height=22 * len(sens) + 30))
+        srow = {x["assumption"]: x for x in jd["sensitivity"]}
+        dd = [srow[k] for k in jd.get("decision_drivers", [])][:8]
+        split = jd.get("filter_split") or [0, 0]
+        kids.append(html.Div((f"Monte Carlo filtering: {lab(jd['focus'])} is the decision in {split[0]} draws and is not in {split[1]}. The two groups of draws "
+                              "differ most in " + ", ".join(f"{_nice(x['assumption'])} (Kolmogorov Smirnov distance {x['ks_decision']:.2f})" for x in dd) + ".")
+                             if dd else
+                             (f"Monte Carlo filtering: {lab(jd['focus'])} is the decision in {split[0]} draws and is not in {split[1]}; no assumption separates "
+                              f"the two groups at a {_pct(jd.get('fdr', 0.1))} false discovery rate."), className="gap-note strong"))
+        kids.append(html.Div(jd["note"] + ". Expected regret: how far the alternative falls short of the best alternative within the constraints in the "
+                             "same draw, averaged over the draws in which it is itself within them; read it beside the share of draws in which it is."
+                             + (f" Lowest among the alternatives within the constraints in at least 90% of the draws: {lab(jd['least_regret'])}."
+                                if jd.get("least_regret") else ""), className="gap-note"))
+    var = asr.get("variance")
+    if var:
+        kids.append(html.Div("Variance: which assumptions carry it", className="gap-name"))
+        iv = lambda r, k: f"{_pct(r[k + '_lo'])} to {_pct(r[k + '_hi'])}" if (k + "_lo") in r else ""
+        kids.append(_table([{"a": _nice(r["assumption"]), "st": _pct(r["total_value"]), "sti": iv(r, "total_value"), "s1": _pct(r["first_order_value"]),
+                             "mt": _pct(r["total_margin"]), "mti": iv(r, "total_margin"), "m1": _pct(r["first_order_margin"])} for r in var["rows"]],
+                           ["a", "st", "sti", "s1", "mt", "mti", "m1"],
+                           heads=["assumption", "value: with interactions", "90% interval", "value: alone", "margin: with interactions", "90% interval",
+                                  "margin: alone"]))
+        kids.append(html.Div(f"Sobol indices for {lab(var['focus'])} over the {len(var['keys'])} assumptions with the largest swings, "
+                             f"{var['evaluations']} evaluations on a base sample of {var['base']}: shares of the variance these assumptions produce, alone "
+                             f"(first order) and with their interactions (total order), with bootstrap intervals over the base sample. The intervals "
+                             f"are wide (half width {_pct(var.get('mean_halfwidth_total_margin', 0))} on average for the margin) because the output is heavy "
+                             f"tailed in these assumptions: the design ranks groups of assumptions and does not order neighbours. Shares with "
+                             f"interactions add to more than one when assumptions interact. " + var["note"] + ".", className="gap-note"))
     st = asr.get("structural")
     if st:
-        kids.append(html.Div(f"Structural variants: preferred option best in {st['wins']} of {st['n']}", className="gap-name"))
-        kids.append(_table([{"v": _nice(v["variant"]), "n": v["note"], "b": pols[v["best"]]["label"] if v["best"] in pols else v["best"],
-                             "r": v["preferred_rank"], "nsv": _fmt(v["preferred_nsv"], 1),
+        kids.append(html.Div(f"Structural variants: decision unchanged in {st['wins']} of {st['n']}", className="gap-name"))
+        kids.append(_table([{"v": _nice(v["variant"]), "n": v["note"], "b": lab(v["best"]),
+                             "r": v["preferred_rank"], "nsv": _fmt(v["preferred_nsv"], 1), "f": "yes" if v["preferred_feasible"] else "no",
                              "o": ", ".join(pols[n]["label"] if n in pols else n for n in v["order"][:3])} for v in st["variants"]],
-                           ["v", "n", "b", "r", "nsv", "o"], heads=["variant", "what changes", "best", "preferred rank", "preferred value $bn", "top three"]))
+                           ["v", "n", "b", "r", "nsv", "f", "o"],
+                           heads=["variant", "what changes", "decision", "focus rank", "focus value $bn", "focus within constraints", "top three instruments"]))
+        kids.append(html.Div(f"{lab(st['preferred'])} stays within the constraints and above the status quo in {st['acceptable']} of {st['n']} variants. "
+                             f"Feasibility is re assessed under each variant.", className="gap-note"))
     rt = asr.get("red_team")
     if rt:
-        kids.append(html.Div(f"Red team: most robust {pols[rt['most_robust']]['label'] if rt['most_robust'] in pols else rt['most_robust']}", className="gap-name"))
+        kids.append(html.Div(f"Red team: best when every instrument is gamed, {lab(rt['maximin'])}", className="gap-name"))
         bars = []
         for r in rt["rows"]:
             bars.append({"label": r["label"] + " honest", "value": r["honest"]["nsv"], "color": "#6cb5ff"})
             bars.append({"label": r["label"] + " gamed", "value": r["worst_nsv"], "color": "#ff5f5f"})
-        kids.append(_chart("hbars", {"rows": bars, "unit": "net social value $bn, honest and under the worst gaming strategy", "zero": True}, height=22 * len(bars) + 30))
+        kids.append(_chart("hbars", {"rows": bars, "unit": "expected net social value $bn, honest and under the worst gaming strategy", "zero": True}, height=22 * len(bars) + 30))
         kids.append(_table([dict({"i": r["label"], "h": _fmt(r["honest"]["nsv"], 1), "w": _nice(r["worst_strategy"]), "g": _fmt(r["worst_nsv"], 1),
-                                  "ha": _fmt(r["strategies"][r["worst_strategy"]]["harm_avoided"], 1), "l": _fmt(r["gaming_loss"], 1)},
+                                  "ha": _fmt(r["strategies"][r["worst_strategy"]]["harm_avoided"], 1), "l": _fmt(r["gaming_loss"], 1),
+                                  "acc": "yes" if r["acceptable_under_all"] else "no"},
                                  **{k[:6]: _fmt(v["nsv"], 1) for k, v in r["strategies"].items()}) for r in rt["rows"]],
-                           ["i", "h", "w", "g", "ha", "l"] + [k[:6] for k in rt["strategies"]],
-                           heads=["instrument", "honest $bn", "worst strategy", "gamed $bn", "harm avoided gamed", "loss to gaming"] + [_nice(k) for k in rt["strategies"]]))
-        kids.append(html.Div("; ".join(f"{_nice(k)}: {v}" for k, v in rt["strategies"].items()), className="gap-note"))
-    an = asr.get("analogue") or []
-    kids.append(html.Div("Analogue event study", className="gap-name"))
-    if an:
-        for x in an:
-            es = x["event_study"]
-            kids.append(html.Div(f"{x['dataset']} ({x['classification']}): CAR {es['car'] * 100:+.1f}% over months {es['window_months'][0]} to "
-                                 f"{es['window_months'][1]} after {es.get('event_month', 'the event')}; closest model reaction "
-                                 f"{pols[x['closest_policy']]['label'] if x['closest_policy'] in pols else x['closest_policy']}.", className="feed-cap"))
+                           ["i", "h", "w", "g", "ha", "l", "acc"] + [k[:6] for k in rt["strategies"]],
+                           heads=["instrument", "honest $bn", "worst strategy", "gamed $bn", "harm avoided gamed", "loss to gaming",
+                                  "acceptable under every strategy"] + [_nice(k) for k in rt["strategies"]]))
+        kids.append(html.Div("Acceptable: still within the question's constraints and above the status quo under the strategy. "
+                             + "; ".join(f"{_nice(k)}: {v}" for k, v in rt["strategies"].items()), className="gap-note"))
+    rb = asr.get("robustness")
+    if rb:
+        ra = rb["robustly_acceptable"]
+        kids.append(html.Div("Robustness: " + (", ".join(pols[n]["label"] for n in ra) if ra else "no instrument") + " robustly acceptable", className="gap-name"))
+        kids.append(_table([{"i": r["label"], "c": "yes" if r["central_acceptable"] else "no", "pf": _pct(r["p_feasible"]),
+                             "ja": _pct(r["joint_p_acceptable"]), "jb": _pct(r["joint_p_best"]), "er": _fmt(r["expected_regret"], 1),
+                             "sa": f"{r['structural_acceptable']} of {r['structural_n']}", "sb": r["structural_best"],
+                             "ga": "yes" if r["gaming_acceptable"] else "no", "gw": _fmt(r["gaming_worst_nsv"], 1),
+                             "ro": "yes" if r["robustly_acceptable"] else "no"} for r in rb["rows"]],
+                           ["i", "c", "pf", "ja", "jb", "er", "sa", "sb", "ga", "gw", "ro"],
+                           heads=["instrument", "central", "resamples within", "joint draws acceptable", "joint draws decision", "expected regret where within $bn",
+                                  "structural acceptable", "structural decision", "gaming acceptable", "worst gamed $bn", "robustly acceptable"]))
+        kids.append(html.Div("Acceptable: within the constraints and above the status quo. Robustly acceptable: " + rb["rule"] + ".", className="gap-note"))
+    val = asr.get("validation") or {}
+    evs = val.get("events") or []
+    vb = val.get("benchmarks")
+    if vb:
+        s1, s2, s3 = VAL.narrative(vb, {n: p["label"] for n, p in pols.items()}, {k: AS.title(k) for k in arte["assumptions"]})
+        sm = vb["summary"]
+        kids.append(html.Div(f"Benchmarks: validation against published evidence, {sm['not_contradicted']} of {sm['scored']} not contradicted, "
+                             f"{len(sm['mechanisms_confronted'])} of {sm['mechanisms']} mechanisms confronted", className="gap-name"))
+        kids.append(html.Div(s1, className="gap-note strong"))
+        kids.append(_table([{"b": r["benchmark"], "k": r["kind"], "o": r["observed"], "m": r["model"], "z": r["z"], "v": r["verdict"],
+                             "r": r["ranges"], "h": r["held_out"]} for r in VAL.scorecard(vb)],
+                           ["b", "k", "o", "m", "z", "v", "r", "h"],
+                           heads=["benchmark", "kind", "observed (allowance, one sd)", "model, central assumptions", "z", "verdict",
+                                  "model across the declared ranges", "predicted with it held out"], cls="data specs"))
+        kids.append(html.Div("The allowance combines the benchmark's standard error with a declared allowance for the distance between the setting "
+                             "it was measured in and the model's. z is the gap in those units: within two, not contradicted; two to three, in "
+                             "tension; beyond three, contradicted. Held out: predicted from the joint draws weighted by all the other benchmarks.",
+                             className="gap-note"))
+        cb = vb.get("calibration") or {}
+        if cb.get("used"):
+            kids.append(html.Div("The joint draws weighted by the benchmarks", className="feed-cap"))
+            kids.append(html.Div(s2, className="gap-note strong"))
+            order = sorted(cb["decision_posterior"], key=lambda k: -(cb["decision_posterior"][k] or 0))
+            kids.append(_table([{"a": ("No alternative within the constraints" if k == "none" else lab(k)),
+                                 "u": f"{100 * (cb['decision_prior'].get(k) or 0):.0f}%", "w": f"{100 * (cb['decision_posterior'][k] or 0):.0f}%",
+                                 "n": f"{100 * ((cb.get('decision_not_ruled_out') or {}).get(k) or 0):.0f}%"}
+                                for k in order if (cb["decision_posterior"][k] or 0) > 0.004 or (cb["decision_prior"].get(k) or 0) > 0.004],
+                               ["a", "u", "w", "n"], heads=["the decision is", "share of the draws", "share weighted by the benchmarks",
+                                                             "share of the draws no benchmark rules out"]))
+            if cb.get("assumptions"):
+                kids.append(_table([{"a": AS.title(m["assumption"]), "d": f"{m['default']:.4g}", "p": f"{m['prior_mean']:.4g}", "q": f"{m['posterior_mean']:.4g}",
+                                     "s": f"{m['shift']:+.2f}", "k": f"{100 * m['shrink']:.0f}%",
+                                     "t": ", ".join(e["benchmark"].replace("_", " ") for e in m["informed_by"][:3])} for m in cb["assumptions"][:12]],
+                                   ["a", "d", "p", "q", "s", "k", "t"],
+                                   heads=["assumption the benchmarks bear on", "value on this run", "mean of the draws", "weighted mean",
+                                          "shift, sd of the draws", "spread kept", "through"]))
+        kids.append(html.Div(s3, className="gap-note"))
+        kids.append(html.Div("The evidence base", className="feed-cap"))
+        kids.append(_table([{"b": r["title"], "q": vb["sources"][r["id"]]["mapping"], "s": "; ".join(x["cite"] for x in vb["sources"][r["id"]]["sources"]),
+                             "c": vb["sources"][r["id"]]["caveat"]} for r in vb["rows"]],
+                           ["b", "q", "s", "c"], heads=["benchmark", "the model quantity it is compared with", "source", "caveat"], cls="data specs"))
+        if vb.get("not_used"):
+            kids.append(_table([{"e": x["evidence"], "m": x["bears_on"].replace("_", " "), "w": x["why_not"]} for x in vb["not_used"]],
+                               ["e", "m", "w"], heads=["examined and set aside", "bears on", "why it is not used"], cls="data specs"))
+    kids.append(html.Div("Events and mechanisms: validation against an observed event, and the mechanism register", className="gap-name"))
+    if evs:
+        for x in evs:
+            es = x["event_study"]; cm = x.get("comparison")
+            kids.append(html.Div(f"{x['dataset']} ({x['classification']}): abnormal return {es['car'] * 100:+.1f}% (standard error {es['se_car'] * 100:.1f}%) over "
+                                 f"months 0 to 5 from {es.get('event_month', 'the event month')}, a level effect of {es['early_reaction'] * 100:+.1f}%; "
+                                 f"{es['model']}, estimated on the {es['n_est']} monthly returns before the event month. "
+                                 + (f"Mapped to {lab(cm['policy'])} at the {x['level']} level: the model's early reaction is {cm['model_mean'] * 100:+.1f}% "
+                                    f"({cm['model_lo'] * 100:+.1f}% to {cm['model_hi'] * 100:+.1f}%), and the observation is "
+                                    f"{'inside' if cm['within_band'] else 'outside'} that band." if cm else
+                                    "Not mapped to an instrument, so it is reported and not compared."), className="feed-cap"))
             kids.append(_table([{"i": pols[r["policy"]]["label"], "m": f"{r['model_early_reaction'] * 100:+.1f}%",
-                                 "ci": f"[{r['lo'] * 100:+.1f}%, {r['hi'] * 100:+.1f}%]", "w": "yes" if r["within_band"] else "no"} for r in x["rows"]],
-                               ["i", "m", "ci", "w"], heads=["instrument", "model early reaction", "10th to 90th", "observed CAR within band"]))
+                                 "ci": f"[{r['lo'] * 100:+.1f}%, {r['hi'] * 100:+.1f}%]"} for r in x["rows"]],
+                               ["i", "m", "ci"], heads=["instrument", f"model early reaction ({x['level']})", "outcomes 10th to 90th"]))
+        if val.get("coverage"):
+            kids.append(html.Div(_cap(val["coverage"]["statement"]) + ".", className="gap-note strong"))
     else:
-        kids.append(html.Div("No event study uploaded. In DAT, upload a monthly price series with an event month (a past regulatory "
-                             "announcement) and the model's early market reaction is compared with the observed cumulative abnormal return.", className="await"))
-    kids.append(html.Div("Intervals: every instrument", className="gap-name"))
-    kids.append(_table([{"i": r["label"], "nsv": _fmt(r["net_social_value"]["mean"], 1), "ci": _ci(r["net_social_value"]), "pp": _pct(r["net_social_value"]["p_positive"]),
-                         "ha": _fmt(r["components"]["harm_avoided"]["mean"], 1), "hci": _ci(r["components"]["harm_avoided"]),
-                         "iv": _fmt(r["industry_value_change"]["mean"], 0), "ici": _ci(r["industry_value_change"], 0), "pb": _pct(r["p_best"])}
-                        for r in ev["policies"] if r["policy"] != "baseline"],
-                       ["i", "nsv", "ci", "pp", "ha", "hci", "iv", "ici", "pb"],
-                       heads=["instrument", "net value $bn", "10th to 90th", "P(positive)", "harm avoided", "10th to 90th", "industry $bn", "10th to 90th", "P(best)"]))
+        kids.append(html.Div("No price series was uploaded on this run. In DAT, upload a monthly price series with an event month and the "
+                             "instrument it is an analogue of: the abnormal return is compared with the model's predictive distribution of the "
+                             "early market reaction.", className="await"))
+    mech = arte.get("mechanisms") or []
+    if mech:
+        n_conf = sum(1 for m in mech if m.get("confronted"))
+        kids.append(html.Div(f"The Lab is synthetic. No mechanism is estimated from data; {n_conf} of its {len(mech)} causal mechanisms were confronted "
+                             f"with a published benchmark on this run, and the figures stay conditional on the model and its declared assumptions. "
+                             f"Common random numbers make the comparison between alternatives precise inside the model; they do not make the model true.",
+                             className="gap-note strong"))
+        kids.append(_table([{"m": x["mechanism"], "st": x["status"], "ev": (x.get("evidence") or "no benchmark"),
+                             "id": x["identifying_assumption"], "src": x["source"], "t": x["validation_test"]} for x in mech],
+                           ["m", "st", "ev", "id", "src", "t"],
+                           heads=["mechanism", "status", "benchmarks on this run", "identifying assumption", "what it rests on", "what would test it"],
+                           cls="data specs"))
     return kids
 
 
@@ -854,12 +1090,17 @@ def _dat_static():
                ["Choose the classification: public, synthetic, licensed or pseudonymised. It decides what may leave the run directory.",
                 "Drop a CSV or JSON file with a date column and a price column (optionally a market column for a beta). Daily or monthly; "
                 "the Lab keeps the last observation of each month.",
-                "Optionally give an event month (YYYY-MM, a past regulatory announcement): the cumulative abnormal return over the six "
-                "months after it is computed and compared in assurance with the model's early reaction.",
-                "Optionally map the series to a firm archetype by name: its volatility and beta calibrate that firm in the next plan.",
-                "Every file passes one quarantine: size and type limits, a schema check, a formula injection check, a personal identifier "
-                "scan that refuses rather than redacts, and a hash for the ledger. Rows never enter the briefing or the evidence pack."],
-               "sample_data/analogue_event_study.csv is a synthetic example with an event in 2024-06."),
+                "Optionally give an event month (YYYY-MM, a past regulatory announcement): the abnormal return over the six months from "
+                "it is estimated on the 24 monthly returns before it (a shorter history is refused, not shortened).",
+                "Optionally name the instrument the event is an analogue of: assurance then compares the observation with the model's "
+                "predictive distribution of the early reaction for that instrument. Without it the event is reported and not compared.",
+                "Optionally map the series to a firm archetype by name: its volatility and beta calibrate that firm in the next plan, "
+                "estimated on the returns before the event month so that the event is held out.",
+                "Every file passes one quarantine: size and type limits, a schema check, ISO dates, positive finite prices, a monthly "
+                "series without gaps, a formula injection check, a personal identifier scan that refuses rather than redacts, and a hash "
+                "for the ledger. Rows never enter the briefing or the evidence pack."],
+               "sample_data/analogue_event_study.csv is a synthetic example with an event in 2024-06. One event illustrates the comparison; "
+               "eight or more mapped events are needed before the coverage of the model's band can be tested."),
         html.Div([
             html.Div([html.Label("Classification", htmlFor="dat-class"),
                       dcc.RadioItems(id="dat-class", value="public", inline=True, className="seg", inputClassName="seg-in", labelClassName="seg-lab",
@@ -870,6 +1111,8 @@ def _dat_static():
                       dcc.Input(id="dat-event", type="text", placeholder="YYYY-MM", maxLength=7)], className="dat-col dat-narrow"),
             html.Div([html.Label("Maps to firm (optional)", htmlFor="dat-maps"),
                       dcc.Input(id="dat-maps", type="text", placeholder="for example frontier_lab_closed", maxLength=60)], className="dat-col"),
+            html.Div([html.Label("Analogue of instrument (optional)", htmlFor="dat-analogue"),
+                      dcc.Input(id="dat-analogue", type="text", placeholder="for example frontier_licensing", maxLength=60)], className="dat-col"),
             html.Div([html.Label("Upload CSV or JSON"),
                       dcc.Upload(id="dat-upload", multiple=False, max_size=CFG.upload_max_mb * 1024 * 1024,
                                  children=html.Div(["drop a file here or ", html.B("browse")]), className="dat-upload")], className="dat-col")], className="dat-row"),
@@ -885,11 +1128,14 @@ def _dat_list():
         return html.Div("No datasets waiting. The next plan runs on the synthetic economy alone.", className="await")
     rows = [{"n": d["name"], "c": d["classification"], "m": d["stats"]["n_months"], "v": _pct(d["stats"].get("annual_vol")),
              "b": _fmt(d["stats"].get("beta"), 2) if d["stats"].get("beta") is not None else "n/a", "map": d.get("maps_to") or "",
-             "ev": (f"{d['event_study']['event_month']}: CAR {d['event_study']['car'] * 100:+.1f}%" if d.get("event_study") else d.get("event_note", "")),
+             "ev": (f"{d['event_study']['event_month']}: {d['event_study']['car'] * 100:+.1f}% (s.e. {d['event_study']['se_car'] * 100:.1f}%)"
+                    if d.get("event_study") else d.get("event_note", "")),
+             "an": d.get("analogue_of") or "",
              "p": "yes" if d.get("packable") else "no", "h": d["sha256"][:12]} for d in dsets]
     return [html.Div(f"{len(dsets)} dataset{'s' if len(dsets) != 1 else ''} waiting for the next plan", className="feed-cap"),
-            _table(rows, ["n", "c", "m", "v", "b", "map", "ev", "p", "h"],
-                   heads=["dataset", "classification", "months", "annual vol", "beta", "maps to", "event study", "in pack", "sha256"])]
+            _table(rows, ["n", "c", "m", "v", "b", "map", "ev", "an", "p", "h"],
+                   heads=["dataset", "classification", "months", "annual vol", "beta", "maps to", "abnormal return, months 0 to 5", "analogue of",
+                          "in pack", "sha256"])]
 
 
 def _sec_body():
@@ -929,7 +1175,8 @@ def _run_status():
         kids.append(html.Div("Reading the question and planning the battery.", className="seal arming"))
     bat = S["battery"]
     if bat and st != "planning":
-        kids.append(html.Div(f"Battery: {len(bat['policies'])} instruments, {bat['paths']} paths, {bat['horizon']} months, hash {bat['hash'][:16]}; "
+        kids.append(html.Div(f"Battery: {len(bat['policies'])} alternatives, {bat['paths']} paths growing to at most {bat.get('max_paths', bat['paths'])} "
+                             f"until the precision targets are met, {bat['horizon']} months, hash {bat['hash'][:16]}; "
                              f"{S['plan_text']}" + (f"; firms: {bat.get('firms_origin')}" if bat.get("firms_origin") else "")
                              + (("; " + "; ".join(bat["calibration_notes"])) if bat.get("calibration_notes") else ""), className="feed-cap"))
         kids.append(_table([{"i": p["label"], "s": "coordinated" if p["scope"] == "coordinated" else "domestic", "ph": p["phase_in"], "d": describe_policy(p)}
@@ -954,10 +1201,15 @@ def _run_status():
         kids.append(html.Div(f"Critic {'passed' if ok else 'failed'}: {S['critic']['n_checks']} checks against the stored paths and the ledger"
                              + (f". Failed: {failed}" if failed else ""), className="verdict " + ("pass" if ok else "fail")))
         if ok and st == "evaluated":
-            arte = S["artefacts"]; ev = arte["results"]; pref = ev["preferred"] or ev["best_unconstrained"]
-            kids.append(html.Div(f"Preferred option {_label(arte, pref)}: net social value {_bn(_pols(arte)[pref]['net_social_value']['mean'])}, "
-                                 f"P(best) {_pct(_pols(arte)[pref]['p_best'])}. The briefing exists as artefacts only; Gate 2 releases it, or refuses it with a recorded reason.",
+            arte = S["artefacts"]; ev = arte["results"]; fo = _pols(arte)[_focus(arte)]
+            kids.append(html.Div(f"{ev['decision']['text']} {fo['label']}: expected net social value {_bn(fo['net_social_value']['mean'])} "
+                                 f"(95% confidence interval {_bn(fo['net_social_value']['ci_lo'])} to {_bn(fo['net_social_value']['ci_hi'])}) on "
+                                 f"{arte['paths']} paths. The briefing exists as artefacts only; Gate 2 releases it, or refuses it with a recorded reason.",
                                  className="await"))
+            pr = ev.get("precision") or {}
+            if pr and not pr.get("met", True):
+                kids.append(html.Div(f"Short of the precision target at the ceiling of {pr['max_paths']} paths: "
+                                     + "; ".join(x["text"] for x in pr["unresolved"]) + ".", className="seal arming"))
     if S["run_id"] and st in ("evaluated", "released", "halted", "rejected", "refused"):
         rid = S["run_id"]
         kids.append(html.Div([
@@ -985,11 +1237,12 @@ def _reg_body():
                            html.A("pack", href=f"/run/{rid}/evidence_pack.zip"),
                            *(["  ", html.A("briefing", href=f"/run/{rid}/briefing.html", target="_blank")] if m.get("stage") == "released" else [])])
         rows.append({"run": rid, "created": str(m.get("created", ""))[:19], "stage": m.get("stage"), "preparer": m.get("preparer"),
-                     "approver": m.get("approver") or "", "pref": _nice(m.get("preferred") or ""), "gap": _fmt(m.get("decision_gap")),
+                     "approver": m.get("approver") or "", "pref": "status quo" if m.get("preferred") == "baseline" else _nice(m.get("preferred") or ""),
+                     "gap": _fmt(m.get("decision_gap")),
                      "ws": _pct(m.get("winner_stability")) if m.get("winner_stability") is not None else "", "question": str(m.get("question", ""))[:70], "links": links})
     return [html.Div(f"{len(rows)} runs in {STORE.root}", className="feed-cap"),
             _table(rows, ["run", "created", "stage", "preparer", "approver", "pref", "gap", "ws", "question", "links"],
-                   heads=["run", "created (UTC)", "stage", "preparer", "approver", "preferred", "gap", "winner", "question", "files"])]
+                   heads=["run", "created (UTC)", "stage", "preparer", "approver", "preferred", "gap", "stability", "question", "files"])]
 
 
 def _ldg_verify():
@@ -1023,7 +1276,7 @@ def _nws_body():
 
 def _mkt_body():
     return [html.Div([html.Button("Prices", id="mkt-px-btn", className="mode on"),
-                      html.Button("vs baseline", id="mkt-vs-btn", className="mode", disabled=True, title="Index against the baseline, with its band (after the run)"),
+                      html.Button("vs status quo", id="mkt-vs-btn", className="mode", disabled=True, title="Index against the status quo, with its band (after the run)"),
                       html.Select([html.Option("Live", value="__live__")], id="mkt-sel", className="sel"),
                       html.Span(id="mkt-read", className="mkt-read")], className="mkt-modes"),
             html.Div(id="mkt-legend", className="legend"),
@@ -1055,7 +1308,8 @@ def _run_static():
         dcc.Input(id="approver-role", type="hidden", value=""), dcc.Input(id="who-role", type="hidden", value="")]
     return [
         html.Label("Policy question", htmlFor="q"),
-        dcc.Textarea(id="q", value=DEFAULT_QUESTION, rows=3, spellCheck=False, maxLength=600),
+        dcc.Textarea(id="q", value=DEFAULT_QUESTION, rows=3, spellCheck=False, maxLength=600,
+                     title='Name instruments, a horizon and constraints. Add "seed 11" to repeat a run on other random numbers: an independent replication.'),
         *ident, *hidden,
         html.Label("Reason (required to refuse a gate; recorded in the ledger)", htmlFor="reason"),
         dcc.Textarea(id="reason", rows=2, spellCheck=False, maxLength=400, placeholder="why the battery or the briefing is refused"),
@@ -1104,16 +1358,16 @@ def _rail():
 
 FRONT_INDEX = [
     ("NWS", "news wire: the headlines four media agents write from the simulation, live, and the forecast by quarter"),
-    ("MKT", "technology equities: every firm's price under the instrument being simulated, and the index against the baseline"),
+    ("MKT", "technology equities: every firm's price under the instrument being simulated, and the index against the status quo"),
     ("SAF", "safety forecast: incidents, the probability of a major and of a catastrophic one, harm, safety practice, trust"),
-    ("PNL", "industry gain or loss: each firm's value change against the baseline, with its probability of gaining"),
+    ("PNL", "industry gain or loss: each firm's value change against the status quo, with its probability of gaining"),
     ("WLF", "social ledger: what the instrument buys and costs, as a waterfall, and who gains and who pays"),
     ("GAP", "decision gap: the instruments ranked by how they look early against how they score over the horizon"),
     ("LDG", "rationale ledger: the signed hash chain, entry by entry, with replay"),
     ("RUN", "run control: the question, identities, gates with refusal, emergency stop, the briefing"),
     ("ASK", "run oracle: grounded answers computed from the artefacts"),
     ("POL", "policy library: the instruments, your own, and the assumption overrides"),
-    ("RSK", "assurance: tornado, structural variants, red team, analogue event study, intervals"),
+    ("RSK", "assurance: Monte Carlo error, the screen of every assumption, the joint draw, variants, red team, validation"),
     ("DAT", "data desk: price series through quarantine, for calibration and event studies"),
     ("AGT", "firm workshop: the archetypes and your own templates"),
     ("SEC", "security posture: the deployment checked against the controls"),
@@ -1161,7 +1415,7 @@ app.layout = html.Div([
             _panel(8, "RUN", "Run control, gates and briefing", _run_static()),
         ], className="trow", id="trow-3"),
         _panel(0, "POL", "Policy library: instruments, your own, assumptions", _pol_static()),
-        _panel("K", "RSK", "Assurance: tornado, structural variants, red team, analogue, intervals", html.Div(id="rsk-body")),
+        _panel("K", "RSK", "Assurance: precision, screen, joint draw, variants, red team, validation", html.Div(id="rsk-body")),
         _panel("D", "DAT", "Data desk: price series through quarantine", _dat_static()),
         _panel("A", "AGT", "Firm workshop: archetypes and templates", _agt_static()),
         _panel("S", "SEC", "Security posture", html.Div(id="sec-body")),
@@ -1183,17 +1437,19 @@ app.layout = html.Div([
         html.Div([
             html.Div([html.Div(id="ch-log"),
                       html.Div([dcc.Input(id="ch-in", type="text", autoComplete="off", maxLength=600,
-                                          placeholder="ask which instrument to choose, what it costs, who pays, a firm's stock, the news to expect, "
-                                                      "an assumption, the red team, the ledger"),
+                                          placeholder="ask which alternative to choose and how sure, what it costs, who pays, a firm's stock, "
+                                                      "an assumption, the joint draw, robustness, validation, the red team"),
                                 html.Button("Send ⏎", id="ch-send")], id="ch-inrow")], id="ch-left"),
             html.Div([html.H4("Sources used"), html.Div(id="ch-src")], id="ch-right")], id="ch-body")], id="chatpage"),
 
     html.Div(html.Div([
         html.Pre(["PSL", html.Span("▌", className="blink"), html.Span("Policy Scenario Lab", className="fp-name")]),
-        html.P("An agent based laboratory for AI regulation: candidate instruments run against the same synthetic AI economy, and are scored on the "
-               "harm they prevent against the economic and social cost they impose, with the industry's gain or loss, the news to expect and "
-               "the market reaction beside them.", className="sub"),
-        html.P("From the team behind the Herding Scenario Lab. For policy, supervision and impact assessment teams.", className="sub2"),
+        html.P("An agent based laboratory for AI regulation: candidate instruments and the status quo run against the same synthetic AI "
+               "economy, and are scored on the harm they prevent against the economic and social cost they impose, with the industry's gain or "
+               "loss, the news to expect and the market reaction beside them.", className="sub"),
+        html.P("Scenario evaluations conditional on a declared model and declared assumptions, with their uncertainty shown; not forecasts "
+               "validated against data. From the team behind the Herding Scenario Lab. For policy, supervision and impact assessment teams.",
+               className="sub2"),
         html.Div([html.Div([html.Span(c, className="tag"), html.Span(t, className="desc"),
                             html.Span({"ASK": "9", "POL": "0", "RSK": "K", "REG": "R", "DAT": "D", "SEC": "S", "AGT": "A"}.get(c, str(i + 1)), className="st")],
                            className="slot", **{"data-code": c}) for i, (c, t) in enumerate(FRONT_INDEX)], id="front-index"),
@@ -1223,7 +1479,7 @@ def _poll(_, cur):
                    "done": S["done"]}
         if S["artefacts"] and not cur.get("evaluated_for") == S["run_id"]:
             ev = S["artefacts"]["results"]
-            payload["evaluated"] = {"preferred": ev["preferred"] or ev["best_unconstrained"],
+            payload["evaluated"] = {"preferred": _focus(S["artefacts"]),
                                     "index": {r["policy"]: {"mean": r["market"]["index_mean"], "lo": r["market"]["index_lo"], "hi": r["market"]["index_hi"],
                                                             "base": r["market"]["index_base_mean"], "label": r["label"],
                                                             "rel_mean": r["market"].get("rel_mean"), "rel_lo": r["market"].get("rel_lo"),
@@ -1463,8 +1719,8 @@ def _gates(n1, n2, n3, n4, n5, approver_field, reason, approver_role, who_role):
 
 
 @app.callback(Output("dat-result", "children"), Input("dat-upload", "contents"), State("dat-upload", "filename"), State("dat-class", "value"),
-              State("dat-event", "value"), State("dat-maps", "value"), State("who", "value"), prevent_initial_call=True)
-def _dat_intake(contents, filename, cls, event, maps, who):
+              State("dat-event", "value"), State("dat-maps", "value"), State("who", "value"), State("dat-analogue", "value"), prevent_initial_call=True)
+def _dat_intake(contents, filename, cls, event, maps, who, analogue=None):
     if not contents:
         raise PreventUpdate
     if not _may("upload"):
@@ -1477,7 +1733,8 @@ def _dat_intake(contents, filename, cls, event, maps, who):
         return html.Div("Upload could not be decoded", className="seal refused")
     who = _actor(who) or "unnamed"
     ds = quarantine(filename or "upload.csv", raw, uploader=who, classification=cls or "public", max_bytes=CFG.upload_max_mb * 1024 * 1024,
-                    event_date=(event or "").strip() or None, maps_to=(maps or "").strip() or None)
+                    event_date=(event or "").strip() or None, maps_to=(maps or "").strip() or None,
+                    analogue_of=(analogue or "").strip().lower().replace(" ", "_") or None)
     log = S["log"]
     if not ds["ok"]:
         if log is not None:
@@ -1490,7 +1747,7 @@ def _dat_intake(contents, filename, cls, event, maps, who):
         S["rev"] += 1
     if log is not None:
         log("dataset_accepted", actor=who, name=ds["name"], sha256=ds["sha256"], classification=ds["classification"], stats=ds["stats"],
-            event_study=ds.get("event_study"), maps_to=ds.get("maps_to"))
+            event_study=ds.get("event_study"), maps_to=ds.get("maps_to"), analogue_of=ds.get("analogue_of"))
     _alert("ok", f"Dataset accepted: {dataset_summary(ds)}")
     return html.Div(f"Accepted: {dataset_summary(ds)}" + (f". {ds['event_note']}" if ds.get("event_note") else ""), className="seal approved")
 

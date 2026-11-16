@@ -11,6 +11,9 @@ import sys
 
 import pytest
 
+pytest.importorskip("flask", reason="the server tests need the web stack (pip install -r requirements.txt)")
+pytest.importorskip("dash", reason="the server tests need the web stack (pip install -r requirements.txt)")
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 

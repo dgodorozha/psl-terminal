@@ -124,7 +124,7 @@
     setBody("saf-body", frag("saf")); setBody("gap-body", frag("gap")); setBody("rsk-body", frag("rsk"));
     setBody("pnl-body", frag("pnl_" + R.pick.pnl)); setBody("wlf-body", frag("wlf_" + R.pick.wlf)); setBody("nws-forecast", frag("nws_fc_" + R.pick.nws));
     setBody("run-status", frag("run_evaluated"));
-    setStage("evaluated", "gate2", "Critic passed, Gate 2 armed, preferred " + R.run.pol_labels[R.run.preferred] + " (replay)");
+    setStage("evaluated", "gate2", "Critic passed, Gate 2 armed, preferred " + (R.run.decision || R.run.pol_labels[R.run.preferred]) + " (replay)");
     emit({ evaluated: R.run.evaluated });
     window.pslRedraw && window.pslRedraw();
   }
@@ -195,7 +195,7 @@
     var sel = document.createElement("select"); sel.id = "rec-sel"; sel.className = "sel";
     R.index.runs.forEach(function (r, i) {
       var o = document.createElement("option"); o.value = r.run_id;
-      o.textContent = (i + 1) + ". " + r.question.slice(0, 110) + (r.question.length > 110 ? "…" : "");
+      o.textContent = (i + 1) + ". " + r.question.slice(0, 96) + (r.question.length > 96 ? "…" : "") + (r.seed != null ? " (seed " + r.seed + ")" : "");
       sel.appendChild(o);
     });
     sel.addEventListener("change", function () { if (R.stage === "idle") loadRun(sel.value); });

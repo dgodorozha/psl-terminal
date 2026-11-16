@@ -1,0 +1,292 @@
+{
+ "ok": true,
+ "n_checks": 57,
+ "n_failed": 0,
+ "checks": [
+  {
+   "check": "battery hash reproduces",
+   "ok": true,
+   "detail": "1ba4de2d826a vs 1ba4de2d826a"
+  },
+  {
+   "check": "assumptions hash reproduces",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "artefacts cite the approved battery",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "the artefacts carry the scored results unchanged",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "the artefacts carry the assurance report unchanged",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "the artefacts carry the approved assumptions, instruments and firms",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "every assumption within its declared bounds",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "every assumption has a plausible range that brackets its default",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "status quo paths stored",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "every policy of the battery is scored",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "path count follows the sampling plan",
+   "ok": true,
+   "detail": "120 paths; plan 120 to 480; schedule [120]"
+  },
+  {
+   "check": "paths were added by doubling up to the ceiling",
+   "ok": true,
+   "detail": "[120]"
+  },
+  {
+   "check": "net social value, its components and the industry value recomputed from the stored paths",
+   "ok": true,
+   "detail": "largest deviation 3.81e-05 $bn"
+  },
+  {
+   "check": "accounting identity: the components sum to the net social value",
+   "ok": true,
+   "detail": "0"
+  },
+  {
+   "check": "gross cost and gross benefit are non negative and differ by the net social value",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "incidence table sums to the net social value plus the non resident memorandum item",
+   "ok": true,
+   "detail": "2.29e-15"
+  },
+  {
+   "check": "status quo scores zero against itself",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "expected harm from the conditional estimator agrees with the average of the harm drawn",
+   "ok": true,
+   "detail": "largest z 0.00; not assessable on 120 paths: fewer than 20 paths with a catastrophe; unbiasedness is established in the test suite"
+  },
+  {
+   "check": "the conditional catastrophe probability agrees with the frequency of catastrophes",
+   "ok": true,
+   "detail": "largest z 0.00; not assessable on 120 paths: fewer than 20 paths with a catastrophe; unbiasedness is established in the test suite"
+  },
+  {
+   "check": "major incidents are individual incidents",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "the status quo is a decision alternative",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "preferred alternative reproduces under the constraints",
+   "ok": true,
+   "detail": "baseline vs baseline"
+  },
+  {
+   "check": "best instrument reproduces",
+   "ok": true,
+   "detail": "coordinated_licensing vs coordinated_licensing"
+  },
+  {
+   "check": "feasibility reproduces for every alternative",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "no instrument with a non positive expected value is preferred to a feasible status quo",
+   "ok": true,
+   "detail": "baseline: 0.00"
+  },
+  {
+   "check": "social order reproduces",
+   "ok": true,
+   "detail": "['coordinated_licensing', 'moratorium'] vs ['coordinated_licensing', 'moratorium']"
+  },
+  {
+   "check": "decision gap (Kendall tau b) reproduces",
+   "ok": true,
+   "detail": "1.000"
+  },
+  {
+   "check": "equal scores share a rank",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "ranking stability shares sum to one over the alternatives",
+   "ok": true,
+   "detail": "1.0000"
+  },
+  {
+   "check": "probabilities within [0, 1]",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "expected harm non negative",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "every constraint is applied as declared, with the probability it holds",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "feasible means every constraint holds",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "confidence interval of the preferred alternative reproduces",
+   "ok": true,
+   "detail": "0.00 to 0.00 against 0.00 to 0.00"
+  },
+  {
+   "check": "precision report is consistent",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "every price index starts at 100",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "firm count matches the battery",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "one pre intervention valuation for the whole battery",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "wire summaries match the wires",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "every incident headline carries its damages",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "the screen covers every declared assumption",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "the screen's reference is the focus option's value",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "the screen's reference decision is the run's decision",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "joint draw: decision shares sum to one and every assumption is ranked",
+   "ok": true,
+   "detail": "1.0000"
+  },
+  {
+   "check": "every benchmark carries a source, a mapping and a transport allowance",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "benchmark verdicts follow from the observed and modelled values",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "the evidence base is the one approved at Gate 1",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "weighted decision shares reproduce from the stored draws and weights",
+   "ok": true,
+   "detail": "effective draws 7.5 of 64"
+  },
+  {
+   "check": "the unweighted shares are the joint draw's",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "the briefing names every benchmark the model is in tension with or contradicted by",
+   "ok": true,
+   "detail": "enforcement_return, insurance_resource_share"
+  },
+  {
+   "check": "variance shares within [0, 1]",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "structural variants complete",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "red team ran every strategy on every instrument",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "robustness table covers every instrument",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "mechanism register covers every assumption",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "ledger chain verifies and every record is signed",
+   "ok": true,
+   "detail": "13 entries"
+  },
+  {
+   "check": "every figure in the briefing appears in the artefacts",
+   "ok": true,
+   "detail": "unmatched: []"
+  }
+ ]
+}

@@ -25,10 +25,40 @@ needs a server).
     modal deploy modal_app.py                     # prints the address, https://<workspace>--psl.modal.run
 
 `modal_app.py` holds the whole deployment: the image (Python 3.12 and `requirements.txt`), the environment
-(`demo` profile, open gates, BLAS on one thread), a persistent volume `psl-runs` for the run registry, one
-container at a time (`max_containers=1`, so the terminal's state and gates live in one process), up to a
-hundred concurrent requests from the browsers using it, and a fifteen minute window after the last request
-before the container stops. The first visitor after a quiet spell waits a few seconds while it starts.
+(`demo` profile, open gates, BLAS on one thread, four simulation threads, reuse of identical batteries), one core
+and 1 GiB requested with room to burst, a persistent volume `psl-runs` for the run registry, one container at a
+time (`max_containers=1`, so the terminal's state and gates live in one process), up to a hundred concurrent
+requests from the browsers using it, and a ten minute window after the last request before the container stops.
+The first visitor after a quiet spell waits a few seconds while it starts, and finds an empty terminal: the run
+registry (REG) keeps every past run with its briefing and evidence pack.
+
+**What it costs.** Modal bills, by the second, the larger of what a container requests and what it uses, for as
+long as the container is up (list prices in November 2026: $0.0000131 a core second, $0.00000222 a GiB second;
+the Starter plan includes $30 a month). The run itself is the small part; the time the container stays up
+afterwards is the large one. Measured with `python tools/cost.py --profile demo` on two cores:
+
+| | Seconds | Cost |
+|---|---:|---:|
+| A demo run, computed (35 processor seconds, 0.53 GiB at its peak) | 26 | $0.0005 |
+| The same battery asked again, reused from the registry | under 1 | under $0.0001 |
+| Idle until the container stops (ten minutes, plus the ninety seconds before an untouched page stops polling) | 690 | $0.0106 |
+| A visit with one computed run | | about $0.011: some 2,700 visits on the monthly credit |
+
+Three settings carry this, and each is one line to change:
+
+- **The request** (`cpu=1.0, memory=(1024, 4096)` in `modal_app.py`). A request is paid for while the terminal
+  sits idle. One core is guaranteed and a run bursts above it when the worker has room; `cpu=0.5` halves the idle
+  cost and leaves a run slower when the worker is busy. Version 1.1.0 requested four cores and 4 GiB: $0.055 for
+  the same idle time, and $0.22 an hour.
+- **The window** (`scaledown_window=600`). Shorter is cheaper and resets an idle visitor's terminal sooner.
+- **Polling.** The page asks the server for news three times a second. It now stops ninety seconds after the last
+  key, click, scroll or pointer movement unless a run is in progress, and starts again on the next one
+  (`assets/terminal.js`), so an open tab no longer keeps the container up. In 1.1.0 a tab left open overnight
+  kept four cores billed until it was closed.
+
+`PSL_REUSE=on` makes an identical battery (the same hash, code, libraries and uploaded series) replay the stored
+run instead of simulating it again; the critic still recomputes every figure, and the ledger and the briefing say
+which run computed them. It is off by default and on for the public demonstration.
 
 To redeploy on every push, give GitHub the Modal token: the values are in `~/.modal.toml` after `modal setup`.
 
@@ -44,8 +74,8 @@ To redeploy on every push, give GitHub the Modal token: the values are in `~/.mo
 application (pushes that only change `site/` or the documents are skipped). Without the secrets the job runs
 and skips, so the repository stays green.
 
-The gates are open (`PSL_GATES=open`: single clicks, no preparer or approver) and the profile is `demo` (about half a
-minute a run). Change either in the `.env({...})` block of `modal_app.py` and redeploy. Leave `PSL_FRAME_ANCESTORS` unset: nothing embeds the terminal on Modal.
+The gates are open (`PSL_GATES=open`: single clicks, no preparer or approver) and the profile is `demo`: a battery
+starts on 120 paths and grows to at most 480 where its precision targets ask for it, about half a minute a run. Change either in the `.env({...})` block of `modal_app.py` and redeploy. Leave `PSL_FRAME_ANCESTORS` unset: nothing embeds the terminal on Modal.
 
 ## 3. GitHub Pages (the replay site, always on)
 
@@ -57,7 +87,9 @@ on once, before the first push of the workflow:
     gh api --method POST repos/OWNER/REPO/pages -f build_type=workflow
 
 The site is then at `https://OWNER.github.io/REPO/`. (GitHub's "deploy from a branch" option only serves the
-root or `/docs`, which is why the workflow is used.) Rebuild and recommit `site/` when the model changes.
+root or `/docs`, which is why the workflow is used.) Rebuild and recommit `site/` when the model changes. The
+builder records four runs, each on its own seed: the default question, the same question again on the next seed
+(an independent replication a reader can compare with the first), and two more questions.
 
 ## 4. Other hosts
 
@@ -83,7 +115,8 @@ store, turn dev mode off, and leave `PSL_FRAME_ANCESTORS` unset.
 | Variable | Purpose |
 |---|---|
 | `PSL_SECRET` | ledger signing key; required for a persistent, verifiable ledger |
-| `PSL_PROFILE` | `demo` (half a minute), `light`, or `full` |
+| `PSL_PROFILE` | the sampling plan and assurance budget: `demo` (120 paths growing to at most 480, about half a minute), `light` (240 to 960) or `full` (480 to 3,840) |
+| `PSL_PATHS`, `PSL_MAX_PATHS`, `PSL_SEED`, `PSL_WORKERS` | override the plan's starting paths and ceiling, the default seed, and the simulation threads |
 | `PSL_GATES` | `named` (default: preparer and approver with functions, register, four eyes) or `open` (single click gates without identities, for the public demonstration; never in production) |
 | `PSL_DEV_MODE` | `on` accepts Developer1 and Developer2 at named gates; never in production |
 | `PSL_REGISTER` | register of regulated persons the approver is checked against |

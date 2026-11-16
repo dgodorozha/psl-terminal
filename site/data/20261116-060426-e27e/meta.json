@@ -1,0 +1,16 @@
+{
+ "question": "Would a six month moratorium above the compute threshold or coordinated frontier licensing reduce expected harm more over three years, keeping the gross social cost under $100bn?",
+ "preparer": "visitor",
+ "stage": "released",
+ "created": "2026-11-16T06:04:26+00:00",
+ "run_id": "20261116-060426-e27e",
+ "updated": "2026-11-16T06:04:34+00:00",
+ "battery_hash": "1ba4de2d826af14552d72a1a404921c4c3e7382a3cfee557fd98b984457939c2",
+ "n_policies": 3,
+ "approver": "visitor",
+ "critic_ok": true,
+ "preferred": "baseline",
+ "decision_gap": 0.0,
+ "winner_stability": 0.838,
+ "paths": 120
+}

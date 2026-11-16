@@ -1,0 +1,28 @@
+# Runs the test suite and the document check on every push and pull request: the decision rule, the estimators, the
+# intervals, the accounting, the pipeline, the critic, the server and the security controls, and that the tables of
+# docs/METHOD.md are the ones the code generates.
+name: Tests
+on:
+  push:
+    branches: [main]
+    paths-ignore: ["site/**"]
+  pull_request:
+  workflow_dispatch:
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install
+        run: pip install --quiet -r requirements.txt "pytest>=8"
+      - name: Test suite
+        run: python -m pytest tests -q
+      - name: The method document matches the code
+        run: python tools/sync_docs.py --check

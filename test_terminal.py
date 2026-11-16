@@ -67,6 +67,7 @@ with sync_playwright() as p:
     page.click("button.fkey[data-code='DAT']"); time.sleep(0.5)
     page.fill("#dat-event", "2024-06")
     page.fill("#dat-maps", "chip_designer")
+    page.fill("#dat-analogue", "risk_tiering")          # the instrument the historical event is an analogue of
     page.set_input_files("#dat-upload input[type=file]", os.path.join(os.path.dirname(os.path.abspath(__file__)), "sample_data", "analogue_event_study.csv"))
     page.wait_for_selector("#dat-result .seal.approved", timeout=20000)
     time.sleep(0.8); shot(page, "05_dat")
@@ -103,6 +104,7 @@ with sync_playwright() as p:
     shot(page, "20_evaluated_grid")
     for key, name in (("3", "21_saf"), ("4", "22_pnl"), ("5", "23_wlf"), ("6", "24_gap"), ("k", "25_rsk"), ("7", "26_ldg")):
         page.keyboard.press(key); time.sleep(1.2); shot(page, name)
+    assert "validation against published evidence" in page.inner_text("#rsk-body"), "the assurance panel carries the benchmarks"
     page.keyboard.press("1"); time.sleep(0.5)
     page.click("#nws-fc-btn"); time.sleep(1.0); shot(page, "27_nws_forecast")
     page.keyboard.press("2"); time.sleep(0.5)
@@ -133,6 +135,33 @@ with sync_playwright() as p:
     st = page.evaluate("document.body.dataset.stage")
     assert st == "idle", f"new run should return to idle, got {st}"
     shot(page, "50_newrun")
+
+    # The same question again: the identical battery is reused when the server runs with PSL_REUSE=on
+    if "--reuse" in sys.argv:
+        page.click("#plan"); wait_stage(page, {"planned"}, 60)
+        t_r = time.time()
+        page.click("#g1a"); wait_stage(page, {"evaluated", "error", "halted"}, 120)
+        assert page.evaluate("document.body.dataset.stage") == "evaluated"
+        time.sleep(2.5)
+        print(f"second run of the same battery: {time.time() - t_r:.0f} s")
+        assert "validation against published evidence" in page.inner_text("#rsk-body")
+        shot(page, "60_reused")
+
+    # An untouched page stops polling; any input starts it again (the idle window is shortened for the test)
+    page.evaluate("window.__polls = 0; (function () { var f = window.fetch; window.fetch = function () { "
+                  "if (String(arguments[0]).indexOf('_dash-update-component') >= 0) window.__polls++; return f.apply(this, arguments); }; })();")
+    time.sleep(3)
+    busy = page.evaluate("window.__polls")
+    assert busy >= 4, f"the page should be polling while it is in use ({busy})"
+    page.evaluate("window.PSL_IDLE_MS = 2000")
+    time.sleep(9)
+    page.evaluate("window.__polls = 0"); time.sleep(4)
+    quiet = page.evaluate("window.__polls")
+    assert quiet == 0, f"an untouched page should have stopped polling ({quiet} requests in four seconds)"
+    page.mouse.move(300, 300); page.mouse.move(320, 320); time.sleep(3)
+    woke = page.evaluate("window.__polls")
+    assert woke >= 3, f"input should start the polling again ({woke})"
+    print(f"polling: {busy} requests in 3 s in use, {quiet} idle, {woke} after input")
     b.close()
 
 bad = [e for e in errors if "favicon" not in e and "404" not in e]

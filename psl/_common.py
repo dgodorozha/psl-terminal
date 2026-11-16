@@ -34,10 +34,20 @@ _ACRONYMS = {"rl": "RL", "llm": "LLM", "luld": "LULD", "es": "ES", "hhi": "HHI",
 _IDENT = _re.compile(r"^[A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)+$")
 
 
+NAMES = {}          # identifier -> title, for identifiers that have a proper one (the declared assumptions register theirs)
+
+
 def nice_name(s):
-    """Regulator facing form of an identifier: underscores to spaces,
-    sentence case, known acronyms upper case. Hashes, numbers and text
-    that is not an identifier are returned unchanged."""
+    """Regulator facing form of an identifier: its registered title when it has one, otherwise underscores to
+    spaces, sentence case, known acronyms upper case. Hashes, numbers and text that is not an identifier are
+    returned unchanged."""
+    if not NAMES:
+        try:                                   # the declared assumptions register their titles when imported
+            from . import assumptions  # noqa: F401
+        except Exception:  # noqa: BLE001
+            pass
+    if isinstance(s, str) and s in NAMES:
+        return NAMES[s]
     if not isinstance(s, str) or not _IDENT.match(s):
         return s
     words = s.split("_")

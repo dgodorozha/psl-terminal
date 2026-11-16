@@ -21,11 +21,22 @@ restricted to identities from a trusted proxy header in header mode.
   PSL_GATES         named | open (default named): named takes a preparer and an approver with their functions,
                     checked against the register with four eyes; open makes the two gates single clicks with no
                     identities, for a public demonstration; every gate record and the posture page say which
-  PSL_PROFILE       full | light | demo: Monte Carlo paths and assurance budgets (default full; demo runs in
-                    about twenty seconds with the heavy stages reduced and declared in the provenance)
-  PSL_PATHS         Monte Carlo paths per policy (overrides the profile)
+  PSL_PROFILE       full | light | demo: the sampling plan (starting paths, ceiling, precision targets) and the
+                    assurance budgets (default full; demo runs in about half a minute with the heavy stages reduced, which
+                    the provenance declares)
+  PSL_PATHS         Monte Carlo paths per policy the battery starts on (overrides the profile)
+  PSL_MAX_PATHS     ceiling the adaptive sampling may grow the battery to (overrides the profile; set it equal to
+                    PSL_PATHS for a fixed number of paths)
+  PSL_WORKERS       threads for independent simulations (default: the machine's cores, at most four)
+  PSL_SEED          seed of the random streams when the question names none (default 7); "seed 11" in a question
+                    repeats the run on another family of streams, an independent replication
   PSL_HORIZON       months simulated (overrides the profile; default 60)
   PSL_TICK_PACE     seconds per simulated month on the wire (default 0.05)
+  PSL_BENCHMARKS    JSON file of empirical benchmarks for the validation layer, replacing or extending the built in
+                    evidence base (psl/benchmarks.py gives the fields); the set in force is hashed into the battery
+  PSL_REUSE         on: a battery identical to a completed run (same hash, code, libraries and uploaded series) is not
+                    simulated again; its figures are copied, its stream replayed and the critic recomputes them
+                    (default off; the public demonstration switches it on)
   PSL_ASK_RATE      ASK questions per identity per minute (default 20)
   PSL_UPLOAD_MAX_MB size limit for uploaded datasets (default 25)
   PSL_LLM_PROVIDER  off | anthropic | openai | azure | gemini | custom | local (default: anthropic if
@@ -50,11 +61,30 @@ def _bool(v, default):
 
 
 PROFILES = {
-    # paths per policy, months, bootstrap resamples, paths for the structural variants and the tornado's re simulations,
-    # paths for the red team (the same as the main run, so its honest values match the headline figures)
-    "full": {"paths": 240, "horizon": 60, "boot": 400, "variant_paths": 120, "redteam_paths": 240, "tornado": True},
-    "light": {"paths": 120, "horizon": 60, "boot": 200, "variant_paths": 80, "redteam_paths": 120, "tornado": True},
-    "demo": {"paths": 60, "horizon": 36, "boot": 100, "variant_paths": 30, "redteam_paths": 60, "tornado": True},
+    # The sampling plan and the assurance budget of a run.
+    #   paths, max_paths     the battery starts on `paths` paths per policy and doubles, on the same random streams, until
+    #                        the precision targets are met or `max_paths` is reached
+    #   precision            nsv_gap_bn: the preferred alternative is resolved against another feasible one when the 95%
+    #                        interval of their paired difference excludes zero or its half width is at most this ($bn);
+    #                        p_catastrophe_halfwidth: the half width of the interval of a catastrophe probability
+    #   boot                 bootstrap resamples of the paths
+    #   screen_paths         paths each assumption's re simulation runs on in the screen (paired with the main run)
+    #   joint_draws, joint_paths   joint draws of all the assumptions, and the paths each runs on
+    #   sobol_k, sobol_base, sobol_paths   assumptions in the variance decomposition, its base sample, paths per evaluation
+    #   variant_paths, redteam_paths       paths for the structural variants and for the red team
+    #   batches              independent batches the run's paths are split into for the replication check
+    "full": {"paths": 480, "max_paths": 3840, "horizon": 60, "boot": 1000,
+             "precision": {"nsv_gap_bn": 2.5, "p_catastrophe_halfwidth": 0.01},
+             "screen_paths": 32, "joint_draws": 256, "joint_paths": 8, "sobol_k": 8, "sobol_base": 256, "sobol_paths": 4,
+             "variant_paths": 240, "redteam_paths": 240, "batches": 8, "tornado": True},
+    "light": {"paths": 240, "max_paths": 960, "horizon": 60, "boot": 1000,
+              "precision": {"nsv_gap_bn": 5.0, "p_catastrophe_halfwidth": 0.02},
+              "screen_paths": 12, "joint_draws": 128, "joint_paths": 6, "sobol_k": 6, "sobol_base": 128, "sobol_paths": 3,
+              "variant_paths": 96, "redteam_paths": 120, "batches": 4, "tornado": True},
+    "demo": {"paths": 120, "max_paths": 480, "horizon": 36, "boot": 500,
+             "precision": {"nsv_gap_bn": 5.0, "p_catastrophe_halfwidth": 0.03},
+             "screen_paths": 4, "joint_draws": 64, "joint_paths": 4, "sobol_k": 5, "sobol_base": 64, "sobol_paths": 2,
+             "variant_paths": 40, "redteam_paths": 60, "batches": 4, "tornado": True},
 }
 
 
@@ -89,11 +119,18 @@ class Config:
         prof = dict(PROFILES[self.profile])
         if env.get("PSL_PATHS"):
             prof["paths"] = max(8, int(env["PSL_PATHS"]))
-            prof["redteam_paths"] = prof["paths"]
+            prof["max_paths"] = max(prof["paths"], int(prof.get("max_paths", prof["paths"])))
+            prof["redteam_paths"] = min(prof["paths"], int(prof.get("redteam_paths", prof["paths"])))
+            prof["variant_paths"] = min(prof["paths"], int(prof.get("variant_paths", prof["paths"])))
+        if env.get("PSL_MAX_PATHS"):
+            prof["max_paths"] = max(prof["paths"], int(env["PSL_MAX_PATHS"]))
         if env.get("PSL_HORIZON"):
             prof["horizon"] = max(12, min(120, int(env["PSL_HORIZON"])))
         self.budget = prof
+        self.seed = int(env.get("PSL_SEED", "7"))
         self.tick_pace = float(env.get("PSL_TICK_PACE", "0.05"))
+        self.reuse = _bool(env.get("PSL_REUSE"), False)
+        self.benchmarks_path = env.get("PSL_BENCHMARKS", "").strip()
         self.ask_rate = int(env.get("PSL_ASK_RATE", "20"))
         self.upload_max_mb = int(env.get("PSL_UPLOAD_MAX_MB", "25"))
         self.llm_mode = env.get("PSL_LLM", "auto").strip().lower()
@@ -134,5 +171,5 @@ class Config:
                 "approvers_restricted": bool(self.approvers), "four_eyes": self.four_eyes,
                 "register": bool(self.register_path), "dev_mode": self.dev_mode, "gates": self.gates,
                 "llm_enabled": self.llm_enabled, "llm_provider": self.llm_provider if self.llm_enabled else "off",
-                "profile": self.profile, "budget": self.budget, "frame_ancestors": self.frame_ancestors,
+                "profile": self.profile, "budget": self.budget, "seed": self.seed, "frame_ancestors": self.frame_ancestors,
                 "ledger_secret": "configured" if not self.ephemeral_secret else "ephemeral"}

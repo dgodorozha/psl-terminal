@@ -61,7 +61,9 @@ _PII = {
     "uk_phone": re.compile(r"\b(?:\+44\s?7\d{3}|\(?07\d{3}\)?)\s?\d{3}\s?\d{3}\b"),
     "uk_ni": re.compile(r"\b[A-CEGHJ-PR-TW-Z]{2}\d{6}[A-D]\b"),
     "iban": re.compile(r"\b[A-Z]{2}\d{2}[A-Z0-9]{11,30}\b"),
-    "card": re.compile(r"\b(?:\d[ -]?){13,19}\b"),
+    # 13 to 19 digits, optionally grouped; never the fractional or the integer part of a decimal number, so a price
+    # written with a long floating point expansion (153.72999572753906) is not read as a card number
+    "card": re.compile(r"(?<![\d.])(?:\d[ -]?){13,19}(?!\d)(?!\.\d)"),
 }
 
 

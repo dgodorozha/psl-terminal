@@ -1,12 +1,12 @@
 {
  "ok": true,
- "n_checks": 29,
+ "n_checks": 57,
  "n_failed": 0,
  "checks": [
   {
    "check": "battery hash reproduces",
    "ok": true,
-   "detail": "d7ded5b37669 vs d7ded5b37669"
+   "detail": "fffa98416f44 vs fffa98416f44"
   },
   {
    "check": "assumptions hash reproduces",
@@ -19,12 +19,32 @@
    "detail": ""
   },
   {
+   "check": "the artefacts carry the scored results unchanged",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "the artefacts carry the assurance report unchanged",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "the artefacts carry the approved assumptions, instruments and firms",
+   "ok": true,
+   "detail": ""
+  },
+  {
    "check": "every assumption within its declared bounds",
    "ok": true,
    "detail": ""
   },
   {
-   "check": "baseline paths stored",
+   "check": "every assumption has a plausible range that brackets its default",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "status quo paths stored",
    "ok": true,
    "detail": ""
   },
@@ -34,42 +54,97 @@
    "detail": ""
   },
   {
-   "check": "path count matches the battery",
+   "check": "path count follows the sampling plan",
+   "ok": true,
+   "detail": "960 paths; plan 480 to 3840; schedule [480, 960]"
+  },
+  {
+   "check": "paths were added by doubling up to the ceiling",
+   "ok": true,
+   "detail": "[480, 960]"
+  },
+  {
+   "check": "net social value, its components and the industry value recomputed from the stored paths",
+   "ok": true,
+   "detail": "largest deviation 2.03e-05 $bn"
+  },
+  {
+   "check": "accounting identity: the components sum to the net social value",
+   "ok": true,
+   "detail": "0"
+  },
+  {
+   "check": "gross cost and gross benefit are non negative and differ by the net social value",
    "ok": true,
    "detail": ""
   },
   {
-   "check": "net social value recomputed from the stored paths",
+   "check": "incidence table sums to the net social value plus the non resident memorandum item",
    "ok": true,
-   "detail": "largest deviation 0 $bn"
+   "detail": "7.11e-15"
   },
   {
-   "check": "baseline scores zero against itself",
+   "check": "status quo scores zero against itself",
    "ok": true,
    "detail": ""
+  },
+  {
+   "check": "expected harm from the conditional estimator agrees with the average of the harm drawn",
+   "ok": true,
+   "detail": "largest z 1.30; 9 of 9 alternatives assessable"
+  },
+  {
+   "check": "the conditional catastrophe probability agrees with the frequency of catastrophes",
+   "ok": true,
+   "detail": "largest z 1.87; 9 of 9 alternatives assessable"
+  },
+  {
+   "check": "major incidents are individual incidents",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "the status quo is a decision alternative",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "preferred alternative reproduces under the constraints",
+   "ok": true,
+   "detail": "liability_with_safe_harbour vs liability_with_safe_harbour"
+  },
+  {
+   "check": "best instrument reproduces",
+   "ok": true,
+   "detail": "liability_with_safe_harbour vs liability_with_safe_harbour"
+  },
+  {
+   "check": "feasibility reproduces for every alternative",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "no instrument with a non positive expected value is preferred to a feasible status quo",
+   "ok": true,
+   "detail": "liability_with_safe_harbour: 36.38"
   },
   {
    "check": "social order reproduces",
    "ok": true,
-   "detail": "['liability_with_safe_harbour', 'mandatory_third_party_evals', 'transparency_disclosure'] vs ['liability_with_safe_harbour', 'mandatory_third_party_evals', 'transparency_disclosure']"
+   "detail": "['liability_with_safe_harbour', 'transparency_disclosure', 'mandatory_third_party_evals'] vs ['liability_with_safe_harbour', 'transparency_disclosure', 'mandatory_third_party_evals']"
   },
   {
-   "check": "decision gap (Kendall tau) reproduces",
+   "check": "decision gap (Kendall tau b) reproduces",
    "ok": true,
-   "detail": "0.214"
+   "detail": "0.357"
   },
   {
-   "check": "preferred option reproduces under the constraints",
-   "ok": true,
-   "detail": "mandatory_third_party_evals vs mandatory_third_party_evals"
-  },
-  {
-   "check": "best unconstrained option reproduces",
+   "check": "equal scores share a rank",
    "ok": true,
    "detail": ""
   },
   {
-   "check": "winner probabilities sum to one",
+   "check": "ranking stability shares sum to one over the alternatives",
    "ok": true,
    "detail": "1.0000"
   },
@@ -84,17 +159,22 @@
    "detail": ""
   },
   {
-   "check": "harm avoided recomputed",
-   "ok": true,
-   "detail": "largest deviation 0"
-  },
-  {
-   "check": "industry loss constraint applied",
+   "check": "every constraint is applied as declared, with the probability it holds",
    "ok": true,
    "detail": ""
   },
   {
-   "check": "social cost budget applied",
+   "check": "feasible means every constraint holds",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "confidence interval of the preferred alternative reproduces",
+   "ok": true,
+   "detail": "33.48 to 39.46 against 33.48 to 39.46"
+  },
+  {
+   "check": "precision report is consistent",
    "ok": true,
    "detail": ""
   },
@@ -109,6 +189,11 @@
    "detail": ""
   },
   {
+   "check": "one pre intervention valuation for the whole battery",
+   "ok": true,
+   "detail": ""
+  },
+  {
    "check": "wire summaries match the wires",
    "ok": true,
    "detail": ""
@@ -119,12 +204,57 @@
    "detail": ""
   },
   {
-   "check": "tornado covers every declared value judgement",
+   "check": "the screen covers every declared assumption",
    "ok": true,
    "detail": ""
   },
   {
-   "check": "tornado reference matches the preferred option's value",
+   "check": "the screen's reference is the focus option's value",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "the screen's reference decision is the run's decision",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "joint draw: decision shares sum to one and every assumption is ranked",
+   "ok": true,
+   "detail": "1.0000"
+  },
+  {
+   "check": "every benchmark carries a source, a mapping and a transport allowance",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "benchmark verdicts follow from the observed and modelled values",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "the evidence base is the one approved at Gate 1",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "weighted decision shares reproduce from the stored draws and weights",
+   "ok": true,
+   "detail": "effective draws 76.0 of 256"
+  },
+  {
+   "check": "the unweighted shares are the joint draw's",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "the briefing names every benchmark the model is in tension with or contradicted by",
+   "ok": true,
+   "detail": "enforcement_return, insurance_resource_share"
+  },
+  {
+   "check": "variance shares within [0, 1]",
    "ok": true,
    "detail": ""
   },
@@ -139,9 +269,19 @@
    "detail": ""
   },
   {
+   "check": "robustness table covers every instrument",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "mechanism register covers every assumption",
+   "ok": true,
+   "detail": ""
+  },
+  {
    "check": "ledger chain verifies and every record is signed",
    "ok": true,
-   "detail": "16 entries"
+   "detail": "18 entries"
   },
   {
    "check": "every figure in the briefing appears in the artefacts",

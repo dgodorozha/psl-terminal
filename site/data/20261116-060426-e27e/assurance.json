@@ -1,0 +1,5903 @@
+{
+ "batches": {
+  "agree": 4,
+  "k": 4,
+  "note": "consecutive batches of the run's own paths; each path has its own random stream, so the batches are independent",
+  "preferred": "baseline",
+  "rows": [
+   {
+    "batch": 1,
+    "best_intervention": "coordinated_licensing",
+    "nsv": {
+     "baseline": 0.0,
+     "coordinated_licensing": -0.506677827157539,
+     "moratorium": -63.48715703337885
+    },
+    "paths": 30,
+    "preferred": "baseline"
+   },
+   {
+    "batch": 2,
+    "best_intervention": "coordinated_licensing",
+    "nsv": {
+     "baseline": 0.0,
+     "coordinated_licensing": -1.254212066394075,
+     "moratorium": -65.79876889600459
+    },
+    "paths": 30,
+    "preferred": "baseline"
+   },
+   {
+    "batch": 3,
+    "best_intervention": "coordinated_licensing",
+    "nsv": {
+     "baseline": 0.0,
+     "coordinated_licensing": -0.9144404653208791,
+     "moratorium": -65.1828295956358
+    },
+    "paths": 30,
+    "preferred": "baseline"
+   },
+   {
+    "batch": 4,
+    "best_intervention": "coordinated_licensing",
+    "nsv": {
+     "baseline": 0.0,
+     "coordinated_licensing": -1.2544085950957704,
+     "moratorium": -68.69719635938996
+    },
+    "paths": 30,
+    "preferred": "baseline"
+   }
+  ],
+  "size": 30
+ },
+ "budget": {
+  "joint_draws": 64,
+  "joint_paths": 4,
+  "redteam_paths": 60,
+  "screen_paths": 4,
+  "variant_paths": 40
+ },
+ "convergence": {
+  "decision_stable_over_last_doubling": true,
+  "final_inside_earlier_intervals": true,
+  "focus": "coordinated_licensing",
+  "note": "running estimates on the first paths of the run (what a smaller run on the same seed reports); intervals here are the normal approximation, mean plus or minus 1.96 standard errors",
+  "rows": [
+   {
+    "best_intervention": "coordinated_licensing",
+    "focus_hi": 0.8761220479113283,
+    "focus_lo": -4.166298685961612,
+    "focus_nsv": -1.6450883190251422,
+    "focus_se": 1.2863318198655462,
+    "p_catastrophe_status_quo": 0.05143060821298062,
+    "paths": 15,
+    "preferred": "baseline"
+   },
+   {
+    "best_intervention": "coordinated_licensing",
+    "focus_hi": 2.272139173080279,
+    "focus_lo": -3.2854948273953566,
+    "focus_nsv": -0.506677827157539,
+    "focus_se": 1.4177637756315398,
+    "p_catastrophe_status_quo": 0.0534759544822767,
+    "paths": 30,
+    "preferred": "baseline"
+   },
+   {
+    "best_intervention": "coordinated_licensing",
+    "focus_hi": 1.380583468905215,
+    "focus_lo": -3.1414733624568294,
+    "focus_nsv": -0.8804449467758071,
+    "focus_se": 1.1535859263678685,
+    "p_catastrophe_status_quo": 0.05428784883356273,
+    "paths": 60,
+    "preferred": "baseline"
+   },
+   {
+    "best_intervention": "coordinated_licensing",
+    "focus_hi": 0.7914501956990908,
+    "focus_lo": -2.7563196726832224,
+    "focus_nsv": -0.9824347384920659,
+    "focus_se": 0.9050433337709983,
+    "p_catastrophe_status_quo": 0.05479918540088676,
+    "paths": 120,
+    "preferred": "baseline"
+   }
+  ]
+ },
+ "joint": {
+  "alternatives": [
+   {
+    "expected_regret": 9.195621474065735,
+    "nsv_hi": 0.0,
+    "nsv_lo": 0.0,
+    "nsv_mean": 0.0,
+    "p_acceptable": 1.0,
+    "p_best": 0.53125,
+    "p_feasible": 1.0,
+    "p_positive": 0.0,
+    "policy": "baseline",
+    "regret_draws": 64
+   },
+   {
+    "expected_regret": 11.378193045599218,
+    "nsv_hi": 39.17996092190734,
+    "nsv_lo": -48.66259890709096,
+    "nsv_mean": -3.3962619225056168,
+    "p_acceptable": 0.46875,
+    "p_best": 0.46875,
+    "p_feasible": 0.984375,
+    "p_positive": 0.46875,
+    "policy": "coordinated_licensing",
+    "regret_draws": 63
+   },
+   {
+    "expected_regret": 60.592011710556484,
+    "nsv_hi": -17.29717841563398,
+    "nsv_lo": -132.6634499932892,
+    "nsv_mean": -65.06517697324882,
+    "p_acceptable": 0.015625,
+    "p_best": 0.0,
+    "p_feasible": 0.796875,
+    "p_positive": 0.015625,
+    "policy": "moratorium",
+    "regret_draws": 51
+   }
+  ],
+  "decision_drivers": [],
+  "draws": 64,
+  "fdr": 0.1,
+  "filter_split": [
+   30,
+   34
+  ],
+  "focus": "coordinated_licensing",
+  "least_regret": "baseline",
+  "least_regret_rule": "the lowest expected regret among the alternatives within the constraints in at least 90% of the draws",
+  "margin_drivers": [],
+  "margin_mean": -3.4108219606360555,
+  "note": "triangular distributions on the declared plausible ranges with the mode at the run's value, correlated groups joined by a Gaussian copula; a prior over the assumptions, not a posterior estimated from data",
+  "p_focus_acceptable": 0.46875,
+  "p_focus_best": 0.46875,
+  "p_margin_positive": 0.46875,
+  "p_none_feasible": 0.0,
+  "paths": 4,
+  "rho_noise": 0.24693678903269511,
+  "sensitivity": [
+   {
+    "assumption": "severity_misuse_median_bn",
+    "decision_driver": false,
+    "ks_decision": 0.3196078431372549,
+    "margin_driver": false,
+    "p_decision": 0.05809692939867871,
+    "p_margin": 0.007638645779777185,
+    "rho_margin": 0.330540293040293,
+    "rho_value": 0.330540293040293
+   },
+   {
+    "assumption": "growth_value_weight",
+    "decision_driver": false,
+    "ks_decision": 0.296078431372549,
+    "margin_driver": false,
+    "p_decision": 0.09482746405874405,
+    "p_margin": 0.00899866114598274,
+    "rho_margin": 0.3240384615384615,
+    "rho_value": 0.3240384615384615
+   },
+   {
+    "assumption": "trust_elasticity",
+    "decision_driver": false,
+    "ks_decision": 0.4098039215686275,
+    "margin_driver": false,
+    "p_decision": 0.0062727620496989146,
+    "p_margin": 0.012539541252422522,
+    "rho_margin": 0.3104395604395604,
+    "rho_value": 0.3104395604395604
+   },
+   {
+    "assumption": "revenue_capability_beta",
+    "decision_driver": false,
+    "ks_decision": 0.26666666666666666,
+    "margin_driver": false,
+    "p_decision": 0.16620196266413378,
+    "p_margin": 0.01412732957814485,
+    "rho_margin": 0.3054029304029304,
+    "rho_value": 0.3054029304029304
+   },
+   {
+    "assumption": "news_memory",
+    "decision_driver": false,
+    "ks_decision": 0.35490196078431374,
+    "margin_driver": false,
+    "p_decision": 0.026089157144914797,
+    "p_margin": 0.015684749003163034,
+    "rho_margin": 0.3009157509157509,
+    "rho_value": 0.3009157509157509
+   },
+   {
+    "assumption": "capability_growth",
+    "decision_driver": false,
+    "ks_decision": 0.2784313725490196,
+    "margin_driver": false,
+    "p_decision": 0.1351558438138843,
+    "p_margin": 0.02772634595291125,
+    "rho_margin": 0.2752289377289377,
+    "rho_value": 0.2752289377289377
+   },
+   {
+    "assumption": "trust_harm_sensitivity",
+    "decision_driver": false,
+    "ks_decision": 0.2607843137254902,
+    "margin_driver": false,
+    "p_decision": 0.18421426754855974,
+    "p_margin": 0.03062330056132068,
+    "rho_margin": 0.2705128205128205,
+    "rho_value": 0.2705128205128205
+   },
+   {
+    "assumption": "compliance_deadweight_share",
+    "decision_driver": false,
+    "ks_decision": 0.2823529411764706,
+    "margin_driver": false,
+    "p_decision": 0.1250422976403989,
+    "p_margin": 0.04406613294923703,
+    "rho_margin": -0.25256410256410255,
+    "rho_value": -0.25256410256410255
+   },
+   {
+    "assumption": "catastrophe_prior_monthly",
+    "decision_driver": false,
+    "ks_decision": 0.27450980392156865,
+    "margin_driver": false,
+    "p_decision": 0.145522279108608,
+    "p_margin": 0.04418524442443039,
+    "rho_margin": 0.2524267399267399,
+    "rho_value": 0.2524267399267399
+   },
+   {
+    "assumption": "benefit_overlap_share",
+    "decision_driver": false,
+    "ks_decision": 0.3137254901960785,
+    "margin_driver": false,
+    "p_decision": 0.0663419658142458,
+    "p_margin": 0.06762337867392353,
+    "rho_margin": 0.2298992673992674,
+    "rho_value": 0.2298992673992674
+   },
+   {
+    "assumption": "audit_rate",
+    "decision_driver": false,
+    "ks_decision": 0.19019607843137254,
+    "margin_driver": false,
+    "p_decision": 0.5348490838083122,
+    "p_margin": 0.0716492993337497,
+    "rho_margin": -0.22669413919413917,
+    "rho_value": -0.22669413919413917
+   },
+   {
+    "assumption": "harm_valuation_multiplier",
+    "decision_driver": false,
+    "ks_decision": 0.2843137254901961,
+    "margin_driver": false,
+    "p_decision": 0.11971105346163555,
+    "p_margin": 0.07525055843709175,
+    "rho_margin": 0.22394688644688643,
+    "rho_value": 0.22394688644688643
+   },
+   {
+    "assumption": "hazard_safety_elasticity",
+    "decision_driver": false,
+    "ks_decision": 0.2647058823529412,
+    "margin_driver": false,
+    "p_decision": 0.17198754689903895,
+    "p_margin": 0.0811808210308839,
+    "rho_margin": -0.21964285714285714,
+    "rho_value": -0.21964285714285714
+   },
+   {
+    "assumption": "contagion",
+    "decision_driver": false,
+    "ks_decision": 0.20392156862745092,
+    "margin_driver": false,
+    "p_decision": 0.44740799220142424,
+    "p_margin": 0.10561143272548293,
+    "rho_margin": -0.20416666666666664,
+    "rho_value": -0.20416666666666664
+   },
+   {
+    "assumption": "leakage_value_share",
+    "decision_driver": false,
+    "ks_decision": 0.17450980392156862,
+    "margin_driver": false,
+    "p_decision": 0.6376117508092034,
+    "p_margin": 0.1506639615071871,
+    "rho_margin": 0.18173076923076922,
+    "rho_value": 0.18173076923076922
+   },
+   {
+    "assumption": "severity_sigma",
+    "decision_driver": false,
+    "ks_decision": 0.28627450980392155,
+    "margin_driver": false,
+    "p_decision": 0.11542038898340977,
+    "p_margin": 0.1642779939814313,
+    "rho_margin": -0.17596153846153845,
+    "rho_value": -0.17596153846153845
+   },
+   {
+    "assumption": "news_reporting_boost",
+    "decision_driver": false,
+    "ks_decision": 0.2725490196078431,
+    "margin_driver": false,
+    "p_decision": 0.15029806103019705,
+    "p_margin": 0.1747747853815381,
+    "rho_margin": -0.17174908424908422,
+    "rho_value": -0.17174908424908422
+   },
+   {
+    "assumption": "hazard_base_accident",
+    "decision_driver": false,
+    "ks_decision": 0.20784313725490194,
+    "margin_driver": false,
+    "p_decision": 0.4244705531649182,
+    "p_margin": 0.19204677183830024,
+    "rho_margin": 0.16520146520146517,
+    "rho_value": 0.16520146520146517
+   },
+   {
+    "assumption": "insurance_loading",
+    "decision_driver": false,
+    "ks_decision": 0.19607843137254904,
+    "margin_driver": false,
+    "p_decision": 0.49429696163842385,
+    "p_margin": 0.2176615914044381,
+    "rho_margin": 0.15622710622710623,
+    "rho_value": 0.15622710622710623
+   },
+   {
+    "assumption": "incident_jump",
+    "decision_driver": false,
+    "ks_decision": 0.38627450980392153,
+    "margin_driver": false,
+    "p_decision": 0.011735718704558758,
+    "p_margin": 0.22905878948620093,
+    "rho_margin": 0.15247252747252746,
+    "rho_value": 0.15247252747252746
+   },
+   {
+    "assumption": "severity_systemic_median_bn",
+    "decision_driver": false,
+    "ks_decision": 0.22745098039215683,
+    "margin_driver": false,
+    "p_decision": 0.31971093661991246,
+    "p_margin": 0.23376036185269403,
+    "rho_margin": 0.15096153846153842,
+    "rho_value": 0.15096153846153842
+   },
+   {
+    "assumption": "severity_accident_median_bn",
+    "decision_driver": false,
+    "ks_decision": 0.23529411764705876,
+    "margin_driver": false,
+    "p_decision": 0.28281055156131996,
+    "p_margin": 0.24027850351608923,
+    "rho_margin": 0.14890109890109887,
+    "rho_value": 0.14890109890109887
+   },
+   {
+    "assumption": "market_vol",
+    "decision_driver": false,
+    "ks_decision": 0.20392156862745098,
+    "margin_driver": false,
+    "p_decision": 0.44740799220142424,
+    "p_margin": 0.24306776754962514,
+    "rho_margin": -0.1480311355311355,
+    "rho_value": -0.1480311355311355
+   },
+   {
+    "assumption": "productivity_base_bn",
+    "decision_driver": false,
+    "ks_decision": 0.1529411764705882,
+    "margin_driver": false,
+    "p_decision": 0.7794498620439254,
+    "p_margin": 0.25627555735540253,
+    "rho_margin": 0.1440018315018315,
+    "rho_value": 0.1440018315018315
+   },
+   {
+    "assumption": "safety_decay",
+    "decision_driver": false,
+    "ks_decision": 0.30588235294117644,
+    "margin_driver": false,
+    "p_decision": 0.07849400611385751,
+    "p_margin": 0.2616613413334085,
+    "rho_margin": -0.14239926739926737,
+    "rho_value": -0.14239926739926737
+   },
+   {
+    "assumption": "trust_recovery",
+    "decision_driver": false,
+    "ks_decision": 0.33529411764705874,
+    "margin_driver": false,
+    "p_decision": 0.04137965574892216,
+    "p_margin": 0.2794059653269388,
+    "rho_margin": 0.13727106227106226,
+    "rho_value": 0.13727106227106226
+   },
+   {
+    "assumption": "chip_demand_coupling",
+    "decision_driver": false,
+    "ks_decision": 0.20392156862745098,
+    "margin_driver": false,
+    "p_decision": 0.44740799220142424,
+    "p_margin": 0.28021631027628746,
+    "rho_margin": -0.13704212454212453,
+    "rho_value": -0.13704212454212453
+   },
+   {
+    "assumption": "hazard_base_systemic",
+    "decision_driver": false,
+    "ks_decision": 0.14313725490196078,
+    "margin_driver": false,
+    "p_decision": 0.8401308105186465,
+    "p_margin": 0.28642580519460287,
+    "rho_margin": -0.1353021978021978,
+    "rho_value": -0.1353021978021978
+   },
+   {
+    "assumption": "sentiment_persistence",
+    "decision_driver": false,
+    "ks_decision": 0.22941176470588232,
+    "margin_driver": false,
+    "p_decision": 0.3081137630113632,
+    "p_margin": 0.3020024972600404,
+    "rho_margin": -0.13104395604395602,
+    "rho_value": -0.13104395604395602
+   },
+   {
+    "assumption": "export_control_chip_loss",
+    "decision_driver": false,
+    "ks_decision": 0.19019607843137254,
+    "margin_driver": false,
+    "p_decision": 0.5348490838083122,
+    "p_margin": 0.3038805927989799,
+    "rho_margin": 0.13054029304029302,
+    "rho_value": 0.13054029304029302
+   },
+   {
+    "assumption": "open_weights_diffusion",
+    "decision_driver": false,
+    "ks_decision": 0.19999999999999996,
+    "margin_driver": false,
+    "p_decision": 0.47104651386444224,
+    "p_margin": 0.3111209728130781,
+    "rho_margin": -0.12861721611721608,
+    "rho_value": -0.12861721611721608
+   },
+   {
+    "assumption": "hazard_capability_elasticity",
+    "decision_driver": false,
+    "ks_decision": 0.2058823529411764,
+    "margin_driver": false,
+    "p_decision": 0.4354025455377513,
+    "p_margin": 0.3419195926949418,
+    "rho_margin": 0.12074175824175823,
+    "rho_value": 0.12074175824175823
+   },
+   {
+    "assumption": "major_incident_bn",
+    "decision_driver": false,
+    "ks_decision": 0.20392156862745103,
+    "margin_driver": false,
+    "p_decision": 0.44740799220142424,
+    "p_margin": 0.3829961609482735,
+    "rho_margin": 0.11089743589743589,
+    "rho_value": 0.11089743589743589
+   },
+   {
+    "assumption": "firm_risk_aversion",
+    "decision_driver": false,
+    "ks_decision": 0.10784313725490197,
+    "margin_driver": false,
+    "p_decision": 0.9781769813857586,
+    "p_margin": 0.4434913227018711,
+    "rho_margin": 0.09748168498168497,
+    "rho_value": 0.09748168498168497
+   },
+   {
+    "assumption": "catastrophe_severity_sigma",
+    "decision_driver": false,
+    "ks_decision": 0.11960784313725487,
+    "margin_driver": false,
+    "p_decision": 0.9446409542345893,
+    "p_margin": 0.4527961741543776,
+    "rho_margin": 0.09551282051282049,
+    "rho_value": 0.09551282051282049
+   },
+   {
+    "assumption": "productivity_elasticity",
+    "decision_driver": false,
+    "ks_decision": 0.10196078431372546,
+    "margin_driver": false,
+    "p_decision": 0.9878298044150774,
+    "p_margin": 0.4719470670234007,
+    "rho_margin": 0.09152930402930402,
+    "rho_value": 0.09152930402930402
+   },
+   {
+    "assumption": "news_price_impact",
+    "decision_driver": false,
+    "ks_decision": 0.19019607843137254,
+    "margin_driver": false,
+    "p_decision": 0.5348490838083122,
+    "p_margin": 0.47641030291240555,
+    "rho_margin": -0.0906135531135531,
+    "rho_value": -0.0906135531135531
+   },
+   {
+    "assumption": "enforcement_cost_bn",
+    "decision_driver": false,
+    "ks_decision": 0.17450980392156856,
+    "margin_driver": false,
+    "p_decision": 0.6376117508092034,
+    "p_margin": 0.485178109415225,
+    "rho_margin": -0.08882783882783882,
+    "rho_value": -0.08882783882783882
+   },
+   {
+    "assumption": "hazard_base_misuse",
+    "decision_driver": false,
+    "ks_decision": 0.1705882352941176,
+    "margin_driver": false,
+    "p_decision": 0.6661582842702509,
+    "p_margin": 0.5075809406702446,
+    "rho_margin": 0.08434065934065933,
+    "rho_value": 0.08434065934065933
+   },
+   {
+    "assumption": "hazard_reach_elasticity",
+    "decision_driver": false,
+    "ks_decision": 0.21176470588235297,
+    "margin_driver": false,
+    "p_decision": 0.4034094946224529,
+    "p_margin": 0.5187438332902826,
+    "rho_margin": 0.08214285714285714,
+    "rho_value": 0.08214285714285714
+   },
+   {
+    "assumption": "labour_adjustment_bn",
+    "decision_driver": false,
+    "ks_decision": 0.17647058823529416,
+    "margin_driver": false,
+    "p_decision": 0.6224559161774192,
+    "p_margin": 0.5208505623720528,
+    "rho_margin": -0.08173076923076922,
+    "rho_value": -0.08173076923076922
+   },
+   {
+    "assumption": "safety_learning",
+    "decision_driver": false,
+    "ks_decision": 0.17843137254901964,
+    "margin_driver": false,
+    "p_decision": 0.6096425243473448,
+    "p_margin": 0.531211637154816,
+    "rho_margin": 0.0797161172161172,
+    "rho_value": 0.0797161172161172
+   },
+   {
+    "assumption": "safe_harbour_shield",
+    "decision_driver": false,
+    "ks_decision": 0.15098039215686276,
+    "margin_driver": false,
+    "p_decision": 0.7869700614229898,
+    "p_margin": 0.5810358015466024,
+    "rho_margin": 0.07028388278388278,
+    "rho_value": 0.07028388278388278
+   },
+   {
+    "assumption": "relocation_cost",
+    "decision_driver": false,
+    "ks_decision": 0.11764705882352944,
+    "margin_driver": false,
+    "p_decision": 0.9514027310907172,
+    "p_margin": 0.5837551675958784,
+    "rho_margin": -0.06978021978021978,
+    "rho_value": -0.06978021978021978
+   },
+   {
+    "assumption": "catastrophe_harm_bn",
+    "decision_driver": false,
+    "ks_decision": 0.2156862745098039,
+    "margin_driver": false,
+    "p_decision": 0.38199715397220185,
+    "p_margin": 0.5849931518440504,
+    "rho_margin": -0.06955128205128204,
+    "rho_value": -0.06955128205128204
+   },
+   {
+    "assumption": "long_run_growth",
+    "decision_driver": false,
+    "ks_decision": 0.2196078431372549,
+    "margin_driver": false,
+    "p_decision": 0.36065338269477953,
+    "p_margin": 0.5929442874681186,
+    "rho_margin": -0.06808608058608058,
+    "rho_value": -0.06808608058608058
+   },
+   {
+    "assumption": "safety_substitution",
+    "decision_driver": false,
+    "ks_decision": 0.1843137254901961,
+    "margin_driver": false,
+    "p_decision": 0.56856267353315,
+    "p_margin": 0.639312713340386,
+    "rho_margin": -0.059706959706959696,
+    "rho_value": -0.059706959706959696
+   },
+   {
+    "assumption": "firm_optimism",
+    "decision_driver": false,
+    "ks_decision": 0.11764705882352941,
+    "margin_driver": false,
+    "p_decision": 0.9514027310907172,
+    "p_margin": 0.6566520703481821,
+    "rho_margin": 0.05663919413919413,
+    "rho_value": 0.05663919413919413
+   },
+   {
+    "assumption": "enforcement_response",
+    "decision_driver": false,
+    "ks_decision": 0.21176470588235297,
+    "margin_driver": false,
+    "p_decision": 0.4034094946224529,
+    "p_margin": 0.7148251044609251,
+    "rho_margin": 0.04656593406593406,
+    "rho_value": 0.04656593406593406
+   },
+   {
+    "assumption": "unsafe_release_share",
+    "decision_driver": false,
+    "ks_decision": 0.19803921568627453,
+    "margin_driver": false,
+    "p_decision": 0.48582663444257035,
+    "p_margin": 0.719662601205607,
+    "rho_margin": 0.04574175824175824,
+    "rho_value": 0.04574175824175824
+   },
+   {
+    "assumption": "insurance_admin_share",
+    "decision_driver": false,
+    "ks_decision": 0.14313725490196083,
+    "margin_driver": false,
+    "p_decision": 0.8401308105186465,
+    "p_margin": 0.7226242643851821,
+    "rho_margin": -0.04523809523809524,
+    "rho_value": -0.04523809523809524
+   },
+   {
+    "assumption": "growth_fade_months",
+    "decision_driver": false,
+    "ks_decision": 0.1686274509803921,
+    "margin_driver": false,
+    "p_decision": 0.6818567348864077,
+    "p_margin": 0.7719101328520362,
+    "rho_margin": -0.036950549450549444,
+    "rho_value": -0.036950549450549444
+   },
+   {
+    "assumption": "revenue_reach_beta",
+    "decision_driver": false,
+    "ks_decision": 0.18627450980392157,
+    "margin_driver": false,
+    "p_decision": 0.5599212837245027,
+    "p_margin": 0.7790694627116159,
+    "rho_margin": -0.03576007326007325,
+    "rho_value": -0.03576007326007325
+   },
+   {
+    "assumption": "catastrophe_correlation",
+    "decision_driver": false,
+    "ks_decision": 0.1705882352941176,
+    "margin_driver": false,
+    "p_decision": 0.6661582842702509,
+    "p_margin": 0.7804483762333623,
+    "rho_margin": 0.03553113553113552,
+    "rho_value": 0.03553113553113552
+   },
+   {
+    "assumption": "open_weights_restriction_growth_loss",
+    "decision_driver": false,
+    "ks_decision": 0.11176470588235288,
+    "margin_driver": false,
+    "p_decision": 0.9692385312637193,
+    "p_margin": 0.8184789364334693,
+    "rho_margin": 0.029258241758241755,
+    "rho_value": 0.029258241758241755
+   },
+   {
+    "assumption": "open_weights_misuse_multiplier",
+    "decision_driver": false,
+    "ks_decision": 0.14705882352941177,
+    "margin_driver": false,
+    "p_decision": 0.8137040122821271,
+    "p_margin": 0.8198754052566843,
+    "rho_margin": 0.029029304029304027,
+    "rho_value": 0.029029304029304027
+   },
+   {
+    "assumption": "catastrophe_capability",
+    "decision_driver": false,
+    "ks_decision": 0.207843137254902,
+    "margin_driver": false,
+    "p_decision": 0.4244705531649182,
+    "p_margin": 0.8569308922467148,
+    "rho_margin": 0.02298534798534798,
+    "rho_value": 0.02298534798534798
+   },
+   {
+    "assumption": "culture_weight",
+    "decision_driver": false,
+    "ks_decision": 0.1705882352941176,
+    "margin_driver": false,
+    "p_decision": 0.6661582842702509,
+    "p_margin": 0.8716180965233767,
+    "rho_margin": -0.0206043956043956,
+    "rho_value": -0.0206043956043956
+   },
+   {
+    "assumption": "offshore_laxity",
+    "decision_driver": false,
+    "ks_decision": 0.09607843137254901,
+    "margin_driver": false,
+    "p_decision": 0.9928803632860141,
+    "p_margin": 0.884930470287176,
+    "rho_margin": 0.01845238095238095,
+    "rho_value": 0.01845238095238095
+   },
+   {
+    "assumption": "cs_elasticity",
+    "decision_driver": false,
+    "ks_decision": 0.24901960784313726,
+    "margin_driver": false,
+    "p_decision": 0.22774285128069272,
+    "p_margin": 0.8852140702798539,
+    "rho_margin": 0.018406593406593404,
+    "rho_value": 0.018406593406593404
+   },
+   {
+    "assumption": "announcement_impact",
+    "decision_driver": false,
+    "ks_decision": 0.18627450980392157,
+    "margin_driver": false,
+    "p_decision": 0.5599212837245027,
+    "p_margin": 0.8889021629465652,
+    "rho_margin": -0.017811355311355307,
+    "rho_value": -0.017811355311355307
+   },
+   {
+    "assumption": "reach_speed",
+    "decision_driver": false,
+    "ks_decision": 0.19999999999999996,
+    "margin_driver": false,
+    "p_decision": 0.47104651386444224,
+    "p_margin": 0.8903212894220638,
+    "rho_margin": -0.01758241758241758,
+    "rho_value": -0.01758241758241758
+   },
+   {
+    "assumption": "reach_ceiling_k",
+    "decision_driver": false,
+    "ks_decision": 0.14901960784313728,
+    "margin_driver": false,
+    "p_decision": 0.8016063206099242,
+    "p_margin": 0.9045306884171194,
+    "rho_margin": 0.01529304029304029,
+    "rho_value": 0.01529304029304029
+   },
+   {
+    "assumption": "domestic_ownership_share",
+    "decision_driver": false,
+    "ks_decision": 0.10196078431372549,
+    "margin_driver": false,
+    "p_decision": 0.9878298044150774,
+    "p_margin": 0.9216210292844345,
+    "rho_margin": -0.012545787545787545,
+    "rho_value": -0.012545787545787545
+   },
+   {
+    "assumption": "consumer_surplus_base_bn",
+    "decision_driver": false,
+    "ks_decision": 0.2274509803921569,
+    "margin_driver": false,
+    "p_decision": 0.31971093661991246,
+    "p_margin": 0.9433186079275714,
+    "rho_margin": -0.009065934065934065,
+    "rho_value": -0.009065934065934065
+   },
+   {
+    "assumption": "discount_rate",
+    "decision_driver": false,
+    "ks_decision": 0.11764705882352944,
+    "margin_driver": false,
+    "p_decision": 0.9514027310907172,
+    "p_margin": 0.9690650281417783,
+    "rho_margin": 0.004945054945054945,
+    "rho_value": 0.004945054945054945
+   },
+   {
+    "assumption": "moratorium_research_slowdown",
+    "decision_driver": false,
+    "ks_decision": 0.1843137254901961,
+    "margin_driver": false,
+    "p_decision": 0.56856267353315,
+    "p_margin": 0.9756507658177632,
+    "rho_margin": -0.0038919413919413916,
+    "rho_value": -0.0038919413919413916
+   },
+   {
+    "assumption": "offshore_revenue_haircut",
+    "decision_driver": false,
+    "ks_decision": 0.20980392156862743,
+    "margin_driver": false,
+    "p_decision": 0.41144337138826026,
+    "p_margin": 0.9916915023505243,
+    "rho_margin": -0.0013278388278388277,
+    "rho_value": -0.0013278388278388277
+   }
+  ]
+ },
+ "red_team": {
+  "acceptable_under_all": [],
+  "maximin": "baseline",
+  "most_robust": "coordinated_licensing",
+  "note": "maximin: the instrument with the highest value under its own worst gaming strategy among those that stay within the constraints under every strategy; the status quo when none of them stays above zero",
+  "resimulated_paths": 60,
+  "rows": [
+   {
+    "acceptable_under_all": false,
+    "feasible_under_all": true,
+    "gaming_loss": 6.599953641160211,
+    "honest": {
+     "feasible": true,
+     "harm_avoided": 6.601189916142889,
+     "nsv": -0.9824347384920659
+    },
+    "label": "Coordinated frontier licensing",
+    "policy": "coordinated_licensing",
+    "strategies": {
+     "compliance_theatre": {
+      "acceptable": false,
+      "constraint_values": {
+       "max_social_cost_bn": 8.816284659743665
+      },
+      "feasible": true,
+      "harm_avoided": 1.212849820695598,
+      "harm_lost": 5.388340095447291,
+      "industry_value_change": -73.37946735411873,
+      "nsv": -7.5823883796522775,
+      "nsv_loss": 6.599953641160211
+     },
+     "maximal_relocation": {
+      "acceptable": false,
+      "constraint_values": {
+       "max_social_cost_bn": 7.612599687878772
+      },
+      "feasible": true,
+      "harm_avoided": 6.601189916142889,
+      "harm_lost": 0.0,
+      "industry_value_change": -158.70612429135315,
+      "nsv": -0.982434738492066,
+      "nsv_loss": 1.1102230246251565e-16
+     },
+     "threshold_splitting": {
+      "acceptable": false,
+      "constraint_values": {
+       "max_social_cost_bn": 7.612599687878772
+      },
+      "feasible": true,
+      "harm_avoided": 6.601189916142889,
+      "harm_lost": 0.0,
+      "industry_value_change": -158.70612429135315,
+      "nsv": -0.982434738492066,
+      "nsv_loss": 1.1102230246251565e-16
+     },
+     "use_case_relabelling": {
+      "acceptable": false,
+      "constraint_values": {
+       "max_social_cost_bn": 8.04191107891842
+      },
+      "feasible": true,
+      "harm_avoided": 6.640974685963943,
+      "harm_lost": -0.039784769821054056,
+      "industry_value_change": -139.20745206748467,
+      "nsv": -1.3748306655534128,
+      "nsv_loss": 0.39239592706134696
+     }
+    },
+    "worst_nsv": -7.5823883796522775,
+    "worst_strategy": "compliance_theatre"
+   },
+   {
+    "acceptable_under_all": false,
+    "feasible_under_all": true,
+    "gaming_loss": 1.3247617615579088,
+    "honest": {
+     "feasible": true,
+     "harm_avoided": 4.2334668316709205,
+     "nsv": -65.7914879711023
+    },
+    "label": "Six month moratorium above the threshold",
+    "policy": "moratorium",
+    "strategies": {
+     "compliance_theatre": {
+      "acceptable": false,
+      "constraint_values": {
+       "max_social_cost_bn": 70.89794103646706
+      },
+      "feasible": true,
+      "harm_avoided": 3.616920340179856,
+      "harm_lost": 0.6165464914910643,
+      "industry_value_change": -48.42761411972389,
+      "nsv": -67.11624973266021,
+      "nsv_loss": 1.3247617615579088
+     },
+     "maximal_relocation": {
+      "acceptable": false,
+      "constraint_values": {
+       "max_social_cost_bn": 70.18846475165762
+      },
+      "feasible": true,
+      "harm_avoided": 4.2334668316709205,
+      "harm_lost": 0.0,
+      "industry_value_change": -43.874644206947245,
+      "nsv": -65.7914879711023,
+      "nsv_loss": 0.0
+     },
+     "threshold_splitting": {
+      "acceptable": true,
+      "constraint_values": {
+       "max_social_cost_bn": 0.3331567722197532
+      },
+      "feasible": true,
+      "harm_avoided": 1.3825387348859142,
+      "harm_lost": 2.8509280967850064,
+      "industry_value_change": 129.16915477063318,
+      "nsv": 2.2558272681756506,
+      "nsv_loss": -68.04731523927795
+     },
+     "use_case_relabelling": {
+      "acceptable": false,
+      "constraint_values": {
+       "max_social_cost_bn": 70.18846475165762
+      },
+      "feasible": true,
+      "harm_avoided": 4.2334668316709205,
+      "harm_lost": 0.0,
+      "industry_value_change": -43.874644206947245,
+      "nsv": -65.7914879711023,
+      "nsv_loss": 0.0
+     }
+    },
+    "worst_nsv": -67.11624973266021,
+    "worst_strategy": "compliance_theatre"
+   }
+  ],
+  "strategies": {
+   "compliance_theatre": "mandated safety spend is reported but not spent; evaluations are gamed",
+   "maximal_relocation": "firms are more mobile and moving is cheaper than assumed",
+   "threshold_splitting": "models are split so the regulator sees capability 20% below the real level",
+   "use_case_relabelling": "deployments are relabelled into lower tiers, avoiding 60% of tier costs"
+  }
+ },
+ "robustness": {
+  "robustly_acceptable": [],
+  "rows": [
+   {
+    "central_acceptable": false,
+    "expected_regret": 11.378193045599218,
+    "gaming_acceptable": false,
+    "gaming_worst_nsv": -7.5823883796522775,
+    "joint_p_acceptable": 0.46875,
+    "joint_p_best": 0.46875,
+    "label": "Coordinated frontier licensing",
+    "p_feasible": 1.0,
+    "policy": "coordinated_licensing",
+    "robustly_acceptable": false,
+    "structural_acceptable": 2,
+    "structural_best": 2,
+    "structural_n": 8
+   },
+   {
+    "central_acceptable": false,
+    "expected_regret": 60.592011710556484,
+    "gaming_acceptable": false,
+    "gaming_worst_nsv": -67.11624973266021,
+    "joint_p_acceptable": 0.015625,
+    "joint_p_best": 0.0,
+    "label": "Six month moratorium above the threshold",
+    "p_feasible": 1.0,
+    "policy": "moratorium",
+    "robustly_acceptable": false,
+    "structural_acceptable": 0,
+    "structural_best": 0,
+    "structural_n": 8
+   }
+  ],
+  "rule": "within the constraints and above the status quo on the central estimate, in at least 90% of the joint draws, in every structural variant and under every gaming strategy"
+ },
+ "screen": {
+  "flips": [
+   "catastrophe_correlation",
+   "catastrophe_capability",
+   "hazard_safety_elasticity",
+   "trust_harm_sensitivity",
+   "catastrophe_harm_bn",
+   "catastrophe_prior_monthly",
+   "harm_valuation_multiplier",
+   "hazard_capability_elasticity",
+   "severity_accident_median_bn",
+   "trust_elasticity",
+   "consumer_surplus_base_bn",
+   "productivity_elasticity",
+   "cs_elasticity",
+   "trust_recovery",
+   "major_incident_bn",
+   "enforcement_response",
+   "news_memory",
+   "news_reporting_boost",
+   "severity_sigma",
+   "open_weights_misuse_multiplier",
+   "catastrophe_severity_sigma",
+   "hazard_base_systemic",
+   "safety_substitution",
+   "domestic_ownership_share",
+   "severity_systemic_median_bn",
+   "hazard_base_misuse"
+  ],
+  "flips_by_feasibility": [],
+  "flips_by_value": [
+   "catastrophe_correlation",
+   "catastrophe_capability",
+   "hazard_safety_elasticity",
+   "trust_harm_sensitivity",
+   "catastrophe_harm_bn",
+   "catastrophe_prior_monthly",
+   "harm_valuation_multiplier",
+   "hazard_capability_elasticity",
+   "severity_accident_median_bn",
+   "trust_elasticity",
+   "consumer_surplus_base_bn",
+   "productivity_elasticity",
+   "cs_elasticity",
+   "trust_recovery",
+   "major_incident_bn",
+   "enforcement_response",
+   "news_memory",
+   "news_reporting_boost",
+   "severity_sigma",
+   "open_weights_misuse_multiplier",
+   "catastrophe_severity_sigma",
+   "hazard_base_systemic",
+   "safety_substitution",
+   "domestic_ownership_share",
+   "severity_systemic_median_bn",
+   "hazard_base_misuse"
+  ],
+  "n_assumptions": 68,
+  "n_swing_resolved": 30,
+  "note": "a change of decision is by feasibility when the run's decision no longer satisfies a constraint under the alternative, and by value when another alternative within the constraints overtakes it; the standard error of a swing is the Monte Carlo error of the paired re simulation and is zero where the assumption is recomputed exactly",
+  "preferred": "coordinated_licensing",
+  "reference_best": "baseline",
+  "reference_nsv": -0.9824347384920659,
+  "resimulated_paths": 4,
+  "rows": [
+   {
+    "assumption": "audit_rate",
+    "best_changes": false,
+    "default": 0.5,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -63.84572502485415,
+     "ref_feasible": true,
+     "se": 4.008937339295797,
+     "value": 0.8
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -1.206871385266869,
+     "ref_feasible": true,
+     "se": 1.384930397410491,
+     "value": 0.3
+    },
+    "meaning": "probability a firm in scope is audited in a month at capacity 1",
+    "resimulated": true,
+    "swing": 62.638853639587275,
+    "swing_resolved": true,
+    "swing_se": 4.2414161309722545,
+    "unit": "a month at full capacity"
+   },
+   {
+    "assumption": "revenue_capability_beta",
+    "best_changes": false,
+    "default": 0.5,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -1.823168398451747,
+     "ref_feasible": true,
+     "se": 1.390721270295737,
+     "value": 0.8
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -54.08580787866025,
+     "ref_feasible": true,
+     "se": 9.094006145601607,
+     "value": 0.3
+    },
+    "meaning": "revenue growth per unit of log capability growth",
+    "resimulated": true,
+    "swing": 52.2626394802085,
+    "swing_resolved": true,
+    "swing_se": 9.199731160631423,
+    "unit": "elasticity"
+   },
+   {
+    "assumption": "growth_value_weight",
+    "best_changes": false,
+    "default": 3.0,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -3.210776267912427,
+     "ref_feasible": true,
+     "se": 1.7521114722493631,
+     "value": 5.0
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -50.03154130650342,
+     "ref_feasible": true,
+     "se": 8.446438019436734,
+     "value": 1.5
+    },
+    "meaning": "how a firm values a year of extra growth against a year of cost",
+    "resimulated": true,
+    "swing": 46.82076503859099,
+    "swing_resolved": true,
+    "swing_se": 8.626251203586305,
+    "unit": "years of revenue"
+   },
+   {
+    "assumption": "catastrophe_correlation",
+    "best_changes": true,
+    "default": 0.3,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.9244383221198924,
+     "ref_feasible": true,
+     "se": 0.03609917523436425,
+     "value": 0.6
+    },
+    "low": {
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing",
+     "flip": "value",
+     "focus_feasible": true,
+     "nsv": 43.13136156540363,
+     "ref_feasible": true,
+     "se": 25.023141215622125,
+     "value": 0.0
+    },
+    "meaning": "correlation of catastrophic failures across firms within a month (one factor Gaussian copula): shared models, components and vulnerabilities; 0 makes the firms' catastrophes independent given the state",
+    "resimulated": true,
+    "swing": 44.05579988752352,
+    "swing_resolved": false,
+    "swing_se": 25.023167254514753,
+    "unit": "correlation"
+   },
+   {
+    "assumption": "catastrophe_capability",
+    "best_changes": true,
+    "default": 1.6,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing",
+     "flip": "value",
+     "focus_feasible": true,
+     "nsv": 33.816488002121034,
+     "ref_feasible": true,
+     "se": 20.906771535234316,
+     "value": 2.0
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -1.4391567050422358,
+     "ref_feasible": true,
+     "se": 4.2518304777254294e-16,
+     "value": 1.3
+    },
+    "meaning": "capability above which the catastrophic tail is live",
+    "resimulated": true,
+    "swing": 35.25564470716327,
+    "swing_resolved": false,
+    "swing_se": 20.906771535234316,
+    "unit": "capability index"
+   },
+   {
+    "assumption": "capability_growth",
+    "best_changes": false,
+    "default": 0.023,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -3.060922270659434,
+     "ref_feasible": true,
+     "se": 7.0563476812151755,
+     "value": 0.035
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -29.07075152713523,
+     "ref_feasible": true,
+     "se": 6.701100180919996,
+     "value": 0.015
+    },
+    "meaning": "monthly log growth of the capability index when all R&D goes to capability (a doubling in about 30 months)",
+    "resimulated": true,
+    "swing": 26.009829256475797,
+    "swing_resolved": true,
+    "swing_se": 9.731227375460753,
+    "unit": "a month"
+   },
+   {
+    "assumption": "hazard_safety_elasticity",
+    "best_changes": true,
+    "default": 1.8,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing",
+     "flip": "value",
+     "focus_feasible": true,
+     "nsv": 8.073219506340118,
+     "ref_feasible": true,
+     "se": 19.74536671831439,
+     "value": 3.0
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -9.254353502100084,
+     "ref_feasible": true,
+     "se": 3.507276607157279,
+     "value": 1.4
+    },
+    "meaning": "incident rate falls as exp(-elasticity x safety level)",
+    "resimulated": true,
+    "swing": 17.327573008440204,
+    "swing_resolved": false,
+    "swing_se": 20.054438312748385,
+    "unit": "per unit of safety level"
+   },
+   {
+    "assumption": "trust_harm_sensitivity",
+    "best_changes": true,
+    "default": 0.04,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing",
+     "flip": "value",
+     "focus_feasible": true,
+     "nsv": 8.991374252691019,
+     "ref_feasible": true,
+     "se": 3.4639980810285516,
+     "value": 0.08
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -6.477941618435928,
+     "ref_feasible": true,
+     "se": 2.215104637217972,
+     "value": 0.02
+    },
+    "meaning": "fall in trust per unit of log monetised harm in a month",
+    "resimulated": true,
+    "swing": 15.469315871126947,
+    "swing_resolved": true,
+    "swing_se": 4.111687154830004,
+    "unit": "per log $bn"
+   },
+   {
+    "assumption": "catastrophe_harm_bn",
+    "best_changes": true,
+    "default": 400.0,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing",
+     "flip": "value",
+     "focus_feasible": true,
+     "nsv": 10.583169815839835,
+     "ref_feasible": true,
+     "se": 0.2554893170156059,
+     "value": 1200.0
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -4.667398467335486,
+     "ref_feasible": true,
+     "se": 0.13135695736901487,
+     "value": 150.0
+    },
+    "meaning": "median monetised harm of a catastrophic incident",
+    "resimulated": true,
+    "swing": 15.25056828317532,
+    "swing_resolved": true,
+    "swing_se": 0.28727937858180136,
+    "unit": "$bn"
+   },
+   {
+    "assumption": "catastrophe_prior_monthly",
+    "best_changes": true,
+    "default": 0.002,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing",
+     "flip": "value",
+     "focus_feasible": true,
+     "nsv": 6.739701821194776,
+     "ref_feasible": true,
+     "se": 0.92640163871816,
+     "value": 0.005
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -4.2550994542279135,
+     "ref_feasible": true,
+     "se": 1.0362558922472518,
+     "value": 0.0005
+    },
+    "meaning": "monthly probability of a catastrophic incident for a firm above critical capability with no safety practice",
+    "resimulated": true,
+    "swing": 10.99480127542269,
+    "swing_resolved": true,
+    "swing_se": 1.3899806726846384,
+    "unit": "a month per firm"
+   },
+   {
+    "assumption": "safety_decay",
+    "best_changes": false,
+    "default": 0.02,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -11.776341312372047,
+     "ref_feasible": true,
+     "se": 3.3670171389167862,
+     "value": 0.04
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -1.3343498057828898,
+     "ref_feasible": true,
+     "se": 3.4076294768100435,
+     "value": 0.01
+    },
+    "meaning": "monthly erosion of safety practice without investment",
+    "resimulated": true,
+    "swing": 10.441991506589158,
+    "swing_resolved": true,
+    "swing_se": 4.790484637798567,
+    "unit": "a month"
+   },
+   {
+    "assumption": "harm_valuation_multiplier",
+    "best_changes": true,
+    "default": 1.0,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing",
+     "flip": "value",
+     "focus_feasible": true,
+     "nsv": 5.618755177650822,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 2.0
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -4.283029696563511,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 0.5
+    },
+    "meaning": "scales the monetised harm of incidents; 1.0 takes the engine's damages at face value",
+    "resimulated": false,
+    "swing": 9.901784874214332,
+    "swing_resolved": true,
+    "swing_se": 0.0,
+    "unit": "multiple"
+   },
+   {
+    "assumption": "hazard_capability_elasticity",
+    "best_changes": true,
+    "default": 1.3,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -8.262033265509631,
+     "ref_feasible": true,
+     "se": 3.75160360542758,
+     "value": 1.8
+    },
+    "low": {
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing",
+     "flip": "value",
+     "focus_feasible": true,
+     "nsv": 1.0627736275535087,
+     "ref_feasible": true,
+     "se": 3.885443326809323,
+     "value": 0.9
+    },
+    "meaning": "incident rate scales with capability to this power",
+    "resimulated": true,
+    "swing": 9.32480689306314,
+    "swing_resolved": false,
+    "swing_se": 5.401036887311946,
+    "unit": "elasticity"
+   },
+   {
+    "assumption": "unsafe_release_share",
+    "best_changes": false,
+    "default": 0.35,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.39114923956318437,
+     "ref_feasible": true,
+     "se": 0.2629442470386637,
+     "value": 0.5
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -8.791943888811641,
+     "ref_feasible": true,
+     "se": 2.638025118813214,
+     "value": 0.2
+    },
+    "meaning": "share of the incident rate attributable to releases an evaluation could catch",
+    "resimulated": true,
+    "swing": 8.400794649248457,
+    "swing_resolved": true,
+    "swing_se": 2.651097169954395,
+    "unit": "share"
+   },
+   {
+    "assumption": "severity_accident_median_bn",
+    "best_changes": true,
+    "default": 0.3,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing",
+     "flip": "value",
+     "focus_feasible": true,
+     "nsv": 3.567841845341972,
+     "ref_feasible": true,
+     "se": 2.397409962638807,
+     "value": 0.6
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -4.426609423127969,
+     "ref_feasible": true,
+     "se": 1.567433416369771,
+     "value": 0.15
+    },
+    "meaning": "median monetised harm of an accident",
+    "resimulated": true,
+    "swing": 7.994451268469941,
+    "swing_resolved": true,
+    "swing_se": 2.864336230911521,
+    "unit": "$bn"
+   },
+   {
+    "assumption": "trust_elasticity",
+    "best_changes": true,
+    "default": 0.5,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing",
+     "flip": "value",
+     "focus_feasible": true,
+     "nsv": 3.6986122635570107,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 1.0
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -4.072295320367311,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 0.2
+    },
+    "meaning": "proportional change in realised adoption benefits per proportional change in public trust",
+    "resimulated": false,
+    "swing": 7.770907583924322,
+    "swing_resolved": true,
+    "swing_se": 0.0,
+    "unit": "elasticity"
+   },
+   {
+    "assumption": "consumer_surplus_base_bn",
+    "best_changes": true,
+    "default": 250.0,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -4.876471368329975,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 600.0
+    },
+    "low": {
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing",
+     "flip": "value",
+     "focus_feasible": true,
+     "nsv": 0.13014715574733665,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 150.0
+    },
+    "meaning": "annual consumer surplus from AI services at the starting level of capability and reach",
+    "resimulated": false,
+    "swing": 5.006618524077312,
+    "swing_resolved": true,
+    "swing_se": 0.0,
+    "unit": "$bn a year"
+   },
+   {
+    "assumption": "productivity_elasticity",
+    "best_changes": true,
+    "default": 0.8,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -3.859931214877711,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 1.1
+    },
+    "low": {
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing",
+     "flip": "value",
+     "focus_feasible": true,
+     "nsv": 1.1382847667388598,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 0.5
+    },
+    "meaning": "proportional change in the output uplift per proportional change in the service index",
+    "resimulated": false,
+    "swing": 4.998215981616571,
+    "swing_resolved": true,
+    "swing_se": 0.0,
+    "unit": "elasticity"
+   },
+   {
+    "assumption": "cs_elasticity",
+    "best_changes": true,
+    "default": 0.6,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -3.931112320522821,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 1.0
+    },
+    "low": {
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing",
+     "flip": "value",
+     "focus_feasible": true,
+     "nsv": 0.609202711095303,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 0.3
+    },
+    "meaning": "proportional change in consumer surplus per proportional change in the AI service index",
+    "resimulated": false,
+    "swing": 4.540315031618124,
+    "swing_resolved": true,
+    "swing_se": 0.0,
+    "unit": "elasticity"
+   },
+   {
+    "assumption": "trust_recovery",
+    "best_changes": true,
+    "default": 0.05,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -3.893885809453811,
+     "ref_feasible": true,
+     "se": 1.3816916491601487,
+     "value": 0.1
+    },
+    "low": {
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing",
+     "flip": "value",
+     "focus_feasible": true,
+     "nsv": 0.6400706284540257,
+     "ref_feasible": true,
+     "se": 0.9024015879510445,
+     "value": 0.03
+    },
+    "meaning": "monthly recovery of public trust towards 1",
+    "resimulated": true,
+    "swing": 4.533956437907837,
+    "swing_resolved": true,
+    "swing_se": 1.6502728378348406,
+    "unit": "a month"
+   },
+   {
+    "assumption": "safety_learning",
+    "best_changes": false,
+    "default": 0.08,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.03224488502854195,
+     "ref_feasible": true,
+     "se": 3.7141571370830944,
+     "value": 0.12
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -4.439090592941664,
+     "ref_feasible": true,
+     "se": 1.4106063130145157,
+     "value": 0.05
+    },
+    "meaning": "monthly gain in safety practice at saturation; the gain is a x share/(share + 0.1), diminishing in the share",
+    "resimulated": true,
+    "swing": 4.4068457079131225,
+    "swing_resolved": false,
+    "swing_se": 3.973005588878739,
+    "unit": "a month"
+   },
+   {
+    "assumption": "reach_ceiling_k",
+    "best_changes": false,
+    "default": 1.5,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -7.325785988554532,
+     "ref_feasible": true,
+     "se": 2.9428270183928316,
+     "value": 2.2
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -3.075609879040493,
+     "ref_feasible": true,
+     "se": 2.3190600285480656,
+     "value": 1.0
+    },
+    "meaning": "speed at which the reach ceiling 1 - exp(-k C) saturates in capability",
+    "resimulated": true,
+    "swing": 4.250176109514039,
+    "swing_resolved": false,
+    "swing_se": 3.746767977362916,
+    "unit": "per unit of capability"
+   },
+   {
+    "assumption": "major_incident_bn",
+    "best_changes": true,
+    "default": 1.0,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing",
+     "flip": "value",
+     "focus_feasible": true,
+     "nsv": 0.6282267306489412,
+     "ref_feasible": true,
+     "se": 1.6078643448950956,
+     "value": 2.0
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -3.3442279747629438,
+     "ref_feasible": true,
+     "se": 2.355555002633066,
+     "value": 0.5
+    },
+    "meaning": "harm above which an incident counts as major",
+    "resimulated": true,
+    "swing": 3.972454705411885,
+    "swing_resolved": false,
+    "swing_se": 2.8519935347077134,
+    "unit": "$bn"
+   },
+   {
+    "assumption": "culture_weight",
+    "best_changes": false,
+    "default": 0.6,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -6.504524724894276,
+     "ref_feasible": true,
+     "se": 2.2566477633378725,
+     "value": 1.2
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -2.9295633463502533,
+     "ref_feasible": true,
+     "se": 1.5765238733448108,
+     "value": 0.3
+    },
+    "meaning": "value a firm places on a unit gain in safety practice per unit of revenue, multiplied by its culture score",
+    "resimulated": true,
+    "swing": 3.574961378544023,
+    "swing_resolved": false,
+    "swing_se": 2.7527961513711743,
+    "unit": "$bn per unit of revenue"
+   },
+   {
+    "assumption": "enforcement_response",
+    "best_changes": true,
+    "default": 0.25,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -2.7582932942684772,
+     "ref_feasible": true,
+     "se": 1.1087832855242543,
+     "value": 0.5
+    },
+    "low": {
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing",
+     "flip": "value",
+     "focus_feasible": true,
+     "nsv": 0.6943779418347303,
+     "ref_feasible": true,
+     "se": 1.661423842847129,
+     "value": 0.12
+    },
+    "meaning": "speed at which enforcement intensity follows public pressure",
+    "resimulated": true,
+    "swing": 3.4526712361032077,
+    "swing_resolved": false,
+    "swing_se": 1.997430739685079,
+    "unit": "a month"
+   },
+   {
+    "assumption": "news_memory",
+    "best_changes": true,
+    "default": 0.75,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing",
+     "flip": "value",
+     "focus_feasible": true,
+     "nsv": 0.6860797879061585,
+     "ref_feasible": true,
+     "se": 1.6614238428471286,
+     "value": 0.88
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -2.705808458042701,
+     "ref_feasible": true,
+     "se": 1.0994900932292357,
+     "value": 0.6
+    },
+    "meaning": "persistence of the news pressure index",
+    "resimulated": true,
+    "swing": 3.3918882459488593,
+    "swing_resolved": false,
+    "swing_se": 1.992287040235456,
+    "unit": "a month"
+   },
+   {
+    "assumption": "news_reporting_boost",
+    "best_changes": true,
+    "default": 0.35,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -3.2271963331123676,
+     "ref_feasible": true,
+     "se": 1.574762714207789,
+     "value": 0.6
+    },
+    "low": {
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing",
+     "flip": "value",
+     "focus_feasible": true,
+     "nsv": 0.10915278503786541,
+     "ref_feasible": true,
+     "se": 1.088964907811733,
+     "value": 0.15
+    },
+    "meaning": "extra salience of incidents when reporting is mandatory",
+    "resimulated": true,
+    "swing": 3.336349118150233,
+    "swing_resolved": false,
+    "swing_se": 1.9146075776786475,
+    "unit": "share"
+   },
+   {
+    "assumption": "severity_sigma",
+    "best_changes": true,
+    "default": 1.1,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing",
+     "flip": "value",
+     "focus_feasible": true,
+     "nsv": 1.1186022065462158,
+     "ref_feasible": true,
+     "se": 0.8366511122638486,
+     "value": 1.4
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -2.032992991759513,
+     "ref_feasible": true,
+     "se": 0.5570795057435995,
+     "value": 0.8
+    },
+    "meaning": "lognormal dispersion of incident harm (heavy tail)",
+    "resimulated": true,
+    "swing": 3.1515951983057287,
+    "swing_resolved": true,
+    "swing_se": 1.0051480783306845,
+    "unit": "log scale"
+   },
+   {
+    "assumption": "open_weights_misuse_multiplier",
+    "best_changes": true,
+    "default": 1.3,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing",
+     "flip": "value",
+     "focus_feasible": true,
+     "nsv": 1.7666202236361777,
+     "ref_feasible": true,
+     "se": 3.237028641419615,
+     "value": 1.8
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -1.1637978499177866,
+     "ref_feasible": true,
+     "se": 0.09535416968747415,
+     "value": 1.1
+    },
+    "meaning": "misuse rate of a developer that publishes weights, relative to one that does not",
+    "resimulated": true,
+    "swing": 2.930418073553964,
+    "swing_resolved": false,
+    "swing_se": 3.2384327757493603,
+    "unit": "multiple"
+   },
+   {
+    "assumption": "hazard_reach_elasticity",
+    "best_changes": false,
+    "default": 1.0,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -2.5295735429292354,
+     "ref_feasible": true,
+     "se": 2.2855617743807093,
+     "value": 1.4
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -5.117530644882438,
+     "ref_feasible": true,
+     "se": 3.3961675384893093,
+     "value": 0.7
+    },
+    "meaning": "incident rate scales with deployment reach to this power",
+    "resimulated": true,
+    "swing": 2.587957101953202,
+    "swing_resolved": false,
+    "swing_se": 4.093622671179994,
+    "unit": "elasticity"
+   },
+   {
+    "assumption": "catastrophe_severity_sigma",
+    "best_changes": true,
+    "default": 0.5,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing",
+     "flip": "value",
+     "focus_feasible": true,
+     "nsv": 0.9005437223738785,
+     "ref_feasible": true,
+     "se": 0.05512638011301334,
+     "value": 0.9
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -1.5065243463902718,
+     "ref_feasible": true,
+     "se": 0.01553505084952188,
+     "value": 0.25
+    },
+    "meaning": "lognormal dispersion of catastrophic harm around its median",
+    "resimulated": true,
+    "swing": 2.40706806876415,
+    "swing_resolved": true,
+    "swing_se": 0.05727351560068286,
+    "unit": "log scale"
+   },
+   {
+    "assumption": "hazard_base_systemic",
+    "best_changes": true,
+    "default": 0.02,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing",
+     "flip": "value",
+     "focus_feasible": true,
+     "nsv": 3.315717587833957,
+     "ref_feasible": true,
+     "se": 4.257887873882727,
+     "value": 0.04
+    },
+    "low": {
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing",
+     "flip": "value",
+     "focus_feasible": true,
+     "nsv": 0.9706796547931608,
+     "ref_feasible": true,
+     "se": 2.1946223117297685,
+     "value": 0.01
+    },
+    "meaning": "the same for systemic incidents (markets, infrastructure, information)",
+    "resimulated": true,
+    "swing": 2.345037933040796,
+    "swing_resolved": false,
+    "swing_se": 4.790195845443032,
+    "unit": "a month per firm"
+   },
+   {
+    "assumption": "safety_substitution",
+    "best_changes": true,
+    "default": 0.6,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing",
+     "flip": "value",
+     "focus_feasible": true,
+     "nsv": 0.6989639166308214,
+     "ref_feasible": true,
+     "se": 2.238791379111375,
+     "value": 1.0
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -1.6249629275202313,
+     "ref_feasible": true,
+     "se": 2.1485223436452703,
+     "value": 0.3
+    },
+    "meaning": "share of safety spend that displaces capability R&D (the rest is additional budget or spills over)",
+    "resimulated": true,
+    "swing": 2.3239268441510528,
+    "swing_resolved": false,
+    "swing_se": 3.102955865030371,
+    "unit": "share"
+   },
+   {
+    "assumption": "domestic_ownership_share",
+    "best_changes": true,
+    "default": 0.6,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -1.980319743164629,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 0.9
+    },
+    "low": {
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing",
+     "flip": "value",
+     "focus_feasible": true,
+     "nsv": 0.015450266180496748,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 0.3
+    },
+    "meaning": "share of the firms' operating profit that accrues to residents and counts in national welfare",
+    "resimulated": false,
+    "swing": 1.9957700093451258,
+    "swing_resolved": true,
+    "swing_se": 0.0,
+    "unit": "share"
+   },
+   {
+    "assumption": "productivity_base_bn",
+    "best_changes": false,
+    "default": 400.0,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -2.2998374846635485,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 800.0
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.3237333654063247,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 200.0
+    },
+    "meaning": "annual output uplift attributable to AI adoption at the starting service index",
+    "resimulated": false,
+    "swing": 1.976104119257224,
+    "swing_resolved": true,
+    "swing_se": 0.0,
+    "unit": "$bn a year"
+   },
+   {
+    "assumption": "chip_demand_coupling",
+    "best_changes": false,
+    "default": 0.6,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -1.9603774276573938,
+     "ref_feasible": true,
+     "se": 0.008280055284943287,
+     "value": 0.9
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.014551064717311823,
+     "ref_feasible": true,
+     "se": 0.008180170703921621,
+     "value": 0.3
+    },
+    "meaning": "chip and cloud revenue growth per unit of model developers' capability growth",
+    "resimulated": true,
+    "swing": 1.9458263629400818,
+    "swing_resolved": true,
+    "swing_se": 0.011639351711629596,
+    "unit": "elasticity"
+   },
+   {
+    "assumption": "reach_speed",
+    "best_changes": false,
+    "default": 0.08,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -1.1085279367225092,
+     "ref_feasible": true,
+     "se": 0.9455788145480833,
+     "value": 0.12
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -2.6439804198150623,
+     "ref_feasible": true,
+     "se": 2.277657980768276,
+     "value": 0.05
+    },
+    "meaning": "speed at which reach closes on its capability and trust determined ceiling",
+    "resimulated": true,
+    "swing": 1.535452483092553,
+    "swing_resolved": false,
+    "swing_se": 2.4661397308099917,
+    "unit": "a month"
+   },
+   {
+    "assumption": "severity_systemic_median_bn",
+    "best_changes": true,
+    "default": 1.0,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.9437055273886292,
+     "ref_feasible": true,
+     "se": 0.4165396710195407,
+     "value": 2.0
+    },
+    "low": {
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing",
+     "flip": "value",
+     "focus_feasible": true,
+     "nsv": 0.35489460592762023,
+     "ref_feasible": true,
+     "se": 1.556407928703138,
+     "value": 0.5
+    },
+    "meaning": "median monetised harm of a systemic incident",
+    "resimulated": true,
+    "swing": 1.2986001333162496,
+    "swing_resolved": false,
+    "swing_se": 1.6111830864501586,
+    "unit": "$bn"
+   },
+   {
+    "assumption": "severity_misuse_median_bn",
+    "best_changes": false,
+    "default": 0.15,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.2034462250433282,
+     "ref_feasible": true,
+     "se": 0.19877274686075927,
+     "value": 0.3
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -1.4900445059581187,
+     "ref_feasible": true,
+     "se": 0.07246886593197385,
+     "value": 0.08
+    },
+    "meaning": "median monetised harm of a misuse incident",
+    "resimulated": true,
+    "swing": 1.2865982809147904,
+    "swing_resolved": true,
+    "swing_se": 0.21157112615864643,
+    "unit": "$bn"
+   },
+   {
+    "assumption": "open_weights_diffusion",
+    "best_changes": false,
+    "default": 0.1,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -1.7075391689697201,
+     "ref_feasible": true,
+     "se": 0.6881722820616855,
+     "value": 0.2
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.6585289109175312,
+     "ref_feasible": true,
+     "se": 0.015169494253941224,
+     "value": 0.05
+    },
+    "meaning": "capability spillover from published weights to the rest of the economy",
+    "resimulated": true,
+    "swing": 1.049010258052189,
+    "swing_resolved": false,
+    "swing_se": 0.6883394535793429,
+    "unit": "share"
+   },
+   {
+    "assumption": "compliance_deadweight_share",
+    "best_changes": false,
+    "default": 0.7,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -1.5018627869427505,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 1.0
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.46300669004138145,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 0.4
+    },
+    "meaning": "share of compliance spend that is a real resource cost rather than a transfer",
+    "resimulated": false,
+    "swing": 1.0388560969013692,
+    "swing_resolved": true,
+    "swing_se": 0.0,
+    "unit": "share"
+   },
+   {
+    "assumption": "benefit_overlap_share",
+    "best_changes": false,
+    "default": 0.0,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.3237333654063247,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 0.5
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.9824347384920659,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 0.0
+    },
+    "meaning": "share of the output uplift already counted as consumer surplus or as the AI firms' own profit, removed from the output uplift; 0 takes the three benefit components as defined, without overlap",
+    "resimulated": false,
+    "swing": 0.6587013730857412,
+    "swing_resolved": true,
+    "swing_se": 0.0,
+    "unit": "share"
+   },
+   {
+    "assumption": "enforcement_cost_bn",
+    "best_changes": false,
+    "default": 0.4,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -1.2884081555374596,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 0.8
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.8294480299693691,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 0.2
+    },
+    "meaning": "public budget consumed by one unit of enforcement capacity",
+    "resimulated": false,
+    "swing": 0.4589601255680905,
+    "swing_resolved": true,
+    "swing_se": 0.0,
+    "unit": "$bn a year per unit of capacity"
+   },
+   {
+    "assumption": "revenue_reach_beta",
+    "best_changes": false,
+    "default": 0.8,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.7815184274643063,
+     "ref_feasible": true,
+     "se": 0.08209266774004609,
+     "value": 1.2
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -1.1387389159582906,
+     "ref_feasible": true,
+     "se": 0.06451882439031249,
+     "value": 0.5
+    },
+    "meaning": "revenue relative to the frictionless, full trust reach path, to this power",
+    "resimulated": true,
+    "swing": 0.35722048849398425,
+    "swing_resolved": true,
+    "swing_se": 0.1044120912413193,
+    "unit": "elasticity"
+   },
+   {
+    "assumption": "growth_fade_months",
+    "best_changes": false,
+    "default": 30.0,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -1.1413577452659047,
+     "ref_feasible": true,
+     "se": 0.0048315734331041554,
+     "value": 48.0
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.7846027800670174,
+     "ref_feasible": true,
+     "se": 0.0058909677178310416,
+     "value": 18.0
+    },
+    "meaning": "time constant over which a firm's growth fades towards the long run rate",
+    "resimulated": true,
+    "swing": 0.3567549651988873,
+    "swing_resolved": true,
+    "swing_se": 0.007618897721587116,
+    "unit": "months"
+   },
+   {
+    "assumption": "hazard_base_accident",
+    "best_changes": false,
+    "default": 0.05,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -8.209598569795125,
+     "ref_feasible": true,
+     "se": 4.139804407836879,
+     "value": 0.08
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -8.444018086108997,
+     "ref_feasible": true,
+     "se": 3.364021522451875,
+     "value": 0.03
+    },
+    "meaning": "the same for accidents and failures",
+    "resimulated": true,
+    "swing": 0.23441951631387248,
+    "swing_resolved": false,
+    "swing_se": 5.334287331843409,
+    "unit": "a month per firm"
+   },
+   {
+    "assumption": "hazard_base_misuse",
+    "best_changes": true,
+    "default": 0.08,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing",
+     "flip": "value",
+     "focus_feasible": true,
+     "nsv": 0.9856173185566673,
+     "ref_feasible": true,
+     "se": 2.6002856383753112,
+     "value": 0.13
+    },
+    "low": {
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing",
+     "flip": "value",
+     "focus_feasible": true,
+     "nsv": 0.8109450842233482,
+     "ref_feasible": true,
+     "se": 1.1461939804737002,
+     "value": 0.05
+    },
+    "meaning": "monthly rate of a reportable misuse incident for a firm at capability 1, full reach and no safety practice",
+    "resimulated": true,
+    "swing": 0.17467223433331913,
+    "swing_resolved": false,
+    "swing_se": 2.8416977393831044,
+    "unit": "a month per firm"
+   },
+   {
+    "assumption": "long_run_growth",
+    "best_changes": false,
+    "default": 0.06,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -1.0595581756785681,
+     "ref_feasible": true,
+     "se": 0.005276907684679716,
+     "value": 0.1
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.9261339516661149,
+     "ref_feasible": true,
+     "se": 0.003812763661840025,
+     "value": 0.03
+    },
+    "meaning": "the growth rate firms fade towards",
+    "resimulated": true,
+    "swing": 0.13342422401245324,
+    "swing_resolved": true,
+    "swing_se": 0.006510216697904886,
+    "unit": "a year"
+   },
+   {
+    "assumption": "labour_adjustment_bn",
+    "best_changes": false,
+    "default": 2.0,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.9389721886263406,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 5.0
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -1.0114097717358825,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 0.0
+    },
+    "meaning": "short run adjustment cost per point of growth in the AI service index (displacement, retraining)",
+    "resimulated": false,
+    "swing": 0.07243758310954196,
+    "swing_resolved": true,
+    "swing_se": 0.0,
+    "unit": "$bn per index point"
+   },
+   {
+    "assumption": "discount_rate",
+    "best_changes": false,
+    "default": 0.03,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.9363665224746808,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 0.07
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -1.0071249988013549,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 0.01
+    },
+    "meaning": "social discount rate applied to every monthly flow",
+    "resimulated": false,
+    "swing": 0.07075847632667409,
+    "swing_resolved": true,
+    "swing_se": 0.0,
+    "unit": "a year"
+   },
+   {
+    "assumption": "leakage_value_share",
+    "best_changes": false,
+    "default": 0.35,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.9824347384920659,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 0.7
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.9824347384920659,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 0.1
+    },
+    "meaning": "domestic value added lost per dollar of revenue whose activity moves offshore",
+    "resimulated": false,
+    "swing": 0.0,
+    "swing_resolved": false,
+    "swing_se": 0.0,
+    "unit": "share"
+   },
+   {
+    "assumption": "offshore_laxity",
+    "best_changes": false,
+    "default": 0.6,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.9824347384920658,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 1.2
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.9824347384920658,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 0.2
+    },
+    "meaning": "extra incident rate on activity moved offshore, relative to home",
+    "resimulated": true,
+    "swing": 0.0,
+    "swing_resolved": false,
+    "swing_se": 0.0,
+    "unit": "multiple"
+   },
+   {
+    "assumption": "insurance_admin_share",
+    "best_changes": false,
+    "default": 0.5,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.9824347384920659,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 0.75
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.9824347384920659,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 0.25
+    },
+    "meaning": "share of the insurance loading that is a real resource cost (underwriting, administration) rather than a transfer to insurers",
+    "resimulated": false,
+    "swing": 0.0,
+    "swing_resolved": false,
+    "swing_se": 0.0,
+    "unit": "share"
+   },
+   {
+    "assumption": "export_control_chip_loss",
+    "best_changes": false,
+    "default": 0.1,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.9824347384920658,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 0.2
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.9824347384920658,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 0.05
+    },
+    "meaning": "annual revenue growth lost by the chip sector under full export controls",
+    "resimulated": true,
+    "swing": 0.0,
+    "swing_resolved": false,
+    "swing_se": 0.0,
+    "unit": "a year"
+   },
+   {
+    "assumption": "relocation_cost",
+    "best_changes": false,
+    "default": 0.08,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.9824347384920658,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 0.16
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.9824347384920658,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 0.04
+    },
+    "meaning": "one off cost of moving a unit of activity offshore",
+    "resimulated": true,
+    "swing": 0.0,
+    "swing_resolved": false,
+    "swing_se": 0.0,
+    "unit": "share of moved revenue"
+   },
+   {
+    "assumption": "offshore_revenue_haircut",
+    "best_changes": false,
+    "default": 0.12,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.9824347384920658,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 0.24
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.9824347384920658,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 0.06
+    },
+    "meaning": "revenue lost per unit of activity offshore (talent, customers, latency)",
+    "resimulated": true,
+    "swing": 0.0,
+    "swing_resolved": false,
+    "swing_se": 0.0,
+    "unit": "share"
+   },
+   {
+    "assumption": "firm_risk_aversion",
+    "best_changes": false,
+    "default": 0.6,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.9824347384920658,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 1.2
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.9824347384920658,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 0.2
+    },
+    "meaning": "weight on the variance of expected liability in the firm's choice",
+    "resimulated": true,
+    "swing": 0.0,
+    "swing_resolved": false,
+    "swing_se": 0.0,
+    "unit": "multiple"
+   },
+   {
+    "assumption": "firm_optimism",
+    "best_changes": false,
+    "default": 0.7,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.9824347384920658,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 0.9
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.9824347384920658,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 0.5
+    },
+    "meaning": "the share of its true incident rate a firm believes when it plans",
+    "resimulated": true,
+    "swing": 0.0,
+    "swing_resolved": false,
+    "swing_se": 0.0,
+    "unit": "multiple"
+   },
+   {
+    "assumption": "insurance_loading",
+    "best_changes": false,
+    "default": 0.25,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.9824347384920658,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 0.5
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.9824347384920658,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 0.1
+    },
+    "meaning": "premium above expected liability charged by insurers under a mandate",
+    "resimulated": true,
+    "swing": 0.0,
+    "swing_resolved": false,
+    "swing_se": 0.0,
+    "unit": "share"
+   },
+   {
+    "assumption": "safe_harbour_shield",
+    "best_changes": false,
+    "default": 0.7,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.9824347384920658,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 0.9
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.9824347384920658,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 0.5
+    },
+    "meaning": "share of liability a compliant firm avoids under a safe harbour",
+    "resimulated": true,
+    "swing": 0.0,
+    "swing_resolved": false,
+    "swing_se": 0.0,
+    "unit": "share"
+   },
+   {
+    "assumption": "moratorium_research_slowdown",
+    "best_changes": false,
+    "default": 0.5,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.9824347384920658,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 0.7
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.9824347384920658,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 0.3
+    },
+    "meaning": "share of capability growth lost by a firm in scope while a moratorium holds",
+    "resimulated": true,
+    "swing": 0.0,
+    "swing_resolved": false,
+    "swing_se": 0.0,
+    "unit": "share"
+   },
+   {
+    "assumption": "open_weights_restriction_growth_loss",
+    "best_changes": false,
+    "default": 0.1,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.9824347384920658,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 0.2
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.9824347384920658,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 0.05
+    },
+    "meaning": "annual revenue growth lost by an open weights developer while publishing is restricted",
+    "resimulated": true,
+    "swing": 0.0,
+    "swing_resolved": false,
+    "swing_se": 0.0,
+    "unit": "a year"
+   },
+   {
+    "assumption": "market_vol",
+    "best_changes": false,
+    "default": 0.045,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.9824347384920658,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 0.065
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.9824347384920658,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 0.03
+    },
+    "meaning": "volatility of the common market factor",
+    "resimulated": true,
+    "swing": 0.0,
+    "swing_resolved": false,
+    "swing_se": 0.0,
+    "unit": "a month"
+   },
+   {
+    "assumption": "sentiment_persistence",
+    "best_changes": false,
+    "default": 0.85,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.9824347384920658,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 0.93
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.9824347384920658,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 0.7
+    },
+    "meaning": "persistence of the price's non fundamental component",
+    "resimulated": true,
+    "swing": 0.0,
+    "swing_resolved": false,
+    "swing_se": 0.0,
+    "unit": "a month"
+   },
+   {
+    "assumption": "news_price_impact",
+    "best_changes": false,
+    "default": 0.06,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.9824347384920658,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 0.12
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.9824347384920658,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 0.03
+    },
+    "meaning": "price impact of a unit of news pressure on an exposed firm",
+    "resimulated": true,
+    "swing": 0.0,
+    "swing_resolved": false,
+    "swing_se": 0.0,
+    "unit": "per unit of pressure"
+   },
+   {
+    "assumption": "incident_jump",
+    "best_changes": false,
+    "default": 0.5,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.9824347384920658,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 1.0
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.9824347384920658,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 0.25
+    },
+    "meaning": "own incident price jump per log unit of harm relative to revenue",
+    "resimulated": true,
+    "swing": 0.0,
+    "swing_resolved": false,
+    "swing_se": 0.0,
+    "unit": "multiple"
+   },
+   {
+    "assumption": "contagion",
+    "best_changes": false,
+    "default": 0.3,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.9824347384920658,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 0.5
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.9824347384920658,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 0.15
+    },
+    "meaning": "share of an own incident jump felt by the rest of the sector",
+    "resimulated": true,
+    "swing": 0.0,
+    "swing_resolved": false,
+    "swing_se": 0.0,
+    "unit": "share"
+   },
+   {
+    "assumption": "announcement_impact",
+    "best_changes": false,
+    "default": 0.9,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.9824347384920658,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 1.8
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.9824347384920658,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 0.45
+    },
+    "meaning": "price reaction at announcement per unit of expected compliance cost over earnings",
+    "resimulated": true,
+    "swing": 0.0,
+    "swing_resolved": false,
+    "swing_se": 0.0,
+    "unit": "multiple"
+   }
+  ],
+  "sign_robust": false
+ },
+ "structural": {
+  "acceptable": 2,
+  "decision": "baseline",
+  "n": 8,
+  "preferred": "coordinated_licensing",
+  "resimulated_paths": 40,
+  "survival": 0.75,
+  "top_two": 8,
+  "variants": [
+   {
+    "best": "baseline",
+    "best_unconstrained": "coordinated_licensing",
+    "note": "firms plan six months ahead instead of twelve",
+    "order": [
+     "coordinated_licensing",
+     "moratorium"
+    ],
+    "preferred_acceptable": false,
+    "preferred_feasible": true,
+    "preferred_nsv": -3.9414908915605507,
+    "preferred_rank": 1,
+    "table": {
+     "baseline": {
+      "feasible": true,
+      "nsv": 0.0
+     },
+     "coordinated_licensing": {
+      "feasible": true,
+      "nsv": -3.9414908915605507
+     },
+     "moratorium": {
+      "feasible": true,
+      "nsv": -65.7914879711023
+     }
+    },
+    "variant": "myopic_firms"
+   },
+   {
+    "best": "baseline",
+    "best_unconstrained": "moratorium",
+    "note": "firms plan two years ahead",
+    "order": [
+     "moratorium",
+     "coordinated_licensing"
+    ],
+    "preferred_acceptable": false,
+    "preferred_feasible": true,
+    "preferred_nsv": -65.8667949959672,
+    "preferred_rank": 2,
+    "table": {
+     "baseline": {
+      "feasible": true,
+      "nsv": 0.0
+     },
+     "coordinated_licensing": {
+      "feasible": true,
+      "nsv": -65.8667949959672
+     },
+     "moratorium": {
+      "feasible": true,
+      "nsv": -65.7914879711023
+     }
+    },
+    "variant": "forward_looking_firms"
+   },
+   {
+    "best": "baseline",
+    "best_unconstrained": "coordinated_licensing",
+    "note": "the regulator has half the stated capacity",
+    "order": [
+     "coordinated_licensing",
+     "moratorium"
+    ],
+    "preferred_acceptable": false,
+    "preferred_feasible": true,
+    "preferred_nsv": -1.603664960748855,
+    "preferred_rank": 1,
+    "table": {
+     "baseline": {
+      "feasible": true,
+      "nsv": 0.0
+     },
+     "coordinated_licensing": {
+      "feasible": true,
+      "nsv": -1.603664960748855
+     },
+     "moratorium": {
+      "feasible": true,
+      "nsv": -65.69138028855909
+     }
+    },
+    "variant": "weak_regulator"
+   },
+   {
+    "best": "baseline",
+    "best_unconstrained": "coordinated_licensing",
+    "note": "safety practice cuts incidents faster",
+    "order": [
+     "coordinated_licensing",
+     "moratorium"
+    ],
+    "preferred_acceptable": false,
+    "preferred_feasible": true,
+    "preferred_nsv": -7.837563953210731,
+    "preferred_rank": 1,
+    "table": {
+     "baseline": {
+      "feasible": true,
+      "nsv": 0.0
+     },
+     "coordinated_licensing": {
+      "feasible": true,
+      "nsv": -7.837563953210731
+     },
+     "moratorium": {
+      "feasible": true,
+      "nsv": -74.69188840521474
+     }
+    },
+    "variant": "strong_safety_effect"
+   },
+   {
+    "best": "coordinated_licensing",
+    "best_unconstrained": "coordinated_licensing",
+    "note": "safety practice cuts incidents more slowly",
+    "order": [
+     "coordinated_licensing",
+     "moratorium"
+    ],
+    "preferred_acceptable": true,
+    "preferred_feasible": true,
+    "preferred_nsv": 3.065847560350413,
+    "preferred_rank": 1,
+    "table": {
+     "baseline": {
+      "feasible": true,
+      "nsv": 0.0
+     },
+     "coordinated_licensing": {
+      "feasible": true,
+      "nsv": 3.065847560350413
+     },
+     "moratorium": {
+      "feasible": true,
+      "nsv": -59.322574273150565
+     }
+    },
+    "variant": "weak_safety_effect"
+   },
+   {
+    "best": "baseline",
+    "best_unconstrained": "coordinated_licensing",
+    "note": "offshore activity is twice as hazardous as at home",
+    "order": [
+     "coordinated_licensing",
+     "moratorium"
+    ],
+    "preferred_acceptable": false,
+    "preferred_feasible": true,
+    "preferred_nsv": -0.9824347384920659,
+    "preferred_rank": 1,
+    "table": {
+     "baseline": {
+      "feasible": true,
+      "nsv": 0.0
+     },
+     "coordinated_licensing": {
+      "feasible": true,
+      "nsv": -0.9824347384920659
+     },
+     "moratorium": {
+      "feasible": true,
+      "nsv": -65.7914879711023
+     }
+    },
+    "variant": "lax_offshore"
+   },
+   {
+    "best": "coordinated_licensing",
+    "best_unconstrained": "coordinated_licensing",
+    "note": "the catastrophic tail is two and a half times more likely",
+    "order": [
+     "coordinated_licensing",
+     "moratorium"
+    ],
+    "preferred_acceptable": true,
+    "preferred_feasible": true,
+    "preferred_nsv": 9.892798869868496,
+    "preferred_rank": 1,
+    "table": {
+     "baseline": {
+      "feasible": true,
+      "nsv": 0.0
+     },
+     "coordinated_licensing": {
+      "feasible": true,
+      "nsv": 9.892798869868496
+     },
+     "moratorium": {
+      "feasible": true,
+      "nsv": -57.89797313117009
+     }
+    },
+    "variant": "heavy_tail"
+   },
+   {
+    "best": "baseline",
+    "best_unconstrained": "coordinated_licensing",
+    "note": "catastrophic failures are strongly correlated across firms",
+    "order": [
+     "coordinated_licensing",
+     "moratorium"
+    ],
+    "preferred_acceptable": false,
+    "preferred_feasible": true,
+    "preferred_nsv": -0.8037768843948746,
+    "preferred_rank": 1,
+    "table": {
+     "baseline": {
+      "feasible": true,
+      "nsv": 0.0
+     },
+     "coordinated_licensing": {
+      "feasible": true,
+      "nsv": -0.8037768843948746
+     },
+     "moratorium": {
+      "feasible": true,
+      "nsv": -65.62102286549151
+     }
+    },
+    "variant": "systemic_catastrophes"
+   }
+  ],
+  "wins": 6
+ },
+ "tornado": {
+  "flips": [
+   "catastrophe_correlation",
+   "catastrophe_capability",
+   "hazard_safety_elasticity",
+   "trust_harm_sensitivity",
+   "catastrophe_harm_bn",
+   "catastrophe_prior_monthly",
+   "harm_valuation_multiplier",
+   "hazard_capability_elasticity",
+   "severity_accident_median_bn",
+   "trust_elasticity",
+   "consumer_surplus_base_bn",
+   "productivity_elasticity",
+   "cs_elasticity",
+   "trust_recovery",
+   "major_incident_bn",
+   "enforcement_response",
+   "news_memory",
+   "news_reporting_boost",
+   "severity_sigma",
+   "open_weights_misuse_multiplier",
+   "catastrophe_severity_sigma",
+   "hazard_base_systemic",
+   "safety_substitution",
+   "domestic_ownership_share",
+   "severity_systemic_median_bn",
+   "hazard_base_misuse"
+  ],
+  "flips_by_feasibility": [],
+  "flips_by_value": [
+   "catastrophe_correlation",
+   "catastrophe_capability",
+   "hazard_safety_elasticity",
+   "trust_harm_sensitivity",
+   "catastrophe_harm_bn",
+   "catastrophe_prior_monthly",
+   "harm_valuation_multiplier",
+   "hazard_capability_elasticity",
+   "severity_accident_median_bn",
+   "trust_elasticity",
+   "consumer_surplus_base_bn",
+   "productivity_elasticity",
+   "cs_elasticity",
+   "trust_recovery",
+   "major_incident_bn",
+   "enforcement_response",
+   "news_memory",
+   "news_reporting_boost",
+   "severity_sigma",
+   "open_weights_misuse_multiplier",
+   "catastrophe_severity_sigma",
+   "hazard_base_systemic",
+   "safety_substitution",
+   "domestic_ownership_share",
+   "severity_systemic_median_bn",
+   "hazard_base_misuse"
+  ],
+  "n_screened": 68,
+  "preferred": "coordinated_licensing",
+  "reference_best": "baseline",
+  "reference_nsv": -0.9824347384920659,
+  "rows": [
+   {
+    "assumption": "audit_rate",
+    "best_changes": false,
+    "default": 0.5,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -63.84572502485415,
+     "ref_feasible": true,
+     "se": 4.008937339295797,
+     "value": 0.8
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -1.206871385266869,
+     "ref_feasible": true,
+     "se": 1.384930397410491,
+     "value": 0.3
+    },
+    "meaning": "probability a firm in scope is audited in a month at capacity 1",
+    "resimulated": true,
+    "swing": 62.638853639587275,
+    "swing_resolved": true,
+    "swing_se": 4.2414161309722545,
+    "unit": "a month at full capacity"
+   },
+   {
+    "assumption": "revenue_capability_beta",
+    "best_changes": false,
+    "default": 0.5,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -1.823168398451747,
+     "ref_feasible": true,
+     "se": 1.390721270295737,
+     "value": 0.8
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -54.08580787866025,
+     "ref_feasible": true,
+     "se": 9.094006145601607,
+     "value": 0.3
+    },
+    "meaning": "revenue growth per unit of log capability growth",
+    "resimulated": true,
+    "swing": 52.2626394802085,
+    "swing_resolved": true,
+    "swing_se": 9.199731160631423,
+    "unit": "elasticity"
+   },
+   {
+    "assumption": "growth_value_weight",
+    "best_changes": false,
+    "default": 3.0,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -3.210776267912427,
+     "ref_feasible": true,
+     "se": 1.7521114722493631,
+     "value": 5.0
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -50.03154130650342,
+     "ref_feasible": true,
+     "se": 8.446438019436734,
+     "value": 1.5
+    },
+    "meaning": "how a firm values a year of extra growth against a year of cost",
+    "resimulated": true,
+    "swing": 46.82076503859099,
+    "swing_resolved": true,
+    "swing_se": 8.626251203586305,
+    "unit": "years of revenue"
+   },
+   {
+    "assumption": "catastrophe_correlation",
+    "best_changes": true,
+    "default": 0.3,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.9244383221198924,
+     "ref_feasible": true,
+     "se": 0.03609917523436425,
+     "value": 0.6
+    },
+    "low": {
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing",
+     "flip": "value",
+     "focus_feasible": true,
+     "nsv": 43.13136156540363,
+     "ref_feasible": true,
+     "se": 25.023141215622125,
+     "value": 0.0
+    },
+    "meaning": "correlation of catastrophic failures across firms within a month (one factor Gaussian copula): shared models, components and vulnerabilities; 0 makes the firms' catastrophes independent given the state",
+    "resimulated": true,
+    "swing": 44.05579988752352,
+    "swing_resolved": false,
+    "swing_se": 25.023167254514753,
+    "unit": "correlation"
+   },
+   {
+    "assumption": "catastrophe_capability",
+    "best_changes": true,
+    "default": 1.6,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing",
+     "flip": "value",
+     "focus_feasible": true,
+     "nsv": 33.816488002121034,
+     "ref_feasible": true,
+     "se": 20.906771535234316,
+     "value": 2.0
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -1.4391567050422358,
+     "ref_feasible": true,
+     "se": 4.2518304777254294e-16,
+     "value": 1.3
+    },
+    "meaning": "capability above which the catastrophic tail is live",
+    "resimulated": true,
+    "swing": 35.25564470716327,
+    "swing_resolved": false,
+    "swing_se": 20.906771535234316,
+    "unit": "capability index"
+   },
+   {
+    "assumption": "capability_growth",
+    "best_changes": false,
+    "default": 0.023,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -3.060922270659434,
+     "ref_feasible": true,
+     "se": 7.0563476812151755,
+     "value": 0.035
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -29.07075152713523,
+     "ref_feasible": true,
+     "se": 6.701100180919996,
+     "value": 0.015
+    },
+    "meaning": "monthly log growth of the capability index when all R&D goes to capability (a doubling in about 30 months)",
+    "resimulated": true,
+    "swing": 26.009829256475797,
+    "swing_resolved": true,
+    "swing_se": 9.731227375460753,
+    "unit": "a month"
+   },
+   {
+    "assumption": "hazard_safety_elasticity",
+    "best_changes": true,
+    "default": 1.8,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing",
+     "flip": "value",
+     "focus_feasible": true,
+     "nsv": 8.073219506340118,
+     "ref_feasible": true,
+     "se": 19.74536671831439,
+     "value": 3.0
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -9.254353502100084,
+     "ref_feasible": true,
+     "se": 3.507276607157279,
+     "value": 1.4
+    },
+    "meaning": "incident rate falls as exp(-elasticity x safety level)",
+    "resimulated": true,
+    "swing": 17.327573008440204,
+    "swing_resolved": false,
+    "swing_se": 20.054438312748385,
+    "unit": "per unit of safety level"
+   },
+   {
+    "assumption": "trust_harm_sensitivity",
+    "best_changes": true,
+    "default": 0.04,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing",
+     "flip": "value",
+     "focus_feasible": true,
+     "nsv": 8.991374252691019,
+     "ref_feasible": true,
+     "se": 3.4639980810285516,
+     "value": 0.08
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -6.477941618435928,
+     "ref_feasible": true,
+     "se": 2.215104637217972,
+     "value": 0.02
+    },
+    "meaning": "fall in trust per unit of log monetised harm in a month",
+    "resimulated": true,
+    "swing": 15.469315871126947,
+    "swing_resolved": true,
+    "swing_se": 4.111687154830004,
+    "unit": "per log $bn"
+   },
+   {
+    "assumption": "catastrophe_harm_bn",
+    "best_changes": true,
+    "default": 400.0,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing",
+     "flip": "value",
+     "focus_feasible": true,
+     "nsv": 10.583169815839835,
+     "ref_feasible": true,
+     "se": 0.2554893170156059,
+     "value": 1200.0
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -4.667398467335486,
+     "ref_feasible": true,
+     "se": 0.13135695736901487,
+     "value": 150.0
+    },
+    "meaning": "median monetised harm of a catastrophic incident",
+    "resimulated": true,
+    "swing": 15.25056828317532,
+    "swing_resolved": true,
+    "swing_se": 0.28727937858180136,
+    "unit": "$bn"
+   },
+   {
+    "assumption": "catastrophe_prior_monthly",
+    "best_changes": true,
+    "default": 0.002,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing",
+     "flip": "value",
+     "focus_feasible": true,
+     "nsv": 6.739701821194776,
+     "ref_feasible": true,
+     "se": 0.92640163871816,
+     "value": 0.005
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -4.2550994542279135,
+     "ref_feasible": true,
+     "se": 1.0362558922472518,
+     "value": 0.0005
+    },
+    "meaning": "monthly probability of a catastrophic incident for a firm above critical capability with no safety practice",
+    "resimulated": true,
+    "swing": 10.99480127542269,
+    "swing_resolved": true,
+    "swing_se": 1.3899806726846384,
+    "unit": "a month per firm"
+   },
+   {
+    "assumption": "safety_decay",
+    "best_changes": false,
+    "default": 0.02,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -11.776341312372047,
+     "ref_feasible": true,
+     "se": 3.3670171389167862,
+     "value": 0.04
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -1.3343498057828898,
+     "ref_feasible": true,
+     "se": 3.4076294768100435,
+     "value": 0.01
+    },
+    "meaning": "monthly erosion of safety practice without investment",
+    "resimulated": true,
+    "swing": 10.441991506589158,
+    "swing_resolved": true,
+    "swing_se": 4.790484637798567,
+    "unit": "a month"
+   },
+   {
+    "assumption": "harm_valuation_multiplier",
+    "best_changes": true,
+    "default": 1.0,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing",
+     "flip": "value",
+     "focus_feasible": true,
+     "nsv": 5.618755177650822,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 2.0
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -4.283029696563511,
+     "ref_feasible": true,
+     "se": 0.0,
+     "value": 0.5
+    },
+    "meaning": "scales the monetised harm of incidents; 1.0 takes the engine's damages at face value",
+    "resimulated": false,
+    "swing": 9.901784874214332,
+    "swing_resolved": true,
+    "swing_se": 0.0,
+    "unit": "multiple"
+   },
+   {
+    "assumption": "hazard_capability_elasticity",
+    "best_changes": true,
+    "default": 1.3,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -8.262033265509631,
+     "ref_feasible": true,
+     "se": 3.75160360542758,
+     "value": 1.8
+    },
+    "low": {
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing",
+     "flip": "value",
+     "focus_feasible": true,
+     "nsv": 1.0627736275535087,
+     "ref_feasible": true,
+     "se": 3.885443326809323,
+     "value": 0.9
+    },
+    "meaning": "incident rate scales with capability to this power",
+    "resimulated": true,
+    "swing": 9.32480689306314,
+    "swing_resolved": false,
+    "swing_se": 5.401036887311946,
+    "unit": "elasticity"
+   },
+   {
+    "assumption": "unsafe_release_share",
+    "best_changes": false,
+    "default": 0.35,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -0.39114923956318437,
+     "ref_feasible": true,
+     "se": 0.2629442470386637,
+     "value": 0.5
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -8.791943888811641,
+     "ref_feasible": true,
+     "se": 2.638025118813214,
+     "value": 0.2
+    },
+    "meaning": "share of the incident rate attributable to releases an evaluation could catch",
+    "resimulated": true,
+    "swing": 8.400794649248457,
+    "swing_resolved": true,
+    "swing_se": 2.651097169954395,
+    "unit": "share"
+   },
+   {
+    "assumption": "severity_accident_median_bn",
+    "best_changes": true,
+    "default": 0.3,
+    "focus_feasibility_changes": false,
+    "high": {
+     "best": "coordinated_licensing",
+     "best_unconstrained": "coordinated_licensing",
+     "flip": "value",
+     "focus_feasible": true,
+     "nsv": 3.567841845341972,
+     "ref_feasible": true,
+     "se": 2.397409962638807,
+     "value": 0.6
+    },
+    "low": {
+     "best": "baseline",
+     "best_unconstrained": "baseline",
+     "flip": null,
+     "focus_feasible": true,
+     "nsv": -4.426609423127969,
+     "ref_feasible": true,
+     "se": 1.567433416369771,
+     "value": 0.15
+    },
+    "meaning": "median monetised harm of an accident",
+    "resimulated": true,
+    "swing": 7.994451268469941,
+    "swing_resolved": true,
+    "swing_se": 2.864336230911521,
+    "unit": "$bn"
+   }
+  ],
+  "shown": 15,
+  "sign_robust": false
+ },
+ "validation": {
+  "benchmarks": {
+   "calibration": {
+    "assumptions": [
+     {
+      "assumption": "insurance_admin_share",
+      "default": 0.5,
+      "informed": true,
+      "informed_by": [
+       {
+        "benchmark": "insurance_resource_share",
+        "rho": 1.0
+       }
+      ],
+      "posterior_hi": 0.692278366801302,
+      "posterior_lo": 0.4187645832680596,
+      "posterior_mean": 0.5895111476113604,
+      "prior_mean": 0.4999983901532787,
+      "range": [
+       0.25,
+       0.75
+      ],
+      "shift": 0.8762668664792663,
+      "shrink": 0.9739962352285764
+     },
+     {
+      "assumption": "trust_harm_sensitivity",
+      "default": 0.04,
+      "informed": true,
+      "informed_by": [
+       {
+        "benchmark": "trust_trend",
+        "rho": -0.7882326007326007
+       },
+       {
+        "benchmark": "incident_growth",
+        "rho": 0.33988095238095234
+       }
+      ],
+      "posterior_hi": 0.05569262657387401,
+      "posterior_lo": 0.029258016912135535,
+      "posterior_mean": 0.03810891372618534,
+      "prior_mean": 0.04668099376287202,
+      "range": [
+       0.02,
+       0.08
+      ],
+      "shift": -0.6800520572444916,
+      "shrink": 0.6595870281715195
+     },
+     {
+      "assumption": "capability_growth",
+      "default": 0.023,
+      "informed": true,
+      "informed_by": [
+       {
+        "benchmark": "profit_effect",
+        "rho": -0.7490384615384614
+       },
+       {
+        "benchmark": "incident_growth",
+        "rho": 0.7420787545787545
+       },
+       {
+        "benchmark": "trust_trend",
+        "rho": -0.4656593406593406
+       },
+       {
+        "benchmark": "compliance_cost_share",
+        "rho": -0.415018315018315
+       },
+       {
+        "benchmark": "fine_return",
+        "rho": -0.38222829801777175
+       }
+      ],
+      "posterior_hi": 0.028962777144098898,
+      "posterior_lo": 0.017789389313727637,
+      "posterior_mean": 0.02200714643911996,
+      "prior_mean": 0.024349814790528806,
+      "range": [
+       0.015,
+       0.035
+      ],
+      "shift": -0.565448682670804,
+      "shrink": 0.8600621713163135
+     },
+     {
+      "assumption": "trust_recovery",
+      "default": 0.05,
+      "informed": true,
+      "informed_by": [
+       {
+        "benchmark": "trust_recovery",
+        "rho": 1.0
+       }
+      ],
+      "posterior_hi": 0.08212237834052465,
+      "posterior_lo": 0.03917940888196782,
+      "posterior_mean": 0.05161532143479215,
+      "prior_mean": 0.05997381407991313,
+      "range": [
+       0.03,
+       0.1
+      ],
+      "shift": -0.563986115076307,
+      "shrink": 0.9561126338430319
+     },
+     {
+      "assumption": "severity_misuse_median_bn",
+      "default": 0.15,
+      "informed": true,
+      "informed_by": [
+       {
+        "benchmark": "trust_trend",
+        "rho": -0.392032967032967
+       }
+      ],
+      "posterior_hi": 0.22165968529033458,
+      "posterior_lo": 0.11260606939861154,
+      "posterior_mean": 0.15341854548133757,
+      "prior_mean": 0.17672905435721228,
+      "range": [
+       0.08,
+       0.3
+      ],
+      "shift": -0.5041676004808812,
+      "shrink": 0.6738738083305521
+     },
+     {
+      "assumption": "severity_accident_median_bn",
+      "default": 0.3,
+      "informed": true,
+      "informed_by": [
+       {
+        "benchmark": "incident_return",
+        "rho": -0.4008256528417819
+       }
+      ],
+      "posterior_hi": 0.4879639779913288,
+      "posterior_lo": 0.21650301033186387,
+      "posterior_mean": 0.30588948129757493,
+      "prior_mean": 0.35082551074132323,
+      "range": [
+       0.15,
+       0.6
+      ],
+      "shift": -0.4821409191465763,
+      "shrink": 0.7510752392143727
+     },
+     {
+      "assumption": "relocation_cost",
+      "default": 0.08,
+      "informed": true,
+      "informed_by": [
+       {
+        "benchmark": "leakage_share",
+        "rho": -0.6483169393700706
+       }
+      ],
+      "posterior_hi": 0.12441053283031861,
+      "posterior_lo": 0.068407266677629,
+      "posterior_mean": 0.10463413404006566,
+      "prior_mean": 0.09339820702359203,
+      "range": [
+       0.04,
+       0.16
+      ],
+      "shift": 0.4431461583602915,
+      "shrink": 0.8797551023556621
+     },
+     {
+      "assumption": "hazard_safety_elasticity",
+      "default": 1.8,
+      "informed": true,
+      "informed_by": [
+       {
+        "benchmark": "trust_trend",
+        "rho": 0.44757326007326004
+       }
+      ],
+      "posterior_hi": 2.69814255555757,
+      "posterior_lo": 1.6257968194662737,
+      "posterior_mean": 2.2074347452026535,
+      "prior_mean": 2.066670163687672,
+      "range": [
+       1.4,
+       3.0
+      ],
+      "shift": 0.41275925045804507,
+      "shrink": 0.9230033919987796
+     },
+     {
+      "assumption": "firm_optimism",
+      "default": 0.7,
+      "informed": true,
+      "informed_by": [
+       {
+        "benchmark": "incident_return",
+        "rho": 0.4260752688172043
+       }
+      ],
+      "posterior_hi": 0.8051390864943947,
+      "posterior_lo": 0.5946791085669415,
+      "posterior_mean": 0.7338610447311745,
+      "prior_mean": 0.7005021086918486,
+      "range": [
+       0.5,
+       0.9
+      ],
+      "shift": 0.4042227913283303,
+      "shrink": 0.8451800948609414
+     },
+     {
+      "assumption": "severity_systemic_median_bn",
+      "default": 1.0,
+      "informed": true,
+      "informed_by": [
+       {
+        "benchmark": "incident_return",
+        "rho": -0.6228878648233488
+       }
+      ],
+      "posterior_hi": 1.5285232431150628,
+      "posterior_lo": 0.7269001554100301,
+      "posterior_mean": 1.0569627909237092,
+      "prior_mean": 1.1666023567946495,
+      "range": [
+       0.5,
+       2.0
+      ],
+      "shift": -0.3496091846126085,
+      "shrink": 0.6474146192058702
+     },
+     {
+      "assumption": "growth_value_weight",
+      "default": 3.0,
+      "informed": true,
+      "informed_by": [
+       {
+        "benchmark": "compliance_cost_share",
+        "rho": -0.4231684981684981
+       },
+       {
+        "benchmark": "leakage_share",
+        "rho": 0.3465995053088934
+       }
+      ],
+      "posterior_hi": 4.15136429188044,
+      "posterior_lo": 1.9516105434406876,
+      "posterior_mean": 3.3524119575319875,
+      "prior_mean": 3.16794372921873,
+      "range": [
+       1.5,
+       5.0
+      ],
+      "shift": 0.25241573288950797,
+      "shrink": 0.9863821971494745
+     },
+     {
+      "assumption": "incident_jump",
+      "default": 0.5,
+      "informed": true,
+      "informed_by": [
+       {
+        "benchmark": "incident_return",
+        "rho": -0.3709197388632873
+       }
+      ],
+      "posterior_hi": 0.8124792750211367,
+      "posterior_lo": 0.3585865740236059,
+      "posterior_mean": 0.5477886239086893,
+      "prior_mean": 0.5836281659856082,
+      "range": [
+       0.25,
+       1.0
+      ],
+      "shift": -0.22802961424882223,
+      "shrink": 0.8146593000303892
+     },
+     {
+      "assumption": "insurance_loading",
+      "default": 0.25,
+      "informed": true,
+      "informed_by": [
+       {
+        "benchmark": "insurance_loading",
+        "rho": 1.0
+       }
+      ],
+      "posterior_hi": 0.4265820081570998,
+      "posterior_lo": 0.19298843081917855,
+      "posterior_mean": 0.29896145410684016,
+      "prior_mean": 0.2831182483678039,
+      "range": [
+       0.1,
+       0.5
+      ],
+      "shift": 0.1911261775458641,
+      "shrink": 0.8006372520062431
+     },
+     {
+      "assumption": "offshore_revenue_haircut",
+      "default": 0.12,
+      "informed": true,
+      "informed_by": [
+       {
+        "benchmark": "leakage_share",
+        "rho": -0.5913441877046024
+       }
+      ],
+      "posterior_hi": 0.19140728901411652,
+      "posterior_lo": 0.07783279783993087,
+      "posterior_mean": 0.147713506804537,
+      "prior_mean": 0.14043221452525734,
+      "range": [
+       0.06,
+       0.24
+      ],
+      "shift": 0.18558326732017547,
+      "shrink": 0.8319862857532292
+     },
+     {
+      "assumption": "revenue_capability_beta",
+      "default": 0.5,
+      "informed": true,
+      "informed_by": [
+       {
+        "benchmark": "profit_effect",
+        "rho": -0.3711538461538461
+       },
+       {
+        "benchmark": "compliance_cost_share",
+        "rho": -0.34981684981684974
+       }
+      ],
+      "posterior_hi": 0.7364787425476318,
+      "posterior_lo": 0.3815280800475753,
+      "posterior_mean": 0.5504597804124898,
+      "prior_mean": 0.533269507892987,
+      "range": [
+       0.3,
+       0.8
+      ],
+      "shift": 0.1649238696204634,
+      "shrink": 0.9971125704525868
+     },
+     {
+      "assumption": "audit_rate",
+      "default": 0.5,
+      "informed": true,
+      "informed_by": [
+       {
+        "benchmark": "compliance_cost_share",
+        "rho": 0.6167124542124541
+       }
+      ],
+      "posterior_hi": 0.6423822076973424,
+      "posterior_lo": 0.3995717891170589,
+      "posterior_mean": 0.5260188283845457,
+      "prior_mean": 0.5333905020119253,
+      "range": [
+       0.3,
+       0.8
+      ],
+      "shift": -0.07060390940875326,
+      "shrink": 0.6876300484021257
+     }
+    ],
+    "decision_not_ruled_out": {
+     "baseline": 0.6382978723404256,
+     "coordinated_licensing": 0.3617021276595745,
+     "moratorium": 0.0,
+     "none": 0.0
+    },
+    "decision_posterior": {
+     "baseline": 0.7880634869090578,
+     "coordinated_licensing": 0.2119365130909421,
+     "moratorium": 0.0,
+     "none": 0.0
+    },
+    "decision_prior": {
+     "baseline": 0.53125,
+     "coordinated_licensing": 0.46875,
+     "moratorium": 0.0,
+     "none": 0.0
+    },
+    "draws": 64,
+    "ess": 7.519987840388094,
+    "ess_share": 0.11749981000606396,
+    "fdr": 0.1,
+    "focus": "coordinated_licensing",
+    "focus_acceptable_posterior": 0.2119365130909422,
+    "focus_acceptable_prior": 0.46875,
+    "focus_feasible_posterior": 0.9746715149315086,
+    "focus_feasible_prior": 0.984375,
+    "min_ess": 20.0,
+    "n_assumptions": 68,
+    "n_informed": 18,
+    "not_ruled_out": 47,
+    "not_ruled_out_share": 0.734375,
+    "note": "importance weights on the joint draws from a Gaussian likelihood of the benchmarks, with each benchmark's standard error, its transport allowance and the draws' Monte Carlo error in the variance; a posterior given those allowances, not a measurement",
+    "per_draw": {
+     "decision": [
+      "baseline",
+      "baseline",
+      "coordinated_licensing",
+      "coordinated_licensing",
+      "baseline",
+      "baseline",
+      "coordinated_licensing",
+      "baseline",
+      "baseline",
+      "baseline",
+      "coordinated_licensing",
+      "baseline",
+      "baseline",
+      "baseline",
+      "coordinated_licensing",
+      "baseline",
+      "baseline",
+      "coordinated_licensing",
+      "baseline",
+      "baseline",
+      "baseline",
+      "baseline",
+      "coordinated_licensing",
+      "coordinated_licensing",
+      "coordinated_licensing",
+      "baseline",
+      "baseline",
+      "baseline",
+      "baseline",
+      "baseline",
+      "coordinated_licensing",
+      "coordinated_licensing",
+      "coordinated_licensing",
+      "coordinated_licensing",
+      "baseline",
+      "coordinated_licensing",
+      "coordinated_licensing",
+      "coordinated_licensing",
+      "coordinated_licensing",
+      "baseline",
+      "baseline",
+      "baseline",
+      "coordinated_licensing",
+      "baseline",
+      "coordinated_licensing",
+      "baseline",
+      "baseline",
+      "coordinated_licensing",
+      "baseline",
+      "coordinated_licensing",
+      "baseline",
+      "coordinated_licensing",
+      "baseline",
+      "coordinated_licensing",
+      "baseline",
+      "baseline",
+      "coordinated_licensing",
+      "coordinated_licensing",
+      "coordinated_licensing",
+      "coordinated_licensing",
+      "coordinated_licensing",
+      "coordinated_licensing",
+      "baseline",
+      "coordinated_licensing"
+     ],
+     "not_ruled_out": [
+      false,
+      true,
+      true,
+      false,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      false,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      false,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      false,
+      false,
+      false,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      false,
+      true,
+      true
+     ],
+     "weight": [
+      9.24076846298649e-06,
+      0.006980861167697216,
+      0.003975251483883413,
+      0.0003715909457504593,
+      0.0003837353152036446,
+      0.0017316930924934288,
+      0.0012164338454484413,
+      0.0030117831238316243,
+      0.0024297653525987718,
+      0.008897723989829945,
+      0.00021506412227496107,
+      0.027116616430245044,
+      0.020296392148254024,
+      0.013740235669096936,
+      1.7166083935900766e-05,
+      0.01736495675966585,
+      0.001570200722541456,
+      1.1089593358373542e-06,
+      0.04291958186069923,
+      0.007167775320832734,
+      0.02532848506849151,
+      0.00921258781934023,
+      2.630720095294929e-10,
+      4.369651481362048e-05,
+      0.012052590572049028,
+      0.006428948050749601,
+      0.007106624337181954,
+      0.06390949277524084,
+      9.668638175757708e-05,
+      0.3383383759754112,
+      0.0010201740598763979,
+      0.02484611647820251,
+      0.0017720643349979975,
+      2.1605071999451434e-06,
+      0.00030796145495717956,
+      0.0075761243851463385,
+      0.0030088013916200625,
+      0.015748104484331612,
+      0.017431315722135715,
+      0.0003257655717817196,
+      0.01687191642081669,
+      0.009957150760766227,
+      0.001652685991978029,
+      0.025799999476300465,
+      0.005515669909353981,
+      0.03154904413728007,
+      0.00013546129971112774,
+      0.009276508731979044,
+      0.00962817110879722,
+      0.0002460753438377457,
+      0.00895405303702133,
+      2.9960420939322343e-07,
+      6.568449546112405e-09,
+      8.383127188136207e-06,
+      0.02588478371914978,
+      0.0002587001957089374,
+      0.020731447633236724,
+      0.01871545008662354,
+      1.115799285635598e-13,
+      0.03174859998498118,
+      0.008187673161977983,
+      1.4803238370354575e-09,
+      0.05434871102869191,
+      0.026555953881066737
+     ]
+    },
+    "reliable": false,
+    "rule_out_at": 3.0,
+    "shift_noise": 0.7293255471383552,
+    "structural": [
+     "enforcement_return"
+    ],
+    "used": [
+     "incident_growth",
+     "trust_trend",
+     "trust_recovery",
+     "compliance_cost_share",
+     "profit_effect",
+     "fine_return",
+     "incident_return",
+     "leakage_share",
+     "insurance_loading",
+     "insurance_resource_share"
+    ]
+   },
+   "evidence_hash": "c3cb1266d451b3b97b6beb55040bafd9b7275835dc191bfd1b8d094ad9b593a8",
+   "extra_instruments": [
+    "frontier_licensing",
+    "risk_tiering"
+   ],
+   "mechanisms": [
+    {
+     "benchmarks": [
+      {
+       "id": "incident_growth",
+       "kind": "direct",
+       "verdict": "not contradicted"
+      }
+     ],
+     "confronted": true,
+     "direct": true,
+     "mechanism": "incident_hazard",
+     "worst": "not contradicted"
+    },
+    {
+     "benchmarks": [],
+     "confronted": false,
+     "direct": false,
+     "mechanism": "severity",
+     "worst": null
+    },
+    {
+     "benchmarks": [],
+     "confronted": false,
+     "direct": false,
+     "mechanism": "catastrophic_tail",
+     "worst": null
+    },
+    {
+     "benchmarks": [],
+     "confronted": false,
+     "direct": false,
+     "mechanism": "safety_practice",
+     "worst": null
+    },
+    {
+     "benchmarks": [],
+     "confronted": false,
+     "direct": false,
+     "mechanism": "evaluation",
+     "worst": null
+    },
+    {
+     "benchmarks": [
+      {
+       "id": "compliance_cost_share",
+       "kind": "official",
+       "verdict": "not contradicted"
+      },
+      {
+       "id": "profit_effect",
+       "kind": "analogue",
+       "verdict": "not contradicted"
+      }
+     ],
+     "confronted": true,
+     "direct": false,
+     "mechanism": "firm_choice",
+     "worst": "not contradicted"
+    },
+    {
+     "benchmarks": [
+      {
+       "id": "leakage_share",
+       "kind": "analogue",
+       "verdict": "not contradicted"
+      }
+     ],
+     "confronted": true,
+     "direct": false,
+     "mechanism": "relocation",
+     "worst": "not contradicted"
+    },
+    {
+     "benchmarks": [
+      {
+       "id": "incident_growth",
+       "kind": "direct",
+       "verdict": "not contradicted"
+      }
+     ],
+     "confronted": true,
+     "direct": true,
+     "mechanism": "capability_and_release",
+     "worst": "not contradicted"
+    },
+    {
+     "benchmarks": [
+      {
+       "id": "trust_trend",
+       "kind": "direct",
+       "verdict": "not contradicted"
+      },
+      {
+       "id": "trust_recovery",
+       "kind": "analogue",
+       "verdict": "not contradicted"
+      }
+     ],
+     "confronted": true,
+     "direct": true,
+     "mechanism": "adoption_and_trust",
+     "worst": "not contradicted"
+    },
+    {
+     "benchmarks": [
+      {
+       "id": "profit_effect",
+       "kind": "analogue",
+       "verdict": "not contradicted"
+      }
+     ],
+     "confronted": true,
+     "direct": false,
+     "mechanism": "revenue_growth",
+     "worst": "not contradicted"
+    },
+    {
+     "benchmarks": [
+      {
+       "id": "compliance_cost_share",
+       "kind": "official",
+       "verdict": "not contradicted"
+      },
+      {
+       "id": "fine_return",
+       "kind": "analogue",
+       "verdict": "not contradicted"
+      }
+     ],
+     "confronted": true,
+     "direct": false,
+     "mechanism": "enforcement",
+     "worst": "not contradicted"
+    },
+    {
+     "benchmarks": [],
+     "confronted": false,
+     "direct": false,
+     "mechanism": "news",
+     "worst": null
+    },
+    {
+     "benchmarks": [
+      {
+       "id": "enforcement_return",
+       "kind": "analogue",
+       "verdict": "contradicted"
+      },
+      {
+       "id": "fine_return",
+       "kind": "analogue",
+       "verdict": "not contradicted"
+      },
+      {
+       "id": "incident_return",
+       "kind": "analogue",
+       "verdict": "not contradicted"
+      }
+     ],
+     "confronted": true,
+     "direct": false,
+     "mechanism": "market",
+     "worst": "contradicted"
+    },
+    {
+     "benchmarks": [
+      {
+       "id": "insurance_resource_share",
+       "kind": "analogue",
+       "verdict": "in tension"
+      }
+     ],
+     "confronted": true,
+     "direct": false,
+     "mechanism": "welfare_bases",
+     "worst": "in tension"
+    },
+    {
+     "benchmarks": [
+      {
+       "id": "insurance_loading",
+       "kind": "analogue",
+       "verdict": "not contradicted"
+      },
+      {
+       "id": "insurance_resource_share",
+       "kind": "analogue",
+       "verdict": "in tension"
+      }
+     ],
+     "confronted": true,
+     "direct": false,
+     "mechanism": "liability_and_insurance",
+     "worst": "in tension"
+    }
+   ],
+   "not_used": [
+    {
+     "bears_on": "adoption_and_trust (trust_elasticity)",
+     "evidence": "Meta analysis of trust and intention to use a technology: r = 0.503 (95% interval 0.470 to 0.535, 128 samples, 50,667 respondents)",
+     "source": {
+      "cite": "Kuen, Westmattelmann, Bruckes and Schewe (2023), Electronic Markets 33:61",
+      "url": "https://link.springer.com/content/pdf/10.1007/s12525-023-00672-1.pdf"
+     },
+     "why_not": "it supports the sign of the trust channel and nothing more: a correlation between stated attitudes in studies of online shopping, banking and e-health is not an elasticity of realised adoption to trust, and cannot be turned into one without the dispersion of both. The elasticity stays unidentified."
+    },
+    {
+     "bears_on": "adoption_and_trust (trust_harm_sensitivity)",
+     "evidence": "The size of the fall in trust after a salient incident (AAA: afraid to ride rose from 63% to 73% after two fatal crashes)",
+     "source": {
+      "cite": "AAA (2019)",
+      "url": "https://newsroom.aaa.com/2019/03/americans-fear-self-driving-cars-survey"
+     },
+     "why_not": "the model moves trust with monetised harm, and two deaths are a small monetised harm: an incident of that size moves the model's trust by less than a tenth of a percent. The episode says trust answers to salience; the model's form cannot show that. Recorded as a limit of the mechanism, not scored, because the survey question is about using a vehicle."
+    },
+    {
+     "bears_on": "welfare_bases (productivity_base_bn, consumer_surplus_base_bn)",
+     "evidence": "Estimates of AI's effect on output: total factor productivity up by no more than 0.66% over ten years (Acemoglu); 7% of global GDP over ten years (Goldman Sachs); $2.6 to $4.4 trillion a year (McKinsey)",
+     "source": {
+      "cite": "Acemoglu (2025), Economic Policy 40(121)",
+      "url": "https://economics.mit.edu/sites/default/files/2024-05/The%20Simple%20Macroeconomics%20of%20AI.pdf"
+     },
+     "why_not": "the model declares its benefit bases in $bn a year and declares no size for the jurisdiction's economy, so there is nothing to divide by; and the estimates span an order of magnitude."
+    },
+    {
+     "bears_on": "catastrophic_tail",
+     "evidence": "Elicited probabilities of catastrophic harm from AI",
+     "source": {
+      "cite": "expert and forecaster elicitations (no observed frequency exists)",
+      "url": ""
+     },
+     "why_not": "elicitations, not observations; they define catastrophe differently from the model and have no validation record."
+    },
+    {
+     "bears_on": "severity",
+     "evidence": "A loss distribution for AI incidents",
+     "source": {
+      "cite": "AI Incident Database; MIT AI Incident Tracker; OECD AI Incidents Monitor",
+      "url": "https://incidentdatabase.ai"
+     },
+     "why_not": "none has been published: the taxonomies exist, the magnitudes are not recorded."
+    },
+    {
+     "bears_on": "revenue_growth",
+     "evidence": "GDPR and venture investment: monthly EU deals down 26.1% against US ventures",
+     "source": {
+      "cite": "Jia, Jin and Wagman (2021), Marketing Science 40(4)",
+      "url": "https://econpapers.repec.org/RePEc:inm:ormksc:v:40:y:2021:i:4:p:661-684"
+     },
+     "why_not": "the model has no entry or investment margin to compare it with."
+    }
+   ],
+   "problems": [],
+   "rows": [
+    {
+     "assumption": null,
+     "closest": 0.1578430081326576,
+     "defined_share": 1.0,
+     "held_out": {
+      "ess": 7.107558955122009,
+      "mean": 0.3715686849489509,
+      "sd": 0.11093696296597719,
+      "verdict": "not contradicted",
+      "z": -0.6562510266460952
+     },
+     "id": "incident_growth",
+     "instrument": "baseline",
+     "kind": "direct",
+     "mechanisms": [
+      "incident_hazard",
+      "capability_and_release"
+     ],
+     "model": 0.42109831361536254,
+     "model_se": 0.0010019424348441705,
+     "moment": "incident_growth",
+     "n_observations": 2,
+     "observed": 0.5588240343347639,
+     "paths": 120,
+     "posterior": {
+      "hi": 0.5459035459695298,
+      "lo": 0.26101445402839163,
+      "mean": 0.38954148825049095
+     },
+     "prior": {
+      "hi": 0.6853395810326386,
+      "inside": true,
+      "lo": 0.26120231790919807,
+      "mc_sd": 0.014577326082912128,
+      "median": 0.42605253681844446,
+      "pit": 0.8125
+     },
+     "reach": 1.0,
+     "ruled_out_share": 0.0,
+     "sd_total": 0.26248809496813374,
+     "se": 0.08,
+     "structural": false,
+     "title": "Annual growth of recorded AI incidents",
+     "transport": 0.25,
+     "unit": "a year",
+     "used": true,
+     "verdict": "not contradicted",
+     "why_not": null,
+     "z": -0.5246893860065373
+    },
+    {
+     "assumption": null,
+     "closest": 0.21307016726973158,
+     "defined_share": 1.0,
+     "held_out": {
+      "ess": 19.257354813035725,
+      "mean": -0.12486643937840401,
+      "sd": 0.056899193741648466,
+      "verdict": "not contradicted",
+      "z": -1.1368949906585009
+     },
+     "id": "trust_trend",
+     "instrument": "baseline",
+     "kind": "direct",
+     "mechanisms": [
+      "adoption_and_trust"
+     ],
+     "model": -0.04767511647187905,
+     "model_se": 0.0019394817421739664,
+     "moment": "trust_trend",
+     "n_observations": 3,
+     "observed": -0.05090512036585704,
+     "paths": 120,
+     "posterior": {
+      "hi": -0.039032906645959264,
+      "lo": -0.1143158431158865,
+      "mean": -0.07472192422557175
+     },
+     "prior": {
+      "hi": -0.038629451867705965,
+      "inside": true,
+      "lo": -0.22355479360172517,
+      "mc_sd": 0.02114029897440257,
+      "median": -0.09826069956974992,
+      "pit": 0.859375
+     },
+     "reach": 0.8125,
+     "ruled_out_share": 0.1875,
+     "sd_total": 0.02340497733330535,
+     "se": 0.01215701295436248,
+     "structural": false,
+     "title": "Annual change in public trust in AI and AI companies",
+     "transport": 0.02,
+     "unit": "a year, relative",
+     "used": true,
+     "verdict": "not contradicted",
+     "why_not": null,
+     "z": 0.137533599295541
+    },
+    {
+     "assumption": "trust_recovery",
+     "closest": 0.34498180632207565,
+     "defined_share": 1.0,
+     "held_out": {
+      "ess": 9.016431238861498,
+      "mean": 0.3859005494199125,
+      "sd": 0.08453342086700548,
+      "verdict": "not contradicted",
+      "z": 0.5131422828052473
+     },
+     "id": "trust_recovery",
+     "instrument": null,
+     "kind": "analogue",
+     "mechanisms": [
+      "adoption_and_trust"
+     ],
+     "model": 0.3697505902753909,
+     "model_se": 0.0,
+     "moment": "assumption",
+     "n_observations": 1,
+     "observed": 0.2,
+     "posterior": {
+      "hi": 0.5375518622379825,
+      "lo": 0.30212005879377346,
+      "mean": 0.37451816225019874
+     },
+     "prior": {
+      "hi": 0.5576848776410652,
+      "inside": true,
+      "lo": 0.3023578458355996,
+      "mc_sd": 0.0,
+      "median": 0.4160214386812491,
+      "pit": 0.0
+     },
+     "reach": 1.0,
+     "ruled_out_share": 0.0,
+     "sd_total": 0.35227829907617075,
+     "se": 0.29,
+     "structural": false,
+     "title": "Share of a fall in trust recovered about nine months after a salient incident",
+     "transport": 0.2,
+     "unit": "share",
+     "used": true,
+     "verdict": "not contradicted",
+     "why_not": null,
+     "z": 0.4818650218323181
+    },
+    {
+     "assumption": null,
+     "closest": 0.18539770827345656,
+     "defined_share": 1.0,
+     "held_out": {
+      "ess": 7.63878389105066,
+      "mean": 0.12513928625385068,
+      "sd": 0.006607463999283287,
+      "verdict": "not contradicted",
+      "z": 0.2532863314997331
+     },
+     "id": "compliance_cost_share",
+     "instrument": "risk_tiering",
+     "kind": "official",
+     "mechanisms": [
+      "firm_choice",
+      "enforcement"
+     ],
+     "model": 0.12380420122158467,
+     "model_se": 1.1763715946445477e-05,
+     "moment": "compliance_cost_share",
+     "n_observations": 2,
+     "observed": 0.10750000000000001,
+     "paths": 120,
+     "posterior": {
+      "hi": 0.1384451579069912,
+      "lo": 0.11544736592802145,
+      "mean": 0.125024725181205
+     },
+     "prior": {
+      "hi": 0.1374897966464708,
+      "inside": true,
+      "lo": 0.08902178652751137,
+      "mc_sd": 0.00023525859715959525,
+      "median": 0.1239412070905215,
+      "pit": 0.09375
+     },
+     "reach": 1.0,
+     "ruled_out_share": 0.0,
+     "sd_total": 0.06932712311931023,
+     "se": 0.0625,
+     "structural": false,
+     "title": "Compliance cost of a high risk regime as a share of development spending in scope",
+     "transport": 0.03,
+     "unit": "share",
+     "used": true,
+     "verdict": "not contradicted",
+     "why_not": null,
+     "z": 0.23517780997207094
+    },
+    {
+     "assumption": null,
+     "closest": 0.7622194007038126,
+     "defined_share": 1.0,
+     "held_out": {
+      "ess": 7.36807125052814,
+      "mean": -0.07149946633387332,
+      "sd": 0.008670561502993399,
+      "verdict": "not contradicted",
+      "z": -0.974279198768542
+     },
+     "id": "profit_effect",
+     "instrument": "risk_tiering",
+     "kind": "analogue",
+     "mechanisms": [
+      "revenue_growth",
+      "firm_choice"
+     ],
+     "model": -0.07209157908807617,
+     "model_se": 0.0007758452867714466,
+     "moment": "profit_effect",
+     "n_observations": 3,
+     "observed": -0.033,
+     "paths": 120,
+     "posterior": {
+      "hi": -0.05629239202988223,
+      "lo": -0.0781664916558702,
+      "mean": -0.07009635689997944
+     },
+     "prior": {
+      "hi": -0.06122806817624923,
+      "inside": true,
+      "lo": -0.08616362326328568,
+      "mc_sd": 0.0019975181684935292,
+      "median": -0.07092639332468398,
+      "pit": 1.0
+     },
+     "reach": 1.0,
+     "ruled_out_share": 0.0,
+     "sd_total": 0.03850108223587141,
+     "se": 0.02413158373031769,
+     "structural": false,
+     "title": "Effect of a horizontal compliance regime on the profits of firms in scope",
+     "transport": 0.03,
+     "unit": "relative",
+     "used": true,
+     "verdict": "not contradicted",
+     "why_not": null,
+     "z": -1.015131061585816
+    },
+    {
+     "assumption": null,
+     "closest": 2.983213158067799,
+     "defined_share": 1.0,
+     "id": "enforcement_return",
+     "instrument": "risk_tiering",
+     "kind": "analogue",
+     "mechanisms": [
+      "market"
+     ],
+     "model": -0.04821318232237542,
+     "model_se": 0.00021327403187783745,
+     "moment": "enforcement_return",
+     "n_observations": 2,
+     "observed": -0.0085,
+     "paths": 120,
+     "posterior": {
+      "hi": -0.04145534930517992,
+      "lo": -0.056782609570555295,
+      "mean": -0.04807960454366221
+     },
+     "prior": {
+      "hi": -0.03648542260953526,
+      "inside": false,
+      "lo": -0.05882246500309802,
+      "mc_sd": 0.0014003506875574668,
+      "median": -0.0488500328130511,
+      "pit": 1.0
+     },
+     "reach": 0.125,
+     "sd_total": 0.010307764064044152,
+     "se": 0.002499999999999999,
+     "structural": true,
+     "title": "Equity return when a horizontal regime becomes enforceable",
+     "transport": 0.01,
+     "unit": "return",
+     "used": false,
+     "verdict": "contradicted",
+     "why_not": null,
+     "z": -3.851920180003575
+    },
+    {
+     "assumption": null,
+     "closest": 0.061977143176073154,
+     "defined_share": 0.875,
+     "held_out": {
+      "ess": 6.012296271963475,
+      "mean": -0.011426315360305823,
+      "sd": 0.013724576705864005,
+      "verdict": "not contradicted",
+      "z": -0.1634284613230723
+     },
+     "id": "fine_return",
+     "instrument": "risk_tiering",
+     "kind": "analogue",
+     "mechanisms": [
+      "market",
+      "enforcement"
+     ],
+     "model": -0.005678820278851052,
+     "model_se": 0.002681283590648841,
+     "moment": "fine_return",
+     "n_observations": 4,
+     "observed": -0.0074,
+     "paths": 120,
+     "posterior": {
+      "hi": -0.007726346855694215,
+      "lo": -0.017827774133121307,
+      "mean": -0.01392332942645112
+     },
+     "prior": {
+      "hi": 0.009863591997493962,
+      "inside": true,
+      "lo": -0.019788075851550815,
+      "mc_sd": 0.017673317839105387,
+      "median": -0.014613879062985495,
+      "pit": 0.875
+     },
+     "reach": 0.9821428571428571,
+     "ruled_out_share": 0.015625,
+     "sd_total": 0.010307764064044152,
+     "se": 0.0025,
+     "structural": false,
+     "title": "Equity return of a firm when a regulatory fine is announced",
+     "transport": 0.01,
+     "unit": "return",
+     "used": true,
+     "verdict": "not contradicted",
+     "why_not": null,
+     "z": 0.1616011647581594
+    },
+    {
+     "assumption": null,
+     "closest": 0.1992172730000888,
+     "defined_share": 0.984375,
+     "held_out": {
+      "ess": 16.514583145332693,
+      "mean": -0.029806907189982114,
+      "sd": 0.020520584452547893,
+      "verdict": "not contradicted",
+      "z": -0.654702577244529
+     },
+     "id": "incident_return",
+     "instrument": "baseline",
+     "kind": "analogue",
+     "mechanisms": [
+      "market"
+     ],
+     "model": -0.02121259683929819,
+     "model_se": 0.005692211171359137,
+     "moment": "incident_return",
+     "n_observations": 1,
+     "observed": -0.0112,
+     "paths": 120,
+     "posterior": {
+      "hi": 0.010582882178354857,
+      "lo": -0.0441654689073613,
+      "mean": -0.02066085201647029
+     },
+     "prior": {
+      "hi": 0.006858094741455824,
+      "inside": true,
+      "lo": -0.056780588964253816,
+      "mc_sd": 0.016450671164860733,
+      "median": -0.030198182240229562,
+      "pit": 0.8095238095238095
+     },
+     "reach": 0.9682539682539683,
+     "ruled_out_share": 0.03125,
+     "sd_total": 0.010770329614269008,
+     "se": 0.004,
+     "structural": false,
+     "title": "Equity return of a firm when a serious incident becomes public",
+     "transport": 0.01,
+     "unit": "return",
+     "used": true,
+     "verdict": "not contradicted",
+     "why_not": null,
+     "z": -0.8219169250387619
+    },
+    {
+     "assumption": null,
+     "closest": 0.6668112715716766,
+     "defined_share": 1.0,
+     "held_out": {
+      "ess": 10.798264857461453,
+      "mean": 0.09919617988405291,
+      "sd": 0.08790269066491088,
+      "verdict": "not contradicted",
+      "z": -0.3317615800722687
+     },
+     "id": "leakage_share",
+     "instrument": "frontier_licensing",
+     "kind": "analogue",
+     "mechanisms": [
+      "relocation"
+     ],
+     "model": 0.24492876961991109,
+     "model_se": 1.2559561606152983e-05,
+     "moment": "leakage_share",
+     "n_observations": 1,
+     "observed": 0.14,
+     "paths": 120,
+     "posterior": {
+      "hi": 0.24689923593156202,
+      "lo": 0.0,
+      "mean": 0.10120731892063664
+     },
+     "prior": {
+      "hi": 0.24711560474607724,
+      "inside": true,
+      "lo": 0.0,
+      "mc_sd": 2.5388631881470052e-05,
+      "median": 0.18266279555271164,
+      "pit": 0.484375
+     },
+     "reach": 1.0,
+     "ruled_out_share": 0.0,
+     "sd_total": 0.08602325267042628,
+     "se": 0.05,
+     "structural": false,
+     "title": "Share of regulated activity displaced abroad by a unilateral regime",
+     "transport": 0.07,
+     "unit": "share",
+     "used": true,
+     "verdict": "not contradicted",
+     "why_not": null,
+     "z": 1.2197721574602092
+    },
+    {
+     "assumption": "insurance_loading",
+     "closest": 0.09704106024796434,
+     "defined_share": 1.0,
+     "held_out": {
+      "ess": 8.977162394586975,
+      "mean": 0.29578367859913673,
+      "sd": 0.07584467068173234,
+      "verdict": "not contradicted",
+      "z": -0.08821752876363163
+     },
+     "id": "insurance_loading",
+     "instrument": null,
+     "kind": "analogue",
+     "mechanisms": [
+      "liability_and_insurance"
+     ],
+     "model": 0.25,
+     "model_se": 0.0,
+     "moment": "assumption",
+     "n_observations": 2,
+     "observed": 0.31061824078272937,
+     "posterior": {
+      "hi": 0.4265820081570998,
+      "lo": 0.19298843081917855,
+      "mean": 0.2989614541068401
+     },
+     "prior": {
+      "hi": 0.42518333803978353,
+      "inside": true,
+      "lo": 0.15921978406985257,
+      "mc_sd": 0.0,
+      "median": 0.277393816796504,
+      "pit": 0.640625
+     },
+     "reach": 1.0,
+     "ruled_out_share": 0.0,
+     "sd_total": 0.15008331019803633,
+     "se": 0.005,
+     "structural": false,
+     "title": "Premium above expected claims in liability insurance",
+     "transport": 0.15,
+     "unit": "share",
+     "used": true,
+     "verdict": "not contradicted",
+     "why_not": null,
+     "z": -0.40389728013556625
+    },
+    {
+     "assumption": "insurance_admin_share",
+     "closest": 1.7208444831130925,
+     "defined_share": 1.0,
+     "held_out": {
+      "ess": 22.316170718634947,
+      "mean": 0.4966420051694493,
+      "sd": 0.10590266880935914,
+      "verdict": "in tension",
+      "z": -2.097251857066121
+     },
+     "id": "insurance_resource_share",
+     "instrument": null,
+     "kind": "analogue",
+     "mechanisms": [
+      "liability_and_insurance",
+      "welfare_bases"
+     ],
+     "model": 0.5,
+     "model_se": 0.0,
+     "moment": "assumption",
+     "n_observations": 2,
+     "observed": 1.0676007691212077,
+     "posterior": {
+      "hi": 0.692278366801302,
+      "lo": 0.4187645832680596,
+      "mean": 0.5895111476113603
+     },
+     "prior": {
+      "hi": 0.6674333986759734,
+      "inside": true,
+      "lo": 0.33329029578322206,
+      "mc_sd": 0.0,
+      "median": 0.5008252829454625,
+      "pit": 1.0
+     },
+     "reach": 0.96875,
+     "ruled_out_share": 0.03125,
+     "sd_total": 0.25079872407968906,
+     "se": 0.02,
+     "structural": false,
+     "title": "Share of the insurance loading used up by underwriting and administration",
+     "transport": 0.25,
+     "unit": "share",
+     "used": true,
+     "verdict": "in tension",
+     "why_not": null,
+     "z": -2.2631724750755016
+    }
+   ],
+   "sources": {
+    "compliance_cost_share": {
+     "caveat": "the share of systems that are high risk was never estimated by any party to the assessment",
+     "mapping": "under risk tiering, compliance spending over the R&D spending of the firms in scope on the activity in scope, while in force",
+     "observations": [
+      {
+       "label": "European Commission impact assessment: roughly 4 to 5% of a EUR 170,000 system",
+       "value": 0.045
+      },
+      {
+       "label": "Supporting study (Renda et al.): about 17% with external services and staff",
+       "value": 0.17
+      }
+     ],
+     "se_basis": "standard deviation of the two ex ante estimates over root two",
+     "sources": [
+      {
+       "cite": "European Commission, SWD(2021) 84 final, impact assessment of the AI Act",
+       "url": "https://data.consilium.europa.eu/doc/document/ST-8115-2021-ADD-2/en/pdf"
+      },
+      {
+       "cite": "Renda et al. (2021), Study to support an impact assessment of regulatory requirements for AI in Europe",
+       "url": "https://artificialintelligenceact.eu/wp-content/uploads/2022/06/AIA-COM-Impact-Assessment-3-21-April.pdf"
+      }
+     ],
+     "transport_basis": "an ex ante estimate per system built from a standard cost model, which its authors call a theoretical maximum; the model's cost is an instrument parameter applied to revenue in scope"
+    },
+    "enforcement_return": {
+     "caveat": "the enforcement date return understates the total cost capitalised",
+     "mapping": "under risk tiering, the value weighted index's change in the month the instrument takes effect, less the status quo's on the same path",
+     "observations": [
+      {
+       "label": "GDPR, 1,013 US firms, week of enforcement: lower bound",
+       "value": -0.006
+      },
+      {
+       "label": "GDPR, 1,013 US firms, week of enforcement: upper bound",
+       "value": -0.011
+      }
+     ],
+     "se_basis": "half the published range",
+     "sources": [
+      {
+       "cite": "Motoki and Pinto (2024), Journal of Business Finance and Accounting (press summary)",
+       "url": "https://www.eurekalert.org/news-releases/1051661"
+      }
+     ],
+     "transport_basis": "a week against the model's month; most of the cost of a law announced years earlier is in the price before it applies"
+    },
+    "fine_return": {
+     "caveat": "25 announcements; windows beyond five days are not significant in the source",
+     "mapping": "under risk tiering, a fined firm's log return in the month of the fine less the index's",
+     "observations": [
+      {
+       "label": "GDPR fines, 25 announcements, window (0,1)",
+       "value": -0.0064
+      },
+      {
+       "label": "window (0,2)",
+       "value": -0.0072
+      },
+      {
+       "label": "window (0,3)",
+       "value": -0.0096
+      },
+      {
+       "label": "window (0,4)",
+       "value": -0.0064
+      }
+     ],
+     "se_basis": "the published t statistics (about 3 on estimates of about 0.007)",
+     "sources": [
+      {
+       "cite": "Ford et al. (2021), The impact of GDPR infringement fines on the market value of firms, ECCWS",
+       "url": "https://repository.uel.ac.uk/download/55420e51e0d25c813c8ab1d701f7b6e5093ba609fac84a9d9a3a874cb19e3a0d/689257/The%20Impact%20of%20GDPR%20Infringement%20Fines%20on%20the%20Market%20Value%20of%20Firms.pdf"
+      }
+     ],
+     "transport_basis": "data protection fines, most of them small against the firm's size; days against the model's month"
+    },
+    "incident_growth": {
+     "caveat": "growth in recorded incidents is joint growth in harms, deployment and attention",
+     "mapping": "the status quo's expected number of incidents in each year of the horizon; the benchmark is compared with the average annual growth of that count",
+     "observations": [
+      {
+       "label": "AI Incident Database, 2023 to 2024",
+       "value": 0.564
+      },
+      {
+       "label": "AI Incident Database, 2024 to 2025 (233 to 362)",
+       "value": 0.553648068669528
+      }
+     ],
+     "se_basis": "Poisson error of the annual counts (about 149, 233 and 362)",
+     "sources": [
+      {
+       "cite": "Stanford HAI, AI Index Report 2025, chapter 3 (233 incidents in 2024, up 56.4% on 2023)",
+       "url": "https://hai-production.s3.amazonaws.com/files/hai_ai-index-report-2025_chapter3_final.pdf"
+      },
+      {
+       "cite": "Stanford HAI, AI Index Report 2026, responsible AI (362 incidents in 2025)",
+       "url": "https://hai.stanford.edu/ai-index/2026-ai-index-report/responsible-ai"
+      }
+     ],
+     "transport_basis": "the database is compiled from media reports and its curators attribute an unknown share of the rise to reporting and attention; the model counts incidents at eight firm archetypes, not in the whole economy"
+    },
+    "incident_return": {
+     "caveat": "the model's major incident is defined by monetised harm, a breach by the data lost",
+     "mapping": "under the status quo, the log return of a firm in a month with a major incident at that firm, less the index's",
+     "observations": [
+      {
+       "label": "Cyberattacks with loss of personal financial information, 2005 to 2014, three day window",
+       "value": -0.0112
+      }
+     ],
+     "se_basis": "an allowance: the standard error was not in the summary consulted",
+     "sources": [
+      {
+       "cite": "Kamiya, Kang, Kim, Milidonis and Stulz, What is the impact of successful cyberattacks on target firms? (authors' summary, Harvard Law School Forum on Corporate Governance, March 2018; Journal of Financial Economics 139(3), 2021)",
+       "url": "https://corpgov.law.harvard.edu/2018/03/30/what-is-the-impact-of-successful-cyberattacks-on-target-firms/"
+      }
+     ],
+     "transport_basis": "data breaches, not AI incidents; three days against the model's month"
+    },
+    "insurance_loading": {
+     "caveat": "an industry average over lines with very different tails",
+     "mapping": "the assumption itself: the premium charged above the expected liability under a mandate",
+     "observations": [
+      {
+       "label": "US property and casualty industry 2023: premiums over losses and loss expenses (76.2%), less one",
+       "value": 0.3123359580052494
+      },
+      {
+       "label": "2022 (76.4%)",
+       "value": 0.30890052356020936
+      }
+     ],
+     "se_basis": "two years of an industry aggregate",
+     "sources": [
+      {
+       "cite": "NAIC, U.S. property and casualty and title insurance industries, 2023 full year results",
+       "url": "https://content.naic.org/sites/default/files/industry-snapshot-2023-ye.pdf"
+      }
+     ],
+     "transport_basis": "all property and casualty lines; cover for AI liability is not an established line"
+    },
+    "insurance_resource_share": {
+     "caveat": "the model's range (0.25 to 0.75) treats part of the loading as insurers' margin; in these two years there was none",
+     "mapping": "the assumption itself: the share of the loading that is a real resource cost and not a transfer to insurers",
+     "observations": [
+      {
+       "label": "US property and casualty industry 2023: expense ratio 24.9% over premiums less losses and loss expenses (23.8%)",
+       "value": 1.046218487394958
+      },
+      {
+       "label": "2022: 25.7% over 23.6%",
+       "value": 1.0889830508474576
+      }
+     ],
+     "se_basis": "two years of an industry aggregate",
+     "sources": [
+      {
+       "cite": "NAIC, U.S. property and casualty and title insurance industries, 2023 full year results",
+       "url": "https://content.naic.org/sites/default/files/industry-snapshot-2023-ye.pdf"
+      }
+     ],
+     "transport_basis": "all property and casualty lines, in two years with an underwriting loss (the share is above one because expenses exceeded the loading)"
+    },
+    "leakage_share": {
+     "caveat": "for AI regulation leakage is theorised, surveyed and anecdotal, not measured",
+     "mapping": "under frontier licensing, the revenue of the firms in scope booked offshore in the last year of the horizon, as a share of their revenue",
+     "observations": [
+      {
+       "label": "Carbon leakage ratio without border adjustment, 25 studies, 310 estimates: mean",
+       "value": 0.14
+      }
+     ],
+     "se_basis": "a quarter of the published range (5% to 25%)",
+     "sources": [
+      {
+       "cite": "Branger and Quirion (2014), Ecological Economics 99",
+       "url": "https://econpapers.repec.org/RePEc:hal:journl:hal-01137932"
+      }
+     ],
+     "transport_basis": "carbon pricing, and mostly ex ante models; AI activity is divisible in some respects (where a model is trained) and not in others (one set of weights)"
+    },
+    "profit_effect": {
+     "caveat": "the estimates differ in sample, outcome and period; the mean of three is a summary, not a pooled estimate",
+     "mapping": "under risk tiering, the industry's earnings against the status quo on the same paths, over the months in force",
+     "observations": [
+      {
+       "label": "GDPR, exposed firms in 61 countries: profits down about 8% (Chen, Frey and Presidente)",
+       "value": -0.08
+      },
+      {
+       "label": "GDPR, data intensive EU sectors: profit margin down 1.9% (Koski and Valmari)",
+       "value": -0.019
+      },
+      {
+       "label": "GDPR, large technology firms: no significant effect (Chen, Frey and Presidente)",
+       "value": 0.0
+      }
+     ],
+     "se_basis": "standard deviation of the three estimates over root three",
+     "sources": [
+      {
+       "cite": "Chen, Frey and Presidente (2022), Privacy regulation and firm performance, Oxford Martin working paper 2022-1",
+       "url": "https://oms-www.files.svdcdn.com/production/downloads/Privacy-Regulation-and-Firm-Performance-Giorgio-WP-Upload-2022-1.pdf"
+      },
+      {
+       "cite": "Johnson (2022), Economic research on privacy regulation: lessons from the GDPR and beyond, NBER working paper 30705",
+       "url": "https://www.nber.org/system/files/working_papers/w30705/w30705.pdf"
+      }
+     ],
+     "transport_basis": "data protection, not AI; a broad cross section of firms against eight archetypes that are mostly large"
+    },
+    "trust_recovery": {
+     "caveat": "one episode",
+     "mapping": "with monthly recovery r and no further incident, the share of a fall recovered after nine months is 1 - (1 - r)^9",
+     "observations": [
+      {
+       "label": "AAA: afraid to ride in a self driving vehicle, 63% before the 2018 crashes, 73% after, 71% in January 2019",
+       "value": 0.2
+      }
+     ],
+     "se_basis": "each survey has a margin of error of four points at 95% (about 1,000 interviews); delta method on the ratio",
+     "sources": [
+      {
+       "cite": "AAA, Three in four Americans remain afraid of fully self driving vehicles, March 2019",
+       "url": "https://newsroom.aaa.com/2019/03/americans-fear-self-driving-cars-survey"
+      },
+      {
+       "cite": "Smart Cities Dive, AAA poll, March 2019 (the 2018 figure and the crashes)",
+       "url": "https://www.smartcitiesdive.com/news/aaa-poll-autonomous-vehicles-fear/550766/"
+      }
+     ],
+     "transport_basis": "another technology, and fear of using it is not trust in the firms that build it; the interval between the two surveys is known to within a few months"
+    },
+    "trust_trend": {
+     "caveat": "the period measured had no AI specific regulation in most of the countries surveyed, which is what the status quo represents; the fall may have causes other than harm",
+     "mapping": "the status quo's trust index at the end of the horizon, as an annual relative change from its starting value",
+     "observations": [
+      {
+       "label": "Edelman, trust in AI companies, 28 country average, 61% to 53% over five years",
+       "value": -0.027724803015520272
+      },
+      {
+       "label": "Edelman, trust in AI companies, United States, 50% to 35% over five years",
+       "value": -0.06885008490516231
+      },
+      {
+       "label": "Pew, US adults not more concerned than excited about AI, 63% (2021) to 50% (2025)",
+       "value": -0.05614047317688853
+      }
+     ],
+     "se_basis": "standard deviation of the three series over root three",
+     "sources": [
+      {
+       "cite": "Edelman Trust Barometer 2024, key insights around AI",
+       "url": "https://www.edelman.com/sites/g/files/aatuss191/files/2024-03/Trust%20Tech%20Sector%20Top%20Findings.pdf"
+      },
+      {
+       "cite": "Pew Research Center, How Americans view AI and its impact on people and society, September 2025",
+       "url": "https://www.pewresearch.org/wp-content/uploads/sites/20/2025/09/PS_2025.9.15_AI-and-its-impact_report.pdf"
+      }
+     ],
+     "transport_basis": "a survey share is compared with the model's trust index, which starts at one and has no survey counterpart"
+    }
+   },
+   "summary": {
+    "benchmarks": 11,
+    "contradicted": [
+     "enforcement_return"
+    ],
+    "in_tension": [
+     "insurance_resource_share"
+    ],
+    "mechanisms": 15,
+    "mechanisms_confronted": [
+     "incident_hazard",
+     "firm_choice",
+     "relocation",
+     "capability_and_release",
+     "adoption_and_trust",
+     "revenue_growth",
+     "enforcement",
+     "market",
+     "welfare_bases",
+     "liability_and_insurance"
+    ],
+    "mechanisms_direct": [
+     "incident_hazard",
+     "capability_and_release",
+     "adoption_and_trust"
+    ],
+    "mechanisms_unconfronted": [
+     "severity",
+     "catastrophic_tail",
+     "safety_practice",
+     "evaluation",
+     "news"
+    ],
+    "not_contradicted": 9,
+    "not_scored": [],
+    "scored": 11,
+    "structural": [
+     "enforcement_return"
+    ]
+   },
+   "thresholds": {
+    "contradicted": 3.0,
+    "form_z": 2.0,
+    "min_defined": 0.8,
+    "min_ess": 20.0,
+    "rule_out": 3.0,
+    "tension": 2.0
+   }
+  },
+  "coverage": null,
+  "events": [],
+  "note": "published benchmarks are confronted with the model's moments and weight the joint draws; an uploaded price series tests the market's early reaction; mechanisms with no benchmark are listed as unconfronted"
+ },
+ "variance": {
+  "against": [
+   "baseline",
+   "moratorium"
+  ],
+  "base": 64,
+  "bootstrap": 200,
+  "evaluations": 448,
+  "focus": "coordinated_licensing",
+  "interaction_share_margin": 0.46941515662431244,
+  "interaction_share_value": 0.46941515662431244,
+  "interval_level": 0.9,
+  "keys": [
+   "audit_rate",
+   "revenue_capability_beta",
+   "growth_value_weight",
+   "catastrophe_correlation",
+   "catastrophe_capability"
+  ],
+  "mean_halfwidth_total_margin": 0.12650882554216503,
+  "note": "Saltelli's design on scrambled Sobol points; first order by Saltelli (2010), total order by Jansen (1999); 90% bootstrap intervals over the base sample; the other assumptions are held at the run's values, so the shares are of the variance these inputs produce, and the inputs are drawn independently, as the decomposition requires",
+  "paths": 2,
+  "rows": [
+   {
+    "assumption": "growth_value_weight",
+    "first_order_margin": 0.30510218143150214,
+    "first_order_margin_hi": 0.5644375767470512,
+    "first_order_margin_lo": 0.0,
+    "first_order_value": 0.30510218143150214,
+    "first_order_value_hi": 0.5761984938144772,
+    "first_order_value_lo": 0.02002722254421877,
+    "resolved": true,
+    "total_margin": 0.5541907024702644,
+    "total_margin_hi": 0.7624753308576655,
+    "total_margin_lo": 0.36463108773664454,
+    "total_value": 0.5541907024702644,
+    "total_value_hi": 0.7384809145076836,
+    "total_value_lo": 0.4042074970240563
+   },
+   {
+    "assumption": "revenue_capability_beta",
+    "first_order_margin": 0.06014782551877883,
+    "first_order_margin_hi": 0.17285114023020764,
+    "first_order_margin_lo": 0.0,
+    "first_order_value": 0.06014782551877883,
+    "first_order_value_hi": 0.19411780002771287,
+    "first_order_value_lo": 0.0,
+    "resolved": true,
+    "total_margin": 0.4316461317736526,
+    "total_margin_hi": 0.6787782202058348,
+    "total_margin_lo": 0.22729073400657485,
+    "total_value": 0.4316461317736526,
+    "total_value_hi": 0.6665249843357476,
+    "total_value_lo": 0.2591701118788924
+   },
+   {
+    "assumption": "audit_rate",
+    "first_order_margin": 0.0,
+    "first_order_margin_hi": 0.041001252514287996,
+    "first_order_margin_lo": 0.0,
+    "first_order_value": 0.0,
+    "first_order_value_hi": 0.027735813825489442,
+    "first_order_value_lo": 0.0,
+    "resolved": true,
+    "total_margin": 0.24620918172071474,
+    "total_margin_hi": 0.40513886788065656,
+    "total_margin_lo": 0.11335019543552,
+    "total_value": 0.24620918172071474,
+    "total_value_hi": 0.4226118095455659,
+    "total_value_lo": 0.09378062850463603
+   },
+   {
+    "assumption": "catastrophe_correlation",
+    "first_order_margin": 0.1560602247793087,
+    "first_order_margin_hi": 0.2862366392429762,
+    "first_order_margin_lo": 0.04868521434307633,
+    "first_order_value": 0.1560602247793087,
+    "first_order_value_hi": 0.2975788312125058,
+    "first_order_value_lo": 0.026074598884895304,
+    "resolved": true,
+    "total_margin": 0.16015204792211973,
+    "total_margin_hi": 0.22969997787116056,
+    "total_margin_lo": 0.10640192141615817,
+    "total_value": 0.16015204792211973,
+    "total_value_hi": 0.22874027597751623,
+    "total_value_lo": 0.10453976024794523
+   },
+   {
+    "assumption": "catastrophe_capability",
+    "first_order_margin": 0.009274611646097861,
+    "first_order_margin_hi": 0.018311507493182704,
+    "first_order_margin_lo": 0.002201335751363304,
+    "first_order_value": 0.009274611646097861,
+    "first_order_value_hi": 0.017636562504833066,
+    "first_order_value_lo": 0.0023787799983445946,
+    "resolved": false,
+    "total_margin": 0.0006590113688207331,
+    "total_margin_hi": 0.0010710125732273637,
+    "total_margin_lo": 0.0004012153719970238,
+    "total_value": 0.0006590113688207331,
+    "total_value_hi": 0.001022226332062185,
+    "total_value_lo": 0.0003532776503992626
+   }
+  ],
+  "sd_margin": 27.755851416475874,
+  "sd_value": 27.755851416475874,
+  "sum_first_order_margin": 0.5305848433756876,
+  "sum_first_order_value": 0.5305848433756876
+ }
+}

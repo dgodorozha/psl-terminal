@@ -33,23 +33,40 @@ offshore share O, compliance flag X, earnings, compliance cost, fines,
 liability or premiums, incidents by category with monetised harm, a
 catastrophe flag, enforcement e, pressure P, trust T and the service index
 Q. See docs/METHOD.md for the equations.
+
+Beside every realised incident the engine records what was expected of
+that month given the state the path had reached: the expected harm
+(probability times mean severity, by category and for the catastrophic
+tail) and the probability of at least one catastrophe. Those conditional
+expectations are what the expected value estimators use (welfare.py): they
+have the same expectation as the realised draws and far less variance,
+which is what makes a rare, very large loss estimable on a few hundred
+paths.
+
+Assumptions are scalars in an ordinary run. A sensitivity design passes one
+value per path instead (arrays of shape (paths,)), so that hundreds of
+alternative parameter values run in one vectorised pass on the same random
+numbers; the two are the same computation.
 """
 
 import numpy as np
 
 from .policies import in_scope
+from .stats import any_event_probability, conditional_event_probability, hermite
 
 CATEGORIES = ("misuse", "accident", "systemic")
 MODEL_SECTORS = ("frontier_lab", "open_weights", "consumer_ai", "autonomy", "startups")
 SIGMA_GRID = np.array([0.02, 0.05, 0.10, 0.15, 0.20, 0.30])
 OFFSHORE_GRID = np.array([0.0, 0.3, 0.6, 0.9])
 COMPLY_GRID = np.array([0.0, 1.0])
-CULTURE_WEIGHT = 0.6          # $bn of valued safety per unit revenue per unit of safety gain, times culture
 SIGMA_REF = 0.1               # the safety share the baseline growth rates already assume
-REACH_K = 1.5                 # reach ceiling 1 - exp(-k C)
-OPEN_WEIGHTS_MISUSE = 1.3     # misuse rate multiplier for a firm that publishes weights
-OPEN_WEIGHTS_RESTRICTION_GROWTH = 0.10   # annual revenue growth lost by the open developer under a restriction
 MILESTONE = 0.25
+SALIENCE = {"minor": 0.12, "major": 0.45, "catastrophe": 1.2, "enforcement": 0.2, "relocation": 0.15, "milestone": 0.08}
+_GH = hermite(24)
+# the action grid on its own three axes, against arrays laid out (paths, firms, safety share, offshore share, comply)
+SIG5 = SIGMA_GRID[None, None, :, None, None]
+OM5 = OFFSHORE_GRID[None, None, None, :, None]
+CHI5 = COMPLY_GRID[None, None, None, None, :]
 
 
 class RandomBundle:
@@ -60,13 +77,16 @@ class RandomBundle:
     an assurance re simulation on a smaller budget can be paired path by path
     with the main run, and its effect reported as a shift of the headline figure."""
 
-    def __init__(self, n_paths, horizon, n_firms, seed):
+    NAMES = ("z_market", "z_policy", "z_idio", "u_inc", "z_sev", "u_cat", "z_cat", "u_audit", "z_news", "z_common")
+
+    def __init__(self, n_paths, horizon, n_firms, seed, start=0):
+        """Paths start, ..., start + n_paths - 1 of the stream family `seed`."""
         N, H, F, C = n_paths, horizon, n_firms, len(CATEGORIES)
         self.seed = seed
-        names = ("z_market", "z_policy", "z_idio", "u_inc", "z_sev", "u_cat", "z_cat", "u_audit", "z_news")
-        parts = {k: [] for k in names}
-        for i in range(N):
-            rng = np.random.default_rng([int(seed), i])
+        self.index = np.arange(int(start), int(start) + N)
+        parts = {k: [] for k in self.NAMES}
+        for i in self.index:
+            rng = np.random.default_rng([int(seed), int(i)])
             parts["z_market"].append(rng.standard_normal(H))
             parts["z_policy"].append(rng.standard_normal(H))
             parts["z_idio"].append(rng.standard_normal((H, F)))
@@ -76,8 +96,20 @@ class RandomBundle:
             parts["z_cat"].append(rng.standard_normal((H, F)))
             parts["u_audit"].append(rng.random((H, F)))
             parts["z_news"].append(rng.standard_normal(H))
-        for k in names:
+            parts["z_common"].append(rng.standard_normal(H))      # the factor catastrophes share; drawn last
+        for k in self.NAMES:
             setattr(self, k, np.stack(parts[k], axis=0))
+
+    def take(self, rows):
+        """A bundle whose row j is this bundle's row rows[j]: a sensitivity design repeats the same paths once
+        per alternative parameter value."""
+        rows = np.asarray(rows, dtype=int)
+        out = object.__new__(RandomBundle)
+        out.seed = self.seed
+        out.index = self.index[rows]
+        for k in self.NAMES:
+            setattr(out, k, getattr(self, k)[rows])
+        return out
 
 
 class PolicyResult:
@@ -93,9 +125,46 @@ def _actions():
     return s.ravel(), o.ravel(), c.ravel()
 
 
+def _views(a, n):
+    """Each assumption shaped to broadcast against per path (N,), per firm (N, F) and per action (N, F, A)
+    arrays: the scalar itself, or, when a design gives one value per path, x, x[:, None] and x[:, None, None]."""
+    p, f, fa = {}, {}, {}
+    for k, v in a.items():
+        if np.ndim(v) == 0:
+            x = float(v)
+            p[k] = f[k] = fa[k] = x
+        else:
+            x = np.asarray(v, dtype=float)
+            if x.shape != (n,):
+                raise ValueError(f"assumption {k}: one value per path expected, shape {(n,)}, got {x.shape}")
+            p[k] = x; f[k] = x[:, None]; fa[k] = x[:, None, None]
+    return p, f, fa
+
+
+def _ex(x, extra):
+    """A per path quantity (scalar or (N,)) with `extra` trailing axes."""
+    return x if np.ndim(x) == 0 else np.asarray(x).reshape(np.shape(x) + (1,) * extra)
+
+
+def _stack(vals):
+    """K per path quantities stacked on a last axis: (K,) for scalars, (N, K) when any is per path."""
+    return np.stack(np.broadcast_arrays(*[np.asarray(v, dtype=float) for v in vals]), axis=-1)
+
+
+def _join(at_zero, at_one):
+    """A quantity on the comply axis from its value when the firm does not comply (at_zero) and when it does
+    (at_one), each with a comply axis of length one: the two broadcast against each other and stacked."""
+    shape = np.broadcast_shapes(at_zero.shape, at_one.shape)
+    out = np.empty(shape[:-1] + (2,))
+    out[..., 0] = np.broadcast_to(at_zero, shape)[..., 0]
+    out[..., 1] = np.broadcast_to(at_one, shape)[..., 0]
+    return out
+
+
 class Economy:
-    def __init__(self, firms, assumptions, horizon=60, n_paths=240, seed=7, bundle=None, hooks=None):
+    def __init__(self, firms, assumptions, horizon=60, n_paths=240, seed=7, bundle=None, hooks=None, reference=False):
         self.firms = firms
+        self.reference = bool(reference)      # True: the firms' decision written out on the full action grid (the tested definition)
         self.a = dict(assumptions)
         self.H = int(horizon)
         self.N = int(n_paths)
@@ -142,9 +211,17 @@ class Economy:
         rb = self.rb
         pol = policy
         K = len(CATEGORIES)
-        base_haz = np.array([a["hazard_base_misuse"], a["hazard_base_accident"], a["hazard_base_systemic"]])
-        sev_med = np.array([a["severity_misuse_median_bn"], a["severity_accident_median_bn"], a["severity_systemic_median_bn"]])
-        sev_mean = sev_med * np.exp(0.5 * a["severity_sigma"] ** 2)
+        ap, af, aa = _views(a, N)             # each assumption against (N,), (N, F) and (N, F, A) arrays
+        base_haz = _stack([ap["hazard_base_misuse"], ap["hazard_base_accident"], ap["hazard_base_systemic"]])   # (K,) or (N, K)
+        sev_med = _stack([ap["severity_misuse_median_bn"], ap["severity_accident_median_bn"], ap["severity_systemic_median_bn"]])
+        sev_mean = sev_med * _ex(np.exp(0.5 * np.asarray(ap["severity_sigma"]) ** 2), 1)     # lognormal mean, (K,) or (N, K)
+        bh_sum = base_haz.sum(axis=-1)                                       # scalar or (N,)
+        sev_avg = (base_haz / _ex(bh_sum, 1) * sev_mean).sum(axis=-1)        # mean severity of an incident, scalar or (N,)
+        bh3 = base_haz if base_haz.ndim == 1 else base_haz[:, None, :]       # against (N, F, K)
+        sm3 = sev_med if sev_med.ndim == 1 else sev_med[:, None, :]
+        smean3 = sev_mean if sev_mean.ndim == 1 else sev_mean[:, None, :]
+        cat_mean = ap["catastrophe_harm_bn"] * np.exp(0.5 * np.asarray(ap["catastrophe_severity_sigma"]) ** 2)   # mean catastrophic harm
+        rho = ap["catastrophe_correlation"]
 
         # policy scope per firm (sector test); the capability test is per path and month
         sector_in = np.array([in_scope(pol, s) for s in self.sector])
@@ -152,7 +229,7 @@ class Economy:
         split = float(gaming.get("threshold_split", 1.0))          # scope capability shown to the regulator
         theatre = bool(gaming.get("compliance_theatre", False))
         mobility = np.minimum(1.0, self.mobility * float(gaming.get("mobility_boost", 1.0)))
-        reloc_cost = a["relocation_cost"] * float(gaming.get("relocation_discount", 1.0))
+        reloc_cost = ap["relocation_cost"] * float(gaming.get("relocation_discount", 1.0))        # scalar or (N,)
         relabel = float(gaming.get("relabel", 0.0))                # share of tier friction and variable cost avoided
         capacity = float(pol["enforcement_capacity"]) * float(variant.get("capacity_mult", 1.0))
         coordinated = pol["scope"] == "coordinated"
@@ -176,15 +253,16 @@ class Economy:
 
         # outputs
         out = {k: np.zeros((N, H, F)) for k in ("revenue", "earnings", "op_earnings", "compliance", "fines", "liability",
-                                                 "premium", "safety", "capability", "cap_eff", "reach", "offshore", "comply",
-                                                 "sigma", "harm", "cat_harm", "relocation")}
+                                                 "liability_exp", "claims", "premium", "safety", "capability", "cap_eff", "reach", "offshore",
+                                                 "comply", "sigma", "harm", "cat_harm", "harm_exp", "cat_harm_exp", "relocation")}
         out["incidents"] = np.zeros((N, H, F, K), dtype=bool)
         out["harm_cat"] = np.zeros((N, H, F, K))
         out["catastrophe"] = np.zeros((N, H, F), dtype=bool)
         out["audited"] = np.zeros((N, H, F), dtype=bool)
         out["fined"] = np.zeros((N, H, F), dtype=bool)
         prices = np.zeros((N, H + 1, F)); prices[:, 0, :] = 100.0
-        series = {k: np.zeros((N, H)) for k in ("enforcement", "pressure", "trust", "service", "tone", "salience")}
+        series = {k: np.zeros((N, H)) for k in ("enforcement", "pressure", "trust", "service", "tone", "salience", "p_cat_any", "inc_exp")}
+        out["major"] = np.zeros((N, H, F), dtype=bool)        # a major incident at the firm this month (for the validation moments)
         news_counts = np.zeros((N, H, 6))       # incident minor, incident major, catastrophe, enforcement, relocation, milestone
         events0 = []                            # representative path, for the wire
         first = {"delay": np.zeros(F, bool), "trust": False, "hearing": False, "safety": np.zeros(F, bool),
@@ -192,8 +270,28 @@ class Economy:
 
         w0 = self.R0 / self.R0.sum()
         Q0 = float((w0 * self.C0 * self.D0).sum())
-        E0 = None; V0 = None; cap0 = None
+
+        def value(R_, run_rate_, g_):
+            """Fundamental value: a revenue multiple plus an earnings multiple on forward earnings, with a smooth floor."""
+            FE = 12.0 * run_rate_ * (1 + g_)
+            k_ = 0.05 * R_
+            return self.ps[None, :] * R_ + self.pe[None, :] * k_ * np.log1p(np.exp(np.clip(FE / k_, -30, 30)))
+
+        # the valuation every index is measured from: the firms as they stand before any instrument is announced,
+        # the same for every policy of the battery, so that an instrument's immediate effect on fundamentals shows
+        # in the first month's price instead of disappearing into the base
+        V_pre = value(self.R0[None, :], (self.R0 / 12.0 * self.margin)[None, :], self.g0[None, :])[0]
+        cap0 = V_pre.copy()
         active_prev = False
+
+        # what the monthly decision needs and does not change from month to month
+        fixed = pol["fixed_cost"] * (~(self.small & pol["sandbox_small_firms"]))[None, :, None]
+        var_c = pol["variable_cost"] * (1 - relabel)
+        shield_f = af["safe_harbour_shield"] if pol["safe_harbour"] else 0.0
+        dc = self._decision_constants(pol, a, aa, plan_months, mobility, coordinated, relabel, theatre, reloc_cost, bh_sum, sev_avg,
+                                      fixed, var_c)
+        # contagion runs between firms of one sector; a sector of one firm adds exactly nothing, so only the others are visited
+        sector_masks = [mk for mk in (np.array([x == s for x in self.sector]) for s in sorted(set(self.sector))) if mk.sum() > 1]
 
         for t in range(H):
             active = (t >= pol["phase_in"]) and (pol["sunset"] == 0 or t < pol["phase_in"] + pol["sunset"])
@@ -202,70 +300,28 @@ class Economy:
             bind = np.where(in_scope_pf, 1.0 if coordinated else (1.0 - O), 0.0)      # share of activity bound
 
             # -------------------------------------------------- firm decisions --
-            # expected incident rate per year under each safety share, from the firm's own view
-            A = len(self.sig_a)
-            sig = self.sig_a[None, None, :]
-            om = np.minimum(self.om_a[None, None, :], mobility[None, :, None])
-            chi = self.chi_a[None, None, :]
-            bind_a = np.where(in_scope_pf[:, :, None], 1.0 if coordinated else (1.0 - om), 0.0)
-            min_s = pol["min_safety_share"] * chi * bind_a
-            sig_eff = np.maximum(sig, min_s)
-            learn = a["safety_learning"] * sig_eff / (sig_eff + 0.1)
-            S12 = np.clip(S[:, :, None] + plan_months * (learn * (1 - S[:, :, None]) - a["safety_decay"] * S[:, :, None]), 0.02, 0.98)
-            compute_f = 1.0 - pol["export_controls"] * om * self.compute_dep[None, :, None]
-            dC = plan_months * a["capability_growth"] * (1 - a["safety_substitution"] * sig_eff) * compute_f
-            if mora:
-                dC = np.where(in_scope_pf[:, :, None], dC * (1 - a["moratorium_research_slowdown"]), dC)
-            delay_a = pol["release_delay"] * chi * bind_a
-            growth_value = a["growth_value_weight"] * R[:, :, None] * a["revenue_capability_beta"] * dC * np.maximum(0.0, 1 - delay_a / plan_months)
-            haz = (base_haz.sum() * (Ceff[:, :, None]) ** a["hazard_capability_elasticity"] * np.exp(-a["hazard_safety_elasticity"] * S12)
-                   * D[:, :, None] ** a["hazard_reach_elasticity"] * (1 + om * a["offshore_laxity"]))
-            lam_year = plan_months * haz * a["firm_optimism"]
-            exp_harm = lam_year * float((base_haz / base_haz.sum() * sev_mean).sum())
-            cat_live = (Ceff[:, :, None] > a["catastrophe_capability"]).astype(float)
-            exp_harm = exp_harm + plan_months * a["catastrophe_prior_monthly"] * cat_live * np.exp(-a["hazard_safety_elasticity"] * S12) * a["catastrophe_harm_bn"] * a["firm_optimism"]
-            shield = a["safe_harbour_shield"] if pol["safe_harbour"] else 0.0
-            liab = pol["liability_multiplier"] * exp_harm * in_scope_pf[:, :, None] * (1 - shield * chi)
-            if pol["insurance_mandate"]:
-                liab_cost = liab * (1 + a["insurance_loading"]); risk = 0.0 * liab
-            else:
-                liab_cost = liab; risk = a["firm_risk_aversion"] * 0.5 * liab
-            fixed = pol["fixed_cost"] * (~(self.small & pol["sandbox_small_firms"]))[None, :, None]
-            var_c = pol["variable_cost"] * (1 - relabel)
-            comp_cost = chi * bind_a * (fixed + var_c * R[:, :, None] * self.scope_share[None, :, None])
-            audit_p = a["audit_rate"] * e[:, None, None]
-            penalty = (1 - chi) * bind_a * plan_months * audit_p * pol["fine_rate"] * R[:, :, None] * self.scope_share[None, :, None] * 1.5
-            reloc = reloc_cost * np.maximum(0.0, om - O[:, :, None]) * R[:, :, None]
-            haircut = a["offshore_revenue_haircut"] * om * R[:, :, None] * np.maximum(self.margin, 0.1)[None, :, None] * (plan_months / 12)
-            culture_term = self.culture[None, :, None] * CULTURE_WEIGHT * R[:, :, None] * (S12 - S[:, :, None])
-            U = growth_value - comp_cost * (plan_months / 12) - penalty - reloc - haircut - liab_cost - risk + culture_term
-            best = np.argmax(U, axis=2)                                   # (N, F)
-            idx = (np.arange(N)[:, None], np.arange(F)[None, :], best)
-            sig_full = np.broadcast_to(sig, (N, F, A)); om_full = np.broadcast_to(om, (N, F, A))
-            chi_full = np.broadcast_to(chi, (N, F, A))
-            sigma_reported = sig_eff[idx]
-            sigma_c = sigma_reported if not theatre else sig_full[idx]
-            om_c = om_full[idx]; chi_c = chi_full[idx]
+            decide = self._decide_reference if self.reference else self._decide
+            sigma_reported, sigma_c, om_c, chi_c, liab_c = decide(dc, in_scope_pf, mora, S, R, Ceff, D, O, e)
             bind_c = np.where(in_scope_pf, 1.0 if coordinated else (1.0 - om_c), 0.0)
 
             # ------------------------------------------------ monthly dynamics --
             O_new = O + np.clip(om_c - O, -0.1, 0.1)
             moved = np.maximum(0.0, O_new - O)
-            reloc_cost_m = reloc_cost * moved * R
+            reloc_cost_m = _ex(reloc_cost, 1) * moved * R
             O = O_new
             comp_m = chi_c * bind_c * (fixed[0, :, 0][None, :] + var_c * R * self.scope_share[None, :]) / 12.0
-            S = np.clip(S + a["safety_learning"] * sigma_c / (sigma_c + 0.1) * (1 - S) - a["safety_decay"] * S, 0.02, 0.98)
+            S = np.clip(S + af["safety_learning"] * sigma_c / (sigma_c + 0.1) * (1 - S) - af["safety_decay"] * S, 0.02, 0.98)
             compute_now = 1.0 - pol["export_controls"] * O * self.compute_dep[None, :]
             diffusion = 0.0
             if self.open_w.any():
                 C_open = (C * self.open_w[None, :]).max(axis=1, keepdims=True)
                 restricted = pol["open_weights_restriction"] and active
                 if not restricted:
-                    diffusion = (a["open_weights_diffusion"] * 0.1 * np.maximum(0.0, C_open - C)
+                    diffusion = (af["open_weights_diffusion"] * 0.1 * np.maximum(0.0, C_open - C)
                                  * (self.is_model & ~self.open_w)[None, :])
-            gC = a["capability_growth"] * (1 - a["safety_substitution"] * sigma_c) * compute_now + diffusion
+            gC = af["capability_growth"] * (1 - af["safety_substitution"] * sigma_c) * compute_now + diffusion
             if mora:
-                gC = np.where(in_scope_pf, gC * (1 - a["moratorium_research_slowdown"]), gC)
+                gC = np.where(in_scope_pf, gC * (1 - af["moratorium_research_slowdown"]), gC)
             C = C * np.exp(gC)
             Chist[t + 1] = C
             delay = np.rint(pol["release_delay"] * chi_c * bind_c).astype(int)
@@ -279,51 +335,65 @@ class Economy:
             dlogC = np.log(np.maximum(Ceff_new, 1e-6) / np.maximum(Ceff, 1e-6))
             Ceff = Ceff_new
             trust_f = np.sqrt(np.clip(T, 0.3, 1.0))[:, None]
-            Dceil = (1 - np.exp(-REACH_K * Ceff))
+            Dceil = (1 - np.exp(-af["reach_ceiling_k"] * Ceff))
             friction = pol["tier_friction"] * (1 - relabel) * np.where(sector_in[None, :] & active, 1.0, 0.0)
-            D_new = D + a["reach_speed"] * (1 - friction) * (Dceil * trust_f - D)
-            Dref = Dref + a["reach_speed"] * (Dceil - Dref)
+            D_new = D + af["reach_speed"] * (1 - friction) * (Dceil * trust_f - D)
+            Dref = Dref + af["reach_speed"] * (Dceil - Dref)
             dD = D_new - D; D = D_new
-            g_ref = a["capability_growth"] * (1 - a["safety_substitution"] * SIGMA_REF)
+            g_ref = af["capability_growth"] * (1 - af["safety_substitution"] * SIGMA_REF)             # scalar or (N, 1)
             dev_growth = ((dlogC - g_ref) * self.is_model[None, :] * R).sum(axis=1) / np.maximum((self.is_model[None, :] * R).sum(axis=1), 1e-9)
-            g_fade = (a["long_run_growth"] + (self.g0[None, :] - a["long_run_growth"]) * np.exp(-t / a["growth_fade_months"])) / 12.0
-            g_month = g_fade + a["revenue_capability_beta"] * (dlogC - g_ref) - a["offshore_revenue_haircut"] * O / 12.0
-            g_month = g_month + a["chip_demand_coupling"] * dev_growth[:, None] * (self.is_chip * 1.0 + self.is_cloud * 0.5)[None, :]
+            g_fade = (af["long_run_growth"] + (self.g0[None, :] - af["long_run_growth"]) * np.exp(-t / af["growth_fade_months"])) / 12.0
+            g_month = g_fade + af["revenue_capability_beta"] * (dlogC - g_ref) - af["offshore_revenue_haircut"] * O / 12.0
+            g_month = g_month + af["chip_demand_coupling"] * dev_growth[:, None] * (self.is_chip * 1.0 + self.is_cloud * 0.5)[None, :]
             if pol["export_controls"] > 0:
-                g_month = g_month - a["export_control_chip_loss"] * pol["export_controls"] / 12.0 * self.is_chip[None, :]
+                g_month = g_month - af["export_control_chip_loss"] * pol["export_controls"] / 12.0 * self.is_chip[None, :]
             if pol["open_weights_restriction"] and active:
-                g_month = g_month - OPEN_WEIGHTS_RESTRICTION_GROWTH / 12.0 * self.open_w[None, :]
+                g_month = g_month - af["open_weights_restriction_growth_loss"] / 12.0 * self.open_w[None, :]
             Rcore = Rcore * (1 + np.clip(g_month, -0.2, 0.3))
-            R = Rcore * (D / np.maximum(Dref, 1e-6)) ** a["revenue_reach_beta"]
+            R = Rcore * (D / np.maximum(Dref, 1e-6)) ** af["revenue_reach_beta"]
             R12.append(R.copy())
 
             # ------------------------------------------------------- hazard --
             eval_eff = pol["eval_catch"] * chi_c * in_scope_pf * (0.5 if theatre else 1.0)
-            common = ((Ceff) ** a["hazard_capability_elasticity"] * np.exp(-a["hazard_safety_elasticity"] * S)
-                      * D ** a["hazard_reach_elasticity"] * (1 + O * a["offshore_laxity"]) * (1 - eval_eff * a["unsafe_release_share"]))
-            lam = base_haz[None, None, :] * common[:, :, None]
+            common = ((Ceff) ** af["hazard_capability_elasticity"] * np.exp(-af["hazard_safety_elasticity"] * S)
+                      * D ** af["hazard_reach_elasticity"] * (1 + O * af["offshore_laxity"]) * (1 - eval_eff * af["unsafe_release_share"]))
+            lam = bh3 * common[:, :, None]
             transp = pol["transparency"] if active else 0.0
             restricted = bool(pol["open_weights_restriction"] and active)
-            lam[:, :, 0] *= (1 - transp) * np.where(self.open_w[None, :] & (not restricted), OPEN_WEIGHTS_MISUSE, 1.0)
+            lam[:, :, 0] *= (1 - transp) * np.where(self.open_w[None, :] & (not restricted), af["open_weights_misuse_multiplier"], 1.0)
             lam[:, :, 2] *= (1 - 0.5 * transp)
             p_inc = 1 - np.exp(-lam)
             inc = rb.u_inc[:, t] < p_inc
-            harm_k = inc * sev_med[None, None, :] * np.exp(a["severity_sigma"] * rb.z_sev[:, t])
-            p_cat = (a["catastrophe_prior_monthly"] * (Ceff > a["catastrophe_capability"]) * np.exp(-a["hazard_safety_elasticity"] * S)
-                     * (1 + O * a["offshore_laxity"]) * (1 - 0.5 * eval_eff))
-            cat = rb.u_cat[:, t] < p_cat
-            cat_harm = cat * a["catastrophe_harm_bn"] * np.exp(0.5 * rb.z_cat[:, t])
+            sev = sm3 * np.exp(_ex(ap["severity_sigma"], 2) * rb.z_sev[:, t])        # each incident's own harm, drawn or not
+            harm_k = inc * sev
+            harm_exp_k = p_inc * smean3                                             # E[harm_k | the state reached]
+            p_cat = np.clip(af["catastrophe_prior_monthly"] * (Ceff > af["catastrophe_capability"]) * np.exp(-af["hazard_safety_elasticity"] * S)
+                            * (1 + O * af["offshore_laxity"]) * (1 - 0.5 * eval_eff), 0.0, 1.0)      # each firm's marginal probability
+            if p_cat.any():
+                # firms' catastrophes share a common factor (shared models, components, vulnerabilities): a one factor
+                # Gaussian copula with correlation rho leaves every firm's own probability at p_cat and makes joint
+                # failures more likely than independence would
+                cat = rb.u_cat[:, t] < conditional_event_probability(p_cat, rho, rb.z_common[:, t])
+                p_any = any_event_probability(p_cat, rho, _GH)                      # P(at least one this month | state)
+            else:
+                cat = np.zeros((N, F), dtype=bool); p_any = np.zeros(N)
+            cat_harm = cat * af["catastrophe_harm_bn"] * np.exp(af["catastrophe_severity_sigma"] * rb.z_cat[:, t])
+            cat_harm_exp = p_cat * _ex(cat_mean, 1)
             harm_f = harm_k.sum(axis=2) + cat_harm
-            liab_due = pol["liability_multiplier"] * harm_f * in_scope_pf * (1 - shield * chi_c)
+            harm_exp_f = harm_exp_k.sum(axis=2) + cat_harm_exp
+            liab_share = pol["liability_multiplier"] * in_scope_pf * (1 - shield_f * chi_c)
+            liab_due = liab_share * harm_f
             premium = np.zeros((N, F))
             liab_paid = np.zeros((N, F))
+            liab_exp = np.zeros((N, F))                                            # E[liability the firm pays | state]
             if pol["liability_multiplier"] > 0 and pol["insurance_mandate"]:
-                premium = (liab[idx] * (1 + a["insurance_loading"])) / 12.0
+                premium = (liab_c * (1 + af["insurance_loading"])) / 12.0       # the insurer pays the claims
             else:
                 liab_paid = liab_due
+                liab_exp = liab_share * harm_exp_f
 
             # --------------------------------------------------- enforcement --
-            audited = (rb.u_audit[:, t] < a["audit_rate"] * e[:, None]) & in_scope_pf
+            audited = (rb.u_audit[:, t] < af["audit_rate"] * e[:, None]) & in_scope_pf
             fined = audited & (chi_c < 0.5)
             fine = fined * pol["fine_rate"] * R * self.scope_share[None, :] * bind_c
 
@@ -331,66 +401,70 @@ class Economy:
             earnings = op_earn - comp_m - fine - liab_paid - premium - reloc_cost_m
 
             # ---------------------------------------------------------- news --
-            major = harm_f >= a["major_incident_bn"]
-            n_minor = (inc.any(axis=2) & ~major & ~cat).sum(axis=1)
-            n_major = (major & ~cat).sum(axis=1)
+            # every incident is classified on its own harm: a firm month with two minor incidents is two minor
+            # incidents, never one major one; a catastrophe is its own class
+            major_k = inc & (sev >= _ex(ap["major_incident_bn"], 2))
+            n_minor = (inc & ~major_k).sum(axis=(1, 2))
+            n_major = major_k.sum(axis=(1, 2))
             n_cat = cat.sum(axis=1)
             n_enf = fined.sum(axis=1)
             n_rel = (moved > 0.05).sum(axis=1)
             n_mile = (np.floor(Ceff / MILESTONE) > np.floor((Ceff * np.exp(-dlogC)) / MILESTONE)).sum(axis=1)
-            boost = 1 + (a["news_reporting_boost"] if pol["incident_reporting"] and active else 0.0)
-            neg = (0.12 * n_minor + 0.45 * n_major + 1.2 * n_cat) * boost + 0.2 * n_enf + 0.15 * n_rel
-            pos = 0.08 * n_mile
+            boost = 1 + (ap["news_reporting_boost"] if pol["incident_reporting"] and active else 0.0)
+            neg = ((SALIENCE["minor"] * n_minor + SALIENCE["major"] * n_major + SALIENCE["catastrophe"] * n_cat) * boost
+                   + SALIENCE["enforcement"] * n_enf + SALIENCE["relocation"] * n_rel)
+            pos = SALIENCE["milestone"] * n_mile
             x = neg + 0.03 * np.abs(rb.z_news[:, t])
-            P = a["news_memory"] * P + (1 - a["news_memory"]) * (1 - np.exp(-x))
+            P = ap["news_memory"] * P + (1 - ap["news_memory"]) * (1 - np.exp(-x))
             tone = (pos - neg) / np.maximum(pos + neg, 1e-9) * (pos + neg > 0)
-            T = np.clip(T + a["trust_recovery"] * (1 - T) - a["trust_harm_sensitivity"] * np.log1p(harm_f.sum(axis=1)), 0.3, 1.0)
-            e = np.clip(e + a["enforcement_response"] * (capacity * (0.4 + 0.6 * P) - e), 0.0, 1.0)
+            T = np.clip(T + ap["trust_recovery"] * (1 - T) - ap["trust_harm_sensitivity"] * np.log1p(harm_f.sum(axis=1)), 0.3, 1.0)
+            e = np.clip(e + ap["enforcement_response"] * (capacity * (0.4 + 0.6 * P) - e), 0.0, 1.0)
 
             # -------------------------------------------------------- market --
             t12 = max(0, len(R12) - 13)
             g_est = np.clip(R / np.maximum(R12[t12], 1e-9) - 1.0, -0.3, 1.0) if t >= 11 else np.tile(self.g0, (N, 1))
-            run_rate = op_earn - comp_m - premium - liab[idx] / 12.0           # one offs (fines, realised liability, moves) excluded
-            FE = 12.0 * run_rate * (1 + g_est)
-            k = 0.05 * R
-            V = self.ps[None, :] * R + self.pe[None, :] * k * np.log1p(np.exp(np.clip(FE / k, -30, 30)))   # smooth floor at the revenue multiple
-            if V0 is None:
-                V0 = V.copy(); cap0 = V0[0].copy()
+            run_rate = op_earn - comp_m - premium - liab_c / 12.0           # one offs (fines, realised liability, moves) excluded
+            V = value(R, run_rate, g_est)
             exposure = self.scope_share[None, :] * sector_in[None, :]
             ann = 0.0
-            if t == 0:
+            if t == 0 and not active:
+                # an instrument announced now and in force later: the market anticipates costs that fundamentals do
+                # not carry yet. One in force from the first month is already in V, so nothing is added to it.
                 exp_cost = (pol["fixed_cost"] + pol["variable_cost"] * R * self.scope_share[None, :]) * sector_in[None, :]
                 exp_liab = pol["liability_multiplier"] * 0.3 * sector_in[None, :]
-                ann = -a["announcement_impact"] * (exp_cost + exp_liab) / np.maximum(12.0 * earnings, 0.05 * R) * 0.5
+                ann = -af["announcement_impact"] * (exp_cost + exp_liab) / np.maximum(12.0 * earnings, 0.05 * R) * 0.5
                 ann = np.clip(ann, -0.25, 0.0)
-            own_jump = -a["incident_jump"] * 0.05 * np.log1p((harm_f + liab_paid + fine + reloc_cost_m) / np.maximum(R / 12.0, 1e-6))
+            own_jump = -af["incident_jump"] * 0.05 * np.log1p((harm_f + liab_paid + fine + reloc_cost_m) / np.maximum(R / 12.0, 1e-6))
             sector_jump = np.zeros((N, F))
-            for s in set(self.sector):
-                m = np.array([x == s for x in self.sector])
+            for m in sector_masks:
                 sj = (own_jump * m[None, :]).sum(axis=1, keepdims=True) - own_jump * m[None, :]
-                sector_jump += a["contagion"] * sj * m[None, :] / max(1, m.sum() - 1)
-            xi = (a["sentiment_persistence"] * xi + self.beta[None, :] * a["market_vol"] * rb.z_market[:, t][:, None]
-                  + 0.01 * exposure * rb.z_policy[:, t][:, None] - a["news_price_impact"] * P[:, None] * (0.3 + exposure)
+                sector_jump += af["contagion"] * sj * m[None, :] / max(1, m.sum() - 1)
+            xi = (af["sentiment_persistence"] * xi + self.beta[None, :] * af["market_vol"] * rb.z_market[:, t][:, None]
+                  + 0.01 * exposure * rb.z_policy[:, t][:, None] - af["news_price_impact"] * P[:, None] * (0.3 + exposure)
                   + own_jump + sector_jump + ann + self.ivol[None, :] * rb.z_idio[:, t])
-            px = 100.0 * V / V0 * np.exp(xi)
+            px = 100.0 * V / V_pre[None, :] * np.exp(xi)
             prices[:, t + 1, :] = px
 
             # ------------------------------------------------------- record --
             out["revenue"][:, t] = R; out["earnings"][:, t] = earnings; out["op_earnings"][:, t] = op_earn
             out["compliance"][:, t] = comp_m
             out["fines"][:, t] = fine; out["liability"][:, t] = liab_paid; out["premium"][:, t] = premium
+            out["claims"][:, t] = liab_due; out["harm_exp"][:, t] = harm_exp_f; out["cat_harm_exp"][:, t] = cat_harm_exp
+            out["liability_exp"][:, t] = liab_exp
+            series["p_cat_any"][:, t] = p_any
+            series["inc_exp"][:, t] = p_inc.sum(axis=(1, 2))        # expected number of incidents this month | state
             out["safety"][:, t] = S; out["capability"][:, t] = C; out["cap_eff"][:, t] = Ceff; out["reach"][:, t] = D
             out["offshore"][:, t] = O; out["comply"][:, t] = chi_c; out["sigma"][:, t] = sigma_reported
             out["harm"][:, t] = harm_f; out["cat_harm"][:, t] = cat_harm; out["relocation"][:, t] = reloc_cost_m
             out["incidents"][:, t] = inc; out["harm_cat"][:, t] = harm_k; out["catastrophe"][:, t] = cat
-            out["audited"][:, t] = audited; out["fined"][:, t] = fined
+            out["audited"][:, t] = audited; out["fined"][:, t] = fined; out["major"][:, t] = major_k.any(axis=2)
             Q = (w0[None, :] * Ceff * D).sum(axis=1) / Q0
             series["enforcement"][:, t] = e; series["pressure"][:, t] = P; series["trust"][:, t] = T
             series["service"][:, t] = Q; series["tone"][:, t] = tone; series["salience"][:, t] = neg + pos
             news_counts[:, t] = np.stack([n_minor, n_major, n_cat, n_enf, n_rel, n_mile], axis=1)
 
             # events on the representative path
-            ev = self._events(t, pol, active, active_prev, mora, inc[0], harm_k[0], cat[0], cat_harm[0], fined[0], fine[0],
+            ev = self._events(t, pol, active, active_prev, mora, inc[0], harm_k[0], major_k[0], cat[0], cat_harm[0], fined[0], fine[0],
                               O[0], Ceff[0], dlogC[0], S[0], T[0], P[0], Q[0], px[0], prices[0, t], delay[0],
                               in_scope_pf[0], chi_c[0], first)
             events0.append(ev)
@@ -401,10 +475,196 @@ class Economy:
 
         cap_end = cap0[None, :] * prices[:, -1, :] / 100.0
         return PolicyResult(policy=pol, prices=prices, cap0=cap0, cap_end=cap_end, series=series, news_counts=news_counts,
-                            events0=events0, labels=self.labels, sectors=self.sector, horizon=H, n_paths=N, **out)
+                            events0=events0, labels=self.labels, sectors=self.sector, horizon=H, n_paths=N,
+                            path_index=rb.index.copy(), sector_in=sector_in, rd_share=self.rd, scope_share=self.scope_share, **out)
+
+
+    # ------------------------------------------------------------- decisions --
+    def _decision_constants(self, pol, a, aa, plan_months, mobility, coordinated, relabel, theatre, reloc_cost, bh_sum, sev_avg,
+                            fixed, var_c):
+        """Everything the firms' monthly choice uses that does not change during a run, laid out against the five
+        axes (paths, firms, safety share, offshore share, comply)."""
+        N = self.N
+        a5 = {}
+        for k, v in a.items():
+            a5[k] = float(v) if np.ndim(v) == 0 else np.asarray(v, dtype=float)[:, None, None, None, None]
+        c = PolicyResult(pol=pol, aa=aa, a5=a5, plan_months=plan_months, mobility=mobility, coordinated=coordinated, relabel=relabel,
+                         theatre=theatre, reloc_cost=reloc_cost, bh_sum=bh_sum, sev_avg=sev_avg, fixed=fixed, var_c=var_c)
+        c.om5 = np.minimum(OM5, mobility[None, :, None, None, None])                       # (1, F, 1, 4, 1)
+        c.one_minus_om5 = 1.0 - c.om5
+        c.mss = pol["min_safety_share"]
+        c.liable = pol["liability_multiplier"] != 0
+        c.export = pol["export_controls"] != 0
+        c.delay = pol["release_delay"] != 0
+        c.costly = (pol["fixed_cost"] != 0) or (var_c != 0)
+        c.fines = pol["fine_rate"] != 0
+        c.fixed5 = fixed[:, :, :, None, None]
+        c.scope5 = self.scope_share[None, :, None, None, None]
+        c.margin5 = np.maximum(self.margin, 0.1)[None, :, None, None, None]
+        c.compute_f5 = 1.0 - pol["export_controls"] * c.om5 * self.compute_dep[None, :, None, None, None]
+        c.pm_cg = plan_months * a5["capability_growth"]
+        c.learn_g = a5["safety_learning"] * SIG5 / (SIG5 + 0.1)                             # at the six grid shares
+        c.G_g = (1 - a5["safety_substitution"] * SIG5)
+        c.orh_om = a5["offshore_revenue_haircut"] * c.om5
+        c.lax5 = (1 + c.om5 * a5["offshore_laxity"])
+        c.culture_cw = self.culture[None, :, None, None, None] * a5["culture_weight"]
+        c.reloc5 = _ex(reloc_cost, 4)
+        c.bh5 = _ex(bh_sum, 4)
+        c.sev5 = _ex(sev_avg, 4)
+        c.nI = np.arange(N)[:, None]
+        c.fI = np.arange(self.F)[None, :]
+        return c
+
+    def _decide(self, c, in_scope_pf, mora, S, R, Ceff, D, O, e):
+        """The firms' choice for the coming year: the action (safety share, offshore share, comply) with the highest
+        expected payoff. Returns the safety share reported, the one practised, the offshore share, the compliance
+        flag and the expected liability of the chosen action, each (paths, firms).
+
+        The payoff is the one written out in _decide_reference, term for term and in the same order of operations, so
+        the two give the same bits. This routine computes each term only on the action axes it depends on (a safety
+        term on six values, an offshore term on four, their combinations only where the payoff is assembled), leaves
+        out a term the policy sets to zero, and evaluates the exponential of the hazard once per distinct safety
+        share; that is where the engine spends most of its time."""
+        pol, a5, pm = c.pol, c.a5, c.plan_months
+        N, F = self.N, self.F
+        S5 = S[:, :, None, None, None]
+        R5 = R[:, :, None, None, None]
+        insc5 = in_scope_pf[:, :, None, None, None]
+        bind_a = np.where(insc5, 1.0 if c.coordinated else c.one_minus_om5, 0.0)            # (N, F, 1, J, 1)
+        liable = c.liable
+        if liable:
+            ceff_p = ((Ceff[:, :, None]) ** c.aa["hazard_capability_elasticity"])[:, :, :, None, None]
+            d_p = (D[:, :, None] ** c.aa["hazard_reach_elasticity"])[:, :, :, None, None]
+            cat_live = (Ceff[:, :, None, None, None] > a5["catastrophe_capability"]).astype(float)
+
+        def parts(learn, G):
+            """The terms of the payoff that depend on the safety share practised, for one set of shares: the growth
+            value before any release delay, the culture term and the expected liability before any shield."""
+            S12 = np.clip(S5 + pm * (learn * (1 - S5) - a5["safety_decay"] * S5), 0.02, 0.98)
+            dC = c.pm_cg * G
+            if c.export:
+                dC = dC * c.compute_f5
+            if mora:
+                dC = np.where(insc5, dC * (1 - a5["moratorium_research_slowdown"]), dC)
+            gv = a5["growth_value_weight"] * R5 * a5["revenue_capability_beta"] * dC
+            cult = c.culture_cw * R5 * (S12 - S5)
+            liab = None
+            if liable:
+                E12 = np.exp(-a5["hazard_safety_elasticity"] * S12)
+                haz = (c.bh5 * ceff_p * E12 * d_p * c.lax5)
+                lam_year = pm * haz * a5["firm_optimism"]
+                exp_harm = lam_year * c.sev5
+                exp_harm = exp_harm + pm * a5["catastrophe_prior_monthly"] * cat_live * E12 * a5["catastrophe_harm_bn"] * a5["firm_optimism"]
+                liab = pol["liability_multiplier"] * exp_harm * insc5
+            return gv, cult, liab
+
+        U, cult, liab = parts(c.learn_g, c.G_g)                 # at the six grid shares
+        m = None
+        if c.mss != 0:
+            # a complying firm in scope practises at least the floor m: its safety share is the grid value where that
+            # is at least m and m otherwise. The terms are computed at the grid values and at m, then placed.
+            m = c.mss * bind_a
+            ge = SIG5 >= m
+            gv_m, cult_m, liab_m = parts(a5["safety_learning"] * m / (m + 0.1), (1 - a5["safety_substitution"] * m))
+            U = _join(U, np.where(ge, U, gv_m))
+            cult = _join(cult, np.where(ge, cult, cult_m))
+            if liable:
+                liab = _join(liab, np.where(ge, liab, liab_m))
+        if c.delay:
+            delay_a = pol["release_delay"] * CHI5 * bind_a
+            U = U * np.maximum(0.0, 1 - delay_a / pm)
+        if c.costly:
+            comp_cost = CHI5 * bind_a * (c.fixed5 + c.var_c * R5 * c.scope5)
+            U = U - comp_cost * (pm / 12)
+        if c.fines:
+            audit_p = a5["audit_rate"] * e[:, None, None, None, None]
+            U = U - (1 - CHI5) * bind_a * pm * audit_p * pol["fine_rate"] * R5 * c.scope5 * 1.5
+        U = U - c.reloc5 * np.maximum(0.0, c.om5 - O[:, :, None, None, None]) * R5
+        U = U - c.orh_om * R5 * c.margin5 * (pm / 12)
+        if liable:
+            if pol["safe_harbour"]:
+                liab = liab * (1 - a5["safe_harbour_shield"] * CHI5)
+            if pol["insurance_mandate"]:
+                U = U - liab * (1 + a5["insurance_loading"])
+            else:
+                U = U - liab
+                U = U - a5["firm_risk_aversion"] * 0.5 * liab
+        U = U + cult
+
+        # the first maximum in the order (safety share, offshore share, comply); an axis the payoff does not vary
+        # along has length one here and the reference picks its first value, which is index zero
+        best = np.argmax(U.reshape(N, F, -1), axis=2)
+        I, J, K = np.unravel_index(best, U.shape[2:])
+        nI, fI = c.nI, c.fI
+
+        def pick(x):
+            sh = x.shape
+            return np.array(np.broadcast_to(x[nI if sh[0] > 1 else 0, fI if sh[1] > 1 else 0, I if sh[2] > 1 else 0,
+                                              J if sh[3] > 1 else 0, K if sh[4] > 1 else 0], (N, F)))
+        sigma_reported = SIGMA_GRID[I]
+        if m is not None:                                # the floor binds where the firm complies
+            sigma_reported = np.where(K == 1, np.maximum(sigma_reported, pick(m)), sigma_reported)
+        sigma_c = sigma_reported if not c.theatre else SIGMA_GRID[I]          # theatre: the floor is reported, not practised
+        om_c = pick(c.om5)
+        chi_c = COMPLY_GRID[K]
+        liab_c = pick(liab) if liab is not None else np.zeros((N, F))
+        return sigma_reported, sigma_c, om_c, chi_c, liab_c
+
+    def _decide_reference(self, c, in_scope_pf, mora, S, R, Ceff, D, O, e):
+        """The same choice written out on the full grid of 48 actions, every term on every action: the definition
+        _decide is tested against (tests/test_core.py)."""
+        pol, aa = c.pol, c.aa
+        N, F = self.N, self.F
+        plan_months, mobility, coordinated, relabel, theatre = c.plan_months, c.mobility, c.coordinated, c.relabel, c.theatre
+        reloc_cost, bh_sum, sev_avg = c.reloc_cost, c.bh_sum, c.sev_avg
+        # expected incident rate per year under each safety share, from the firm's own view
+        A = len(self.sig_a)
+        sig = self.sig_a[None, None, :]
+        om = np.minimum(self.om_a[None, None, :], mobility[None, :, None])
+        chi = self.chi_a[None, None, :]
+        bind_a = np.where(in_scope_pf[:, :, None], 1.0 if coordinated else (1.0 - om), 0.0)
+        min_s = pol["min_safety_share"] * chi * bind_a
+        sig_eff = np.maximum(sig, min_s)
+        learn = aa["safety_learning"] * sig_eff / (sig_eff + 0.1)
+        S12 = np.clip(S[:, :, None] + plan_months * (learn * (1 - S[:, :, None]) - aa["safety_decay"] * S[:, :, None]), 0.02, 0.98)
+        compute_f = 1.0 - pol["export_controls"] * om * self.compute_dep[None, :, None]
+        dC = plan_months * aa["capability_growth"] * (1 - aa["safety_substitution"] * sig_eff) * compute_f
+        if mora:
+            dC = np.where(in_scope_pf[:, :, None], dC * (1 - aa["moratorium_research_slowdown"]), dC)
+        delay_a = pol["release_delay"] * chi * bind_a
+        growth_value = aa["growth_value_weight"] * R[:, :, None] * aa["revenue_capability_beta"] * dC * np.maximum(0.0, 1 - delay_a / plan_months)
+        haz = (_ex(bh_sum, 2) * (Ceff[:, :, None]) ** aa["hazard_capability_elasticity"] * np.exp(-aa["hazard_safety_elasticity"] * S12)
+               * D[:, :, None] ** aa["hazard_reach_elasticity"] * (1 + om * aa["offshore_laxity"]))
+        lam_year = plan_months * haz * aa["firm_optimism"]
+        exp_harm = lam_year * _ex(sev_avg, 2)
+        cat_live = (Ceff[:, :, None] > aa["catastrophe_capability"]).astype(float)
+        exp_harm = exp_harm + plan_months * aa["catastrophe_prior_monthly"] * cat_live * np.exp(-aa["hazard_safety_elasticity"] * S12) * aa["catastrophe_harm_bn"] * aa["firm_optimism"]
+        shield_a = aa["safe_harbour_shield"] if pol["safe_harbour"] else 0.0
+        liab = pol["liability_multiplier"] * exp_harm * in_scope_pf[:, :, None] * (1 - shield_a * chi)
+        if pol["insurance_mandate"]:
+            liab_cost = liab * (1 + aa["insurance_loading"]); risk = 0.0 * liab
+        else:
+            liab_cost = liab; risk = aa["firm_risk_aversion"] * 0.5 * liab
+        fixed = pol["fixed_cost"] * (~(self.small & pol["sandbox_small_firms"]))[None, :, None]
+        var_c = pol["variable_cost"] * (1 - relabel)
+        comp_cost = chi * bind_a * (fixed + var_c * R[:, :, None] * self.scope_share[None, :, None])
+        audit_p = aa["audit_rate"] * e[:, None, None]
+        penalty = (1 - chi) * bind_a * plan_months * audit_p * pol["fine_rate"] * R[:, :, None] * self.scope_share[None, :, None] * 1.5
+        reloc = _ex(reloc_cost, 2) * np.maximum(0.0, om - O[:, :, None]) * R[:, :, None]
+        haircut = aa["offshore_revenue_haircut"] * om * R[:, :, None] * np.maximum(self.margin, 0.1)[None, :, None] * (plan_months / 12)
+        culture_term = self.culture[None, :, None] * aa["culture_weight"] * R[:, :, None] * (S12 - S[:, :, None])
+        U = growth_value - comp_cost * (plan_months / 12) - penalty - reloc - haircut - liab_cost - risk + culture_term
+        best = np.argmax(U, axis=2)                                   # (N, F)
+        idx = (np.arange(N)[:, None], np.arange(F)[None, :], best)
+        sig_full = np.broadcast_to(sig, (N, F, A)); om_full = np.broadcast_to(om, (N, F, A))
+        chi_full = np.broadcast_to(chi, (N, F, A))
+        sigma_reported = sig_eff[idx]
+        sigma_c = sigma_reported if not theatre else sig_full[idx]
+        om_c = om_full[idx]; chi_c = chi_full[idx]
+        return sigma_reported, sigma_c, om_c, chi_c, liab[idx]
 
     # --------------------------------------------------------------- events --
-    def _events(self, t, pol, active, active_prev, mora, inc, harm_k, cat, cat_harm, fined, fine, O_now, Ceff, dlogC, S, T, P, Q,
+    def _events(self, t, pol, active, active_prev, mora, inc, harm_k, major_k, cat, cat_harm, fined, fine, O_now, Ceff, dlogC, S, T, P, Q,
                 px, px_prev, delay, in_scope_pf, chi, first):
         ev = []
         F = self.F
@@ -420,7 +680,7 @@ class Economy:
             for k in range(len(CATEGORIES)):
                 if inc[f, k]:
                     ev.append({"type": "incident", "firm": f, "cat": CATEGORIES[k], "harm": float(harm_k[f, k]),
-                               "major": bool(harm_k[f, k] >= self.a["major_incident_bn"])})
+                               "major": bool(major_k[f, k])})
             if fined[f]:
                 ev.append({"type": "enforcement", "firm": f, "fine": float(fine[f])})
             if np.floor(O_now[f] / 0.25 + 1e-9) > first["reloc"][f]:

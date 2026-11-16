@@ -8,9 +8,13 @@ media agents that turn what happens into a news wire; investors who price
 the firms. Each policy is scored on the decision a policymaker faces, the
 expected harm it prevents against the economic and social cost it imposes,
 with the industry's net gain or loss, the forecast news environment and the
-market reaction reported beside it, every figure carrying an interval from
-the Monte Carlo paths and every value judgement declared in an assumptions
-file that the critic checks and the briefing cites.
+market reaction reported beside it. The status quo is one of the
+alternatives. Every expected value carries the confidence interval of its
+Monte Carlo estimate, kept apart from the spread of simulated outcomes and
+from the range under other assumptions and model structures; every value
+judgement is declared in an assumptions file that the critic checks and the
+briefing cites. The figures are conditional on the declared model: scenario
+evaluations, not validated forecasts.
 
 The simulation is built on the Herding Scenario Lab's governance: a hash
 chained signed ledger, two named human gates checked against a register,
@@ -23,7 +27,7 @@ import os
 import platform
 import sys
 
-__version__ = "1.0.1"
+__version__ = "1.2.0"
 
 
 def code_fingerprint() -> str:
@@ -41,10 +45,12 @@ def code_fingerprint() -> str:
 
 def provenance() -> dict:
     import numpy
+    import scipy
     return {
         "psl_version": __version__,
         "code_fingerprint": code_fingerprint(),
         "python": sys.version.split()[0],
         "numpy": numpy.__version__,
+        "scipy": scipy.__version__,
         "platform": platform.platform(),
     }

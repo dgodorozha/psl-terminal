@@ -1,0 +1,338 @@
+<!doctype html><html><head><meta charset='utf-8'><title>Policy Scenario Lab briefing</title><style>body{font:14px/1.5 Georgia,serif;color:#111;max-width:1040px;margin:32px auto;padding:0 20px}h1{font-size:22px;border-bottom:2px solid #111;padding-bottom:6px}h2{font-size:16px;margin-top:26px}table{border-collapse:collapse;font:12px ui-monospace,Menlo,monospace;margin:10px 0}th,td{border:1px solid #bbb;padding:4px 7px;text-align:left}th{background:#f2f2f2}code{font:12px ui-monospace,Menlo,monospace;background:#f2f2f2;padding:1px 3px}@media print{body{margin:0;max-width:none}}</style></head><body><h1>Policy Scenario Lab briefing</h1>
+<p><b>Run</b> 20261116-060252-c4a8. <b>Question.</b> Which AI regulatory instrument best reduces expected harm from frontier AI over the next five years, keeping the technology sector&#x27;s net loss below $400bn and the gross social cost under $150bn?</p>
+<p><b>How it was read.</b> 8 instruments and the status quo (default battery); horizon 5 years; 480 Monte Carlo paths per alternative (the run started on 120 and doubled on the same random streams, ceiling 480), every alternative on the same random numbers, seed 7; constraints: industry loss at most $400bn; gross social cost at most $150bn.</p>
+<p><b>What this is.</b> A comparison of alternatives inside a synthetic model of the AI economy under declared assumptions. The figures are conditional on that model: they are scenario evaluations, not forecasts validated against data, and the preferred option is the model&#x27;s answer to the question, to be examined, not an established recommendation. Confronted with 11 published benchmarks, mostly analogues from other regulation, the model is not contradicted by 9 and fails or strains on equity return when a horizontal regime becomes enforceable; share of the insurance loading used up by underwriting and administration. 5 of its 15 mechanisms have no benchmark at all, and no mechanism is estimated from data.</p>
+<h2>The answer</h2>
+<p><b>Preferred option: Liability with a safe harbour.</b> Expected net social value $38.3bn (95% confidence interval $33.8bn to $43.4bn) over 5 years, the highest among the alternatives that satisfy the constraints and above the status quo, which scores zero. It avoids $17.6bn of expected harm (19% of the status quo&#x27;s), and the industry&#x27;s expected value change is -$391bn (95% confidence interval -$407bn to -$375bn).</p>
+<p>Across the simulated outcomes the net social value of Liability with a safe harbour runs from -$25.5bn (10th percentile) to $87.4bn (90th percentile) and is positive on 63% of paths; that range is how different one path can be from another, not the uncertainty of the expected value, which the confidence interval gives. The confidence interval excludes zero.</p>
+<p><b>How firm the decision is on these paths.</b> Liability with a safe harbour is the best feasible alternative in 83% of bootstrap resamples of the paths, with feasibility re assessed in each. That share is ranking stability under the model and its assumptions; it is not the probability that the option is best in the world. It satisfies the constraints in 83% of resamples. Under the conservative rule (feasible in at least 90% of resamples) the preferred option is Transparency and disclosure. </p>
+<p><b>Feasibility that the paths do not settle.</b> Risk tiering (EU style) is within the constraints in 54% of resamples (expected net social value -$69.4bn); Liability with a safe harbour is within the constraints in 83% of resamples (expected net social value $38.3bn). A constraint is tested on an estimate; where the limit sits inside the estimate&#x27;s interval, inclusion or exclusion is not settled.</p>
+<p><b>Short of the precision target at the ceiling of 480 paths:</b> Liability with a safe harbour: within the constraints in 83% of resamples.</p>
+<h2>The options compared</h2>
+<table>
+<tr><th>Alternative</th><th>Expected net social value, $bn</th><th>95% confidence interval</th><th>Outcomes, 10th to 90th percentile</th><th>Harm avoided, $bn</th><th>Gross social cost, $bn</th><th>Industry value change, $bn</th><th>P(catastrophe)</th><th>Headline score</th><th>Within constraints</th><th>Share of resamples within</th><th>Ranking stability</th></tr>
+<tr><td>Liability with a safe harbour (preferred)</td><td>38.3</td><td>[33.8, 43.4]</td><td>[-25.5, 87.4]</td><td>17.6</td><td>12.7</td><td>-391</td><td>12.2%</td><td>-0.002</td><td>yes</td><td>83%</td><td>83%</td></tr>
+<tr><td>Transparency and disclosure</td><td>28.2</td><td>[26.0, 30.5]</td><td>[2.4, 66.2]</td><td>1.6</td><td>1.9</td><td>48</td><td>15.0%</td><td>+0.014</td><td>yes</td><td>100%</td><td>16%</td></tr>
+<tr><td>Mandatory third party evaluation</td><td>25.0</td><td>[20.3, 29.6]</td><td>[-33.2, 70.8]</td><td>14.2</td><td>12.5</td><td>-54</td><td>12.9%</td><td>+0.010</td><td>yes</td><td>100%</td><td>1%</td></tr>
+<tr><td>Compute threshold reporting</td><td>11.3</td><td>[9.4, 13.5]</td><td>[-2.1, 28.5]</td><td>3.1</td><td>2.1</td><td>168</td><td>14.5%</td><td>+0.014</td><td>yes</td><td>100%</td><td>0%</td></tr>
+<tr><td>Status quo (voluntary commitments)</td><td>0.0</td><td>[0.0, 0.0]</td><td>[0.0, 0.0]</td><td>0.0</td><td>0.0</td><td>0</td><td>15.0%</td><td>+0.000</td><td>yes</td><td>100%</td><td>0%</td></tr>
+<tr><td>Strict liability</td><td>-3.7</td><td>[-5.8, -1.4]</td><td>[-25.6, 19.7]</td><td>4.2</td><td>10.7</td><td>-1,251</td><td>14.4%</td><td>+0.003</td><td>no</td><td>0%</td><td>0%</td></tr>
+<tr><td>Risk tiering (EU style)</td><td>-69.4</td><td>[-71.8, -66.7]</td><td>[-101.4, -30.5]</td><td>4.4</td><td>73.8</td><td>-399</td><td>14.5%</td><td>-0.003</td><td>yes</td><td>54%</td><td>0%</td></tr>
+<tr><td>Frontier licensing</td><td>-103.0</td><td>[-106.0, -100.4]</td><td>[-135.4, -78.9]</td><td>3.6</td><td>106.7</td><td>-491</td><td>14.4%</td><td>+0.010</td><td>no</td><td>0%</td><td>0%</td></tr>
+<tr><td>Six month moratorium above the threshold</td><td>-114.9</td><td>[-117.7, -112.0]</td><td>[-148.3, -77.3]</td><td>6.5</td><td>121.6</td><td>-8</td><td>14.0%</td><td>-0.012</td><td>yes</td><td>100%</td><td>0%</td></tr>
+</table>
+<p>The status quo carries an expected harm of $93.1bn over the horizon, 9.3 reportable incidents a year, a 100% probability of at least one major incident and a 15.0% probability of a catastrophic one (95% confidence interval 14.7% to 15.3%; a catastrophe was drawn on 76 of 480 paths). The probability is estimated from the hazard each path accumulates, not from the count of paths on which the event happened to be drawn, which is why it is far more precise than that count.</p>
+<p><b>Liability with a safe harbour against each other feasible alternative</b> (paired on the same paths):</p>
+<table>
+<tr><th>Against</th><th>Difference in expected net social value, $bn</th><th>95% confidence interval</th><th>Simultaneous 95% interval</th><th>Told apart</th></tr>
+<tr><td>Status quo (voluntary commitments)</td><td>38.3</td><td>[33.8, 43.4]</td><td>[32.6, 44.1]</td><td>yes</td></tr>
+<tr><td>Transparency and disclosure</td><td>10.2</td><td>[6.5, 14.3]</td><td>[5.3, 15.1]</td><td>yes</td></tr>
+<tr><td>Compute threshold reporting</td><td>27.0</td><td>[23.1, 31.6]</td><td>[21.9, 32.2]</td><td>yes</td></tr>
+<tr><td>Mandatory third party evaluation</td><td>13.4</td><td>[9.8, 17.2]</td><td>[8.5, 18.3]</td><td>yes</td></tr>
+<tr><td>Risk tiering (EU style)</td><td>107.7</td><td>[104.3, 111.7]</td><td>[103.3, 112.1]</td><td>yes</td></tr>
+<tr><td>Six month moratorium above the threshold</td><td>153.2</td><td>[149.7, 157.2]</td><td>[148.7, 157.8]</td><td>yes</td></tr>
+</table>
+<h2>What Liability with a safe harbour buys and costs</h2>
+<table>
+<tr><th>Component</th><th>Expected value, $bn present value</th><th>95% confidence interval</th><th>Outcomes, 10th to 90th percentile</th></tr>
+<tr><td>Harm avoided</td><td>17.6</td><td>[17.6, 17.6]</td><td>[0.9, 8.5]</td></tr>
+<tr><td>Consumer surplus</td><td>-0.9</td><td>[-1.5, -0.3]</td><td>[-7.0, 6.3]</td></tr>
+<tr><td>Output uplift (adoption)</td><td>33.5</td><td>[29.7, 37.8]</td><td>[-6.5, 81.5]</td></tr>
+<tr><td>Resident producer surplus</td><td>-0.3</td><td>[-0.5, -0.1]</td><td>[-2.1, 1.8]</td></tr>
+<tr><td>Compliance (resource cost)</td><td>-9.6</td><td>[-9.6, -9.6]</td><td>[-9.7, -9.4]</td></tr>
+<tr><td>Enforcement budget (cost)</td><td>-0.3</td><td>[-0.3, -0.3]</td><td>[-0.3, -0.2]</td></tr>
+<tr><td>Activity lost offshore (cost)</td><td>0.0</td><td>[0.0, 0.0]</td><td>[0.0, 0.0]</td></tr>
+<tr><td>Relocation cost</td><td>0.0</td><td>[0.0, 0.0]</td><td>[0.0, 0.0]</td></tr>
+<tr><td>Labour adjustment (cost)</td><td>0.0</td><td>[0.0, 0.0]</td><td>[-0.1, 0.1]</td></tr>
+<tr><td>Insurance administration (resource cost)</td><td>-1.6</td><td>[-1.6, -1.6]</td><td>[-1.6, -1.6]</td></tr>
+<tr><td><b>Net social value</b></td><td><b>38.3</b></td><td>[33.8, 43.4]</td><td>[-25.5, 87.4]</td></tr>
+</table>
+<p>Expected harm avoided is estimated from the harm expected in each month given the state the path has reached (probability times mean severity), which has the same expectation as the harm drawn and far less variance. The outcomes column uses the harm as drawn: its median is $2.6bn and the average of the draws is $18.4bn; 86% of that average comes from the tenth of paths with the largest values, the paths on which a catastrophic incident is averted.</p>
+<p>Gross social cost $12.7bn (the expected component changes that are costs, never netted against savings), gross benefit $51.1bn; their difference is the net social value. Gross cost per dollar of expected harm avoided: 0.72.</p>
+<p>Transfers, excluded from the net: fines $0.0bn, liability paid by firms $0.0bn, insurance premiums $16.1bn, claims paid to victims $17.8bn.</p>
+<h2>Who gains and who pays</h2>
+<table>
+<tr><th>Party</th><th>Change, $bn present value</th></tr>
+<tr><td>Compliance providers (rents)</td><td>4.1</td></tr>
+<tr><td>Consumers</td><td>-0.9</td></tr>
+<tr><td>Domestic workers and tax base (activity moved offshore)</td><td>0.0</td></tr>
+<tr><td>Insurers</td><td>-3.3</td></tr>
+<tr><td>Public at risk (harm not suffered, compensation received)</td><td>35.4</td></tr>
+<tr><td>Resident owners of AI firms</td><td>-18.2</td></tr>
+<tr><td>Sectors that adopt AI (output)</td><td>33.5</td></tr>
+<tr><td>Taxpayers (fines less enforcement)</td><td>-0.3</td></tr>
+<tr><td>Workers (adjustment)</td><td>0.0</td></tr>
+<tr><td><b>Total</b></td><td><b>50.3</b></td></tr>
+</table>
+<p>The table follows the money as well as the real effects, so it sums to the net social value ($38.3bn) plus what non resident owners finance of the firms&#x27; payments ($11.9bn), a memorandum item the net social value does not count. Standing is residents: real resources used in the jurisdiction count in full, income counts for residents, and transfers are excluded whoever pays.</p>
+<h2>Safety forecast</h2>
+<table>
+<tr><th>Alternative</th><th>Incidents a year</th><th>Major a year</th><th>P(major)</th><th>P(catastrophe)</th><th>95% confidence interval</th><th>Expected harm, $bn</th><th>Safety level at end</th><th>Frontier capability at end</th><th>Trust at end</th></tr>
+<tr><td>Status quo (voluntary commitments)</td><td>9.3</td><td>1.25</td><td>100%</td><td>15.0%</td><td>14.7% to 15.3%</td><td>93.1</td><td>0.66</td><td>4.36</td><td>0.73</td></tr>
+<tr><td>Transparency and disclosure</td><td>8.5</td><td>1.18</td><td>100%</td><td>15.0%</td><td>14.7% to 15.3%</td><td>91.5</td><td>0.66</td><td>4.36</td><td>0.74</td></tr>
+<tr><td>Compute threshold reporting</td><td>9.1</td><td>1.22</td><td>100%</td><td>14.5%</td><td>14.2% to 14.8%</td><td>90.0</td><td>0.66</td><td>4.36</td><td>0.73</td></tr>
+<tr><td>Mandatory third party evaluation</td><td>8.2</td><td>1.11</td><td>99%</td><td>12.9%</td><td>12.6% to 13.1%</td><td>78.9</td><td>0.66</td><td>4.11</td><td>0.76</td></tr>
+<tr><td>Risk tiering (EU style)</td><td>8.5</td><td>1.15</td><td>99%</td><td>14.5%</td><td>14.2% to 14.8%</td><td>88.7</td><td>0.67</td><td>4.25</td><td>0.75</td></tr>
+<tr><td>Frontier licensing</td><td>9.1</td><td>1.23</td><td>100%</td><td>14.4%</td><td>14.1% to 14.7%</td><td>89.5</td><td>0.67</td><td>4.04</td><td>0.73</td></tr>
+<tr><td>Strict liability</td><td>8.8</td><td>1.18</td><td>100%</td><td>14.4%</td><td>14.1% to 14.7%</td><td>88.9</td><td>0.68</td><td>4.21</td><td>0.74</td></tr>
+<tr><td>Liability with a safe harbour</td><td>8.0</td><td>1.07</td><td>99%</td><td>12.2%</td><td>12.0% to 12.4%</td><td>75.5</td><td>0.68</td><td>4.30</td><td>0.77</td></tr>
+<tr><td>Six month moratorium above the threshold</td><td>8.7</td><td>1.17</td><td>100%</td><td>14.0%</td><td>13.7% to 14.3%</td><td>86.6</td><td>0.66</td><td>4.09</td><td>0.74</td></tr>
+</table>
+<p>Under Liability with a safe harbour the economy runs 8.0 reportable incidents a year (misuse 4.3, accidents 2.6, systemic 1.0), against 9.3 at the status quo; the expected catastrophic harm is $55.0bn against $69.1bn. Firms end with 12% of R&amp;D on safety, 0% of activity offshore and 100% compliance. A major incident is a single incident at or above the threshold; catastrophes are counted apart.</p>
+<h2>The news environment to expect</h2>
+<table>
+<tr><th>Alternative</th><th>Minor incident headlines a year</th><th>Major incident headlines a year</th><th>Enforcement headlines a year</th><th>Relocation headlines a year</th><th>Peak pressure</th><th>P(hearing)</th><th>Early tone</th></tr>
+<tr><td>Status quo (voluntary commitments)</td><td>8.1</td><td>1.25</td><td>2.36</td><td>0.00</td><td>0.32</td><td>1%</td><td>-0.10</td></tr>
+<tr><td>Transparency and disclosure</td><td>7.4</td><td>1.18</td><td>0.00</td><td>0.00</td><td>0.34</td><td>2%</td><td>+0.05</td></tr>
+<tr><td>Compute threshold reporting</td><td>7.9</td><td>1.22</td><td>0.00</td><td>0.00</td><td>0.35</td><td>4%</td><td>+0.04</td></tr>
+<tr><td>Mandatory third party evaluation</td><td>7.1</td><td>1.11</td><td>1.30</td><td>0.00</td><td>0.34</td><td>2%</td><td>+0.04</td></tr>
+<tr><td>Risk tiering (EU style)</td><td>7.3</td><td>1.15</td><td>1.45</td><td>0.00</td><td>0.36</td><td>6%</td><td>+0.04</td></tr>
+<tr><td>Frontier licensing</td><td>7.9</td><td>1.23</td><td>1.63</td><td>2.40</td><td>0.37</td><td>4%</td><td>+0.04</td></tr>
+<tr><td>Strict liability</td><td>7.7</td><td>1.18</td><td>6.86</td><td>0.00</td><td>0.43</td><td>34%</td><td>+0.04</td></tr>
+<tr><td>Liability with a safe harbour</td><td>6.9</td><td>1.07</td><td>0.00</td><td>0.00</td><td>0.32</td><td>2%</td><td>+0.04</td></tr>
+<tr><td>Six month moratorium above the threshold</td><td>7.5</td><td>1.17</td><td>0.00</td><td>0.00</td><td>0.34</td><td>3%</td><td>-0.11</td></tr>
+</table>
+<p>On the representative path the wire under Liability with a safe harbour ran 140 headlines over the horizon, 30% of them negative. The three worst: &quot;Payment system disruption tied to Frontier Lab (closed weights) causes $4.2bn in losses&quot; (WIRE, 2027-01); &quot;MAJOR: Enterprise software system behind logistics routing collapse; damages reach $1.1bn&quot; (WIRE, 2027-11); &quot;Regulators open inquiry into Autonomy and robotics after $1.0bn flawed credit decisions&quot; (WIRE, 2028-10).</p>
+<h2>The market</h2>
+<p>Industry net value change under Liability with a safe harbour: -$391bn (95% confidence interval -$407bn to -$375bn) on a starting value of $6.38tn; across outcomes -$602bn to -$173bn, and the industry gains on 3% of paths. The value weighted index reacts -1.6% against the status quo over the first six months and -3.9% by the end of the horizon. Every index is measured from the same valuation, the firms as they stand before any instrument is announced, so an instrument&#x27;s immediate effect on fundamentals shows in the first month.</p>
+<table>
+<tr><th>Firm</th><th>Sector</th><th>Expected value change, $bn</th><th>95% confidence interval</th><th>Outcomes, 10th to 90th</th><th>P(gain)</th><th>Earnings change, $bn</th><th>Offshore at end</th><th>Safety share at end</th></tr>
+<tr><td>Frontier Lab (closed weights)</td><td>Frontier lab</td><td>-80.0</td><td>[-82.0, -78.3]</td><td>[-109.1, -54.5]</td><td>0%</td><td>-4.5</td><td>0%</td><td>12%</td></tr>
+<tr><td>Frontier Lab (open weights)</td><td>Open weights</td><td>-40.2</td><td>[-41.2, -39.2]</td><td>[-55.0, -27.4]</td><td>0%</td><td>-3.1</td><td>0%</td><td>12%</td></tr>
+<tr><td>Hyperscaler cloud</td><td>hyperscaler</td><td>-51.3</td><td>[-55.4, -47.3]</td><td>[-100.2, 4.8]</td><td>12%</td><td>-6.3</td><td>0%</td><td>12%</td></tr>
+<tr><td>Chip designer</td><td>chips</td><td>-54.0</td><td>[-60.6, -47.9]</td><td>[-122.7, 32.9]</td><td>16%</td><td>-3.1</td><td>0%</td><td>12%</td></tr>
+<tr><td>Enterprise software</td><td>Enterprise software</td><td>-40.3</td><td>[-42.2, -38.4]</td><td>[-64.2, -14.2]</td><td>5%</td><td>-3.7</td><td>0%</td><td>12%</td></tr>
+<tr><td>Consumer AI platform</td><td>Consumer AI</td><td>-64.7</td><td>[-66.5, -62.8]</td><td>[-89.5, -41.8]</td><td>1%</td><td>-4.2</td><td>0%</td><td>12%</td></tr>
+<tr><td>Autonomy and robotics</td><td>autonomy</td><td>-56.7</td><td>[-58.2, -55.3]</td><td>[-77.3, -38.9]</td><td>0%</td><td>-2.9</td><td>0%</td><td>12%</td></tr>
+<tr><td>AI start up cohort</td><td>startups</td><td>-4.0</td><td>[-4.5, -3.4]</td><td>[-10.5, 3.9]</td><td>21%</td><td>-2.5</td><td>0%</td><td>12%</td></tr>
+</table>
+<table>
+<tr><th>Sector</th><th>Expected value change, $bn</th><th>Starting value, $bn</th></tr>
+<tr><td>Frontier lab</td><td>-80.0</td><td>267</td></tr>
+<tr><td>Open weights</td><td>-40.2</td><td>60</td></tr>
+<tr><td>hyperscaler</td><td>-51.3</td><td>1,910</td></tr>
+<tr><td>chips</td><td>-54.0</td><td>2,492</td></tr>
+<tr><td>Enterprise software</td><td>-40.3</td><td>935</td></tr>
+<tr><td>Consumer AI</td><td>-64.7</td><td>507</td></tr>
+<tr><td>autonomy</td><td>-56.7</td><td>119</td></tr>
+<tr><td>startups</td><td>-4.0</td><td>91</td></tr>
+</table>
+<p>The firms are synthetic archetypes of the AI value chain, not companies; the figures are the model&#x27;s and carry its assumptions. Shareholder value is a market metric and a constraint; it is not part of the net social value.</p>
+<h2>The decision gap</h2>
+<p>Ranked by how they look in the first six months (the price reaction and the early tone of the wire), the instruments are Transparency and disclosure, Compute threshold reporting, Frontier licensing, Mandatory third party evaluation, Strict liability, Liability with a safe harbour, Risk tiering (EU style), Six month moratorium above the threshold. Ranked by expected net social value over 5 years they are Liability with a safe harbour, Transparency and disclosure, Mandatory third party evaluation, Compute threshold reporting, Strict liability, Risk tiering (EU style), Frontier licensing, Six month moratorium above the threshold. Kendall tau b between the two is +0.36; the decision gap ((1 - tau) / 2) is 0.32, and the two orders invert in 0% of resamples.</p>
+<h2>How sure we are</h2>
+<p><b>Monte Carlo error.</b> Every expected value above carries the 95% bootstrap confidence interval of its mean over 500 resamples of the paths, paired across alternatives. The run followed its sampling plan: 120 then 240 then 480 paths, stopping when the preferred alternative was resolved against every other feasible one to within $5.0bn and the catastrophe probabilities to within 3%, or at the ceiling. The intervals are not adjusted for those sequential looks.</p>
+<p>Convergence of the running estimate (the first paths of the run are exactly what a smaller run on this seed reports):</p>
+<table>
+<tr><th>Paths</th><th>Decision</th><th>Expected net social value of Liability with a safe harbour, $bn</th><th>Standard error</th><th>P(catastrophe), status quo</th></tr>
+<tr><td>60</td><td>Transparency and disclosure</td><td>29.3</td><td>5.32</td><td>15.4%</td></tr>
+<tr><td>120</td><td>Transparency and disclosure</td><td>35.4</td><td>3.95</td><td>15.2%</td></tr>
+<tr><td>240</td><td>Liability with a safe harbour</td><td>36.5</td><td>3.08</td><td>14.9%</td></tr>
+<tr><td>480</td><td>Liability with a safe harbour</td><td>38.3</td><td>2.33</td><td>15.0%</td></tr>
+</table>
+<p>The decision is the same over the last doubling of the paths, and the final estimate lies inside every earlier interval.</p>
+<p>Split into 4 independent batches of 120 paths, the run gives the same decision in 2 of them (Transparency and disclosure, Liability with a safe harbour, Transparency and disclosure, Liability with a safe harbour).</p>
+<p><b>Parameters, one at a time.</b> Each of the 68 declared assumptions was moved to the low and the high end of its plausible range, the decision re made under each (feasibility re assessed, the status quo an alternative). Liability with a safe harbour is worth $38.3bn at the run&#x27;s values. The 15 largest swings:</p>
+<table>
+<tr><th>Assumption</th><th>Run&#x27;s value</th><th>Low</th><th>Value at low, $bn</th><th>Decision at low</th><th>High</th><th>Value at high, $bn</th><th>Decision at high</th></tr>
+<tr><td>Capability growth</td><td>0.0230</td><td>0.0150</td><td>24.4</td><td>Liability with a safe harbour</td><td>0.0350</td><td>156.0</td><td>Liability with a safe harbour</td></tr>
+<tr><td>Trust sensitivity to harm</td><td>0.0400</td><td>0.0200</td><td>9.2</td><td>Transparency and disclosure</td><td>0.0800</td><td>117.1</td><td>Liability with a safe harbour</td></tr>
+<tr><td>Safety spend that displaces capability R&amp;D</td><td>0.60</td><td>0.30</td><td>56.4</td><td>Liability with a safe harbour</td><td>1.00</td><td>-18.6</td><td>Transparency and disclosure</td></tr>
+<tr><td>Capability elasticity of incidents</td><td>1.30</td><td>0.90</td><td>-2.8</td><td>Transparency and disclosure</td><td>1.80</td><td>53.4</td><td>Mandatory third party evaluation</td></tr>
+<tr><td>Output uplift base</td><td>400.00</td><td>200.00</td><td>21.6</td><td>Liability with a safe harbour</td><td>800.00</td><td>71.8</td><td>Liability with a safe harbour</td></tr>
+<tr><td>Trust elasticity of adoption benefits</td><td>0.50</td><td>0.20</td><td>17.9</td><td>Transparency and disclosure</td><td>1.00</td><td>66.5</td><td>Liability with a safe harbour</td></tr>
+<tr><td>Safety elasticity of incidents</td><td>1.80</td><td>1.40</td><td>32.5</td><td>Transparency and disclosure</td><td>3.00</td><td>-13.4</td><td>Transparency and disclosure</td></tr>
+<tr><td>Trust recovery</td><td>0.0500</td><td>0.0300</td><td>58.0</td><td>Liability with a safe harbour</td><td>0.10</td><td>12.2</td><td>Transparency and disclosure</td></tr>
+<tr><td>Share of incidents an evaluation could catch</td><td>0.35</td><td>0.20</td><td>7.1</td><td>Transparency and disclosure</td><td>0.50</td><td>49.5</td><td>Liability with a safe harbour</td></tr>
+<tr><td>Accident rate</td><td>0.0500</td><td>0.0300</td><td>20.3</td><td>Transparency and disclosure</td><td>0.0800</td><td>59.1</td><td>Liability with a safe harbour</td></tr>
+<tr><td>Weight of safety culture</td><td>0.60</td><td>0.30</td><td>2.3</td><td>Transparency and disclosure</td><td>1.20</td><td>37.8</td><td>Liability with a safe harbour</td></tr>
+<tr><td>Median harm of a catastrophe</td><td>400.00</td><td>150.00</td><td>31.1</td><td>Liability with a safe harbour</td><td>1,200.00</td><td>65.2</td><td>Mandatory third party evaluation</td></tr>
+<tr><td>Safety decay</td><td>0.0200</td><td>0.0100</td><td>12.5</td><td>Transparency and disclosure</td><td>0.0400</td><td>46.3</td><td>Transparency and disclosure</td></tr>
+<tr><td>Median harm of an accident</td><td>0.30</td><td>0.15</td><td>26.6</td><td>Transparency and disclosure</td><td>0.60</td><td>59.3</td><td>Liability with a safe harbour</td></tr>
+<tr><td>Monthly catastrophe probability</td><td>0.0020</td><td>0.0005</td><td>29.5</td><td>Liability with a safe harbour</td><td>0.0050</td><td>58.3</td><td>Mandatory third party evaluation</td></tr>
+</table>
+<p>The decision changes at an end of the range of 39 of the 68 assumptions; the 12 with the largest swings are Trust sensitivity to harm, Safety spend that displaces capability R&amp;D, Capability elasticity of incidents, Trust elasticity of adoption benefits, Safety elasticity of incidents, Trust recovery, Share of incidents an evaluation could catch, Accident rate, Weight of safety culture, Median harm of a catastrophe, Safety decay, Median harm of an accident (the screen in the artefacts lists all 39). The sign of the focus option&#x27;s value is not robust across the screen. For 36 of them the cause is feasibility: Liability with a safe harbour stops satisfying a constraint under the alternative (on the central estimate: industry loss $391bn within the $400bn limit (satisfied in 83% of resamples)); for 7 another alternative within the constraints overtakes it. Each re simulated assumption ran on the first 4 paths, paired with the main run: 38 of the 68 swings exceed twice their Monte Carlo standard error, and a change of decision inside that error is a warning to look, not a finding.</p>
+<p><b>Parameters, all together.</b> 64 joint draws of every assumption over its plausible range (correlated where they plausibly move together). Under that parameter uncertainty:</p>
+<table>
+<tr><th>Alternative</th><th>Mean net social value, $bn</th><th>5th to 95th percentile over the draws</th><th>Share of draws it is the decision</th><th>Share of draws within constraints</th><th>Share within constraints and above the status quo</th><th>Expected regret where within constraints, $bn</th></tr>
+<tr><td>Transparency and disclosure</td><td>50.4</td><td>[17.4, 102.6]</td><td>52%</td><td>100%</td><td>100%</td><td>25.5</td></tr>
+<tr><td>Liability with a safe harbour</td><td>92.5</td><td>[4.3, 304.6]</td><td>38%</td><td>44%</td><td>44%</td><td>1.0</td></tr>
+<tr><td>Mandatory third party evaluation</td><td>-1.3</td><td>[-123.3, 114.3]</td><td>8%</td><td>88%</td><td>45%</td><td>61.9</td></tr>
+<tr><td>Compute threshold reporting</td><td>26.3</td><td>[8.6, 65.6]</td><td>3%</td><td>100%</td><td>100%</td><td>49.5</td></tr>
+<tr><td>The status quo</td><td>0.0</td><td>[0.0, 0.0]</td><td>0%</td><td>100%</td><td>100%</td><td>75.8</td></tr>
+<tr><td>Risk tiering (EU style)</td><td>-49.3</td><td>[-131.4, 55.9]</td><td>0%</td><td>59%</td><td>11%</td><td>121.8</td></tr>
+<tr><td>Frontier licensing</td><td>-106.6</td><td>[-220.2, 0.1]</td><td>0%</td><td>47%</td><td>5%</td><td>142.5</td></tr>
+<tr><td>Strict liability</td><td>17.3</td><td>[-27.9, 103.4]</td><td>0%</td><td>0%</td><td>0%</td><td>n/a</td></tr>
+<tr><td>Six month moratorium above the threshold</td><td>-107.2</td><td>[-233.9, -17.5]</td><td>0%</td><td>70%</td><td>5%</td><td>147.7</td></tr>
+</table>
+<p>Regret is how far an alternative falls short of the best alternative within the constraints in the same draw, averaged over the draws in which it is itself within them; it is read beside the share of draws in which it is, because choosing an alternative where it breaks a constraint is not a cost in $bn. Among the alternatives within the constraints in at least 90% of the draws, Transparency and disclosure has the lowest expected regret.</p>
+<p>The ranges are declared judgements, a prior over the assumptions and not a posterior estimated from data. The margin of Liability with a safe harbour over the best alternative moves with Monthly catastrophe probability (rank correlation +0.50): of the 68 assumptions, 1 pass a 10% false discovery rate on that correlation. The draws in which it is the decision differ from the draws in which it is not most in Harm valuation multiplier (Kolmogorov Smirnov distance 0.50).</p>
+<p><b>Which assumptions carry the variance.</b> A Sobol decomposition over the 5 assumptions with the largest swings (448 evaluations), for the value of Liability with a safe harbour and for its margin over the best alternative. Shares with interactions (total order), with the 90% interval the size of the design allows:</p>
+<table>
+<tr><th>Assumption</th><th>Share of the value&#x27;s variance, with interactions</th><th>90% interval</th><th>Share of the margin&#x27;s variance, with interactions</th><th>90% interval</th><th>Alone (first order), margin</th></tr>
+<tr><td>Capability growth</td><td>54%</td><td>35% to 86%</td><td>69%</td><td>34% to 100%</td><td>8%</td></tr>
+<tr><td>Capability elasticity of incidents</td><td>51%</td><td>32% to 72%</td><td>55%</td><td>33% to 86%</td><td>11%</td></tr>
+<tr><td>Safety spend that displaces capability R&amp;D</td><td>22%</td><td>12% to 31%</td><td>37%</td><td>20% to 59%</td><td>6%</td></tr>
+<tr><td>Trust sensitivity to harm</td><td>18%</td><td>11% to 28%</td><td>10%</td><td>6% to 15%</td><td>9%</td></tr>
+<tr><td>Output uplift base</td><td>7%</td><td>5% to 10%</td><td>5%</td><td>3% to 7%</td><td>2%</td></tr>
+</table>
+<p>The intervals are wide (half width 17% on average for the margin): the output is heavy tailed in these assumptions, which compound, so a design of this size ranks groups of assumptions and does not order neighbours. Shares with interactions add to more than one when the assumptions interact, as these do: first order shares sum to 37% of the margin&#x27;s variance.</p>
+<p><b>Model structure.</b> Under 8 alternative model structures Liability with a safe harbour remains the decision in 3 and stays within the constraints and above the status quo in 4:</p>
+<table>
+<tr><th>Variant</th><th>What changes</th><th>Decision</th><th>Focus option&#x27;s rank among instruments</th><th>Its value, $bn</th><th>Within constraints</th></tr>
+<tr><td>Myopic firms</td><td>firms plan six months ahead instead of twelve</td><td>Liability with a safe harbour</td><td>1</td><td>39.7</td><td>yes</td></tr>
+<tr><td>Forward looking firms</td><td>firms plan two years ahead</td><td>Transparency and disclosure</td><td>1</td><td>37.1</td><td>no</td></tr>
+<tr><td>Weak regulator</td><td>the regulator has half the stated capacity</td><td>Transparency and disclosure</td><td>1</td><td>38.5</td><td>no</td></tr>
+<tr><td>Strong safety effect</td><td>safety practice cuts incidents faster</td><td>Transparency and disclosure</td><td>2</td><td>18.6</td><td>yes</td></tr>
+<tr><td>Weak safety effect</td><td>safety practice cuts incidents more slowly</td><td>Mandatory third party evaluation</td><td>1</td><td>77.5</td><td>no</td></tr>
+<tr><td>Lax offshore</td><td>offshore activity is twice as hazardous as at home</td><td>Liability with a safe harbour</td><td>1</td><td>38.3</td><td>yes</td></tr>
+<tr><td>Heavy tail</td><td>the catastrophic tail is two and a half times more likely</td><td>Mandatory third party evaluation</td><td>1</td><td>78.9</td><td>no</td></tr>
+<tr><td>Systemic catastrophes</td><td>catastrophic failures are strongly correlated across firms</td><td>Liability with a safe harbour</td><td>1</td><td>39.6</td><td>yes</td></tr>
+</table>
+<p><b>Gaming.</b> Firms game each instrument four ways; the instrument under its worst strategy, and whether it is then still within the constraints and above the status quo:</p>
+<table>
+<tr><th>Instrument</th><th>Honest value, $bn</th><th>Worst strategy</th><th>Value when gamed, $bn</th><th>Harm avoided when gamed, $bn</th><th>Loss to gaming, $bn</th><th>Acceptable under every strategy</th></tr>
+<tr><td>Transparency and disclosure</td><td>28.2</td><td>Threshold splitting</td><td>28.2</td><td>1.6</td><td>0.0</td><td>yes</td></tr>
+<tr><td>Liability with a safe harbour</td><td>38.3</td><td>Compliance theatre</td><td>6.8</td><td>-5.7</td><td>31.6</td><td>no</td></tr>
+<tr><td>Compute threshold reporting</td><td>11.3</td><td>Compliance theatre</td><td>6.4</td><td>1.5</td><td>5.0</td><td>yes</td></tr>
+<tr><td>Strict liability</td><td>-3.7</td><td>Threshold splitting</td><td>-3.7</td><td>4.2</td><td>0.0</td><td>no</td></tr>
+<tr><td>Mandatory third party evaluation</td><td>25.0</td><td>Maximal relocation</td><td>-116.3</td><td>-3.5</td><td>141.3</td><td>no</td></tr>
+<tr><td>Six month moratorium above the threshold</td><td>-114.9</td><td>Compliance theatre</td><td>-119.1</td><td>5.1</td><td>4.2</td><td>no</td></tr>
+<tr><td>Risk tiering (EU style)</td><td>-69.4</td><td>Maximal relocation</td><td>-169.1</td><td>-12.4</td><td>99.7</td><td>no</td></tr>
+<tr><td>Frontier licensing</td><td>-103.0</td><td>Maximal relocation</td><td>-173.4</td><td>-1.8</td><td>70.4</td><td>no</td></tr>
+</table>
+<p>When every instrument is gamed at its worst, the best choice is Transparency and disclosure. Strategies: Compliance theatre: mandated safety spend is reported but not spent; evaluations are gamed; Maximal relocation: firms are more mobile and moving is cheaper than assumed; Threshold splitting: models are split so the regulator sees capability 20% below the real level; Use case relabelling: deployments are relabelled into lower tiers, avoiding 60% of tier costs.</p>
+<p><b>Robustly acceptable.</b> Transparency and disclosure, Compute threshold reporting are within the constraints and above the status quo on the central estimate, in at least 90% of the joint draws, in every structural variant and under every gaming strategy. The preferred option is not among them: it is the best on the central estimate and not robust to the alternatives above.</p>
+<p><b>Validation against published evidence.</b> The model was confronted with 11 published benchmarks that bear on 10 of its 15 mechanisms. 3 of those mechanisms have a benchmark measured on AI itself; the others rest on analogues from other regulation and other technologies, each compared with an allowance for that distance. At the central assumptions the model is not contradicted by 9, is in tension with 1 (Share of the insurance loading used up by underwriting and administration) and is contradicted by 1 (Equity return when a horizontal regime becomes enforceable). Even the closest tenth of the draws of the assumptions miss Equity return when a horizontal regime becomes enforceable by more than 2 standard deviations: that is a failure of the model&#x27;s form and not of a parameter value, so it is reported and left out of the weighting below. No benchmark bears on 5 mechanisms: severity, catastrophic tail, safety practice, evaluation, news.</p>
+<table>
+<tr><th>Benchmark</th><th>Kind</th><th>Observed (allowance, one sd)</th><th>Model at the central assumptions</th><th>z</th><th>Verdict</th><th>Model across the declared ranges, 5th to 95th</th><th>Predicted with it held out</th></tr>
+<tr><td>Annual growth of recorded AI incidents</td><td>direct</td><td>56% (sd 26%)</td><td>42%</td><td>-0.5</td><td>not contradicted</td><td>25% to 70%</td><td>41% (z -0.5)</td></tr>
+<tr><td>Annual change in public trust in AI and AI companies</td><td>direct</td><td>-5.1% (sd 2.3%)</td><td>-6.2%</td><td>-0.5</td><td>not contradicted</td><td>-15.1% to -2.0%</td><td>-8.3% (z -0.6)</td></tr>
+<tr><td>Share of a fall in trust recovered about nine months after a salient incident</td><td>analogue</td><td>20% (sd 35%)</td><td>37%</td><td>+0.5</td><td>not contradicted</td><td>30% to 55%</td><td>41% (z +0.6)</td></tr>
+<tr><td>Compliance cost of a high risk regime as a share of development spending in scope</td><td>official</td><td>10.8% (sd 6.9%)</td><td>12.1%</td><td>+0.2</td><td>not contradicted</td><td>10.1% to 13.4%</td><td>12.2% (z +0.2)</td></tr>
+<tr><td>Effect of a horizontal compliance regime on the profits of firms in scope</td><td>analogue</td><td>-3.3% (sd 3.9%)</td><td>-7.4%</td><td>-1.1</td><td>not contradicted</td><td>-9.2% to -6.1%</td><td>-7.5% (z -1.0)</td></tr>
+<tr><td>Equity return when a horizontal regime becomes enforceable</td><td>analogue</td><td>-0.9% (sd 1.0%)</td><td>-4.8%</td><td>-3.9</td><td>contradicted; a failure of form, left out of the weights</td><td>-5.8% to -3.4%</td><td>left out of the weights</td></tr>
+<tr><td>Equity return of a firm when a regulatory fine is announced</td><td>analogue</td><td>-0.7% (sd 1.0%)</td><td>0.0%</td><td>+0.7</td><td>not contradicted</td><td>-2.7% to -1.1%</td><td>-1.7% (z -0.5)</td></tr>
+<tr><td>Equity return of a firm when a serious incident becomes public</td><td>analogue</td><td>-1.1% (sd 1.1%)</td><td>-1.2%</td><td>+0.0</td><td>not contradicted</td><td>-1.8% to +2.6%</td><td>+0.5% (z +0.7)</td></tr>
+<tr><td>Share of regulated activity displaced abroad by a unilateral regime</td><td>analogue</td><td>14.0% (sd 8.6%)</td><td>24.8%</td><td>+1.3</td><td>not contradicted</td><td>2.1% to 25.2%</td><td>16.7% (z +0.2)</td></tr>
+<tr><td>Premium above expected claims in liability insurance</td><td>analogue</td><td>31% (sd 15%)</td><td>25%</td><td>-0.4</td><td>not contradicted</td><td>16% to 43%</td><td>29% (z -0.1)</td></tr>
+<tr><td>Share of the insurance loading used up by underwriting and administration</td><td>analogue</td><td>107% (sd 25%)</td><td>50%</td><td>-2.3</td><td>in tension</td><td>33% to 67%</td><td>48% (z -2.2)</td></tr>
+</table>
+<p>The allowance is the benchmark&#x27;s own standard error combined with a declared allowance for the distance between the setting it was measured in and the model&#x27;s; z is the gap between model and observation in those units, with the Monte Carlo error of the model&#x27;s value added. Not contradicted: within two; in tension: two to three; contradicted: beyond three. A benchmark is predicted with it held out from the draws weighted by all the others.</p>
+<p>Weighting the 64 joint draws of the assumptions by how well each reproduces the 10 benchmarks it can be compared with leaves an effective 22 draws. In the weighted draws the decision is Transparency and disclosure in 58% (unweighted 52%); Liability with a safe harbour in 36% (unweighted 38%); Mandatory third party evaluation in 6% (unweighted 8%); Compute threshold reporting in 0% (unweighted 3%). 88% of the draws are ruled out by no benchmark at 3 standard deviations. Liability with a safe harbour is within the constraints and above the status quo in 42% of the weighted draws (44% unweighted). The benchmarks bear on 21 of the 68 assumptions drawn; they move most Resource share of the insurance loading (+0.6 sd), Capability elasticity of incidents (-0.4 sd), Revenue lost offshore (-0.3 sd), Misuse incident rate (-0.2 sd), Trust recovery (-0.2 sd).</p>
+<table>
+<tr><th>Assumption the benchmarks bear on</th><th>Value on this run</th><th>Mean of the draws</th><th>Weighted mean</th><th>Shift, in sd of the draws</th><th>Spread kept</th><th>Through</th></tr>
+<tr><td>Resource share of the insurance loading</td><td>0.5</td><td>0.4999</td><td>0.5609</td><td>+0.60</td><td>88%</td><td>insurance resource share</td></tr>
+<tr><td>Capability elasticity of incidents</td><td>1.3</td><td>1.333</td><td>1.268</td><td>-0.35</td><td>83%</td><td>incident growth, trust trend</td></tr>
+<tr><td>Revenue lost offshore</td><td>0.12</td><td>0.1403</td><td>0.1306</td><td>-0.27</td><td>85%</td><td>leakage share</td></tr>
+<tr><td>Misuse incident rate</td><td>0.08</td><td>0.08661</td><td>0.08292</td><td>-0.22</td><td>92%</td><td>trust trend</td></tr>
+<tr><td>Trust recovery</td><td>0.05</td><td>0.06003</td><td>0.05678</td><td>-0.22</td><td>78%</td><td>trust recovery</td></tr>
+<tr><td>Price jump on an own incident</td><td>0.5</td><td>0.5837</td><td>0.6149</td><td>+0.20</td><td>99%</td><td>incident return</td></tr>
+<tr><td>Dispersion of incident harm</td><td>1.1</td><td>1.1</td><td>1.116</td><td>+0.13</td><td>110%</td><td>incident return</td></tr>
+<tr><td>Relocation cost</td><td>0.08</td><td>0.09329</td><td>0.09023</td><td>-0.12</td><td>93%</td><td>leakage share</td></tr>
+<tr><td>Capability growth</td><td>0.023</td><td>0.02432</td><td>0.02389</td><td>-0.10</td><td>77%</td><td>incident growth, profit effect, trust trend</td></tr>
+<tr><td>Median harm of a misuse incident</td><td>0.15</td><td>0.1765</td><td>0.1814</td><td>+0.10</td><td>120%</td><td>incident return</td></tr>
+</table>
+<p>Weighting by benchmarks is a posterior given the allowances declared for each benchmark, not a measurement: most of the evidence is an analogue, and a wide allowance makes a benchmark easy to pass and uninformative. What the benchmarks do not reach is listed with the reasons; in particular nothing here identifies the elasticity of realised adoption to trust.</p>
+<p><b>Validation against an observed event.</b> No price series was uploaded on this run, so the market&#x27;s early reaction was not compared with an event of the authority&#x27;s own.</p>
+<p>No mechanism of the model is estimated from data. The benchmarks above show where its declared assumptions sit against what has been measured elsewhere; the mechanism register lists, for each of the 15 mechanisms, the evidence that would test it. Common random numbers make the comparison between alternatives precise inside the model; they do not make the model true.</p>
+<h2>Assumptions</h2>
+<p>Every value judgement and behavioural parameter, hash <code>c6c928eedba23618356e89d5a97435ef127d1f3cdffa587947b837c966b1e125</code>, with the plausible range the screen and the joint draw move it over:</p>
+<table>
+<tr><th>Assumption</th><th>Value</th><th>Plausible range</th><th>Unit</th><th>Meaning</th></tr>
+<tr><td>Social discount rate</td><td>0.0300</td><td>0.0100 to 0.0700</td><td>a year</td><td>social discount rate applied to every monthly flow</td></tr>
+<tr><td>Harm valuation multiplier</td><td>1.00</td><td>0.50 to 2.00</td><td>multiple</td><td>scales the monetised harm of incidents; 1.0 takes the engine&#x27;s damages at face value</td></tr>
+<tr><td>Consumer surplus base</td><td>250.00</td><td>150.00 to 600.00</td><td>$bn a year</td><td>annual consumer surplus from AI services at the starting level of capability and reach</td></tr>
+<tr><td>Consumer surplus elasticity</td><td>0.60</td><td>0.30 to 1.00</td><td>elasticity</td><td>proportional change in consumer surplus per proportional change in the AI service index</td></tr>
+<tr><td>Output uplift base</td><td>400.00</td><td>200.00 to 800.00</td><td>$bn a year</td><td>annual output uplift attributable to AI adoption at the starting service index</td></tr>
+<tr><td>Output uplift elasticity</td><td>0.80</td><td>0.50 to 1.10</td><td>elasticity</td><td>proportional change in the output uplift per proportional change in the service index</td></tr>
+<tr><td>Trust elasticity of adoption benefits</td><td>0.50</td><td>0.20 to 1.00</td><td>elasticity</td><td>proportional change in realised adoption benefits per proportional change in public trust</td></tr>
+<tr><td>Overlap of the output uplift with other benefits</td><td>0.00</td><td>0.00 to 0.50</td><td>share</td><td>share of the output uplift already counted as consumer surplus or as the AI firms&#x27; own profit, removed from the output uplift; 0 takes the three benefit components as defined, without overlap</td></tr>
+<tr><td>Resource share of compliance spend</td><td>0.70</td><td>0.40 to 1.00</td><td>share</td><td>share of compliance spend that is a real resource cost rather than a transfer</td></tr>
+<tr><td>Enforcement cost</td><td>0.40</td><td>0.20 to 0.80</td><td>$bn a year per unit of capacity</td><td>public budget consumed by one unit of enforcement capacity</td></tr>
+<tr><td>Value lost per dollar moved offshore</td><td>0.35</td><td>0.10 to 0.70</td><td>share</td><td>domestic value added lost per dollar of revenue whose activity moves offshore</td></tr>
+<tr><td>Labour adjustment cost</td><td>2.00</td><td>0.00 to 5.00</td><td>$bn per index point</td><td>short run adjustment cost per point of growth in the AI service index (displacement, retraining)</td></tr>
+<tr><td>Resident ownership share</td><td>0.60</td><td>0.30 to 0.90</td><td>share</td><td>share of the firms&#x27; operating profit that accrues to residents and counts in national welfare</td></tr>
+<tr><td>Resource share of the insurance loading</td><td>0.50</td><td>0.25 to 0.75</td><td>share</td><td>share of the insurance loading that is a real resource cost (underwriting, administration) rather than a transfer to insurers</td></tr>
+<tr><td>Misuse incident rate</td><td>0.0800</td><td>0.0500 to 0.13</td><td>a month per firm</td><td>monthly rate of a reportable misuse incident for a firm at capability 1, full reach and no safety practice</td></tr>
+<tr><td>Accident rate</td><td>0.0500</td><td>0.0300 to 0.0800</td><td>a month per firm</td><td>the same for accidents and failures</td></tr>
+<tr><td>Systemic incident rate</td><td>0.0200</td><td>0.0100 to 0.0400</td><td>a month per firm</td><td>the same for systemic incidents (markets, infrastructure, information)</td></tr>
+<tr><td>Capability elasticity of incidents</td><td>1.30</td><td>0.90 to 1.80</td><td>elasticity</td><td>incident rate scales with capability to this power</td></tr>
+<tr><td>Safety elasticity of incidents</td><td>1.80</td><td>1.40 to 3.00</td><td>per unit of safety level</td><td>incident rate falls as exp(-elasticity x safety level)</td></tr>
+<tr><td>Reach elasticity of incidents</td><td>1.00</td><td>0.70 to 1.40</td><td>elasticity</td><td>incident rate scales with deployment reach to this power</td></tr>
+<tr><td>Offshore laxity</td><td>0.60</td><td>0.20 to 1.20</td><td>multiple</td><td>extra incident rate on activity moved offshore, relative to home</td></tr>
+<tr><td>Median harm of a misuse incident</td><td>0.15</td><td>0.0800 to 0.30</td><td>$bn</td><td>median monetised harm of a misuse incident</td></tr>
+<tr><td>Median harm of an accident</td><td>0.30</td><td>0.15 to 0.60</td><td>$bn</td><td>median monetised harm of an accident</td></tr>
+<tr><td>Median harm of a systemic incident</td><td>1.00</td><td>0.50 to 2.00</td><td>$bn</td><td>median monetised harm of a systemic incident</td></tr>
+<tr><td>Dispersion of incident harm</td><td>1.10</td><td>0.80 to 1.40</td><td>log scale</td><td>lognormal dispersion of incident harm (heavy tail)</td></tr>
+<tr><td>Major incident threshold</td><td>1.00</td><td>0.50 to 2.00</td><td>$bn</td><td>harm above which an incident counts as major</td></tr>
+<tr><td>Monthly catastrophe probability</td><td>0.0020</td><td>0.0005 to 0.0050</td><td>a month per firm</td><td>monthly probability of a catastrophic incident for a firm above critical capability with no safety practice</td></tr>
+<tr><td>Critical capability</td><td>1.60</td><td>1.30 to 2.00</td><td>capability index</td><td>capability above which the catastrophic tail is live</td></tr>
+<tr><td>Median harm of a catastrophe</td><td>400.00</td><td>150.00 to 1,200.00</td><td>$bn</td><td>median monetised harm of a catastrophic incident</td></tr>
+<tr><td>Share of incidents an evaluation could catch</td><td>0.35</td><td>0.20 to 0.50</td><td>share</td><td>share of the incident rate attributable to releases an evaluation could catch</td></tr>
+<tr><td>Dispersion of catastrophic harm</td><td>0.50</td><td>0.25 to 0.90</td><td>log scale</td><td>lognormal dispersion of catastrophic harm around its median</td></tr>
+<tr><td>Correlation of catastrophes across firms</td><td>0.30</td><td>0.00 to 0.60</td><td>correlation</td><td>correlation of catastrophic failures across firms within a month (one factor Gaussian copula): shared models, components and vulnerabilities; 0 makes the firms&#x27; catastrophes independent given the state</td></tr>
+<tr><td>Misuse multiplier for open weights</td><td>1.30</td><td>1.10 to 1.80</td><td>multiple</td><td>misuse rate of a developer that publishes weights, relative to one that does not</td></tr>
+<tr><td>Capability growth</td><td>0.0230</td><td>0.0150 to 0.0350</td><td>a month</td><td>monthly log growth of the capability index when all R&amp;D goes to capability (a doubling in about 30 months)</td></tr>
+<tr><td>Safety learning rate</td><td>0.0800</td><td>0.0500 to 0.12</td><td>a month</td><td>monthly gain in safety practice at saturation; the gain is a x share/(share + 0.1), diminishing in the share</td></tr>
+<tr><td>Growth fade time</td><td>30.00</td><td>18.00 to 48.00</td><td>months</td><td>time constant over which a firm&#x27;s growth fades towards the long run rate</td></tr>
+<tr><td>Safety spend that displaces capability R&amp;D</td><td>0.60</td><td>0.30 to 1.00</td><td>share</td><td>share of safety spend that displaces capability R&amp;D (the rest is additional budget or spills over)</td></tr>
+<tr><td>Chip growth lost to export controls</td><td>0.10</td><td>0.0500 to 0.20</td><td>a year</td><td>annual revenue growth lost by the chip sector under full export controls</td></tr>
+<tr><td>Long run growth</td><td>0.0600</td><td>0.0300 to 0.10</td><td>a year</td><td>the growth rate firms fade towards</td></tr>
+<tr><td>Safety decay</td><td>0.0200</td><td>0.0100 to 0.0400</td><td>a month</td><td>monthly erosion of safety practice without investment</td></tr>
+<tr><td>Revenue response to capability</td><td>0.50</td><td>0.30 to 0.80</td><td>elasticity</td><td>revenue growth per unit of log capability growth</td></tr>
+<tr><td>Revenue response to reach</td><td>0.80</td><td>0.50 to 1.20</td><td>elasticity</td><td>revenue relative to the frictionless, full trust reach path, to this power</td></tr>
+<tr><td>Reach adjustment speed</td><td>0.0800</td><td>0.0500 to 0.12</td><td>a month</td><td>speed at which reach closes on its capability and trust determined ceiling</td></tr>
+<tr><td>Weight firms put on growth</td><td>3.00</td><td>1.50 to 5.00</td><td>years of revenue</td><td>how a firm values a year of extra growth against a year of cost</td></tr>
+<tr><td>Relocation cost</td><td>0.0800</td><td>0.0400 to 0.16</td><td>share of moved revenue</td><td>one off cost of moving a unit of activity offshore</td></tr>
+<tr><td>Revenue lost offshore</td><td>0.12</td><td>0.0600 to 0.24</td><td>share</td><td>revenue lost per unit of activity offshore (talent, customers, latency)</td></tr>
+<tr><td>Firm risk aversion</td><td>0.60</td><td>0.20 to 1.20</td><td>multiple</td><td>weight on the variance of expected liability in the firm&#x27;s choice</td></tr>
+<tr><td>Firm optimism about incidents</td><td>0.70</td><td>0.50 to 0.90</td><td>multiple</td><td>the share of its true incident rate a firm believes when it plans</td></tr>
+<tr><td>Audit rate</td><td>0.50</td><td>0.30 to 0.80</td><td>a month at full capacity</td><td>probability a firm in scope is audited in a month at capacity 1</td></tr>
+<tr><td>Insurance loading</td><td>0.25</td><td>0.10 to 0.50</td><td>share</td><td>premium above expected liability charged by insurers under a mandate</td></tr>
+<tr><td>Safe harbour shield</td><td>0.70</td><td>0.50 to 0.90</td><td>share</td><td>share of liability a compliant firm avoids under a safe harbour</td></tr>
+<tr><td>Research slowdown under a moratorium</td><td>0.50</td><td>0.30 to 0.70</td><td>share</td><td>share of capability growth lost by a firm in scope while a moratorium holds</td></tr>
+<tr><td>Weight of safety culture</td><td>0.60</td><td>0.30 to 1.20</td><td>$bn per unit of revenue</td><td>value a firm places on a unit gain in safety practice per unit of revenue, multiplied by its culture score</td></tr>
+<tr><td>Reach ceiling saturation</td><td>1.50</td><td>1.00 to 2.20</td><td>per unit of capability</td><td>speed at which the reach ceiling 1 - exp(-k C) saturates in capability</td></tr>
+<tr><td>Growth lost to an open weights restriction</td><td>0.10</td><td>0.0500 to 0.20</td><td>a year</td><td>annual revenue growth lost by an open weights developer while publishing is restricted</td></tr>
+<tr><td>Enforcement response speed</td><td>0.25</td><td>0.12 to 0.50</td><td>a month</td><td>speed at which enforcement intensity follows public pressure</td></tr>
+<tr><td>Trust recovery</td><td>0.0500</td><td>0.0300 to 0.10</td><td>a month</td><td>monthly recovery of public trust towards 1</td></tr>
+<tr><td>Trust sensitivity to harm</td><td>0.0400</td><td>0.0200 to 0.0800</td><td>per log $bn</td><td>fall in trust per unit of log monetised harm in a month</td></tr>
+<tr><td>News memory</td><td>0.75</td><td>0.60 to 0.88</td><td>a month</td><td>persistence of the news pressure index</td></tr>
+<tr><td>Salience boost from mandatory reporting</td><td>0.35</td><td>0.15 to 0.60</td><td>share</td><td>extra salience of incidents when reporting is mandatory</td></tr>
+<tr><td>Market volatility</td><td>0.0450</td><td>0.0300 to 0.0650</td><td>a month</td><td>volatility of the common market factor</td></tr>
+<tr><td>Sentiment persistence</td><td>0.85</td><td>0.70 to 0.93</td><td>a month</td><td>persistence of the price&#x27;s non fundamental component</td></tr>
+<tr><td>Price impact of news pressure</td><td>0.0600</td><td>0.0300 to 0.12</td><td>per unit of pressure</td><td>price impact of a unit of news pressure on an exposed firm</td></tr>
+<tr><td>Price jump on an own incident</td><td>0.50</td><td>0.25 to 1.00</td><td>multiple</td><td>own incident price jump per log unit of harm relative to revenue</td></tr>
+<tr><td>Sector contagion</td><td>0.30</td><td>0.15 to 0.50</td><td>share</td><td>share of an own incident jump felt by the rest of the sector</td></tr>
+<tr><td>Announcement price impact</td><td>0.90</td><td>0.45 to 1.80</td><td>multiple</td><td>price reaction at announcement per unit of expected compliance cost over earnings</td></tr>
+<tr><td>Chip demand coupling</td><td>0.60</td><td>0.30 to 0.90</td><td>elasticity</td><td>chip and cloud revenue growth per unit of model developers&#x27; capability growth</td></tr>
+<tr><td>Open weights diffusion</td><td>0.10</td><td>0.0500 to 0.20</td><td>share</td><td>capability spillover from published weights to the rest of the economy</td></tr>
+</table>
+<h2>The evidence the model was confronted with</h2>
+<p>Each benchmark, the model quantity it is compared with, and its source. The set is part of the battery approved at Gate 1 (evidence hash <code>c3cb1266d451b3b9</code>); an authority replaces or extends it with its own data.</p>
+<p>- <b>Annual growth of recorded AI incidents</b> (direct). Model quantity: the status quo&#x27;s expected number of incidents in each year of the horizon; the benchmark is compared with the average annual growth of that count. Allowance for the distance from the model: the database is compiled from media reports and its curators attribute an unknown share of the rise to reporting and attention; the model counts incidents at eight firm archetypes, not in the whole economy. Caveat: growth in recorded incidents is joint growth in harms, deployment and attention. Source: Stanford HAI, AI Index Report 2025, chapter 3 (233 incidents in 2024, up 56.4% on 2023) (https://hai-production.s3.amazonaws.com/files/hai_ai-index-report-2025_chapter3_final.pdf); Stanford HAI, AI Index Report 2026, responsible AI (362 incidents in 2025) (https://hai.stanford.edu/ai-index/2026-ai-index-report/responsible-ai).</p>
+<p>- <b>Annual change in public trust in AI and AI companies</b> (direct). Model quantity: the status quo&#x27;s trust index at the end of the horizon, as an annual relative change from its starting value. Allowance for the distance from the model: a survey share is compared with the model&#x27;s trust index, which starts at one and has no survey counterpart. Caveat: the period measured had no AI specific regulation in most of the countries surveyed, which is what the status quo represents; the fall may have causes other than harm. Source: Edelman Trust Barometer 2024, key insights around AI (https://www.edelman.com/sites/g/files/aatuss191/files/2024-03/Trust%20Tech%20Sector%20Top%20Findings.pdf); Pew Research Center, How Americans view AI and its impact on people and society, September 2025 (https://www.pewresearch.org/wp-content/uploads/sites/20/2025/09/PS_2025.9.15_AI-and-its-impact_report.pdf).</p>
+<p>- <b>Share of a fall in trust recovered about nine months after a salient incident</b> (analogue). Model quantity: with monthly recovery r and no further incident, the share of a fall recovered after nine months is 1 - (1 - r)^9. Allowance for the distance from the model: another technology, and fear of using it is not trust in the firms that build it; the interval between the two surveys is known to within a few months. Caveat: one episode. Source: AAA, Three in four Americans remain afraid of fully self driving vehicles, March 2019 (https://newsroom.aaa.com/2019/03/americans-fear-self-driving-cars-survey); Smart Cities Dive, AAA poll, March 2019 (the 2018 figure and the crashes) (https://www.smartcitiesdive.com/news/aaa-poll-autonomous-vehicles-fear/550766/).</p>
+<p>- <b>Compliance cost of a high risk regime as a share of development spending in scope</b> (official). Model quantity: under risk tiering, compliance spending over the R&amp;D spending of the firms in scope on the activity in scope, while in force. Allowance for the distance from the model: an ex ante estimate per system built from a standard cost model, which its authors call a theoretical maximum; the model&#x27;s cost is an instrument parameter applied to revenue in scope. Caveat: the share of systems that are high risk was never estimated by any party to the assessment. Source: European Commission, SWD(2021) 84 final, impact assessment of the AI Act (https://data.consilium.europa.eu/doc/document/ST-8115-2021-ADD-2/en/pdf); Renda et al. (2021), Study to support an impact assessment of regulatory requirements for AI in Europe (https://artificialintelligenceact.eu/wp-content/uploads/2022/06/AIA-COM-Impact-Assessment-3-21-April.pdf).</p>
+<p>- <b>Effect of a horizontal compliance regime on the profits of firms in scope</b> (analogue). Model quantity: under risk tiering, the industry&#x27;s earnings against the status quo on the same paths, over the months in force. Allowance for the distance from the model: data protection, not AI; a broad cross section of firms against eight archetypes that are mostly large. Caveat: the estimates differ in sample, outcome and period; the mean of three is a summary, not a pooled estimate. Source: Chen, Frey and Presidente (2022), Privacy regulation and firm performance, Oxford Martin working paper 2022-1 (https://oms-www.files.svdcdn.com/production/downloads/Privacy-Regulation-and-Firm-Performance-Giorgio-WP-Upload-2022-1.pdf); Johnson (2022), Economic research on privacy regulation: lessons from the GDPR and beyond, NBER working paper 30705 (https://www.nber.org/system/files/working_papers/w30705/w30705.pdf).</p>
+<p>- <b>Equity return when a horizontal regime becomes enforceable</b> (analogue). Model quantity: under risk tiering, the value weighted index&#x27;s change in the month the instrument takes effect, less the status quo&#x27;s on the same path. Allowance for the distance from the model: a week against the model&#x27;s month; most of the cost of a law announced years earlier is in the price before it applies. Caveat: the enforcement date return understates the total cost capitalised. Source: Motoki and Pinto (2024), Journal of Business Finance and Accounting (press summary) (https://www.eurekalert.org/news-releases/1051661).</p>
+<p>- <b>Equity return of a firm when a regulatory fine is announced</b> (analogue). Model quantity: under risk tiering, a fined firm&#x27;s log return in the month of the fine less the index&#x27;s. Allowance for the distance from the model: data protection fines, most of them small against the firm&#x27;s size; days against the model&#x27;s month. Caveat: 25 announcements; windows beyond five days are not significant in the source. Source: Ford et al. (2021), The impact of GDPR infringement fines on the market value of firms, ECCWS (https://repository.uel.ac.uk/download/55420e51e0d25c813c8ab1d701f7b6e5093ba609fac84a9d9a3a874cb19e3a0d/689257/The%20Impact%20of%20GDPR%20Infringement%20Fines%20on%20the%20Market%20Value%20of%20Firms.pdf).</p>
+<p>- <b>Equity return of a firm when a serious incident becomes public</b> (analogue). Model quantity: under the status quo, the log return of a firm in a month with a major incident at that firm, less the index&#x27;s. Allowance for the distance from the model: data breaches, not AI incidents; three days against the model&#x27;s month. Caveat: the model&#x27;s major incident is defined by monetised harm, a breach by the data lost. Source: Kamiya, Kang, Kim, Milidonis and Stulz, What is the impact of successful cyberattacks on target firms? (authors&#x27; summary, Harvard Law School Forum on Corporate Governance, March 2018; Journal of Financial Economics 139(3), 2021) (https://corpgov.law.harvard.edu/2018/03/30/what-is-the-impact-of-successful-cyberattacks-on-target-firms/).</p>
+<p>- <b>Share of regulated activity displaced abroad by a unilateral regime</b> (analogue). Model quantity: under frontier licensing, the revenue of the firms in scope booked offshore in the last year of the horizon, as a share of their revenue. Allowance for the distance from the model: carbon pricing, and mostly ex ante models; AI activity is divisible in some respects (where a model is trained) and not in others (one set of weights). Caveat: for AI regulation leakage is theorised, surveyed and anecdotal, not measured. Source: Branger and Quirion (2014), Ecological Economics 99 (https://econpapers.repec.org/RePEc:hal:journl:hal-01137932).</p>
+<p>- <b>Premium above expected claims in liability insurance</b> (analogue). Model quantity: the assumption itself: the premium charged above the expected liability under a mandate. Allowance for the distance from the model: all property and casualty lines; cover for AI liability is not an established line. Caveat: an industry average over lines with very different tails. Source: NAIC, U.S. property and casualty and title insurance industries, 2023 full year results (https://content.naic.org/sites/default/files/industry-snapshot-2023-ye.pdf).</p>
+<p>- <b>Share of the insurance loading used up by underwriting and administration</b> (analogue). Model quantity: the assumption itself: the share of the loading that is a real resource cost and not a transfer to insurers. Allowance for the distance from the model: all property and casualty lines, in two years with an underwriting loss (the share is above one because expenses exceeded the loading). Caveat: the model&#x27;s range (0.25 to 0.75) treats part of the loading as insurers&#x27; margin; in these two years there was none. Source: NAIC, U.S. property and casualty and title insurance industries, 2023 full year results (https://content.naic.org/sites/default/files/industry-snapshot-2023-ye.pdf).</p>
+<p>Examined and set aside:</p>
+<p>- Meta analysis of trust and intention to use a technology: r = 0.503 (95% interval 0.470 to 0.535, 128 samples, 50,667 respondents) (Kuen, Westmattelmann, Bruckes and Schewe (2023), Electronic Markets 33:61). Bears on adoption and trust (trust elasticity). Not used because it supports the sign of the trust channel and nothing more: a correlation between stated attitudes in studies of online shopping, banking and e-health is not an elasticity of realised adoption to trust, and cannot be turned into one without the dispersion of both. The elasticity stays unidentified.</p>
+<p>- The size of the fall in trust after a salient incident (AAA: afraid to ride rose from 63% to 73% after two fatal crashes) (AAA (2019)). Bears on adoption and trust (trust harm sensitivity). Not used because the model moves trust with monetised harm, and two deaths are a small monetised harm: an incident of that size moves the model&#x27;s trust by less than a tenth of a percent. The episode says trust answers to salience; the model&#x27;s form cannot show that. Recorded as a limit of the mechanism, not scored, because the survey question is about using a vehicle.</p>
+<p>- Estimates of AI&#x27;s effect on output: total factor productivity up by no more than 0.66% over ten years (Acemoglu); 7% of global GDP over ten years (Goldman Sachs); $2.6 to $4.4 trillion a year (McKinsey) (Acemoglu (2025), Economic Policy 40(121)). Bears on welfare bases (productivity base bn, consumer surplus base bn). Not used because the model declares its benefit bases in $bn a year and declares no size for the jurisdiction&#x27;s economy, so there is nothing to divide by; and the estimates span an order of magnitude.</p>
+<p>- Elicited probabilities of catastrophic harm from AI (expert and forecaster elicitations (no observed frequency exists)). Bears on catastrophic tail. Not used because elicitations, not observations; they define catastrophe differently from the model and have no validation record.</p>
+<p>- A loss distribution for AI incidents (AI Incident Database; MIT AI Incident Tracker; OECD AI Incidents Monitor). Bears on severity. Not used because none has been published: the taxonomies exist, the magnitudes are not recorded.</p>
+<p>- GDPR and venture investment: monthly EU deals down 26.1% against US ventures (Jia, Jin and Wagman (2021), Marketing Science 40(4)). Bears on revenue growth. Not used because the model has no entry or investment margin to compare it with.</p>
+<h2>Monitoring and revisiting</h2>
+<p>Indicators to watch, with the model&#x27;s expectation under Liability with a safe harbour: reportable incidents a year (6.4 to 9.6 across outcomes); the share of activity offshore (0% at the horizon); the news pressure index (peak 0.32, a hearing in 2% of paths); the industry&#x27;s value against the status quo (-3.9% at the horizon). Revisit the decision if incidents run above that range for two quarters, if relocation exceeds the forecast, or if any of Trust sensitivity to harm, Safety spend that displaces capability R&amp;D, Capability elasticity of incidents, Trust elasticity of adoption benefits, Safety elasticity of incidents, Trust recovery, Share of incidents an evaluation could catch, Accident rate can be estimated from data.</p>
+<h2>Gates, provenance and reproduction</h2>
+<p><b>Gate 1 (battery)</b>: approved at 2026-11-16T06:02:52 in a public demonstration, without a sign off identity; inside an authority a named approver on the register takes this gate.</p>
+<p><b>Gate 2 (release)</b>: approved at 2026-11-16T06:03:32 in a public demonstration, without a sign off identity; inside an authority a named approver on the register takes this gate.</p>
+<p><b>Critic</b>: 58 of 58 checks passed before release.</p>
+<p>Battery hash <code>06aad1fe206e8ec35239145030c74dde3f4a561ee4ccbdf30c3b2b2450c4ef5b</code>; code fingerprint <code>28b530f37f3d12c48a159a7cb59c0eae091feb07e3b7c4b70029b020889c5c84</code>; PSL 1.2.0, numpy 2.5.3, scipy 1.18.1; profile demo; 30.3 seconds. Reproduce with <code>python -m psl.orchestrator --battery battery.json</code>.</p></body></html>

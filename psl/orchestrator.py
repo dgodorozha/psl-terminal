@@ -29,6 +29,7 @@ from .critic import critic_check
 from .evidence import build_pack
 from .firms import default_firms
 from .ledger import Ledger, plain
+from . import benchmarks as BM
 from .pipeline import make_battery, run_battery, SimulationStopped
 from .question import parse, describe, DEFAULT_QUESTION
 from .register import PersonRegister, dev_mode_on, is_dev_identity
@@ -56,7 +57,8 @@ def gate(register, actor, role, preparer, four_eyes=True):
 
 def run_pipeline(question, outdir, approve_battery=False, approve_briefing=False, preparer=None, preparer_role=None,
                  approver=None, approver_role=None, register_path=None, secret=None, budget=None, profile="full",
-                 battery=None, assumptions=None, firms=None, four_eyes=True, quiet=False, organisation="", team=""):
+                 battery=None, assumptions=None, firms=None, four_eyes=True, quiet=False, organisation="", team="", seed=None,
+                 reuse=False, benchmarks=None):
     os.makedirs(outdir, exist_ok=True)
     run_id = os.path.basename(os.path.abspath(outdir))
     log = Ledger(os.path.join(outdir, "ledger.jsonl"), run_id, secret=secret, actor="orchestrator")
@@ -79,8 +81,11 @@ def run_pipeline(question, outdir, approve_battery=False, approve_briefing=False
     # ---- plan
     if battery is None:
         plan = parse(question)
-        bat = make_battery(plan, firms=firms, assumptions=assumptions, budget=budget, profile=profile)
-        say(f"[PLAN] {describe(plan)}; {bat['paths']} paths, {bat['horizon']} months; battery {bat['hash'][:12]}")
+        if seed is None:                                   # --seed wins; then a seed named in the question; then 7
+            seed = plan["seed"] if plan.get("seed") is not None else 7
+        plan["seed"] = seed
+        bat = make_battery(plan, firms=firms, assumptions=assumptions, budget=budget, profile=profile, seed=seed, benchmarks=benchmarks)
+        say(f"[PLAN] {describe(plan)}; {bat['paths']} paths growing to at most {bat['max_paths']}, {bat['horizon']} months; battery {bat['hash'][:12]}")
     else:
         bat = battery
         say(f"[PLAN] replaying battery {bat['hash'][:12]}: {len(bat['policies'])} instruments, {bat['paths']} paths, {bat['horizon']} months")
@@ -108,13 +113,16 @@ def run_pipeline(question, outdir, approve_battery=False, approve_briefing=False
     def progress(step, phase, **kw):
         say(f"[{step.upper()}] {phase}")
     try:
-        arte, _ = run_battery(bat, outdir, log=log, progress=progress)
+        arte, _ = run_battery(bat, outdir, log=log, progress=progress, reuse=reuse)
     except SimulationStopped as e:
         log("run_stopped", reason=str(e))
         raise SystemExit(f"[STOP] {e}")
     ev = arte["results"]
-    say(f"[RESULT] preferred {ev['preferred']} (best unconstrained {ev['best_unconstrained']}); decision gap {ev['decision_gap']['decision_gap']:.2f}; "
-        f"winner stability {ev['winner_stability']:.0%}")
+    pr = ev.get("precision") or {}
+    say(f"[RESULT] {ev['decision']['text']}")
+    say(f"[RESULT] preferred {ev['preferred']} (best instrument {ev['best_intervention']}, best unconstrained {ev['best_unconstrained']}); "
+        f"{arte['paths']} paths; decision gap {ev['decision_gap']['decision_gap']:.2f}; ranking stability {ev['winner_stability']:.0%}"
+        + ("" if pr.get("met", True) else "; short of the precision target: " + "; ".join(x["text"] for x in pr.get("unresolved", []))))
 
     # ---- critic and briefing
     md = draft_briefing(arte, approvals, run_id)
@@ -182,15 +190,28 @@ def main(argv=None):
     ap.add_argument("--approver"); ap.add_argument("--approver-role")
     ap.add_argument("--register", default=os.environ.get("PSL_REGISTER", ""))
     ap.add_argument("--profile", default=os.environ.get("PSL_PROFILE", "full"), choices=("full", "light", "demo"))
-    ap.add_argument("--paths", type=int); ap.add_argument("--horizon", type=int)
+    ap.add_argument("--paths", type=int, help="paths the battery starts on (and stays on unless --max-paths is given)")
+    ap.add_argument("--max-paths", type=int, help="ceiling for the adaptive sampling")
+    ap.add_argument("--seed", type=int, help='seed of the random streams (default: a "seed N" named in the question, else 7)')
+    ap.add_argument("--horizon", type=int)
     ap.add_argument("--assumptions", help="JSON file of assumption overrides")
     ap.add_argument("--no-four-eyes", action="store_true")
     ap.add_argument("--quiet", action="store_true")
+    ap.add_argument("--benchmarks", default=os.environ.get("PSL_BENCHMARKS", ""), help="JSON file of empirical benchmarks for the validation layer")
+    ap.add_argument("--reuse", action="store_true", default=os.environ.get("PSL_REUSE", "").strip().lower() in ("1", "true", "yes", "on"),
+                    help="reuse the figures of a completed run of the identical battery in the same directory of runs")
     args = ap.parse_args(argv)
     from config import PROFILES  # noqa: WPS433  (the server's profile table)
     budget = dict(PROFILES[args.profile])
+    seed = None
     if args.paths:
-        budget["paths"] = args.paths; budget["redteam_paths"] = args.paths
+        budget["paths"] = args.paths
+        budget["max_paths"] = max(args.paths, args.max_paths or args.paths)      # a fixed number of paths unless a ceiling is given
+        budget["redteam_paths"] = min(args.paths, budget.get("redteam_paths", args.paths))
+    elif args.max_paths:
+        budget["max_paths"] = max(budget["paths"], args.max_paths)
+    if args.seed is not None:
+        seed = args.seed
     if args.horizon:
         budget["horizon"] = args.horizon
     battery = None
@@ -204,7 +225,8 @@ def main(argv=None):
     run_pipeline(args.question, args.outdir, approve_battery=args.approve_battery, approve_briefing=args.approve_briefing,
                  preparer=args.preparer, preparer_role=args.preparer_role, approver=args.approver, approver_role=args.approver_role,
                  register_path=args.register or None, secret=os.environ.get("PSL_SECRET"), budget=budget, profile=args.profile,
-                 battery=battery, assumptions=assumptions, four_eyes=not args.no_four_eyes, quiet=args.quiet)
+                 battery=battery, assumptions=assumptions, four_eyes=not args.no_four_eyes, quiet=args.quiet, seed=seed, reuse=args.reuse,
+                 benchmarks=BM.load(args.benchmarks) if args.benchmarks else None)
 
 
 if __name__ == "__main__":

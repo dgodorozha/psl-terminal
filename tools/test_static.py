@@ -15,7 +15,6 @@ from playwright.sync_api import sync_playwright
 
 SITE = os.path.abspath(sys.argv[1] if len(sys.argv) > 1 else "site")
 OUT = sys.argv[2] if len(sys.argv) > 2 else "shots_static"
-PORT = 8765
 os.makedirs(OUT, exist_ok=True)
 
 
@@ -27,7 +26,8 @@ class Quiet(http.server.SimpleHTTPRequestHandler):
         pass
 
 
-srv = socketserver.TCPServer(("127.0.0.1", PORT), Quiet)
+srv = socketserver.TCPServer(("127.0.0.1", 0), Quiet)        # any free port
+PORT = srv.server_address[1]
 threading.Thread(target=srv.serve_forever, daemon=True).start()
 errors = []
 
@@ -106,6 +106,27 @@ with sync_playwright() as p:
     page.click("#g1a"); wait_stage(page, {"running"}, 10)
     wait_stage(page, {"evaluated"}, 120)
     time.sleep(1.0); page.keyboard.press("Escape"); time.sleep(0.6); shot(page, "50_second_run")
+    # every other recording plays through; one of them ends with the status quo as the decision
+    n = page.evaluate("document.querySelectorAll('#rec-sel option').length")
+    seen = []
+    for i in range(2, n):
+        page.keyboard.press("8"); time.sleep(0.3)
+        page.click("#newrun"); time.sleep(0.8)
+        page.select_option("#rec-sel", index=i); time.sleep(1.0)
+        page.click("#plan"); wait_stage(page, {"planned"}, 20)
+        page.click("#g1a"); wait_stage(page, {"running"}, 10)
+        wait_stage(page, {"evaluated"}, 180)
+        time.sleep(1.0)
+        page.keyboard.press("6"); time.sleep(0.8)
+        gap = page.inner_text("#gap-body")
+        seen.append(gap)
+        assert "preferred" in gap.lower() or "status quo" in gap.lower(), gap[:300]
+        shot(page, f"6{i}_gap_run_{i + 1}")
+        page.keyboard.press("k"); time.sleep(0.8)
+        assert len(page.inner_text("#rsk-body")) > 500
+        page.keyboard.press("Escape"); time.sleep(0.4)
+    if n >= 4:
+        assert any("No tested instrument improves on the status quo" in g for g in seen), "a recording whose decision is the status quo"
     b.close()
 srv.shutdown()
 bad = [e for e in errors if "favicon" not in e]

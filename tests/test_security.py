@@ -38,7 +38,11 @@ def test_quarantine_refusals():
     pii = open(os.path.join(ROOT, "sample_data", "refused_pii_example.csv"), "rb").read()
     ds = quarantine("refused_pii_example.csv", pii)
     assert not ds["ok"] and "personal identifiers" in ds["reason"]
-    assert pii_scan("call 4111 1111 1111 1111 now")
+    assert pii_scan("call 4111 1111 1111 1111 now") and pii_scan("card 4111111111111111.") and pii_scan("4111-1111-1111-1111")
+    # a price with a long floating point expansion is a number, not a card: the digits after (or before) a decimal point
+    # are never scanned as one, whatever their checksum
+    assert not pii_scan("2021-02-05,99.75715199999999\n2021-02-20,153.72999572753906\n2021-03-05,4111111111111111.25")
+    assert not pii_scan("\n".join(f"2021-01-{d:02d},{100 + d / 7:.15f}" for d in range(1, 29)))
     assert looks_like_formula("=HYPERLINK(1)") and looks_like_formula("+cmd|' /C calc'!A0") and not looks_like_formula("12.5")
     bad = b"date,price\n2024-01,=1+1\n" + b"\n".join(f"2024-{m:02d},100".encode() for m in range(2, 13)) + b"\n2025-01,100\n2025-02,100\n"
     ds = quarantine("f.csv", bad)

@@ -28,6 +28,8 @@ image = (
         "OPENBLAS_NUM_THREADS": "1", "OMP_NUM_THREADS": "1", "MKL_NUM_THREADS": "1",
         "PSL_HOST": "0.0.0.0", "PSL_RUNS_DIR": RUNS_DIR, "PSL_AUTH_MODE": "open", "PSL_LLM": "off",
         "PSL_PROFILE": "demo", "PSL_GATES": "open", "PSL_DEV_MODE": "off", "PSL_TICK_PACE": "0.02",
+        "PSL_WORKERS": "4",        # independent simulations side by side; they use what the worker has free
+        "PSL_REUSE": "on",         # an identical battery (same hash, same code) is replayed from the registry, not simulated again
     })
     # the repository itself, mounted at start (so a redeploy is seconds, not a rebuild); what is not needed stays out
     .add_local_dir(".", remote_path=APP_DIR, ignore=[
@@ -65,10 +67,15 @@ def _serve(app_dir=APP_DIR, runs_dir=RUNS_DIR, volume=None):
     image=image,
     secrets=[modal.Secret.from_name("psl-secret")],      # PSL_SECRET, the ledger signing key
     volumes={RUNS_DIR: runs},
-    cpu=2.0,
-    memory=2048,
+    # Modal bills the larger of what is requested and what is used, for as long as the container is up, so a request is
+    # paid for while the terminal sits idle. One core and 1 GiB are guaranteed; a run bursts above them when the worker
+    # has room (the default limit is the request plus sixteen cores) and the hard memory limit stops a runaway. A demo
+    # run peaks at about 0.6 GiB and a full profile run at about 1.5 GiB.
+    cpu=1.0,
+    memory=(1024, 4096),
     max_containers=1,          # one process: the terminal's state and its gates live in memory
-    scaledown_window=900,      # stay up fifteen minutes after the last request, then scale to zero
+    scaledown_window=600,      # stay up ten minutes after the last request, then scale to zero; an untouched page stops
+                               # polling after ninety seconds (assets/terminal.js), so an open tab does not keep it awake
 )
 @modal.concurrent(max_inputs=100)    # the poll, the gates and the uploads all arrive at once from one browser
 @modal.wsgi_app(label="psl")

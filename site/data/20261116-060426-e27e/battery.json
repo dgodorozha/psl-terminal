@@ -1,0 +1,789 @@
+{
+ "question": "Would a six month moratorium above the compute threshold or coordinated frontier licensing reduce expected harm more over three years, keeping the gross social cost under $100bn?",
+ "constraints": {
+  "max_social_cost_bn": 100.0
+ },
+ "policies": [
+  {
+   "label": "Status quo (voluntary commitments)",
+   "note": "No new obligation. Existing consumer and product law only, with the regulator's present capacity. Every other policy is measured against this path, pair by pair.",
+   "scope": "home",
+   "phase_in": 0,
+   "sunset": 0,
+   "capability_threshold": 0.0,
+   "applies_to": "all",
+   "fixed_cost": 0.0,
+   "variable_cost": 0.0,
+   "min_safety_share": 0.0,
+   "eval_catch": 0.0,
+   "release_delay": 0,
+   "moratorium_months": 0,
+   "liability_multiplier": 0.0,
+   "safe_harbour": false,
+   "insurance_mandate": false,
+   "incident_reporting": false,
+   "transparency": 0.0,
+   "enforcement_capacity": 0.1,
+   "fine_rate": 0.0,
+   "open_weights_restriction": false,
+   "export_controls": 0.0,
+   "sandbox_small_firms": false,
+   "tier_friction": 0.0,
+   "name": "baseline"
+  },
+  {
+   "label": "Coordinated frontier licensing",
+   "note": "The licensing regime agreed across jurisdictions, so obligations follow the firm wherever it operates. Slower to arrive, harder to escape.",
+   "scope": "coordinated",
+   "phase_in": 12,
+   "sunset": 0,
+   "capability_threshold": 1.0,
+   "applies_to": [
+    "frontier_lab",
+    "hyperscaler",
+    "open_weights"
+   ],
+   "fixed_cost": 0.15,
+   "variable_cost": 0.02,
+   "min_safety_share": 0.25,
+   "eval_catch": 0.6,
+   "release_delay": 4,
+   "moratorium_months": 0,
+   "liability_multiplier": 0.0,
+   "safe_harbour": false,
+   "insurance_mandate": false,
+   "incident_reporting": true,
+   "transparency": 0.0,
+   "enforcement_capacity": 0.7,
+   "fine_rate": 0.1,
+   "open_weights_restriction": false,
+   "export_controls": 0.0,
+   "sandbox_small_firms": false,
+   "tier_friction": 0.0,
+   "name": "coordinated_licensing"
+  },
+  {
+   "label": "Six month moratorium above the threshold",
+   "note": "Releases above the capability threshold are frozen for six months, then reporting applies. The sharpest brake and the one most easily left behind.",
+   "scope": "home",
+   "phase_in": 1,
+   "sunset": 0,
+   "capability_threshold": 1.1,
+   "applies_to": [
+    "frontier_lab",
+    "hyperscaler",
+    "open_weights"
+   ],
+   "fixed_cost": 0.03,
+   "variable_cost": 0.0,
+   "min_safety_share": 0.0,
+   "eval_catch": 0.15,
+   "release_delay": 0,
+   "moratorium_months": 6,
+   "liability_multiplier": 0.0,
+   "safe_harbour": false,
+   "insurance_mandate": false,
+   "incident_reporting": true,
+   "transparency": 0.0,
+   "enforcement_capacity": 0.5,
+   "fine_rate": 0.05,
+   "open_weights_restriction": false,
+   "export_controls": 0.0,
+   "sandbox_small_firms": false,
+   "tier_friction": 0.0,
+   "name": "moratorium"
+  }
+ ],
+ "firms": [
+  {
+   "label": "Frontier Lab (closed weights)",
+   "sector": "frontier_lab",
+   "revenue": 15.0,
+   "margin": 0.15,
+   "growth": 0.45,
+   "rd_share": 0.35,
+   "capability": 1.2,
+   "safety": 0.5,
+   "reach": 0.7,
+   "scope_share": 0.9,
+   "mobility": 0.4,
+   "culture": 0.55,
+   "beta": 1.4,
+   "idio_vol": 0.1,
+   "pe": 45.0,
+   "ps": 8.0,
+   "compute_dependence": 0.9,
+   "open_weights": false,
+   "small": false,
+   "name": "frontier_lab_closed"
+  },
+  {
+   "label": "Frontier Lab (open weights)",
+   "sector": "open_weights",
+   "revenue": 4.0,
+   "margin": 0.05,
+   "growth": 0.5,
+   "rd_share": 0.4,
+   "capability": 1.05,
+   "safety": 0.4,
+   "reach": 0.6,
+   "scope_share": 0.9,
+   "mobility": 0.6,
+   "culture": 0.45,
+   "beta": 1.5,
+   "idio_vol": 0.12,
+   "pe": 60.0,
+   "ps": 10.0,
+   "compute_dependence": 0.9,
+   "open_weights": true,
+   "small": false,
+   "name": "frontier_lab_open"
+  },
+  {
+   "label": "Hyperscaler cloud",
+   "sector": "hyperscaler",
+   "revenue": 120.0,
+   "margin": 0.3,
+   "growth": 0.18,
+   "rd_share": 0.15,
+   "capability": 1.1,
+   "safety": 0.6,
+   "reach": 0.9,
+   "scope_share": 0.4,
+   "mobility": 0.2,
+   "culture": 0.6,
+   "beta": 1.1,
+   "idio_vol": 0.07,
+   "pe": 28.0,
+   "ps": 6.0,
+   "compute_dependence": 1.0,
+   "open_weights": false,
+   "small": false,
+   "name": "hyperscaler"
+  },
+  {
+   "label": "Chip designer",
+   "sector": "chips",
+   "revenue": 90.0,
+   "margin": 0.45,
+   "growth": 0.25,
+   "rd_share": 0.2,
+   "capability": 0.6,
+   "safety": 0.7,
+   "reach": 0.95,
+   "scope_share": 0.15,
+   "mobility": 0.3,
+   "culture": 0.6,
+   "beta": 1.6,
+   "idio_vol": 0.08,
+   "pe": 35.0,
+   "ps": 8.0,
+   "compute_dependence": 0.3,
+   "open_weights": false,
+   "small": false,
+   "name": "chip_designer"
+  },
+  {
+   "label": "Enterprise software",
+   "sector": "enterprise_software",
+   "revenue": 60.0,
+   "margin": 0.28,
+   "growth": 0.14,
+   "rd_share": 0.18,
+   "capability": 0.8,
+   "safety": 0.6,
+   "reach": 0.85,
+   "scope_share": 0.5,
+   "mobility": 0.1,
+   "culture": 0.6,
+   "beta": 1.0,
+   "idio_vol": 0.07,
+   "pe": 30.0,
+   "ps": 6.0,
+   "compute_dependence": 0.5,
+   "open_weights": false,
+   "small": false,
+   "name": "enterprise_software"
+  },
+  {
+   "label": "Consumer AI platform",
+   "sector": "consumer_ai",
+   "revenue": 30.0,
+   "margin": 0.2,
+   "growth": 0.3,
+   "rd_share": 0.22,
+   "capability": 0.95,
+   "safety": 0.45,
+   "reach": 0.8,
+   "scope_share": 0.7,
+   "mobility": 0.3,
+   "culture": 0.4,
+   "beta": 1.3,
+   "idio_vol": 0.09,
+   "pe": 38.0,
+   "ps": 7.0,
+   "compute_dependence": 0.7,
+   "open_weights": false,
+   "small": false,
+   "name": "consumer_ai"
+  },
+  {
+   "label": "Autonomy and robotics",
+   "sector": "autonomy",
+   "revenue": 8.0,
+   "margin": 0.08,
+   "growth": 0.4,
+   "rd_share": 0.3,
+   "capability": 0.85,
+   "safety": 0.5,
+   "reach": 0.4,
+   "scope_share": 0.8,
+   "mobility": 0.3,
+   "culture": 0.5,
+   "beta": 1.5,
+   "idio_vol": 0.11,
+   "pe": 50.0,
+   "ps": 9.0,
+   "compute_dependence": 0.6,
+   "open_weights": false,
+   "small": false,
+   "name": "autonomy_robotics"
+  },
+  {
+   "label": "AI start up cohort",
+   "sector": "startups",
+   "revenue": 6.0,
+   "margin": -0.1,
+   "growth": 0.6,
+   "rd_share": 0.5,
+   "capability": 0.7,
+   "safety": 0.35,
+   "reach": 0.3,
+   "scope_share": 0.6,
+   "mobility": 0.7,
+   "culture": 0.35,
+   "beta": 1.7,
+   "idio_vol": 0.1,
+   "pe": 60.0,
+   "ps": 15.0,
+   "compute_dependence": 0.8,
+   "open_weights": false,
+   "small": true,
+   "name": "startup_cohort"
+  }
+ ],
+ "assumptions": {
+  "discount_rate": 0.03,
+  "harm_valuation_multiplier": 1.0,
+  "consumer_surplus_base_bn": 250.0,
+  "cs_elasticity": 0.6,
+  "productivity_base_bn": 400.0,
+  "productivity_elasticity": 0.8,
+  "trust_elasticity": 0.5,
+  "benefit_overlap_share": 0.0,
+  "compliance_deadweight_share": 0.7,
+  "enforcement_cost_bn": 0.4,
+  "leakage_value_share": 0.35,
+  "labour_adjustment_bn": 2.0,
+  "domestic_ownership_share": 0.6,
+  "insurance_admin_share": 0.5,
+  "hazard_base_misuse": 0.08,
+  "hazard_base_accident": 0.05,
+  "hazard_base_systemic": 0.02,
+  "hazard_capability_elasticity": 1.3,
+  "hazard_safety_elasticity": 1.8,
+  "hazard_reach_elasticity": 1.0,
+  "offshore_laxity": 0.6,
+  "severity_misuse_median_bn": 0.15,
+  "severity_accident_median_bn": 0.3,
+  "severity_systemic_median_bn": 1.0,
+  "severity_sigma": 1.1,
+  "major_incident_bn": 1.0,
+  "catastrophe_prior_monthly": 0.002,
+  "catastrophe_capability": 1.6,
+  "catastrophe_harm_bn": 400.0,
+  "unsafe_release_share": 0.35,
+  "catastrophe_severity_sigma": 0.5,
+  "catastrophe_correlation": 0.3,
+  "open_weights_misuse_multiplier": 1.3,
+  "capability_growth": 0.023,
+  "safety_learning": 0.08,
+  "growth_fade_months": 30.0,
+  "safety_substitution": 0.6,
+  "export_control_chip_loss": 0.1,
+  "long_run_growth": 0.06,
+  "safety_decay": 0.02,
+  "revenue_capability_beta": 0.5,
+  "revenue_reach_beta": 0.8,
+  "reach_speed": 0.08,
+  "growth_value_weight": 3.0,
+  "relocation_cost": 0.08,
+  "offshore_revenue_haircut": 0.12,
+  "firm_risk_aversion": 0.6,
+  "firm_optimism": 0.7,
+  "audit_rate": 0.5,
+  "insurance_loading": 0.25,
+  "safe_harbour_shield": 0.7,
+  "moratorium_research_slowdown": 0.5,
+  "culture_weight": 0.6,
+  "reach_ceiling_k": 1.5,
+  "open_weights_restriction_growth_loss": 0.1,
+  "enforcement_response": 0.25,
+  "trust_recovery": 0.05,
+  "trust_harm_sensitivity": 0.04,
+  "news_memory": 0.75,
+  "news_reporting_boost": 0.35,
+  "market_vol": 0.045,
+  "sentiment_persistence": 0.85,
+  "news_price_impact": 0.06,
+  "incident_jump": 0.5,
+  "contagion": 0.3,
+  "announcement_impact": 0.9,
+  "chip_demand_coupling": 0.6,
+  "open_weights_diffusion": 0.1
+ },
+ "assumption_notes": [],
+ "horizon": 36,
+ "paths": 120,
+ "max_paths": 480,
+ "precision": {
+  "nsv_gap_bn": 5.0,
+  "p_catastrophe_halfwidth": 0.03
+ },
+ "seed": 10,
+ "profile": "demo",
+ "budget": {
+  "paths": 120,
+  "max_paths": 480,
+  "horizon": 36,
+  "boot": 500,
+  "precision": {
+   "nsv_gap_bn": 5.0,
+   "p_catastrophe_halfwidth": 0.03
+  },
+  "screen_paths": 4,
+  "joint_draws": 64,
+  "joint_paths": 4,
+  "sobol_k": 5,
+  "sobol_base": 64,
+  "sobol_paths": 2,
+  "variant_paths": 40,
+  "redteam_paths": 60,
+  "batches": 4,
+  "tornado": true
+ },
+ "reading": [
+  "instruments named in the question"
+ ],
+ "unread": [],
+ "psl_version": "1.2.0",
+ "benchmarks": [
+  {
+   "id": "incident_growth",
+   "title": "Annual growth of recorded AI incidents",
+   "mechanisms": [
+    "incident_hazard",
+    "capability_and_release"
+   ],
+   "kind": "direct",
+   "moment": "incident_growth",
+   "instrument": "baseline",
+   "unit": "a year",
+   "observations": [
+    {
+     "label": "AI Incident Database, 2023 to 2024",
+     "value": 0.564
+    },
+    {
+     "label": "AI Incident Database, 2024 to 2025 (233 to 362)",
+     "value": 0.553648068669528
+    }
+   ],
+   "se": 0.08,
+   "se_basis": "Poisson error of the annual counts (about 149, 233 and 362)",
+   "transport": 0.25,
+   "transport_basis": "the database is compiled from media reports and its curators attribute an unknown share of the rise to reporting and attention; the model counts incidents at eight firm archetypes, not in the whole economy",
+   "sources": [
+    {
+     "cite": "Stanford HAI, AI Index Report 2025, chapter 3 (233 incidents in 2024, up 56.4% on 2023)",
+     "url": "https://hai-production.s3.amazonaws.com/files/hai_ai-index-report-2025_chapter3_final.pdf"
+    },
+    {
+     "cite": "Stanford HAI, AI Index Report 2026, responsible AI (362 incidents in 2025)",
+     "url": "https://hai.stanford.edu/ai-index/2026-ai-index-report/responsible-ai"
+    }
+   ],
+   "mapping": "the status quo's expected number of incidents in each year of the horizon; the benchmark is compared with the average annual growth of that count",
+   "caveat": "growth in recorded incidents is joint growth in harms, deployment and attention"
+  },
+  {
+   "id": "trust_trend",
+   "title": "Annual change in public trust in AI and AI companies",
+   "mechanisms": [
+    "adoption_and_trust"
+   ],
+   "kind": "direct",
+   "moment": "trust_trend",
+   "instrument": "baseline",
+   "unit": "a year, relative",
+   "observations": [
+    {
+     "label": "Edelman, trust in AI companies, 28 country average, 61% to 53% over five years",
+     "value": -0.027724803015520272
+    },
+    {
+     "label": "Edelman, trust in AI companies, United States, 50% to 35% over five years",
+     "value": -0.06885008490516231
+    },
+    {
+     "label": "Pew, US adults not more concerned than excited about AI, 63% (2021) to 50% (2025)",
+     "value": -0.05614047317688853
+    }
+   ],
+   "se": null,
+   "se_basis": "standard deviation of the three series over root three",
+   "transport": 0.02,
+   "transport_basis": "a survey share is compared with the model's trust index, which starts at one and has no survey counterpart",
+   "sources": [
+    {
+     "cite": "Edelman Trust Barometer 2024, key insights around AI",
+     "url": "https://www.edelman.com/sites/g/files/aatuss191/files/2024-03/Trust%20Tech%20Sector%20Top%20Findings.pdf"
+    },
+    {
+     "cite": "Pew Research Center, How Americans view AI and its impact on people and society, September 2025",
+     "url": "https://www.pewresearch.org/wp-content/uploads/sites/20/2025/09/PS_2025.9.15_AI-and-its-impact_report.pdf"
+    }
+   ],
+   "mapping": "the status quo's trust index at the end of the horizon, as an annual relative change from its starting value",
+   "caveat": "the period measured had no AI specific regulation in most of the countries surveyed, which is what the status quo represents; the fall may have causes other than harm"
+  },
+  {
+   "id": "trust_recovery",
+   "title": "Share of a fall in trust recovered about nine months after a salient incident",
+   "mechanisms": [
+    "adoption_and_trust"
+   ],
+   "kind": "analogue",
+   "moment": "assumption",
+   "assumption": "trust_recovery",
+   "transform": {
+    "name": "recovered_fraction",
+    "months": 9
+   },
+   "instrument": null,
+   "unit": "share",
+   "observations": [
+    {
+     "label": "AAA: afraid to ride in a self driving vehicle, 63% before the 2018 crashes, 73% after, 71% in January 2019",
+     "value": 0.2
+    }
+   ],
+   "se": 0.29,
+   "se_basis": "each survey has a margin of error of four points at 95% (about 1,000 interviews); delta method on the ratio",
+   "transport": 0.2,
+   "transport_basis": "another technology, and fear of using it is not trust in the firms that build it; the interval between the two surveys is known to within a few months",
+   "sources": [
+    {
+     "cite": "AAA, Three in four Americans remain afraid of fully self driving vehicles, March 2019",
+     "url": "https://newsroom.aaa.com/2019/03/americans-fear-self-driving-cars-survey"
+    },
+    {
+     "cite": "Smart Cities Dive, AAA poll, March 2019 (the 2018 figure and the crashes)",
+     "url": "https://www.smartcitiesdive.com/news/aaa-poll-autonomous-vehicles-fear/550766/"
+    }
+   ],
+   "mapping": "with monthly recovery r and no further incident, the share of a fall recovered after nine months is 1 - (1 - r)^9",
+   "caveat": "one episode"
+  },
+  {
+   "id": "compliance_cost_share",
+   "title": "Compliance cost of a high risk regime as a share of development spending in scope",
+   "mechanisms": [
+    "firm_choice",
+    "enforcement"
+   ],
+   "kind": "official",
+   "moment": "compliance_cost_share",
+   "instrument": "risk_tiering",
+   "unit": "share",
+   "observations": [
+    {
+     "label": "European Commission impact assessment: roughly 4 to 5% of a EUR 170,000 system",
+     "value": 0.045
+    },
+    {
+     "label": "Supporting study (Renda et al.): about 17% with external services and staff",
+     "value": 0.17
+    }
+   ],
+   "se": null,
+   "se_basis": "standard deviation of the two ex ante estimates over root two",
+   "transport": 0.03,
+   "transport_basis": "an ex ante estimate per system built from a standard cost model, which its authors call a theoretical maximum; the model's cost is an instrument parameter applied to revenue in scope",
+   "sources": [
+    {
+     "cite": "European Commission, SWD(2021) 84 final, impact assessment of the AI Act",
+     "url": "https://data.consilium.europa.eu/doc/document/ST-8115-2021-ADD-2/en/pdf"
+    },
+    {
+     "cite": "Renda et al. (2021), Study to support an impact assessment of regulatory requirements for AI in Europe",
+     "url": "https://artificialintelligenceact.eu/wp-content/uploads/2022/06/AIA-COM-Impact-Assessment-3-21-April.pdf"
+    }
+   ],
+   "mapping": "under risk tiering, compliance spending over the R&D spending of the firms in scope on the activity in scope, while in force",
+   "caveat": "the share of systems that are high risk was never estimated by any party to the assessment"
+  },
+  {
+   "id": "profit_effect",
+   "title": "Effect of a horizontal compliance regime on the profits of firms in scope",
+   "mechanisms": [
+    "revenue_growth",
+    "firm_choice"
+   ],
+   "kind": "analogue",
+   "moment": "profit_effect",
+   "instrument": "risk_tiering",
+   "unit": "relative",
+   "observations": [
+    {
+     "label": "GDPR, exposed firms in 61 countries: profits down about 8% (Chen, Frey and Presidente)",
+     "value": -0.08
+    },
+    {
+     "label": "GDPR, data intensive EU sectors: profit margin down 1.9% (Koski and Valmari)",
+     "value": -0.019
+    },
+    {
+     "label": "GDPR, large technology firms: no significant effect (Chen, Frey and Presidente)",
+     "value": 0.0
+    }
+   ],
+   "se": null,
+   "se_basis": "standard deviation of the three estimates over root three",
+   "transport": 0.03,
+   "transport_basis": "data protection, not AI; a broad cross section of firms against eight archetypes that are mostly large",
+   "sources": [
+    {
+     "cite": "Chen, Frey and Presidente (2022), Privacy regulation and firm performance, Oxford Martin working paper 2022-1",
+     "url": "https://oms-www.files.svdcdn.com/production/downloads/Privacy-Regulation-and-Firm-Performance-Giorgio-WP-Upload-2022-1.pdf"
+    },
+    {
+     "cite": "Johnson (2022), Economic research on privacy regulation: lessons from the GDPR and beyond, NBER working paper 30705",
+     "url": "https://www.nber.org/system/files/working_papers/w30705/w30705.pdf"
+    }
+   ],
+   "mapping": "under risk tiering, the industry's earnings against the status quo on the same paths, over the months in force",
+   "caveat": "the estimates differ in sample, outcome and period; the mean of three is a summary, not a pooled estimate"
+  },
+  {
+   "id": "enforcement_return",
+   "title": "Equity return when a horizontal regime becomes enforceable",
+   "mechanisms": [
+    "market"
+   ],
+   "kind": "analogue",
+   "moment": "enforcement_return",
+   "instrument": "risk_tiering",
+   "unit": "return",
+   "observations": [
+    {
+     "label": "GDPR, 1,013 US firms, week of enforcement: lower bound",
+     "value": -0.006
+    },
+    {
+     "label": "GDPR, 1,013 US firms, week of enforcement: upper bound",
+     "value": -0.011
+    }
+   ],
+   "se": null,
+   "se_basis": "half the published range",
+   "transport": 0.01,
+   "transport_basis": "a week against the model's month; most of the cost of a law announced years earlier is in the price before it applies",
+   "sources": [
+    {
+     "cite": "Motoki and Pinto (2024), Journal of Business Finance and Accounting (press summary)",
+     "url": "https://www.eurekalert.org/news-releases/1051661"
+    }
+   ],
+   "mapping": "under risk tiering, the value weighted index's change in the month the instrument takes effect, less the status quo's on the same path",
+   "caveat": "the enforcement date return understates the total cost capitalised"
+  },
+  {
+   "id": "fine_return",
+   "title": "Equity return of a firm when a regulatory fine is announced",
+   "mechanisms": [
+    "market",
+    "enforcement"
+   ],
+   "kind": "analogue",
+   "moment": "fine_return",
+   "instrument": "risk_tiering",
+   "unit": "return",
+   "observations": [
+    {
+     "label": "GDPR fines, 25 announcements, window (0,1)",
+     "value": -0.0064
+    },
+    {
+     "label": "window (0,2)",
+     "value": -0.0072
+    },
+    {
+     "label": "window (0,3)",
+     "value": -0.0096
+    },
+    {
+     "label": "window (0,4)",
+     "value": -0.0064
+    }
+   ],
+   "se": 0.0025,
+   "se_basis": "the published t statistics (about 3 on estimates of about 0.007)",
+   "transport": 0.01,
+   "transport_basis": "data protection fines, most of them small against the firm's size; days against the model's month",
+   "sources": [
+    {
+     "cite": "Ford et al. (2021), The impact of GDPR infringement fines on the market value of firms, ECCWS",
+     "url": "https://repository.uel.ac.uk/download/55420e51e0d25c813c8ab1d701f7b6e5093ba609fac84a9d9a3a874cb19e3a0d/689257/The%20Impact%20of%20GDPR%20Infringement%20Fines%20on%20the%20Market%20Value%20of%20Firms.pdf"
+    }
+   ],
+   "mapping": "under risk tiering, a fined firm's log return in the month of the fine less the index's",
+   "caveat": "25 announcements; windows beyond five days are not significant in the source"
+  },
+  {
+   "id": "incident_return",
+   "title": "Equity return of a firm when a serious incident becomes public",
+   "mechanisms": [
+    "market"
+   ],
+   "kind": "analogue",
+   "moment": "incident_return",
+   "instrument": "baseline",
+   "unit": "return",
+   "observations": [
+    {
+     "label": "Cyberattacks with loss of personal financial information, 2005 to 2014, three day window",
+     "value": -0.0112
+    }
+   ],
+   "se": 0.004,
+   "se_basis": "an allowance: the standard error was not in the summary consulted",
+   "transport": 0.01,
+   "transport_basis": "data breaches, not AI incidents; three days against the model's month",
+   "sources": [
+    {
+     "cite": "Kamiya, Kang, Kim, Milidonis and Stulz, What is the impact of successful cyberattacks on target firms? (authors' summary, Harvard Law School Forum on Corporate Governance, March 2018; Journal of Financial Economics 139(3), 2021)",
+     "url": "https://corpgov.law.harvard.edu/2018/03/30/what-is-the-impact-of-successful-cyberattacks-on-target-firms/"
+    }
+   ],
+   "mapping": "under the status quo, the log return of a firm in a month with a major incident at that firm, less the index's",
+   "caveat": "the model's major incident is defined by monetised harm, a breach by the data lost"
+  },
+  {
+   "id": "leakage_share",
+   "title": "Share of regulated activity displaced abroad by a unilateral regime",
+   "mechanisms": [
+    "relocation"
+   ],
+   "kind": "analogue",
+   "moment": "leakage_share",
+   "instrument": "frontier_licensing",
+   "unit": "share",
+   "observations": [
+    {
+     "label": "Carbon leakage ratio without border adjustment, 25 studies, 310 estimates: mean",
+     "value": 0.14
+    }
+   ],
+   "se": 0.05,
+   "se_basis": "a quarter of the published range (5% to 25%)",
+   "transport": 0.07,
+   "transport_basis": "carbon pricing, and mostly ex ante models; AI activity is divisible in some respects (where a model is trained) and not in others (one set of weights)",
+   "sources": [
+    {
+     "cite": "Branger and Quirion (2014), Ecological Economics 99",
+     "url": "https://econpapers.repec.org/RePEc:hal:journl:hal-01137932"
+    }
+   ],
+   "mapping": "under frontier licensing, the revenue of the firms in scope booked offshore in the last year of the horizon, as a share of their revenue",
+   "caveat": "for AI regulation leakage is theorised, surveyed and anecdotal, not measured"
+  },
+  {
+   "id": "insurance_loading",
+   "title": "Premium above expected claims in liability insurance",
+   "mechanisms": [
+    "liability_and_insurance"
+   ],
+   "kind": "analogue",
+   "moment": "assumption",
+   "assumption": "insurance_loading",
+   "transform": null,
+   "instrument": null,
+   "unit": "share",
+   "observations": [
+    {
+     "label": "US property and casualty industry 2023: premiums over losses and loss expenses (76.2%), less one",
+     "value": 0.3123359580052494
+    },
+    {
+     "label": "2022 (76.4%)",
+     "value": 0.30890052356020936
+    }
+   ],
+   "se": 0.005,
+   "se_basis": "two years of an industry aggregate",
+   "transport": 0.15,
+   "transport_basis": "all property and casualty lines; cover for AI liability is not an established line",
+   "sources": [
+    {
+     "cite": "NAIC, U.S. property and casualty and title insurance industries, 2023 full year results",
+     "url": "https://content.naic.org/sites/default/files/industry-snapshot-2023-ye.pdf"
+    }
+   ],
+   "mapping": "the assumption itself: the premium charged above the expected liability under a mandate",
+   "caveat": "an industry average over lines with very different tails"
+  },
+  {
+   "id": "insurance_resource_share",
+   "title": "Share of the insurance loading used up by underwriting and administration",
+   "mechanisms": [
+    "liability_and_insurance",
+    "welfare_bases"
+   ],
+   "kind": "analogue",
+   "moment": "assumption",
+   "assumption": "insurance_admin_share",
+   "transform": null,
+   "instrument": null,
+   "unit": "share",
+   "observations": [
+    {
+     "label": "US property and casualty industry 2023: expense ratio 24.9% over premiums less losses and loss expenses (23.8%)",
+     "value": 1.046218487394958
+    },
+    {
+     "label": "2022: 25.7% over 23.6%",
+     "value": 1.0889830508474576
+    }
+   ],
+   "se": 0.02,
+   "se_basis": "two years of an industry aggregate",
+   "transport": 0.25,
+   "transport_basis": "all property and casualty lines, in two years with an underwriting loss (the share is above one because expenses exceeded the loading)",
+   "sources": [
+    {
+     "cite": "NAIC, U.S. property and casualty and title insurance industries, 2023 full year results",
+     "url": "https://content.naic.org/sites/default/files/industry-snapshot-2023-ye.pdf"
+    }
+   ],
+   "mapping": "the assumption itself: the share of the loading that is a real resource cost and not a transfer to insurers",
+   "caveat": "the model's range (0.25 to 0.75) treats part of the loading as insurers' margin; in these two years there was none"
+  }
+ ],
+ "evidence": "c3cb1266d451b3b97b6beb55040bafd9b7275835dc191bfd1b8d094ad9b593a8",
+ "hash": "1ba4de2d826af14552d72a1a404921c4c3e7382a3cfee557fd98b984457939c2",
+ "assumptions_hash": "c6c928eedba23618356e89d5a97435ef127d1f3cdffa587947b837c966b1e125",
+ "firms_origin": "default",
+ "calibration_notes": [],
+ "datasets": []
+}
