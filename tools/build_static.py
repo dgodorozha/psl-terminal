@@ -11,6 +11,11 @@ run uses its own seed (--seed for the first, then the next integers), so no two 
 every stage into HTML fragments, converts the terminal's layout to a static page, and writes a replay script
 that plays the recorded stream back and swaps the fragments in as the stages pass. The result is a folder
 GitHub Pages serves as it is. The page says it is a replay; the live terminal is one link away.
+
+    python tools/build_static.py --out site --relink https://your-name.share.connect.posit.cloud
+
+changes that link in a site already built, when the live terminal moves to another host. No run is recorded again,
+and it needs nothing but Python.
 """
 
 import argparse
@@ -139,6 +144,45 @@ def relink(frag, rid):
     return frag.replace(f'href="/run/{rid}/', f'href="data/{rid}/')
 
 
+def live_link(url):
+    """The sentence of the build note that links to the live terminal."""
+    return (f' Live terminal: <a href="{htmllib.escape(url, quote=True)}" target="_blank" rel="noopener">{htmllib.escape(url)}</a>.'
+            if url else "")
+
+
+BUILD_NOTE_END = "so the question cannot be changed here."
+
+
+def relink_live(out, url):
+    """Point a built site at another address of the live terminal. Two files change: the page and the index."""
+    if not re.match(r"https?://[^\s\"'<>]+$", url):
+        raise SystemExit("--relink takes the full address of the live terminal, for example https://your-name.share.connect.posit.cloud")
+    idx_path, page_path = os.path.join(out, "data", "index.json"), os.path.join(out, "index.html")
+    try:
+        with open(idx_path) as f:
+            idx_text = f.read()
+        with open(page_path) as f:
+            page = f.read()
+    except OSError as e:
+        raise SystemExit(f"no built site in {out} ({e})")
+    old = json.loads(idx_text).get("live_url") or ""
+    field = '"live_url": ' + json.dumps(old)
+    if old and live_link(old) in page:
+        page = page.replace(live_link(old), live_link(url), 1)
+    elif not old and BUILD_NOTE_END + "</p>" in page:
+        page = page.replace(BUILD_NOTE_END + "</p>", BUILD_NOTE_END + live_link(url) + "</p>", 1)
+    else:
+        raise SystemExit("the page does not carry the link its index names; build the site again with --live-url")
+    if idx_text.count(field) != 1:
+        raise SystemExit("the index does not name the live terminal once; build the site again with --live-url")
+    for path, text in ((page_path, page), (idx_path, idx_text.replace(field, '"live_url": ' + json.dumps(url)))):
+        with open(path + ".tmp", "w") as f:
+            f.write(text)
+        os.replace(path + ".tmp", path)
+    print(f"live terminal: {old or 'none'} -> {url}  (index.html and data/index.json in {out})")
+    return 0
+
+
 def main():
     ap = argparse.ArgumentParser(description="Build the static replay site")
     ap.add_argument("--out", default="site")
@@ -147,9 +191,13 @@ def main():
     ap.add_argument("--live-url", default="", help="address of the live terminal, linked from the page")
     ap.add_argument("--seed", type=int, default=7)
     ap.add_argument("--gates", default="open", choices=("open", "named"), help="open: single click gates without identities (default); named: Developer1 and Developer2 in dev mode")
+    ap.add_argument("--relink", metavar="URL", help="only change the address of the live terminal in a site already built; no run is "
+                    "recorded and no package is needed")
     args = ap.parse_args()
 
     out = os.path.abspath(args.out)
+    if args.relink is not None:
+        return relink_live(out, args.relink.strip())
     if os.path.isdir(out):
         shutil.rmtree(out)
     os.makedirs(os.path.join(out, "data"))
@@ -339,11 +387,10 @@ def main():
     page = to_html(D.app.layout, md_to_html)
     page = page.replace('<div class="tape-wrap"><div id="ticker-text">',
                         '<div class="tape-wrap"><div id="ticker-text">Replay of recorded runs. ')
-    live = (f' Live terminal: <a href="{htmllib.escape(args.live_url, quote=True)}" target="_blank" rel="noopener">{htmllib.escape(args.live_url)}</a>.'
-            if args.live_url else "")
+    live = live_link(args.live_url)
     note = (f'<p class="duck build">Replay built {datetime.date.today().isoformat()} from {len(runs)} recorded run{"s" if len(runs) != 1 else ""} '
             f'on the {args.profile} profile, each on its own seed ({", ".join(str(r["seed"]) for r in runs)}). Everything on this page was '
-            f'computed by the terminal and recorded; nothing runs on a server, so the question cannot be changed here.{live}</p>')
+            f'computed by the terminal and recorded; nothing runs on a server, {BUILD_NOTE_END}{live}</p>')
     page = page.replace('<p class="duck build">', note + '<p class="duck build">', 1)
     css_vendor = ""
     html_doc = f"""<!DOCTYPE html>

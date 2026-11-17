@@ -33,6 +33,24 @@ def utc_now(spec="seconds"):
     return datetime.datetime.now(datetime.timezone.utc).isoformat(timespec=spec)
 
 
+def writable_dir(path):
+    """`path`, created if need be; or a directory under the system's temporary directory when `path` cannot be
+    written, as on a host that serves the code from a read only directory. Runs kept there last as long as the host
+    keeps its temporary files."""
+    import tempfile
+    try:
+        os.makedirs(path, exist_ok=True)
+        probe = os.path.join(path, ".write_test")
+        with open(probe, "w"):
+            pass
+        os.remove(probe)
+        return path
+    except OSError:
+        alt = os.path.join(tempfile.gettempdir(), "psl-runs")
+        os.makedirs(alt, exist_ok=True)
+        return alt
+
+
 class RunStore:
     def __init__(self, root):
         self.root = os.path.abspath(root)

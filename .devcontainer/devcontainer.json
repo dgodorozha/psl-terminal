@@ -1,0 +1,10 @@
+{
+  "name": "PSL Terminal",
+  "image": "mcr.microsoft.com/devcontainers/python:3.12",
+  "postCreateCommand": "pip install --user -r requirements.txt",
+  "postAttachCommand": "python app.py",
+  "forwardPorts": [8070],
+  "portsAttributes": {
+    "8070": { "label": "PSL Terminal", "onAutoForward": "notify" }
+  }
+}

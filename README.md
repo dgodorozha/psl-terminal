@@ -35,9 +35,11 @@ generated from the code; the operator's manual is [docs/MANUAL.md](docs/MANUAL.m
 statistical and methodological review point by point, and [docs/replication.md](docs/replication.md)
 reports the default question repeated on twenty independent seeds.
 
-Two public addresses: Modal runs the live terminal (`modal deploy modal_app.py`, scaled to zero between
-visitors), and GitHub Pages serves `site/`, a replay of recorded runs rendered entirely in the browser
-(`python tools/build_static.py --out site --live-url <the Modal address>` rebuilds it).
+Two public addresses: GitHub Pages serves `site/`, a replay of recorded runs rendered entirely in the browser
+(`python tools/build_static.py --out site --live-url <the live address>` rebuilds it), and the live terminal
+runs on any of three hosts that are free at demonstration use: Modal (`modal deploy modal_app.py`, scaled to
+zero between visitors), Posit Connect Cloud (published from this repository, starting `app.py`) or a GitHub
+codespace (`.devcontainer/`, on demand). [DEPLOY.md](DEPLOY.md) has the steps and what each allows.
 
 ## How an answer is put together
 
@@ -77,7 +79,11 @@ function (the sample register has `Rajib Ahmed`, SMF24) and must differ from the
 
 ### Open gates (public demonstration)
 
-    PSL_GATES=open PSL_PROFILE=demo PSL_PORT=8070 python dash_app.py
+    python app.py
+
+`app.py` is the public demonstration: `dash_app.py` with open gates, the `demo` profile, reuse of identical
+batteries, a five minute idle window and the settings a small container wants (its first lines list them; an
+environment variable overrides each). It is the file Posit Connect Cloud and a GitHub codespace start.
 
 The two gates become single clicks with no preparer or approver identities; this is how the public
 site runs. Every gate record, the briefing, the transparency record and the posture page say the gates
@@ -134,6 +140,7 @@ Every setting is an environment variable with a safe default; see `config.py`. T
 | `PSL_WORKERS` | threads for independent simulations | the machine's cores, at most four |
 | `PSL_BENCHMARKS` | JSON file of empirical benchmarks that replaces or extends the built in evidence base of the validation layer | the built in set |
 | `PSL_REUSE` | `on`: a battery identical to a completed run (same hash, code, libraries, uploaded series) replays its stored figures instead of simulating again; the critic recomputes them and the ledger says so | off |
+| `PSL_IDLE_SECONDS` | seconds without a key, click, scroll or pointer movement after which an open page stops polling the server, unless a run is in progress | 90 (`app.py`: 300) |
 | `PSL_REGISTER` | register of regulated persons approvers are checked against | none |
 | `PSL_GATES` | `named` (preparer and approver with functions, register, four eyes) or `open` (single click gates, no identities; the public demonstration) | `named` |
 | `PSL_DEV_MODE` | `on` accepts Developer1 and Developer2 at named gates | off |
@@ -145,6 +152,7 @@ Every setting is an environment variable with a safe default; see `config.py`. T
 ## Layout
 
     dash_app.py          the terminal (Dash + Flask); python dash_app.py
+    app.py               the public demonstration (open gates, demo profile): what Posit Connect Cloud and a codespace start; python app.py
     config.py            environment configuration and the profiles
     runstore.py          run directories, metadata, served files, evidence packs
     psl/                 the library
@@ -184,6 +192,7 @@ Every setting is an environment variable with a safe default; see `config.py`. T
     tools/               replicate.py, recompute.py, sync_docs.py, cost.py; build_static.py, replay.js, test_static.py (the replay site)
     site/                the built replay site (recorded runs, no server): serve it with GitHub Pages
     modal_app.py         the live terminal on Modal; modal deploy modal_app.py
+    .devcontainer/       the live terminal in a GitHub codespace
     Dockerfile, render.yaml, .github/workflows/ (pages.yml, deploy-modal.yml), deploy/   deployment (Modal, GitHub Pages, Docker hosts, in house)
 
 ## What it is not

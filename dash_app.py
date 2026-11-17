@@ -40,7 +40,7 @@ from dash.exceptions import PreventUpdate  # noqa: E402
 from flask import request as freq, send_from_directory, jsonify, abort  # noqa: E402
 
 from config import Config  # noqa: E402
-from runstore import RunStore, SERVABLE, utc_now  # noqa: E402
+from runstore import RunStore, SERVABLE, utc_now, writable_dir  # noqa: E402
 from psl import __version__, provenance  # noqa: E402
 from psl import assumptions as AS  # noqa: E402
 from psl import welfare as W  # noqa: E402
@@ -65,6 +65,7 @@ from psl._common import nice_name as _nice  # noqa: E402
 
 CFG = Config()
 BUILD = f"{__version__} {datetime.date.today().isoformat()}"
+CFG.runs_dir = writable_dir(CFG.runs_dir)          # falls back to the temporary directory on a read only host
 STORE = RunStore(CFG.runs_dir)
 POLICIES = PolicyStore(CFG.runs_dir)
 FIRMS = FirmStore(CFG.runs_dir)
@@ -1460,7 +1461,7 @@ app.layout = html.Div([
                f"register {'on' if CFG.register_path else 'off'}   dev mode {'on' if CFG.dev_mode else 'off'}   model {'on' if CFG.llm_enabled else 'off'}   "
                f"ledger key {'configured' if not CFG.ephemeral_secret else 'ephemeral (set PSL_SECRET)'}", className="duck build")],
         className="inner"), id="front"),
-], id="root")
+], id="root", **{"data-idle-ms": str(int(CFG.idle_seconds * 1000))})        # the idle window, read by assets/terminal.js
 
 
 # -------------------------------------------------------------- callbacks --

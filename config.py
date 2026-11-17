@@ -34,6 +34,9 @@ restricted to identities from a trusted proxy header in header mode.
   PSL_TICK_PACE     seconds per simulated month on the wire (default 0.05)
   PSL_BENCHMARKS    JSON file of empirical benchmarks for the validation layer, replacing or extending the built in
                     evidence base (psl/benchmarks.py gives the fields); the set in force is hashed into the battery
+  PSL_IDLE_SECONDS  seconds without a key, click, scroll or pointer movement after which an open page stops polling the
+                    server unless a run is in progress (default 90; a host that stops the process as soon as the
+                    page is quiet wants a longer window, a host with its own idle window a short one)
   PSL_REUSE         on: a battery identical to a completed run (same hash, code, libraries and uploaded series) is not
                     simulated again; its figures are copied, its stream replayed and the critic recomputes them
                     (default off; the public demonstration switches it on)
@@ -45,10 +48,12 @@ restricted to identities from a trusted proxy header in header mode.
   ANTHROPIC_API_KEY, PSL_MODEL, PSL_LLM_BASE, PSL_LLM_MODEL, PSL_LLM_KEY, PSL_LLM_PATH,
   PSL_LLM_API_VERSION, PSL_LLM_TEMPLATE, PSL_LLM_HEADERS, PSL_LLM_RESPONSE_PATH  as in the model layer
   PSL_EGRESS_ALLOWLIST  comma separated hosts a model call may reach (empty = only loopback endpoints)
-  PSL_FRAME_ANCESTORS   origins allowed to embed the terminal in a frame (default: none but itself; a Hugging Face
-                        Space sets "https://huggingface.co https://*.hf.space" so the Space page can show it)
+  PSL_FRAME_ANCESTORS   origins allowed to embed the terminal in a frame (default: none but itself; app.py sets
+                        "https://connect.posit.cloud" so that Posit Connect Cloud's own page can show it, and a
+                        Hugging Face Space sets "https://huggingface.co https://*.hf.space")
 """
 
+import math
 import os
 import secrets
 import warnings
@@ -58,6 +63,35 @@ def _bool(v, default):
     if v is None or v == "":
         return default
     return str(v).strip().lower() in ("1", "true", "yes", "on")
+
+
+def available_cores(cgroup="/sys/fs/cgroup"):
+    """Processor cores this process may use: the machine's, fewer where the process is pinned, and fewer again
+    where a container sets a quota (a host that sells one processor still shows the whole machine to os.cpu_count)."""
+    n = os.cpu_count() or 1
+    try:
+        n = min(n, len(os.sched_getaffinity(0)))
+    except (AttributeError, OSError):
+        pass
+    quota = None
+    try:
+        with open(os.path.join(cgroup, "cpu.max")) as f:                      # cgroup v2: "<quota> <period>" or "max <period>"
+            q, period = f.read().split()[:2]
+        if q != "max":
+            quota = int(q) / int(period)
+    except (OSError, ValueError, ZeroDivisionError):
+        try:
+            with open(os.path.join(cgroup, "cpu", "cpu.cfs_quota_us")) as f:  # cgroup v1: a quota of -1 is none
+                q = int(f.read())
+            with open(os.path.join(cgroup, "cpu", "cpu.cfs_period_us")) as f:
+                period = int(f.read())
+            if q > 0 and period > 0:
+                quota = q / period
+        except (OSError, ValueError):
+            pass
+    if quota is not None and quota > 0:
+        n = min(n, max(1, math.ceil(quota)))
+    return max(1, n)
 
 
 PROFILES = {
@@ -130,6 +164,7 @@ class Config:
         self.seed = int(env.get("PSL_SEED", "7"))
         self.tick_pace = float(env.get("PSL_TICK_PACE", "0.05"))
         self.reuse = _bool(env.get("PSL_REUSE"), False)
+        self.idle_seconds = max(10.0, float(env.get("PSL_IDLE_SECONDS", "90")))
         self.benchmarks_path = env.get("PSL_BENCHMARKS", "").strip()
         self.ask_rate = int(env.get("PSL_ASK_RATE", "20"))
         self.upload_max_mb = int(env.get("PSL_UPLOAD_MAX_MB", "25"))

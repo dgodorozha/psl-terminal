@@ -834,7 +834,7 @@
 
   /* ---------------------------------------------------- idle control -- */
   /* The page polls the server twice a second for the stream and once a second for the panels. Nothing changes on
-     the server unless a run is in progress or somebody acts, so an untouched page stops polling after IDLE_MS and
+     the server unless a run is in progress or somebody acts, so an untouched page stops polling after the idle window (PSL_IDLE_SECONDS, 90 by default) and
      starts again on the first key, click, touch, scroll or pointer movement, or when the tab is shown again. A host
      that bills by the second (and scales to zero when no request arrives) then stops charging for an open tab.
      The recorded replay has no server and no intervals to stop. */
@@ -859,7 +859,9 @@
     document.addEventListener("visibilitychange", function () { if (!document.hidden) wake(); });
     setInterval(function () {
       var running = window.PSL_STAGE === "planning" || window.PSL_STAGE === "running";
-      var idle = Date.now() - lastInput > (window.PSL_IDLE_MS || IDLE_MS);
+      var root = $("root");
+      var windowMs = window.PSL_IDLE_MS || (root && parseInt(root.getAttribute("data-idle-ms"), 10)) || IDLE_MS;   // PSL_IDLE_SECONDS
+      var idle = Date.now() - lastInput > windowMs;
       setPolling(running || !idle);
     }, 5000);
   }

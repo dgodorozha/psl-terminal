@@ -33,6 +33,24 @@ Running cost
   window, reuse on. Idle time after a visit costs about a fifth of what it did; an idle open tab costs nothing.
 - `tools/cost.py` measures a run by stage and prices it.
 
+Hosts (added 16 November 2026; the package is untouched, so the version, the code fingerprint and every figure
+are those of 1.2.0)
+- `app.py`, the public demonstration's entry point: `dash_app.py` with open gates, the `demo` profile, reuse, a
+  five minute idle window, the public hosts' pace on the wire, one simulation thread for each processor the host
+  allows (a container's quota is read, not only the machine's cores) and linear algebra on one thread. Each default
+  gives way to the environment. Served as a managed host serves it (the module imported, one request at a time,
+  one processor), a run is on screen in about 45 seconds and peaks at 0.43 GiB.
+- Posit Connect Cloud: published from the repository with `app.py` as the primary file; no card, capped by usage
+  credits. Its page may frame the terminal (`PSL_FRAME_ANCESTORS`), which the posture page reports.
+- GitHub Codespaces: `.devcontainer/` installs the requirements and starts the demonstration; `app.py` prints the
+  forwarded address, says so when a second start finds the first, and prints a line a minute while the terminal
+  is in use so the codespace does not stop under a demonstration.
+- `PSL_IDLE_SECONDS` sets how long an untouched page keeps polling (90 seconds; 300 in `app.py`).
+- A run registry that cannot be written falls back to the system's temporary directory.
+- `tools/build_static.py --relink URL` changes the replay site's link to the live terminal without recording the
+  runs again.
+- `DEPLOY.md`: the three hosts side by side, and what to do when a Modal deploy stops at the spend limit.
+
 ## 1.1.0
 
 Statistical and methodological revision, in answer to an independent review (`docs/REVIEW_RESPONSE.md`).
